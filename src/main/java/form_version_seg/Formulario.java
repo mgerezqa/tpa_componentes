@@ -4,9 +4,9 @@ import java.util.*;
 
 public  class Formulario {
     private List<Campo> campos = new ArrayList<>();
-    private List<Colaborador> colaboradores = new ArrayList<>();
     private Colaborador colaborador;
     private Map<Campo,String> respuestas = new HashMap<>();
+    // private List<Colaborador> colaboradores = new ArrayList<>(); Por ahora no
 
 
     public void agregar(Campo campo) {
