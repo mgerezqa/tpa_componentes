@@ -1,4 +1,4 @@
-package form_version_seg;
+package domain;
 
 public class Campo {
     private String descripcion;
@@ -14,6 +14,7 @@ public class Campo {
     }
 
     public TipoEntrada getTipoEntrada() {
+
         return tipoEntrada;
     }
 }

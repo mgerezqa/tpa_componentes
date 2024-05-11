@@ -1,10 +1,10 @@
-package form_version_seg;
+package domain;
 
 import java.util.*;
 
 public  class Formulario {
     private List<Campo> campos = new ArrayList<>();
-    private Colaborador colaborador;
+    private ColaboradorFisico colaboradorFisico;
     private Map<Campo,String> respuestas = new HashMap<>();
     // private List<Colaborador> colaboradores = new ArrayList<>(); Por ahora no
 
@@ -13,25 +13,24 @@ public  class Formulario {
         campos.add(campo);
     }
 
-    public Formulario(Colaborador colaborador) {
-        this.colaborador = colaborador;
+    public Formulario() {
         agregar(new Campo("Nombre",TipoEntrada.ENTRADA_TEXTO));
         agregar(new Campo("Apellido",TipoEntrada.ENTRADA_TEXTO));
         agregar(new Campo("Contacto",TipoEntrada.ENTRADA_TEXTO));
     }
 
-    public void guardarRespuesta(Colaborador colaborador){
+    public void guardarRespuesta(ColaboradorFisico colaboradorFisico){
         Scanner scanner = new Scanner(System.in);
 
         for(Campo campo : campos) {
             System.out.println("Ingrese " + campo.getdescripcion() + ":");
             String respuesta = scanner.nextLine();
             respuestas.put(campo, respuesta);
-            colaborador.setInformacion(campo.getdescripcion(), respuesta);
+//            colaborador.setInformacion(campo.getdescripcion(), respuesta); tenia un hashmap en colaborador
         }
    }
 
-    public void leer(Colaborador colaborador){
+    public void leer(ColaboradorFisico colaboradorFisico){ //no estoy leyendo los campos del colaborador
         for (Map.Entry<Campo, String> entry : respuestas.entrySet()) {
             System.out.println("Campo: " + entry.getKey().getdescripcion() + " - Respuesta: " + entry.getValue());
         }

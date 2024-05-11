@@ -1,4 +1,4 @@
-package form_version_seg;
+package domain;
 
 public class FormularioPorDefecto {
     Campo campoNombre = new Campo("Nombre",TipoEntrada.ENTRADA_TEXTO);
