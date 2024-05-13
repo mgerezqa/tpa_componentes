@@ -1,4 +1,4 @@
-package domain;
+package domain.donaciones;
 
 public interface Donable {
     boolean puedeserDonada();

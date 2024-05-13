@@ -1,8 +1,10 @@
-package domain;
+package domain.donaciones;
+
+import domain.heladera.Heladera;
 
 import java.time.LocalDate;
 
-public class Distribuir implements Donable{
+public class Distribuir implements Donable {
     private Heladera heladeraOrigen;
     private Heladera heladeraDestino;
     private Integer cantidad;

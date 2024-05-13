@@ -1,4 +1,6 @@
-package domain;
+package domain.formulario;
+
+import domain.usuarios.ColaboradorFisico;
 
 import java.util.*;
 
@@ -14,7 +16,7 @@ public  class Formulario {
     }
 
     public Formulario() {
-        agregar(new Campo("Nombre",TipoEntrada.ENTRADA_TEXTO));
+        agregar(new Campo("Nombre", TipoEntrada.ENTRADA_TEXTO));
         agregar(new Campo("Apellido",TipoEntrada.ENTRADA_TEXTO));
         agregar(new Campo("Contacto",TipoEntrada.ENTRADA_TEXTO));
     }
@@ -26,7 +28,6 @@ public  class Formulario {
             System.out.println("Ingrese " + campo.getdescripcion() + ":");
             String respuesta = scanner.nextLine();
             respuestas.put(campo, respuesta);
-//            colaborador.setInformacion(campo.getdescripcion(), respuesta); tenia un hashmap en colaborador
         }
    }
 

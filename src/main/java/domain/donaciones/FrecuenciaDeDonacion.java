@@ -1,4 +1,4 @@
-package domain;
+package domain.donaciones;
 
 public enum FrecuenciaDeDonacion {
     FRECUENCIA_DIARIA,

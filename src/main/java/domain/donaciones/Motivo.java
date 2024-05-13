@@ -1,4 +1,4 @@
-package domain;
+package domain.donaciones;
 
 public enum Motivo {
     DESPERFECTO_HELADERA,

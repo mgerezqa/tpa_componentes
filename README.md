@@ -12,5 +12,8 @@
 - A mejorar
   - Ver reduncancia en el registro de los colaboradores juridicos y no juridicos.
 
-
-
+- ### Cambios
+  - Todos los tipos DataLocalTime (Fecha y Hora) se sustituyeron por LocalDate (Fecha).
+  - Agregué constructores en los Object Value, Calle y Ubicación.
+  - Los setters del lombok me los marca en rojo en el método setearSensorDeTemperalura().
+  

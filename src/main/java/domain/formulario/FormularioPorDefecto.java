@@ -1,7 +1,7 @@
-package domain;
+package domain.formulario;
 
 public class FormularioPorDefecto {
-    Campo campoNombre = new Campo("Nombre",TipoEntrada.ENTRADA_TEXTO);
+    Campo campoNombre = new Campo("Nombre", TipoEntrada.ENTRADA_TEXTO);
     Campo campoApellido = new Campo("Apellido",TipoEntrada.ENTRADA_TEXTO);
     Campo campoContacto = new Campo("Contacto",TipoEntrada.ENTRADA_TEXTO);
 

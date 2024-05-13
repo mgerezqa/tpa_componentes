@@ -1,4 +1,4 @@
-package domain;
+package domain.formulario;
 
 // Enum para los tipos de entrada
 public enum TipoEntrada {

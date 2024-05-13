@@ -1,4 +1,4 @@
-package domain;
+package domain.formulario;
 
 public class Campo {
     private String descripcion;

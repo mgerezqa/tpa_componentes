@@ -1,10 +1,29 @@
 package domain;
 
+import domain.contacto.Email;
+import domain.contacto.MedioDeContacto;
+import domain.contacto.Telefono;
+import domain.contacto.Whatsapp;
+import domain.donaciones.Dinero;
+import domain.donaciones.Distribuir;
+import domain.donaciones.Vianda;
+import domain.formulario.Campo;
+import domain.formulario.Formulario;
+import domain.geografia.Calle;
+import domain.geografia.Ubicacion;
+import domain.heladera.Heladera;
+import domain.usuarios.ColaboradorFisico;
+import domain.usuarios.ColaboradorJuridico;
+import domain.usuarios.Rubro;
+import domain.usuarios.TipoRazonSocial;
 import java.time.LocalDate;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+import static domain.donaciones.FrecuenciaDeDonacion.FRECUENCIA_MENSUAL;
+import static domain.donaciones.Motivo.*;
+import static domain.formulario.TipoEntrada.*;
 
-import static domain.FrecuenciaDeDonacion.FRECUENCIA_MENSUAL;
-import static domain.Motivo.DESPERFECTO_HELADERA;
-import static domain.TipoEntrada.*;
 
 public class TestForm {
 
@@ -15,14 +34,29 @@ public class TestForm {
             Campo campoEstadoCivil = new Campo("Estado civil",ENTRADA_TIPO_SELECCION);
             Campo campoFechaNacimiento = new Campo("Fecha de nacimiento",ENTRADA_TIPO_FECHA);
             Campo campoGenero = new Campo("Género",ENTRADA_TIPO_SELECCION);
+            Ubicacion ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
+
 
             LocalDate fechaVencimiento = LocalDate.of(2024, 5, 31); // Ejemplo de fecha de vencimiento
             LocalDate fechaDeDonacion = LocalDate.now(); // Ejemplo de fecha de donación (fecha actual)
+            LocalDate fechaInicioFuncionamiento = LocalDate.of(2021, 5, 31); // Ejemplo de fecha de inicio de funcionamiento
+
+            Heladera heladera = new Heladera(ubicacion,"Heladera Palermo",200,fechaInicioFuncionamiento,20F,-10F);
+
+            MedioDeContacto laloEmail = new Email("lalo.gmail.com");
+            MedioDeContacto laloTelefono = new Telefono(54,11,40009000);
+            MedioDeContacto laloWhastapp = new Whatsapp("+549116574460");
+
+            ColaboradorFisico lalo = new ColaboradorFisico("Lalo", "Menz");
+            ColaboradorJuridico metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, "12345678", Rubro.ENERGIA);
 
 
-            Heladera heladera = new Heladera();
-            ColaboradorFisico lalo = new ColaboradorFisico("Lalo", "Menz", "12345678");
-            Vianda sangucheMila = new Vianda(heladera,fechaVencimiento,fechaDeDonacion, lalo);
+            lalo.agregarMedioContacto(laloEmail);
+            lalo.agregarMedioContacto(laloTelefono);
+
+
+            Vianda sangucheMila = new Vianda(fechaVencimiento,fechaDeDonacion,lalo); // Se crea una vianda (donación de un colaborador físico
+
             Dinero dinero2K = new Dinero(2000,FRECUENCIA_MENSUAL,fechaDeDonacion);
             Distribuir distribucionDeViandas = new Distribuir(heladera,heladera,10,DESPERFECTO_HELADERA,fechaDeDonacion);
 

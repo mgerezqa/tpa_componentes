@@ -1,8 +1,8 @@
-package domain;
+package domain.donaciones;
 
 import java.time.LocalDate;
 
-public class Dinero implements Donable{
+public class Dinero implements Donable {
     private Integer cantidad;
     private FrecuenciaDeDonacion frecuencia;
     private LocalDate fechaDeDonacion;
