@@ -5,9 +5,7 @@ import java.util.List;
 
 import domain.contacto.MedioDeContacto;
 import domain.donaciones.Donable;
-import domain.formulario.Campo;
 import domain.formulario.Formulario;
-import domain.formulario.Respuesta;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -44,14 +42,15 @@ public class ColaboradorFisico {
             throw new RuntimeException(donacion.msgError());
         }
         donacionesRealizadas.add(donacion);
-        formulario.registrarDonacion(donacion);
+        //formulario.registrarDonacion(donacion);
     }
 
-    public void agregarRespuesta(Respuesta respuesta) {
-        formulario.guardar(respuesta);
+    public void agregarRespuesta(String label, String valor) {
+        formulario.cargarValor(label,valor);
     }
+
 
     public void leerFormulario(){
-        formulario.leer();
+        formulario.mostrarCampos();
     }
 }

@@ -8,8 +8,9 @@ import domain.donaciones.Dinero;
 import domain.donaciones.Distribuir;
 import domain.donaciones.Vianda;
 import domain.formulario.Campo;
-import domain.formulario.Respuesta;
-import domain.formulario.TipoEntrada;
+import domain.formulario.EntradaNombre;
+import domain.formulario.Formulario;
+import domain.formulario.TipoCampo;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera;
@@ -22,18 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 import static domain.donaciones.FrecuenciaDeDonacion.FRECUENCIA_MENSUAL;
 import static domain.donaciones.Motivo.*;
-import static domain.formulario.TipoEntrada.*;
 
 
 public class TestForm {
 
         public static void main(String[] args) {
-
-            Campo campoCantHijos = new Campo("Cantidad de hijos",ENTRADA_NUMERICA);
-            Campo campoDireccion = new Campo("Dirección",ENTRADA_TEXTO);
-            Campo campoEstadoCivil = new Campo("Estado civil",ENTRADA_TIPO_SELECCION);
-            Campo campoFechaNacimiento = new Campo("Fecha de nacimiento",ENTRADA_TIPO_FECHA);
-            Campo campoGenero = new Campo("Género",ENTRADA_TIPO_SELECCION);
 
             Ubicacion ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
 
@@ -55,46 +49,31 @@ public class TestForm {
             Distribuir distribucionDeViandas = new Distribuir(heladera,heladera,10,DESPERFECTO_HELADERA,fechaDeDonacion);
 
             // Crear campos y respuestas
-            Campo nombre = new Campo("Nombre", TipoEntrada.ENTRADA_TEXTO);
-            Campo apellido = new Campo("Apellido", TipoEntrada.ENTRADA_TEXTO);
-            Campo cantidadDeHijos = new Campo("Cantidad de hijos", TipoEntrada.ENTRADA_NUMERICA);
-            Campo idiomas = new Campo("Idiomas", TipoEntrada.ENTRADA_RESPUESTA_MULTIPLE);
-            Campo telefono = new Campo("Telefono", ENTRADA_TELEFONO);
-            Campo email = new Campo("Email", ENTRADA_EMAIL);
-            Campo whastapp = new Campo("Whatsapp", ENTRADA_WHATSAPP);
-
-            List listaDeIdiomas = new ArrayList<>();
-            listaDeIdiomas.add("Ingles");
-            listaDeIdiomas.add("Español");
 
 
-            Respuesta respuestaNombreDeLalo = Respuesta.crearRespuesta(nombre, "Lalo");
-            Respuesta respuestaApellidoDeLalo = Respuesta.crearRespuesta(apellido, "González");
-            Respuesta respuestaCantidadDeHijos = Respuesta.crearRespuesta(cantidadDeHijos, 2);
-            Respuesta respuestaIdiomasDeLalo = Respuesta.crearRespuesta(idiomas, listaDeIdiomas);
-            Respuesta respuestaTelefonoDeLalo = Respuesta.crearRespuesta(telefono,new Telefono(54,11,45447777));
-            Respuesta respuestaEmailDeLalo = Respuesta.crearRespuesta(email,new Email("lalo@gmail.com"));
+            Formulario formulario = new Formulario();
+            formulario.agregarCampo("nombre", new Campo(TipoCampo.CAMPO_NOMBRE));
+            formulario.agregarCampo("apellido", new Campo(TipoCampo.CAMPO_NOMBRE));
+            formulario.agregarCampo("idiomas", new Campo(TipoCampo.CAMPO_MULTIPLE));
+            formulario.agregarCampo("cantidad de hijos", new Campo(TipoCampo.CAMPO_NUMERICO));
+            formulario.agregarCampo("email",new Campo(TipoCampo.CAMPO_EMAIL));
 
-            lalo.completarFormulario();//necesario para empezar a completar el formulario
+            lalo.completarFormulario(formulario);//necesario para empezar a completar el formulario
 
-            //unFormulario.agregar(campoGenero); //agrego un campo dinámico al formulario de lalo
-            lalo.agregarRespuesta(respuestaNombreDeLalo);
-            lalo.agregarRespuesta(respuestaApellidoDeLalo);
-            lalo.agregarRespuesta(respuestaIdiomasDeLalo);
-            lalo.agregarRespuesta(respuestaCantidadDeHijos);
-            lalo.agregarRespuesta(respuestaEmailDeLalo);
-            lalo.agregarRespuesta(respuestaTelefonoDeLalo);
-
-
-            lalo.agregarRespuesta(Respuesta.crearRespuesta(new Campo("Monto a donar",ENTRADA_NUMERICA),200));
+            lalo.agregarRespuesta("nombre","lalo");
+            lalo.agregarRespuesta("apellido","jar");
+            lalo.agregarRespuesta("idiomas","español");
+            lalo.agregarRespuesta("idiomas","ingles");
+            lalo.agregarRespuesta("cantidad de hijos", "5");
+            lalo.agregarRespuesta("email","lalo@gmail.com");
 
             lalo.leerFormulario();
+
 
             lalo.donar(sangucheMila);
             lalo.donar(dinero2K);
             lalo.donar(distribucionDeViandas);
 
-            System.out.println(lalo);
 
 //            administrador.aprobar(colaboradorFisico); // Se aprueba el colaborador
 
