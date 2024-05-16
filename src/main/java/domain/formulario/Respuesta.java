@@ -20,6 +20,8 @@ public class Respuesta {
         this.valorRespuesta = valorRespuesta;
     }
 
+
+
     // Factory method para crear instancias de Respuesta según el tipo de entrada
     public static Respuesta crearRespuesta(Campo campo, Object valorRespuesta) {
         TipoEntrada tipoEntrada = campo.getTipoEntrada();
