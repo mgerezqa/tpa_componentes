@@ -85,6 +85,9 @@ public class TestForm {
             lalo.agregarRespuesta(respuestaEmailDeLalo);
             lalo.agregarRespuesta(respuestaTelefonoDeLalo);
 
+
+            lalo.agregarRespuesta(Respuesta.crearRespuesta(new Campo("Monto a donar",ENTRADA_NUMERICA),200));
+
             lalo.leerFormulario();
 
             lalo.donar(sangucheMila);

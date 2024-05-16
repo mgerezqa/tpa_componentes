@@ -44,6 +44,7 @@ public class ColaboradorFisico {
             throw new RuntimeException(donacion.msgError());
         }
         donacionesRealizadas.add(donacion);
+        formulario.registrarDonacion(donacion);
     }
 
     public void agregarRespuesta(Respuesta respuesta) {
