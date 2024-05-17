@@ -8,7 +8,6 @@ import domain.donaciones.Dinero;
 import domain.donaciones.Distribuir;
 import domain.donaciones.Vianda;
 import domain.formulario.Campo;
-import domain.formulario.EntradaNombre;
 import domain.formulario.Formulario;
 import domain.formulario.TipoCampo;
 import domain.geografia.Calle;
@@ -19,8 +18,8 @@ import domain.usuarios.ColaboradorJuridico;
 import domain.usuarios.Rubro;
 import domain.usuarios.TipoRazonSocial;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
+import static domain.donaciones.FrecuenciaDeDonacion.FRECUENCIA_ANUAL;
 import static domain.donaciones.FrecuenciaDeDonacion.FRECUENCIA_MENSUAL;
 import static domain.donaciones.Motivo.*;
 
@@ -42,11 +41,12 @@ public class TestForm {
             MedioDeContacto laloWhastapp = new Whatsapp("+549116574460");
 
             ColaboradorFisico lalo = new ColaboradorFisico("Lalo", "Menz");
-            ColaboradorJuridico metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, "12345678", Rubro.ENERGIA);
+            ColaboradorJuridico metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.ENERGIA);
 
             Vianda sangucheMila = new Vianda(fechaVencimiento,fechaDeDonacion,lalo); // Se crea una vianda (donación de un colaborador físico
-            Dinero dinero2K = new Dinero(2000,FRECUENCIA_MENSUAL,fechaDeDonacion);
-            Distribuir distribucionDeViandas = new Distribuir(heladera,heladera,10,DESPERFECTO_HELADERA,fechaDeDonacion);
+            Dinero dinero2K = new Dinero(2000,FRECUENCIA_MENSUAL,fechaDeDonacion,lalo);
+            Dinero dinero4K = new Dinero(4000,FRECUENCIA_ANUAL,fechaDeDonacion,metrovias);
+            Distribuir distribucionDeViandas = new Distribuir(heladera,heladera,10,DESPERFECTO_HELADERA,fechaDeDonacion,lalo);
 
             // Crear campos y respuestas
 
@@ -70,9 +70,6 @@ public class TestForm {
             lalo.leerFormulario();
 
 
-            lalo.donar(sangucheMila);
-            lalo.donar(dinero2K);
-            lalo.donar(distribucionDeViandas);
 
 
 //            administrador.aprobar(colaboradorFisico); // Se aprueba el colaborador

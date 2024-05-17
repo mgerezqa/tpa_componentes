@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Vianda implements Donable {
+public class Vianda  {
 
 //    private LocalDateTime fechaVencimiento;
 //    private LocalDateTime fechaDonacion;
@@ -42,15 +42,7 @@ public class Vianda implements Donable {
         }
     }
 
-    @Override
-    public boolean puedeserDonada() {
-        return true;
-    }
 
-    @Override
-    public String msgError() {
-        return "La vianda no puede ser donada";
-    }
 
     // En este caso, la heladera actual de una vianda no es ingresada en el constructor (cuando se crea la instancia de la vianda),
     // sino que debe llamar al metodo "ingresarViandaAHeladera(heladera)", y ver si su capacidad es suficiente como para almacenarla.
