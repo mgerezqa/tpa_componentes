@@ -8,6 +8,7 @@ import domain.donaciones.Donable;
 import domain.formulario.Campo;
 import domain.formulario.Formulario;
 import domain.formulario.Respuesta;
+import domain.geografia.Ubicacion;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class ColaboradorFisico {
     @NonNull @Getter @Setter private String apellido;
     @Getter @Setter private Formulario formulario;
     @Getter private List <Donable> donacionesRealizadas = new ArrayList<>();
-
+    @Getter private Ubicacion domicilio;
 
     @Getter private List <MedioDeContacto> medioContacto; //value object, que al menos complete un valor
 
@@ -52,5 +53,9 @@ public class ColaboradorFisico {
 
     public void leerFormulario(){
         formulario.leer();
+    }
+
+    public boolean tieneDomicilio(){ //Sera usado para determinar si un colaborador puede colaborar con registrar a las personas vulnerable
+        return this.getDomicilio() != null;
     }
 }
