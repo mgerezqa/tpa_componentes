@@ -1,20 +1,22 @@
 package domain.formulario;
 
-public class Campo {
-    private String descripcion;
-    private TipoEntrada tipoEntrada;
+import lombok.Getter;
 
-    public Campo(String descripcion, TipoEntrada tipoEntrada) {
-        this.descripcion = descripcion;
-        this.tipoEntrada = tipoEntrada;
+@Getter
+public class Campo implements GenerarEntrada{
+    private TipoCampo tipoCampo;
+    private Entrada entrada;
+
+    public Campo(TipoCampo tipo){
+        this.tipoCampo = tipo;
+        this.entrada = GenerarEntrada.generar(tipo);
     }
 
-    public String getdescripcion() {
-        return descripcion;
+    public String getValor(){
+        return entrada.mostrarEntrada();
     }
 
-    public TipoEntrada getTipoEntrada() {
-
-        return tipoEntrada;
+    public void setValor(String valor){
+        this.entrada.cargarEntrada(valor);
     }
 }
