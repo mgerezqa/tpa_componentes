@@ -1,10 +1,12 @@
 package domain.persona;
 
 import domain.geografia.Ubicacion;
+import domain.tarjeta.Tarjeta;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -16,16 +18,16 @@ public class PersonaVulnerable {
     private Documento documento;
     private List<Persona> menoresACargo;
 
-    public PersonaVulnerable(String nombre, LocalDate fechaNacimiento, LocalDate fechaRegitrado) {
+    public PersonaVulnerable(String nombre, LocalDate fechaNacimiento) {
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
-        this.fechaRegitrado = fechaRegitrado;
+        this.menoresACargo = new ArrayList<>();
     }
 
-    public Integer cantidadDeMenoresACargo(){
+    public int cantidadDeMenoresACargo(){
         return this.getMenoresACargo().size();
     }
-    public void agregarMenorACargo(PersonaVulnerable persona){
+    public void agregarMenorACargo(Persona persona){
         menoresACargo.add(persona);
     }
 }

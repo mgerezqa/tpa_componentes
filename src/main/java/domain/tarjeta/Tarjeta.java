@@ -21,21 +21,24 @@ public class Tarjeta {
         this.cantidadTotalDisponibleActualmente = this.getCantidadDisponiblePorDefecto() + this.cantidadDisponiblePorMenores();
         this.registros = new ArrayList<>();
     }
-
     public int cantidadDisponiblePorMenores(){
         return 2*this.getTitular().cantidadDeMenoresACargo();
     }
     public boolean tieneCantidadDisponible(){
-        return this.getCantidadTotalDisponibleActualmente() > 0;
+           return this.getCantidadTotalDisponibleActualmente() > 0;
     }
     public void agregarRegistroDeUso(RegistroDeUso nuevoRegistro){
         this.getRegistros().add(nuevoRegistro);
     }
-    public void usoDeTarjeta(RegistroDeUso nuevoRegistro){
-        this.disminuirCantidadDisponible();
-        this.agregarRegistroDeUso(nuevoRegistro);
-    }
-    private void disminuirCantidadDisponible() {
+    public void disminuirCantidadDisponible() {
         this.setCantidadTotalDisponibleActualmente(this.getCantidadTotalDisponibleActualmente() - 1);
+    }
+    public void usoDeTarjeta(RegistroDeUso nuevoRegistro) throws Exception{
+            if(this.tieneCantidadDisponible()){
+                this.disminuirCantidadDisponible();
+                this.agregarRegistroDeUso(nuevoRegistro);
+            }else{
+                throw new Exception("No hay más cantidad disponible por hoy!");
+            }
     }
 }
