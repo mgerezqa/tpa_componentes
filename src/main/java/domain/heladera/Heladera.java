@@ -86,6 +86,6 @@ public class Heladera {
     // La idea del estado "Inactiva", es para cuando sufran desperfectos por ejemplo. Ya que al estar "fueraDeServicio"
     // estas no podran volver a ser utilizadas.
 
-
+    // TEST FUNCIONAMIENTO RAMA //
 }
 
