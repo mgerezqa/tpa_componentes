@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 public class TestsTarjeta {
-    domain.tarjeta.Tarjeta tarjeta;
+    Tarjeta tarjeta;
     PersonaVulnerable diego;
     Persona manuel;
     Persona miguel;
@@ -43,7 +43,7 @@ public class TestsTarjeta {
     @Test
     @DisplayName("La cantidad disponible para una persona vulnerable con 4 menores a cargo es 12 por dia")
     void cantidadDisponible(){
-        Assertions.assertEquals(12,tarjeta.getCantidadTotalDisponibleActualmente());
+        Assertions.assertEquals(12,tarjeta.cantidadLimiteDisponiblePorDia());
     }
     @Test
     @DisplayName("La tarjeta tiene cantidad disponible en el dia")
@@ -53,7 +53,7 @@ public class TestsTarjeta {
     @Test
     @DisplayName("La tarjeta no tiene mas cantidad disponible en el dia")
     void validarQueNoTengaCantidadDisponible(){
-        tarjeta.setCantidadTotalDisponibleActualmente(0);
+        tarjeta.setCantidadUsadaEnElDia(tarjeta.cantidadLimiteDisponiblePorDia());
         Assertions.assertFalse(tarjeta.tieneCantidadDisponible());
     }
     @Test
@@ -69,13 +69,13 @@ public class TestsTarjeta {
     void validarCantidadDisponibleSiSeUsoLaTarjeta() throws Exception{
         RegistroDeUso nuevoRegistro = new RegistroDeUso(heladeraDeMedrano);
         tarjeta.usoDeTarjeta(nuevoRegistro);
-        Assertions.assertEquals(11,tarjeta.getCantidadTotalDisponibleActualmente());
+        Assertions.assertEquals(1,tarjeta.getCantidadUsadaEnElDia());
     }
     @Test
     @DisplayName("No se realizo correctamente el uso de la tarjeta, por falta de cantidad disponible")
     void validarExceptionPorNoDisponibilidadDeTarjeta(){
         RegistroDeUso nuevoRegistro = new RegistroDeUso(heladeraDeMedrano);
-        tarjeta.setCantidadTotalDisponibleActualmente(0);
+        tarjeta.setCantidadUsadaEnElDia(tarjeta.cantidadLimiteDisponiblePorDia());
         Exception exception = Assertions.assertThrows(Exception.class,()->{
             tarjeta.usoDeTarjeta(nuevoRegistro);
         });
