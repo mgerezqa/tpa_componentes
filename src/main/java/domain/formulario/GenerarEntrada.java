@@ -9,16 +9,15 @@ public interface GenerarEntrada {
                 return new EntradaNumerica();
             case CAMPO_FECHA_NACIMIENTO:
                 return new EntradaFechaNacimiento();
+            case CAMPO_FECHA:
+                return new EntradaFecha();
             case CAMPO_MULTIPLE:
                 return new EntradaMultiple();
-            case CAMPO_FECHA_DONACION:
-                return new EntradaFechaDonacion();
             case CAMPO_NOMBRE:
                 return new EntradaNombre();
-            case CAMPO_EMAIL:
-                return new EntradaEmail();
-            case CAMPO_TELEFONO:
-                return new EntradaTelefono();
+            case CAMPO_CUIT:
+                return new EntradaCuit();
+
             default:
                 return null;
         }
