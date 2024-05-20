@@ -8,7 +8,7 @@ import lombok.Setter;
 public class Telefono extends MedioDeContacto{
     private Integer codPais;
     private Integer codArea;
-    private Integer numeroAbonado;
+    private double numeroAbonado;
 
     public Telefono(Integer codPais, Integer codArea, Integer numeroAbonado) {
 

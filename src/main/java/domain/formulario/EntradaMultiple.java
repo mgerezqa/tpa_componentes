@@ -31,4 +31,5 @@ public class EntradaMultiple extends Entrada{
         return entradas.get(index);
     }
 
+
 }

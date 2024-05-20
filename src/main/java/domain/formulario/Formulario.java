@@ -18,12 +18,15 @@ public class Formulario {
     }
 
     public void cargarValor(String label, String valor){
-
         if(!this.campos.containsKey(label)){
             System.out.println("No se encuentra el campo");
         } else {
             this.campos.get(label).setValor(valor);
         }
+    }
+
+    public void modificarValor(String label, String valor){
+        this.cargarValor(label, valor);
     }
 
     public String obtenerValor(String label){
@@ -45,8 +48,18 @@ public class Formulario {
         System.out.println(mostrar);
     }
 
+
     public Integer cantCampos(){
         return campos.size();
     }
 
+    public Integer cantDeValoresSegunKey(String key) {
+        Integer contador = 0;
+        for(Map.Entry<String, Campo> entry : this.campos.entrySet()){
+            if(entry.getKey().equals(key)){
+                contador++;
+            }
+        }
+        return contador;
+    }
 }
