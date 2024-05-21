@@ -32,12 +32,16 @@ public class ColaboradorFisico {
 
     /*Punto de arranque*/
     public void cargarDatos(Formulario unFormulario){
+        // aca se puede crear un metodo que valide si los campos son validos, pero en si ya deberian
+        // ser validados por fuera antes de invocar este metodo
         if(!corroborarFormulario(unFormulario))
             throw new RuntimeException("Formulario incompleto/invalido!");
         unFormulario.getRespuestas().forEach(this::cargarDato);
     }
 
     private Boolean corroborarFormulario(Formulario unForm){
+        // aca checkea si los campos minimos estan en el formulario
+        //NO chequea si los datos son correctos, deberia estar chequeado de antemano
         List<String> camposNecesarios = Arrays.asList("nombre", "apellido", "contacto");
         return new HashSet<>(unForm.getDescripciones()).containsAll(camposNecesarios);
     }
@@ -58,6 +62,10 @@ public class ColaboradorFisico {
         }
     }
 
+    // como en discord dijo que no se hace la donacion, sino que se guarda el registro de donacion
+    // ingresando el colaborador como un parametro de registro hacia la donacion, veo medio innecesario
+    // que la clase de colaborador almacene las donaciones realizadas
+    // pero si es necesario, solo es agregar a la lista de donaciones del colaborador
     public void cargarDonacion(Donacion donacion) {
         if (!donacion.puedeserDonada()){
             throw new RuntimeException(donacion.msgError());
