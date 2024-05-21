@@ -1,4 +1,6 @@
-package domain.heladera;
+package domain.heladera.Sensores;
+
+import domain.heladera.Heladera;
 
 public class SensorMovimiento {
 

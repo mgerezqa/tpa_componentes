@@ -1,4 +1,4 @@
-package domain.heladera;
+package domain.heladera.Sensores;
 import lombok.Setter;
 
 public class SensorTemperatura {
