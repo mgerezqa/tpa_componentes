@@ -37,7 +37,7 @@ public class DonacionesTests {
         this.fechaInicioFuncionamiento = LocalDate.of(2021, 5, 31); // Ejemplo de fecha de inicio de funcionamiento
         this.lalo = new ColaboradorFisico("Lalo", "Menz",laloEmail);
         this.metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.SERVICIOS,laloEmail);
-        this.heladera = new Heladera(ubicacion,"Heladera Palermo",200,fechaInicioFuncionamiento,20F,-10F);
+        this.heladera = new Heladera("Heladera Palermo",ubicacion,200,fechaInicioFuncionamiento,20F,-10F);
         this.ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
     }
 
