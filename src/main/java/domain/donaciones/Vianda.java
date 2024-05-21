@@ -14,7 +14,7 @@ public class Vianda  {
     private LocalDate fechaVencimiento;
     private LocalDate fechaDonacion;
 
-    private ColaboradorFisico colaboradorQueLaDono;
+    @Getter private ColaboradorFisico colaboradorQueLaDono;
 
     @Setter @Getter
     private Heladera heladeraActual;

@@ -2,6 +2,8 @@ package domain.formulario;
 
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class Campo implements GenerarEntrada{
     private TipoCampo tipoCampo;
@@ -19,4 +21,6 @@ public class Campo implements GenerarEntrada{
     public void setValor(String valor){
         this.entrada.cargarEntrada(valor);
     }
+
+
 }

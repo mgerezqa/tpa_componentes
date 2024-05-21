@@ -22,6 +22,10 @@ public class Email extends MedioDeContacto {
         if (email.matches("[0-9]+")) {
             throw new IllegalArgumentException("El email no puede ser solo números");
         }
+        //validar formato de correo
+        if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+            throw new IllegalArgumentException("El email no tiene un formato valido");
+        }
 
         this.email = email;
     }
