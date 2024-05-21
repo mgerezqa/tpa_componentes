@@ -1,6 +1,6 @@
 package domain.donaciones;
 
-public interface Donable {
+public interface Donacion {
     boolean puedeserDonada();
     String msgError();
 

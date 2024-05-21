@@ -1,6 +1,6 @@
 package domain.usuarios;
 
-import domain.donaciones.Donable;
+import domain.donaciones.Donacion;
 import domain.formulario.Formulario;
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,7 +15,7 @@ public class ColaboradorJuridico {
     @NonNull @Getter @Setter private List<String> MedioContacto; //value object
     @NonNull @Getter @Setter private Rubro tipoDeRubro;
     @Getter @Setter private Formulario formulario;
-    @Getter private List <Donable> donacionesRealizadas = new ArrayList<>();
+    @Getter private List <Donacion> donacionesRealizadas = new ArrayList<>();
 
 
     public ColaboradorJuridico(String razonSocial, TipoRazonSocial tipoRazonSocial, String medioDeContacto, Rubro rubro) {

@@ -88,7 +88,7 @@ public class TestForm {
             lalo.leerFormulario();
 
             lalo.donar(sangucheMila);
-            lalo.donar(dinero2K);
+            lalo.(donardinero2K);
             lalo.donar(distribucionDeViandas);
 
             System.out.println(lalo);

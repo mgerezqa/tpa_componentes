@@ -2,7 +2,7 @@ package domain.donaciones;
 
 import java.time.LocalDate;
 
-public class Dinero implements Donable {
+public class Dinero implements Donacion {
     private Integer cantidad;
     private FrecuenciaDeDonacion frecuencia;
     private LocalDate fechaDeDonacion;

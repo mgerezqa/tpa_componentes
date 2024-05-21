@@ -1,21 +1,69 @@
 package domain.formulario;
 
-import domain.contacto.MedioDeContacto;
-import domain.usuarios.ColaboradorFisico;
+import lombok.Getter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Getter
 public  class Formulario {
 
-    private List<Campo> campos = new ArrayList<>();
-    //    private Map<Campo,Object> respuestas = new HashMap<>();
-    private List<Respuesta> respuestas = new ArrayList<>();
+    private List<Campo> campos;
+    //private Map<Campo, UnaRespuesta> contenido = new HashMap<>();
+    private List<UnaRespuesta<?>> respuestas;
+
 
     public Formulario() {
-
+        this.campos = new ArrayList<>();
+        this.respuestas = new ArrayList<>();
     }
 
-    public void guardar(Respuesta valorRespuesta) {
+    public void agregarCampo(Campo unCampo){
+        campos.add(unCampo);
+    }
+
+    public <T> void responderCampo(String descripcionCampo, T contenido){
+        Campo aux = obtenerCampo(descripcionCampo);
+        if(aux == null){
+            throw new RuntimeException("No se encontro el campo");
+        } else {
+            respuestas.add(new UnaRespuesta<>(aux, contenido));
+        }
+    }
+    public <T> void responderCampo(Campo campo, T contenido){
+        respuestas.add(new UnaRespuesta<>(campo, contenido));
+    }
+
+    public Campo obtenerCampo(String descripcion){
+        return campos.stream().filter(campo -> campo.getDescripcion().equals(descripcion)).findFirst().orElse(null);
+    }
+
+    public <T> T obtenerRespuesta(String descripcion){
+        Campo aux = obtenerCampo(descripcion);
+        if(aux == null)
+            throw new RuntimeException("Campo no encontrado");
+        else{
+            return (T) respuestas.stream().filter(resp -> resp.getCampo().equals(aux)).findFirst().get().getRespuesta();
+        }
+    }
+
+    public List<String> getDescripciones(){
+        return campos.stream().map(Campo::getDescripcion).collect(Collectors.toList());
+    }
+
+    public Boolean estaCompleto(){
+        return !campos.isEmpty() &&
+                getRespuestas()
+                .stream()
+                .map(UnaRespuesta::getCampo)
+                .collect(Collectors.toCollection(HashSet::new))
+                .containsAll(campos);
+    }
+
+    /*
+    public void guardar (Respuesta valorRespuesta) {
         respuestas.add(valorRespuesta);
     }
 
@@ -35,6 +83,8 @@ public  class Formulario {
         }
 
     }
+
+    */
 }
 
 

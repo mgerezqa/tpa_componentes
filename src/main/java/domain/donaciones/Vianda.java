@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class Vianda implements Donable {
+public class Vianda implements Donacion {
 
 //    private LocalDateTime fechaVencimiento;
 //    private LocalDateTime fechaDonacion;

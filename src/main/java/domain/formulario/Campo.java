@@ -1,5 +1,8 @@
 package domain.formulario;
 
+import lombok.Getter;
+
+@Getter
 public class Campo {
     private String descripcion;
     private TipoEntrada tipoEntrada;
@@ -9,12 +12,4 @@ public class Campo {
         this.tipoEntrada = tipoEntrada;
     }
 
-    public String getdescripcion() {
-        return descripcion;
-    }
-
-    public TipoEntrada getTipoEntrada() {
-
-        return tipoEntrada;
-    }
 }
