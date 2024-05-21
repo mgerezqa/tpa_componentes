@@ -8,6 +8,7 @@ import java.util.List;
 
 import domain.contacto.MedioDeContacto;
 import domain.donaciones.Donacion;
+import domain.donaciones.TipoDonacion;
 import domain.formulario.Formulario;
 import domain.formulario.UnaRespuesta;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class ColaboradorFisico {
     @Getter private String apellido;
     @Getter private List <Donacion> donacionesRealizadas;
     @Getter private List <MedioDeContacto> medioContacto; //value object, que al menos complete un valor
+    private List <TipoDonacion> donacionesPermitidas;
     private LocalDate fechaNac;
     private String direccion;
     private Boolean activo;
@@ -28,6 +30,7 @@ public class ColaboradorFisico {
         this.donacionesRealizadas = new ArrayList<>();
         this.medioContacto = new ArrayList<>();
         this.activo = false;
+        this.donacionesPermitidas = new ArrayList<>(Arrays.asList(TipoDonacion.DONA_DINERO, TipoDonacion.DONA_VIANDA, TipoDonacion.DONA_REPARTO));
     }
 
     /*Punto de arranque*/
