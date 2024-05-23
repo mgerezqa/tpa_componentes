@@ -1,7 +1,9 @@
-package domain.geografia;
+package domain.geografia.RecomendacionDePuntos.Entidades;
+import lombok.Getter;
+import lombok.Setter;
 
-import domain.geografia.Calle;
-
+@Setter
+@Getter
 public class Ubicacion {
     private Float latitud;
     private Float longitud;

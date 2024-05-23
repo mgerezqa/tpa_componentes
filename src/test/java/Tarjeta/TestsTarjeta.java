@@ -1,7 +1,7 @@
 package Tarjeta;
 
-import domain.geografia.Calle;
-import domain.geografia.Ubicacion;
+import domain.geografia.RecomendacionDePuntos.Entidades.Calle;
+import domain.geografia.RecomendacionDePuntos.Entidades.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorMovimiento;

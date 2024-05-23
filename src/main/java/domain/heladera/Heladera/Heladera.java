@@ -1,5 +1,5 @@
 package domain.heladera.Heladera;
-import domain.geografia.Ubicacion;
+import domain.geografia.RecomendacionDePuntos.Entidades.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import lombok.Getter;
