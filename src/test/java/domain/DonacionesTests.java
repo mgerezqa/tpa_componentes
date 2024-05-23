@@ -5,7 +5,8 @@ import domain.contacto.MedioDeContacto;
 import domain.donaciones.*;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
-import domain.heladera.Heladera;
+import domain.heladera.Heladera.Heladera;
+import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.usuarios.ColaboradorFisico;
@@ -32,7 +33,9 @@ public class DonacionesTests {
     private Ubicacion ubicacion;
     private SensorMovimiento sensorMovimiento;
     private SensorTemperatura sensorTemperatura;
-
+    private ModeloDeHeladera modelo;
+    private Float tempMin = -10f;
+    private Float tempMax = 20f;
 
     @BeforeEach
     public void setUp() {
@@ -42,9 +45,14 @@ public class DonacionesTests {
         this.fechaInicioFuncionamiento = LocalDate.of(2021, 5, 31); // Ejemplo de fecha de inicio de funcionamiento
         this.lalo = new ColaboradorFisico("Lalo", "Menz",laloEmail);
         this.metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.SERVICIOS,laloEmail);
-        this.heladera = new Heladera(ubicacion,"Heladera Palermo",200,fechaInicioFuncionamiento,20F,-10F,sensorMovimiento,sensorTemperatura);
         this.ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
+
+        modelo = new ModeloDeHeladera("Modelo XR-221");
+        modelo.setTemperaturaMinima(tempMin);
+        modelo.setTemperaturaMaxima(tempMax);
+        this.heladera = new Heladera(ubicacion,"Heladera Palermo",200, fechaInicioFuncionamiento, sensorMovimiento, sensorTemperatura, modelo);
     }
+
 
     // Test
     @Test
@@ -55,6 +63,7 @@ public class DonacionesTests {
         assertEquals(dineroDonadoPorColaboradorFisico.getColaboradorQueLaDono(),lalo);
 
     }
+
     @Test
     @DisplayName("El sistema admite las donaciones de dinero por parte de los colaboradores juridicos")
     public void donarDineroColaboradorJuridico(){
@@ -63,6 +72,7 @@ public class DonacionesTests {
         assertEquals(dineroDonadoPorColaboradorJuridico.getColaboradorQueLaDono(),metrovias);
 
     }
+
     @Test
     @DisplayName("El sistema solo admite las donaciones de viandas por parte de los colaboradores fisicos")
     public void donarViandaColaboradorFisico(){
@@ -71,6 +81,7 @@ public class DonacionesTests {
         assertEquals(viandaDonadaPorColaboradorFisico.getColaboradorQueLaDono(),lalo);
 
     }
+
     @Test
     @DisplayName("El sistema solo admite las donaciones de tipo distribución de viandas por parte de los colaboradores fisicos")
     public void donarDistribucionDeViandas(){

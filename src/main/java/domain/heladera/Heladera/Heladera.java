@@ -1,12 +1,14 @@
-package domain.heladera;
+package domain.heladera.Heladera;
 import domain.geografia.Ubicacion;
-import domain.heladera.EstadosHeladera.EstadoHeladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Heladera {
@@ -25,36 +27,40 @@ public class Heladera {
     @Getter @Setter
     private EstadoHeladera estadoHeladera;
 
-    @Getter @Setter
-    private Float temperaturaMax;       // se puede setear la temperaturaMax
-    @Getter @Setter
-    private Float temperaturaMin;       // se puede setear la temperaturaMin
+    @Getter
+    private ModeloDeHeladera modelo;
 
     @Getter @Setter
     private SensorMovimiento sensorMovimiento;
     @Getter @Setter
     private SensorTemperatura sensorTemperatura;
 
+   @Getter @Setter
+   private List<String> historialDeEstados;
+
     // ============================================================ //
     // < CONSTRUCTOR > //
     public Heladera(Ubicacion ubicacion, String nombreIdentificador, Integer capacidadMax,
-                    LocalDate fechaInicioFuncionamiento, Float temperaturaMax, Float temperaturaMin,
-                    SensorMovimiento sensorMovimiento, SensorTemperatura sensorTemperatura){
+                    LocalDate fechaInicioFuncionamiento, SensorMovimiento sensorMovimiento,
+                    SensorTemperatura sensorTemperatura, ModeloDeHeladera modelo){
 
+        this.darDeAltaHeladera();
         this.nombreIdentificador = nombreIdentificador;
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
         this.capacidadMax = capacidadMax;
         this.fechaInicioFuncionamiento = fechaInicioFuncionamiento;
-        this.estadoHeladera = EstadoHeladera.ACTIVA;
         this.sensorTemperatura = sensorTemperatura;
         this.sensorMovimiento = sensorMovimiento;
+        this.modelo = modelo;
 
-        // ================================================ //
-        this.temperaturaMin = temperaturaMin;
-        this.temperaturaMax = temperaturaMax;
     }
     // ============================================================ //
+
+    public void darDeAltaHeladera(){
+        this.historialDeEstados = new ArrayList<>();
+        this.cambiarEstadoAActiva();
+    }
 
     // < ALTA > //
     // Para dar de alta una heladera, solamente se crea una instancia de la misma, la cual tendrá
@@ -90,35 +96,37 @@ public class Heladera {
 
     // Para cambiar de estados.
     public void cambiarEstadoAActiva(){
-        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERA_DE_SERVICIO)){
+        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERADESERVICIO)){
             this.estadoHeladera = EstadoHeladera.ACTIVA;
+            trackearEstado(this.getEstadoHeladera());
         }
     }
 
     public void cambiarEstadoAInactiva(){
-        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERA_DE_SERVICIO)){
+        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERADESERVICIO)){
             this.estadoHeladera = EstadoHeladera.INACTIVA;
+            trackearEstado(this.getEstadoHeladera());
         }
     }
 
     public void cambiarEstadoAFueraDeServicio(){
-        this.estadoHeladera = EstadoHeladera.FUERA_DE_SERVICIO;
+        this.estadoHeladera = EstadoHeladera.FUERADESERVICIO;
+        trackearEstado(this.getEstadoHeladera());
+    }
+
+    public void trackearEstado(EstadoHeladera estadoActual){
+        historialDeEstados.add("\n" + estadoActual + " - " + LocalDateTime.now());
     }
 
     // Sensores.
 
     public Float temperaturaActual(){
-        return this.sensorTemperatura.sensarTemperaturaActual();
+        return this.sensorTemperatura.recibirTemperaturaActual();
     }
 
-    // TODO
+    // TODO (...a futuro...)
     public void heladeraSufreDesperfecto(){
             this.cambiarEstadoAInactiva();
-    }
-
-    // TODO
-    public void alertarAlSistema(){
-        return;
     }
 
 }

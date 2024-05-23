@@ -1,11 +1,10 @@
 package domain.donaciones;
 import domain.usuarios.ColaboradorFisico;
-import domain.heladera.Heladera;
+import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Vianda  {
 

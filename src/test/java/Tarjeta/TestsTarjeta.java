@@ -2,7 +2,8 @@ package Tarjeta;
 
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
-import domain.heladera.Heladera;
+import domain.heladera.Heladera.Heladera;
+import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.persona.Persona;
@@ -28,6 +29,9 @@ public class TestsTarjeta {
     Heladera heladeraDeMedrano;
     SensorTemperatura sensorTemperatura;
     SensorMovimiento sensorMovimiento;
+    Float tempMin = -10f;
+    Float tempMax = 20f;
+    ModeloDeHeladera modeloHeladera;
 
     @BeforeEach
     public void init(){
@@ -43,7 +47,10 @@ public class TestsTarjeta {
         diego.agregarMenorACargo(ken);
         tarjeta = new Tarjeta(diego);
         ubicacionDeHeladera = new Ubicacion(522.00f,242.00f,new Calle("medrano","254"));
-        heladeraDeMedrano = new Heladera(ubicacionDeHeladera,"heladera medrano", 20,LocalDate.of(2020,7,15),60f,20f,sensorMovimiento,sensorTemperatura);
+        modeloHeladera = new ModeloDeHeladera("Modelo XG-295");
+        modeloHeladera.setTemperaturaMinima(tempMin);
+        modeloHeladera.setTemperaturaMaxima(tempMax);
+        heladeraDeMedrano = new Heladera(ubicacionDeHeladera,"heladera medrano", 20,LocalDate.of(2020,7,15),sensorMovimiento,sensorTemperatura, modeloHeladera);
     }
     @Test
     @DisplayName("La cantidad disponible para una persona vulnerable con 4 menores a cargo es 12 por dia")

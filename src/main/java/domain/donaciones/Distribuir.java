@@ -1,7 +1,6 @@
 package domain.donaciones;
 
-import domain.heladera.Heladera;
-import domain.usuarios.Colaborador;
+import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 

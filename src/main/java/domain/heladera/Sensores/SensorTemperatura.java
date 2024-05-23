@@ -1,5 +1,5 @@
 package domain.heladera.Sensores;
-import domain.heladera.Heladera;
+import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,17 +11,19 @@ public class SensorTemperatura {
     private Float temperaturaMin;
 
     public void setearTemperaturasMaxMin(){
-        temperaturaMax = heladera.getTemperaturaMax();
-        temperaturaMin = heladera.getTemperaturaMin();
+        temperaturaMax = heladera.getModelo().getTemperaturaMaxima();
+        temperaturaMin = heladera.getModelo().getTemperaturaMinima();
     }
 
-    // TODO
-    public Float sensarTemperaturaActual(){
+    // TODO (logica no especificada)
+    public Float recibirTemperaturaActual(){
+        // El sensor fisico nos envia la temperatura sensada.
+        // Nosotros como sistema debemos ser capaces de "recibirla".
         return 0f;
     }
 
     public Boolean problemaDeTemperatura(){
-        float temperaturaActual = this.sensarTemperaturaActual();
+        float temperaturaActual = this.recibirTemperaturaActual();
         return ((temperaturaActual > temperaturaMax) || (temperaturaActual < temperaturaMin));
     }
 

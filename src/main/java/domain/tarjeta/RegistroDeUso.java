@@ -1,6 +1,6 @@
 package domain.tarjeta;
 
-import domain.heladera.Heladera;
+import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
