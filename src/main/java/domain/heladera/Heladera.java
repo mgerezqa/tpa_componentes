@@ -5,13 +5,15 @@ import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+
 
 public class Heladera {
 
-    @Setter
+    @Setter @Getter
     private Ubicacion ubicacion;
-    @Setter
+    @Setter @Getter
     private String nombreIdentificador;
     @Getter
     private Integer capacidadMax; // (se mide en numero de viandas)
@@ -19,7 +21,7 @@ public class Heladera {
     private Integer capacidadActual;
 
     @Getter
-    private LocalDateTime fechaInicioFuncionamiento;
+    private LocalDate fechaInicioFuncionamiento;
     @Getter @Setter
     private EstadoHeladera estadoHeladera;
 
@@ -36,7 +38,7 @@ public class Heladera {
     // ============================================================ //
     // < CONSTRUCTOR > //
     public Heladera(Ubicacion ubicacion, String nombreIdentificador, Integer capacidadMax,
-                    LocalDateTime fechaInicioFuncionamiento, Float temperaturaMax, Float temperaturaMin,
+                    LocalDate fechaInicioFuncionamiento, Float temperaturaMax, Float temperaturaMin,
                     SensorMovimiento sensorMovimiento, SensorTemperatura sensorTemperatura){
 
         this.nombreIdentificador = nombreIdentificador;

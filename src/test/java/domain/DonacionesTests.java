@@ -6,6 +6,8 @@ import domain.donaciones.*;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera;
+import domain.heladera.Sensores.SensorMovimiento;
+import domain.heladera.Sensores.SensorTemperatura;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.ColaboradorJuridico;
 import domain.usuarios.Rubro;
@@ -28,6 +30,9 @@ public class DonacionesTests {
     private MedioDeContacto laloEmail;
     private Heladera heladera;
     private Ubicacion ubicacion;
+    private SensorMovimiento sensorMovimiento;
+    private SensorTemperatura sensorTemperatura;
+
 
     @BeforeEach
     public void setUp() {
@@ -37,7 +42,7 @@ public class DonacionesTests {
         this.fechaInicioFuncionamiento = LocalDate.of(2021, 5, 31); // Ejemplo de fecha de inicio de funcionamiento
         this.lalo = new ColaboradorFisico("Lalo", "Menz",laloEmail);
         this.metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.SERVICIOS,laloEmail);
-        this.heladera = new Heladera("Heladera Palermo",ubicacion,200,fechaInicioFuncionamiento,20F,-10F);
+        this.heladera = new Heladera(ubicacion,"Heladera Palermo",200,fechaInicioFuncionamiento,20F,-10F,sensorMovimiento,sensorTemperatura);
         this.ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
     }
 
