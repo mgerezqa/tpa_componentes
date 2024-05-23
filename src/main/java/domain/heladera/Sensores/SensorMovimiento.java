@@ -1,11 +1,16 @@
 package domain.heladera.Sensores;
-
 import domain.heladera.Heladera;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter @Getter
 public class SensorMovimiento {
 
-    public void detectoMovimiento(Heladera heladera){
-        heladera.enviarAlerta();
+    private Heladera heladera;
+
+    // TODO
+    public void detectoMovimientoExtranio(){
+        heladera.alertarAlSistema();
     }
 
 }

@@ -1,16 +1,28 @@
 package domain.heladera.Sensores;
+import domain.heladera.Heladera;
+import lombok.Getter;
 import lombok.Setter;
 
+@Setter @Getter
 public class SensorTemperatura {
 
-    @Setter
+    private Heladera heladera;
     private Float temperaturaMax;
-    @Setter
     private Float temperaturaMin;
 
-    public float leerTemperatura(){
-        return 0;
+    public void setearTemperaturasMaxMin(){
+        temperaturaMax = heladera.getTemperaturaMax();
+        temperaturaMin = heladera.getTemperaturaMin();
     }
 
+    // TODO
+    public Float sensarTemperaturaActual(){
+        return 0f;
+    }
+
+    public Boolean problemaDeTemperatura(){
+        float temperaturaActual = this.sensarTemperaturaActual();
+        return ((temperaturaActual > temperaturaMax) || (temperaturaActual < temperaturaMin));
+    }
 
 }

@@ -1,5 +1,7 @@
 package domain.heladera.EstadosHeladera;
 
-public interface EstadoHeladera {
-    public void actuar();
+public enum EstadoHeladera {
+    ACTIVA,
+    INACTIVA,
+    FUERA_DE_SERVICIO
 }

@@ -1,12 +1,14 @@
 package domain.contacto.Documentos;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Cuil{
-
     // TODO
-    private String cuil(String cuil){
+    @Getter @Setter
+    private String cuil;
 
-        // logica de 2 caracteres + nro documento + caracter
-
-        return cuil;
+    public Cuil(String cuil) {
+        this.cuil = cuil;
     }
 }

@@ -1,30 +1,33 @@
 package domain.geografia;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 public class AreaDeCobertura {
 
-    private List<Ubicacion> ubicaciones;
+    @Getter @Setter
+    private List<Ciudad> ciudades;
 
     // ============================================================ //
     // < CONSTRUCTOR > //
 
-    public AreaDeCobertura(List<Ubicacion> ubicaciones) {
-        this.ubicaciones = ubicaciones;
+    public AreaDeCobertura(List<Ciudad> ciudades) {
+        this.ciudades = ciudades;
     }
 
     // ============================================================ //
 
-    public void agregarUbicacion(Ubicacion ubicacion) {
-        ubicaciones.add(ubicacion);
+    public void agregarUbicacion(Ciudad ciudad) {
+        ciudades.add(ciudad);
     }
 
-    public void eliminarUbicacion(Ubicacion ubicacion) {
-        ubicaciones.remove(ubicacion);
+    public void eliminarUbicacion(Ciudad ciudad) {
+        ciudades.remove(ciudad);
     }
 
-    public boolean estaEnArea(Ubicacion ubicacion) {
-        return ubicaciones.contains(ubicacion);
+    public boolean estaEnArea(Ciudad ciudad) {
+        return ciudades.contains(ciudad);
     }
 
     // Inicialmente, lo pensé como que cada "ubicación" representa una zona, ejemplo:
