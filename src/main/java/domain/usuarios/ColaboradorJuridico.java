@@ -80,7 +80,7 @@ public class ColaboradorJuridico implements Colaborador{
 
     @Override
     public Boolean puedeDonar(TipoDonacion tipoDonacion) {
-        return null;
+        return this.donacionesPermitidas.contains(tipoDonacion);
     }
 
     @Override

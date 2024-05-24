@@ -1,4 +1,4 @@
-package test_vers_2;
+package test_gral;
 
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;

@@ -1,7 +1,12 @@
 package domain.donaciones;
 
+import lombok.Getter;
+import lombok.ToString;
+
 import java.time.LocalDate;
 
+@ToString(callSuper = true)
+@Getter
 public class DonacionDinero extends Donacion {
     private Integer monto;
     private FrecuenciaDeDonacion frecuencia;

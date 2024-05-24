@@ -1,7 +1,11 @@
 package domain.donaciones;
 
 import domain.heladera.Heladera;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString(callSuper = true)
+@Getter
 public class DonacionHeladera extends Donacion{
     private Heladera unaHeladera;
 

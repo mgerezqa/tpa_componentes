@@ -1,9 +1,13 @@
 package domain.donaciones;
 
 import domain.heladera.Heladera;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
+@ToString(callSuper = true)
+@Getter
 public class DonacionReparto extends Donacion {
     private Heladera heladeraOrigen;
     private Heladera heladeraDestino;
