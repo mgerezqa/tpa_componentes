@@ -1,7 +1,5 @@
 package domain.formulario;
 
-import domain.formulario.respuesta.*;
-
 // Enum para los tipos de entrada
 public enum TipoEntrada {
     ENTRADA_NUMERICA,

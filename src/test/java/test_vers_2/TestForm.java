@@ -1,8 +1,9 @@
 package test_vers_2;
 
+import domain.contacto.Email;
+import domain.contacto.MedioDeContacto;
 import domain.formulario.Campo;
 import domain.formulario.Formulario;
-import domain.formulario.TipoEntrada;
 import domain.formulario.UnaRespuesta;
 import org.junit.jupiter.api.Test;
 
@@ -41,9 +42,9 @@ public class TestForm {
         LocalDate fechaNac = LocalDate.parse("2000-01-22");
         LocalDate fechaHoy = LocalDate.now();
 
-        UnaRespuesta<String> respuestaNombre = new UnaRespuesta<>(new Campo("nombre", TipoEntrada.ENTRADA_TEXTO));
-        UnaRespuesta<Integer> respuestaEdad = new UnaRespuesta<>(new Campo("edad", TipoEntrada.ENTRADA_NUMERICA));
-        UnaRespuesta<LocalDate> respuestaNac = new UnaRespuesta<>(new Campo("fecha de nacimiento", TipoEntrada.ENTRADA_TIPO_FECHA));
+        UnaRespuesta<String> respuestaNombre = new UnaRespuesta<>(new Campo("nombre"));
+        UnaRespuesta<Integer> respuestaEdad = new UnaRespuesta<>(new Campo("edad"));
+        UnaRespuesta<LocalDate> respuestaNac = new UnaRespuesta<>(new Campo("fecha de nacimiento"));
 
         respuestaEdad.responder(18);
         respuestaNombre.responder("pablo");
@@ -62,10 +63,14 @@ public class TestForm {
         Integer edad = 18;
         LocalDate fechaNac = LocalDate.parse("2000-01-22");
         LocalDate fechaHoy = LocalDate.now();
+        Email unMail = new Email("unMail@dominio.com");
 
-        unFormulario.agregarCampo(new Campo("nombre", TipoEntrada.ENTRADA_TEXTO));
-        unFormulario.agregarCampo(new Campo("edad", TipoEntrada.ENTRADA_NUMERICA));
-        unFormulario.agregarCampo(new Campo("fecha de nacimiento", TipoEntrada.ENTRADA_TIPO_FECHA));
+        unFormulario.agregarCampo(new Campo("nombre"));
+        unFormulario.agregarCampo(new Campo("edad"));
+        unFormulario.agregarCampo(new Campo("fecha de nacimiento"));
+
+        unFormulario.agregarCampo(new Campo("contacto"));
+
         unFormulario.responderCampo("nombre", "pablo");
         unFormulario.responderCampo("edad", 18);
         unFormulario.responderCampo("fecha de nacimiento", LocalDate.parse("2000-01-22"));
@@ -73,6 +78,11 @@ public class TestForm {
         System.out.println(unFormulario.obtenerRespuesta("edad").getClass());
         System.out.println(unFormulario.obtenerRespuesta("fecha de nacimiento").getClass());
         //System.out.println(unFormulario.obtenerRespuesta("apellido").getClass());
+
+        unFormulario.responderCampo("contacto", unMail);
+        MedioDeContacto unContacto = unFormulario.obtenerRespuesta("contacto");
+        System.out.println(unFormulario.obtenerRespuesta("contacto").getClass());
+        System.out.println(unFormulario.obtenerRespuesta("contacto") instanceof MedioDeContacto);
 
         assertEquals(nombre, unFormulario.obtenerRespuesta("nombre"));
         assertEquals(edad, unFormulario.obtenerRespuesta("edad"));

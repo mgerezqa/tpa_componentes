@@ -19,11 +19,18 @@ public  class Formulario {
         this.campos = new ArrayList<>();
         this.respuestas = new ArrayList<>();
     }
+    public Formulario(List<Campo> campos){
+        this.campos = new ArrayList<>();
+        this.respuestas = new ArrayList<>();
+        campos.stream().forEach(this::agregarCampo);
+    }
 
     public void agregarCampo(Campo unCampo){
         campos.add(unCampo);
     }
 
+    // dada una descripcion de un campo y un contenido, agrega una respuesta a la lista de respuestas
+    // si no encuentra campo con esa descripcion, genera una excepcion
     public <T> void responderCampo(String descripcionCampo, T contenido){
         Campo aux = obtenerCampo(descripcionCampo);
         if(aux == null){
@@ -36,10 +43,14 @@ public  class Formulario {
         respuestas.add(new UnaRespuesta<>(campo, contenido));
     }
 
+    // retorna el campo que coincida con la descripcion, si no encuentra retorna null
     public Campo obtenerCampo(String descripcion){
         return campos.stream().filter(campo -> campo.getDescripcion().equals(descripcion)).findFirst().orElse(null);
     }
 
+    // por logica te deberia devolver con T como el tipo de respuesta que contiene, pero
+    // no se bien como forzar eso, asi que devuelve Object, se debe castear la respuesta para usarla
+    // ejemplo de uso en los colaboradores
     public <T> T obtenerRespuesta(String descripcion){
         Campo aux = obtenerCampo(descripcion);
         if(aux == null)
@@ -49,10 +60,13 @@ public  class Formulario {
         }
     }
 
+    // retorna una lista de las descripciones de cada campo
     public List<String> getDescripciones(){
         return campos.stream().map(Campo::getDescripcion).collect(Collectors.toList());
     }
 
+    // estaCompleto retorna true si cada campo tiene almenos 1 respuesta
+    // retorna false si algun campo no tiene respuesta o si no hay campos
     public Boolean estaCompleto(){
         return !campos.isEmpty() &&
                 getRespuestas()

@@ -1,9 +1,10 @@
 package domain.contacto;
 
 import lombok.Getter;
+import lombok.ToString;
 
-@Getter
-public class Email extends MedioDeContacto {
+@ToString
+public class Email implements MedioDeContacto {
     private String email;
 
     public Email(String email) {

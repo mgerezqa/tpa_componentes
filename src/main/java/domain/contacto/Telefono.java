@@ -2,10 +2,10 @@ package domain.contacto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter
-
-public class Telefono extends MedioDeContacto{
+@ToString
+public class Telefono implements MedioDeContacto{
     private Integer codPais;
     private Integer codArea;
     private Integer numeroAbonado;

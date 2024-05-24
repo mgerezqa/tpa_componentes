@@ -1,6 +1,8 @@
 package domain.contacto;
 
-public abstract class MedioDeContacto {
+public interface MedioDeContacto {
 
-    public abstract String obtenerDescripcion();
+    String obtenerDescripcion();
+
+
 }

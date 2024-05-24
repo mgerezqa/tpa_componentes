@@ -1,79 +1,101 @@
 package domain.usuarios;
 
 import domain.contacto.MedioDeContacto;
-import domain.donaciones.Donacion;
 import domain.donaciones.TipoDonacion;
 import domain.formulario.Formulario;
 import domain.formulario.UnaRespuesta;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ColaboradorJuridico {
-    @Getter private String razonSocial;
-    @Getter private TipoRazonSocial tipo;
-    @Getter private List <Donacion> donacionesRealizadas;
+@ToString
+@Getter
+@Setter
+public class ColaboradorJuridico implements Colaborador{
+    private String razonSocial;
+    private TipoRazonSocial tipo;
     private List <TipoDonacion> donacionesPermitidas;
-
+    private List <MedioDeContacto> medioContacto;
     private String direccion;
+    private Rubro rubro;
     private Boolean activo;
 
-
-    public ColaboradorJuridico() {
-        this.donacionesRealizadas = new ArrayList<>();
+    public ColaboradorJuridico(Formulario unFormulario) {
+        this.medioContacto = new ArrayList<>();
         this.activo = false;
         this.donacionesPermitidas = new ArrayList<>(Arrays.asList(TipoDonacion.DONA_DINERO, TipoDonacion.DONA_HELADERA));
+        this.cargarFormulario(unFormulario);
     }
 
-    public void cargarDatos(Formulario unFormulario){
-        // aca se puede crear un metodo que valide si los campos son validos, pero en si ya deberian
-        // ser validados por fuera antes de invocar este metodo
+    private void cargarFormulario(Formulario unFormulario){
         if(!corroborarFormulario(unFormulario))
             throw new RuntimeException("Formulario incompleto/invalido!");
-        unFormulario.getRespuestas().forEach(this::cargarDato);
+        unFormulario.getRespuestas().forEach(this::cargarRespuesta);
     }
 
+    // aca checkea si los campos minimos estan en el formulario
+    // NO chequea si los datos son correctos, deberia estar chequeado de antemano
     private Boolean corroborarFormulario(Formulario unForm){
-        // aca checkea si los campos minimos estan en el formulario
-        //NO chequea si los datos son correctos, deberia estar chequeado de antemano
-        List<String> camposNecesarios = Arrays.asList("nombre", "apellido", "contacto");
-        return new HashSet<>(unForm.getDescripciones()).containsAll(camposNecesarios);
+        List<String> camposNecesarios = Arrays.asList("razon social" ,"tipo", "contacto");
+        return unForm.estaCompleto() && new HashSet<>(unForm.getDescripciones()).containsAll(camposNecesarios);
     }
 
-    private void cargarDato(UnaRespuesta<?> unaResp){
+    private void cargarRespuesta(UnaRespuesta<?> unaResp){
         switch (unaResp.getCampo().getDescripcion()){
             case "razon social":
                 this.razonSocial = (String) unaResp.getRespuesta();
-            case "tipo de razon social":
+                break;
+            case "tipo":
                 this.tipo = (TipoRazonSocial) unaResp.getRespuesta();
+                break;
+            case "rubro":
+                this.rubro = (Rubro) unaResp.getRespuesta();
+                break;
+            case "contacto":
+                this.agregarContacto((MedioDeContacto) unaResp.getRespuesta());
+                break;
             case "direccion":
                 this.direccion = (String) unaResp.getRespuesta();
+                break;
             default:
         }
     }
 
-    // como en discord dijo que no se hace la donacion, sino que se guarda el registro de donacion
-    // ingresando el colaborador como un parametro de registro hacia la donacion, veo medio innecesario
-    // que la clase de colaborador almacene las donaciones realizadas
-    // pero si es necesario, solo es agregar a la lista de donaciones del colaborador
-    public void cargarDonacion(Donacion donacion) {
-        if (!donacion.puedeserDonada()){
-            throw new RuntimeException(donacion.msgError());
-        }
-        donacionesRealizadas.add(donacion);
+    public List<String> mostrarInformacionDeContacto(){
+        return this.medioContacto.stream().map(MedioDeContacto::obtenerDescripcion).collect(Collectors.toList());
     }
 
-    public void agregarRespuesta(UnaRespuesta respuesta) {
-        //formulario.guardar(respuesta);
+    public void agregarContacto(MedioDeContacto unContacto){
+        this.medioContacto.add(unContacto);
+    }
+    public void removerContacto(String descripcionContacto){
+        medioContacto.removeIf(contacto -> contacto.obtenerDescripcion().equals(descripcionContacto));
     }
 
-    public void leerFormulario(){
-        //formulario.leer();
+    @Override
+    public Boolean puedeDonar(TipoDonacion tipoDonacion) {
+        return null;
     }
+
+    @Override
+    public void darAlta() {
+        this.activo = true;
+    }
+
+    @Override
+    public void darBaja() {
+        this.activo = false;
+    }
+
+    @Override
+    public Boolean estaActivo() {
+        return this.activo;
+    }
+
 }

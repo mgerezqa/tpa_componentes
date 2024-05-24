@@ -1,6 +1,9 @@
 package domain.contacto;
 
-public class Whatsapp extends MedioDeContacto{
+import lombok.ToString;
+
+@ToString
+public class Whatsapp implements MedioDeContacto{
     private String numero;
 
     public Whatsapp(String numero) {
