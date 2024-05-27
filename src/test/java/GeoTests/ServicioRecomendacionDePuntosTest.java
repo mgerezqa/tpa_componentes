@@ -58,8 +58,10 @@ public class ServicioRecomendacionDePuntosTest {
         // Verificar el resultado
         Assertions.assertNotNull(result);
         Assertions.assertEquals(2, result.getPuntosRecomendados().size());
+        //Para el punto 1
         Assertions.assertEquals(punto1.getLatitud(), result.getPuntosRecomendados().get(0).getLatitud(), radio);
         Assertions.assertEquals(punto1.getLongitud(), result.getPuntosRecomendados().get(0).getLongitud(),radio);
+        //Para el punto 2
         Assertions.assertEquals(punto2.getLatitud(), result.getPuntosRecomendados().get(1).getLatitud(),radio);
         Assertions.assertEquals(punto2.getLongitud(), result.getPuntosRecomendados().get(1).getLongitud(),radio);
     }
