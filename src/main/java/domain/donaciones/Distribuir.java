@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Distribuir  {
     private Heladera heladeraOrigen;
     private Heladera heladeraDestino;
-    private Integer cantidad;
+    @Getter private Integer cantidad;
     private Motivo motivo;
     private LocalDate fechaDeDonacion;
     @Getter ColaboradorFisico colaboradorQueLaDono;

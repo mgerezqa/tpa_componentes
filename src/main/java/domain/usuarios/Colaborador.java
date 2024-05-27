@@ -15,6 +15,7 @@ public abstract class Colaborador {
     @Getter @Setter protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
     /*ALTA Y BAJA*/
     @Getter @Setter protected Boolean activo; //protected para que las clases hijas puedan acceder a este atributo
+    @Getter public int puntosAcumulados = 0;
 
     /*Punto de arranque*/
     public void completarFormulario(){
@@ -58,5 +59,12 @@ public abstract class Colaborador {
 
     public void leerFormulario(){
         formulario.mostrarCampos();
+    }
+
+    public void sumarPuntos(int puntos) {
+        this.puntosAcumulados += puntos;
+    }
+    public void restarPuntos(int puntos) {
+        this.puntosAcumulados -= puntos;
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +93,11 @@ public class Heladera {
     // Booleano retorna si esta activa o no.
     public Boolean estaActivaHeladera(){
         return this.getEstadoHeladera() == EstadoHeladera.ACTIVA;
+    }
+
+    public int mesesActiva(){
+        int months = (int) ChronoUnit.MONTHS.between(fechaInicioFuncionamiento, LocalDate.now());
+        return months;
     }
 
     // Para cambiar de estados.

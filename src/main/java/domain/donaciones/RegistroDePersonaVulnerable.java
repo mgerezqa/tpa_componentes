@@ -1,4 +1,4 @@
-package domain.Colaboraciones;
+package domain.donaciones;
 
 
 import domain.tarjeta.Tarjeta;
