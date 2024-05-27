@@ -9,10 +9,14 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.persona.Persona;
+import domain.persona.PersonaVulnerable;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.ColaboradorJuridico;
 import domain.usuarios.Rubro;
+import domain.donaciones.RegistroDePersonaVulnerable;
 import domain.usuarios.TipoRazonSocial;
+import domain.tarjeta.Tarjeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +40,9 @@ public class DonacionesTests {
     private ModeloDeHeladera modelo;
     private Float tempMin = -10f;
     private Float tempMax = 20f;
+    private Tarjeta tarjeta;
+    private PersonaVulnerable diego;
+
 
     @BeforeEach
     public void setUp() {
@@ -46,6 +53,8 @@ public class DonacionesTests {
         this.lalo = new ColaboradorFisico("Lalo", "Menz",laloEmail);
         this.metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.SERVICIOS,laloEmail);
         this.ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
+        this.diego = new PersonaVulnerable("Diego", LocalDate.of(2000, 5, 31));
+        this.tarjeta = new Tarjeta(diego);
 
         modelo = new ModeloDeHeladera("Modelo XR-221");
         modelo.setTemperaturaMinima(tempMin);
@@ -64,6 +73,7 @@ public class DonacionesTests {
 
     }
 
+
     @Test
     @DisplayName("El sistema admite las donaciones de dinero por parte de los colaboradores juridicos")
     public void donarDineroColaboradorJuridico(){
@@ -76,6 +86,7 @@ public class DonacionesTests {
     @Test
     @DisplayName("El sistema solo admite las donaciones de viandas por parte de los colaboradores fisicos")
     public void donarViandaColaboradorFisico(){
+
 
         Vianda viandaDonadaPorColaboradorFisico = new Vianda(fechaVencimiento,fechaDeDonacion,lalo);
         assertEquals(viandaDonadaPorColaboradorFisico.getColaboradorQueLaDono(),lalo);
@@ -96,6 +107,13 @@ public class DonacionesTests {
     public void donarMantenerHeladera(){
         MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera, fechaDeDonacion,metrovias);
         assertEquals(mantenerHeladera.getColaboradorQueLaDono(),metrovias);
+    }
+
+    @Test
+    @DisplayName("El sistema admite las donaciones del tipo registrar personas vulnerables solo por parte de los colaboradores fisicos")
+    public void donarRegistrarPersonasVulnerables(){
+        RegistroDePersonaVulnerable registrarPersonasVulnerables = new RegistroDePersonaVulnerable (lalo,tarjeta);
+        assertEquals(registrarPersonasVulnerables.getColaborador(),lalo);
     }
 
 }

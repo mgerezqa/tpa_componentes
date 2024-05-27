@@ -48,13 +48,11 @@ public abstract class Colaborador {
         formulario.cargarValor(label,valor.mostrarEntrada());
     }
 
-//    public void modificarRespuesta(String label, String valor) {
-//        formulario.modificarValor(label,valor);
-//    }
+    public void modificarRespuesta(String label, String valor) {
+        formulario.modificarValor(label,valor);
+    }
 
-//    public void modificarRespuesta(String label, Entrada valor) {
-//        formulario.modificarValor(label,valor);
-//    }
+
 
     public void leerFormulario(){
         formulario.mostrarCampos();
