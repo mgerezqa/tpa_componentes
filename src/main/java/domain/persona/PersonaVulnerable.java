@@ -1,6 +1,6 @@
 package domain.persona;
 
-import domain.geografia.RecomendacionDePuntos.Entidades.Ubicacion;
+import domain.geografia.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
 

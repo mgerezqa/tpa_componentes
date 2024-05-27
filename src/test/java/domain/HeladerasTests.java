@@ -1,6 +1,6 @@
 package domain;
-import domain.geografia.RecomendacionDePuntos.Entidades.Calle;
-import domain.geografia.RecomendacionDePuntos.Entidades.Ubicacion;
+import domain.geografia.Calle;
+import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;

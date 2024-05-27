@@ -11,7 +11,7 @@ public class ServicioRecomendacionDePuntos {
 
     private static ServicioRecomendacionDePuntos instancia = null;
     private Retrofit retrofit;
-    private static String urlApi = "https://27eb376e-1830-44e7-8383-fddafec9e810.mock.pstmn.io/api/"; // SACARLO DE UN ARCHIVO DE CONFIGURACION !!!
+    private static String urlApi = "https://27eb376e-1830-44e7-8383-fddafec9e810.mock.pstmn.io/api/"; // SACARLO DE UN ARCHIVO DE CONFIGURACION !!
 
     // ---------------------------------------------------------------- //
 
@@ -31,11 +31,11 @@ public class ServicioRecomendacionDePuntos {
         return instancia;
     }
 
-    public ListadoDePuntos listadoDePuntos() throws IOException {
+    public ListadoDePuntos listadoDePuntos(Double latitud, Double longitud, Double radio) throws IOException {
         ServicioRecomendacionDePuntosInterface recomendacionDePuntos =
             this.retrofit.create(ServicioRecomendacionDePuntosInterface.class);
 
-        Call<ListadoDePuntos> requestPuntosRecomendados = recomendacionDePuntos.puntosRecomendados();
+        Call<ListadoDePuntos> requestPuntosRecomendados = recomendacionDePuntos.puntosRecomendados(latitud,longitud,radio);
         Response<ListadoDePuntos> responsePuntosRecomendados = requestPuntosRecomendados.execute();
         return responsePuntosRecomendados.body();
     } // Llama a la API e intenta 'matchear' con mi clase molde.
