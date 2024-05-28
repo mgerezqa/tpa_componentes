@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 public class Dinero  {
-    private Integer cantidad;
+    @Getter private Integer cantidad;
     private FrecuenciaDeDonacion frecuencia;
     private LocalDate fechaDeDonacion;
     @Getter private Colaborador colaboradorQueLaDono;

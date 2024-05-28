@@ -1,7 +1,6 @@
 package domain.persona;
 
 import domain.geografia.Ubicacion;
-import domain.tarjeta.Tarjeta;
 import lombok.Getter;
 import lombok.Setter;
 

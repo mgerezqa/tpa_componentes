@@ -1,6 +1,13 @@
 package domain.contacto.Documentos;
 
+import lombok.Getter;
+import lombok.Setter;
+
+
 public class Dni implements Documento{
+
+    @Getter @Setter
+    public String numero;
 
     @Override
     public String tipoDocumento() {
@@ -9,7 +16,10 @@ public class Dni implements Documento{
 
     @Override
     public String numeroDocumento() {
-        return null;
+        return numero;
     }
 
+    public Dni(String numero) {
+        this.numero = numero;
+    }
 }

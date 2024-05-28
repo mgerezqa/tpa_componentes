@@ -1,12 +1,17 @@
 package domain.geografia;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Calle {
 
-    private String calle;
+    private String nombre;
     private String altura;
 
     public Calle(String calle, String altura) {
-        this.calle = calle;
+        this.nombre = calle;
         this.altura = altura;
     }
 }

@@ -1,6 +1,6 @@
 package domain.donaciones;
 
-import domain.heladera.Heladera;
+import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
 import lombok.Getter;
@@ -12,7 +12,7 @@ public class MantenerHeladera {
     private Heladera heladera;
     private LocalDate fechaDeDonacion;
     @Getter
-    private Colaborador colaboradorQueLaDono;
+    private ColaboradorJuridico colaboradorQueLaDono;
 
     public MantenerHeladera(Heladera heladera, LocalDate fechaDeDonacion, ColaboradorJuridico colaboradorQueLaDono) {
         this.heladera = heladera;

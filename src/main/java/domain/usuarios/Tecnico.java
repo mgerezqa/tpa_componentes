@@ -25,6 +25,7 @@ public class Tecnico {
 
     public Tecnico(String nombre, String apellido, Documento documento, Cuil cuil,
                    List<MedioDeContacto> mediosDeContacto, AreaDeCobertura area) {
+
         this.nombre = nombre;
         this.apellido = apellido;
         this.documento = documento;
@@ -43,6 +44,26 @@ public class Tecnico {
 
     public String numeroDeDocumento(){
         return documento.numeroDocumento();
+    }
+
+    public void darDeBaja() {
+        this.activo = false;
+    }
+
+    public Boolean estaActivo() {
+        return activo;
+    }
+
+    public void agregarMedioDeContacto(MedioDeContacto medioDeContacto){
+        this.mediosDeContacto.add(medioDeContacto);
+    }
+
+    public void quitarMedioDeContacto(MedioDeContacto medioDeContacto){
+        this.mediosDeContacto.remove(medioDeContacto);
+    }
+
+    public void limpiarMediosDeContacto(){
+        this.mediosDeContacto.clear();
     }
 
 }

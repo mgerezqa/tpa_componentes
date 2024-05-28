@@ -1,11 +1,10 @@
 package domain.donaciones;
 import domain.usuarios.ColaboradorFisico;
-import domain.heladera.Heladera;
+import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Vianda  {
 
@@ -33,7 +32,7 @@ public class Vianda  {
     // < INGRESO DE VIANDAS A UNA HELADERA > //
 
     public void ingresarViandaAHeladera(Heladera heladera) throws Exception{
-        if(heladera.getCapacidadMax() < heladera.getCapacidadActual()){
+        if(heladera.getCapacidadMax() > heladera.getCapacidadActual()){
             heladeraActual = heladera;
             heladera.setCapacidadActual(heladera.getCapacidadActual()+1);
         }

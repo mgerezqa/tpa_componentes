@@ -4,17 +4,10 @@ import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telefono;
 import domain.contacto.Whatsapp;
-import domain.geografia.Calle;
-import domain.geografia.Ubicacion;
-import domain.heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
-import domain.usuarios.ColaboradorJuridico;
-import domain.usuarios.Rubro;
-import domain.usuarios.TipoRazonSocial;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,7 +1,6 @@
 package domain.donaciones;
 
-import domain.heladera.Heladera;
-import domain.usuarios.Colaborador;
+import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 
@@ -10,7 +9,7 @@ import java.time.LocalDate;
 public class Distribuir  {
     private Heladera heladeraOrigen;
     private Heladera heladeraDestino;
-    private Integer cantidad;
+    @Getter private Integer cantidad;
     private Motivo motivo;
     private LocalDate fechaDeDonacion;
     @Getter ColaboradorFisico colaboradorQueLaDono;
