@@ -14,11 +14,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@ToString
+@Getter @Setter
 public class ColaboradorFisico extends Colaborador {
 
-    @Getter @Setter  private String nombre;
-    @Getter @Setter private String apellido;
+    private String nombre;
+    private String apellido;
 
     public ColaboradorFisico(String nombre, String apellido, MedioDeContacto medioDeContacto){
         this.nombre = nombre;

@@ -134,11 +134,16 @@ public class ColaboradorFisicoTests {
         lalo.agregarRespuesta("Idiomas","alemán");
         lalo.agregarRespuesta("Idiomas","español");
         String output = tapSystemOut(() -> {lalo.leerFormulario();});
-//        assertTrue(output.contains("ingles"));
-//        assertTrue(output.contains("Lalo"));
         lalo.leerFormulario();
+    }
 
-
+    @Test
+    @DisplayName("Puede modificarse su informacion")
+    public void modificarColaborador(){
+        lalo.setNombre("Lalo Modificado");
+        lalo.setApellido("Menz Modificado");
+        assertEquals("Lalo Modificado",lalo.getNombre());
+        assertEquals("Menz Modificado",lalo.getApellido());
     }
 
 }

@@ -46,10 +46,6 @@ public abstract class Colaborador {
         formulario.cargarValor(label,valor);
     }
 
-//    public void agregarRespuesta(String label, Entrada valor) {
-//        formulario.cargarValor(label,valor.mostrarEntrada());
-//    }
-
     public void modificarRespuesta(String label, String valor) {
         formulario.modificarValor(label,valor);
     }
