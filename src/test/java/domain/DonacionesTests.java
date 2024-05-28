@@ -116,4 +116,24 @@ public class DonacionesTests {
         assertEquals(registrarPersonasVulnerables.getColaborador(),lalo);
     }
 
+    @Test
+    @DisplayName("Una vianda puede ser ingresada en una heladera")
+    public void ingresoVianda() throws Exception {
+        Vianda vianda = new Vianda(LocalDate.of(2024, 5, 31), LocalDate.now(),lalo);
+        vianda.ingresarViandaAHeladera(heladera);
+        assertEquals(1,heladera.getCapacidadActual());
+    }
+
+    @Test
+    @DisplayName("Una vianda no puede ser ingresada en una heladera llena")
+    public void noIngresaLaVianda() throws Exception {
+
+        Vianda vianda = new Vianda(LocalDate.of(2024, 5, 31), LocalDate.now(), lalo);
+        heladera.setCapacidadActual(200);
+
+        Exception exception = assertThrows(Exception.class, () -> {vianda.ingresarViandaAHeladera(heladera);});
+
+        assertEquals("La vianda no puede ser ingresada en la heladera seleccionada", exception.getMessage());
+    }
+
 }

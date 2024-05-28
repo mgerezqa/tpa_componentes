@@ -32,7 +32,7 @@ public class Vianda  {
     // < INGRESO DE VIANDAS A UNA HELADERA > //
 
     public void ingresarViandaAHeladera(Heladera heladera) throws Exception{
-        if(heladera.getCapacidadMax() < heladera.getCapacidadActual()){
+        if(heladera.getCapacidadMax() > heladera.getCapacidadActual()){
             heladeraActual = heladera;
             heladera.setCapacidadActual(heladera.getCapacidadActual()+1);
         }
