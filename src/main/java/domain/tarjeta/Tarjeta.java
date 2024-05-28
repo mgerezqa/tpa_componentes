@@ -48,4 +48,7 @@ public class Tarjeta {
                 throw new Exception("No hay más cantidad disponible por hoy!");
             }
     }
+    public void resetCantidadUsadaEnElDia(){
+        this.setCantidadUsadaEnElDia(0);
+    }
 }
