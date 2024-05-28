@@ -1,19 +1,12 @@
-## Pendientes / A mejorar / A definir
+## Diagrama de clases
 
-- Pendiente
-  - Los campos de los formularios deben admitir respuesta múltiple.
-  - Logica colaborador jurídico.
-- A definir
-  - Una persona vulnerable puede convertirse en colaborador ? Pensarlo.
-  - Las propiedades de los colaboradores (nombre,apellido,medio de contacto)y su interacción con los formularios.
-  - En las clases Colaboradores definir un state machine para los cambios de estado del perfil.
-  Es decir un nuevo colaborador se inicia en estado _"Nuevo"_, cuando completa el formulario pasa a _"EnVerificacion"_, luego a _"Verificado"_, y por ultimo a _"Baja"_.
+Se particionó la entrega en tres diagramas de clase 
+a fin de facilitar la comprensión de la estructura del sistema.
 
-- A mejorar
-  - Ver reduncancia en el registro de los colaboradores juridicos y no juridicos.
+### Diagrama de Clases Colaboraciones
 
-- ### Cambios
-  - Todos los tipos DataLocalTime (Fecha y Hora) se sustituyeron por LocalDate (Fecha).
-  - Agregué constructores en los Object Value, Calle y Ubicación.
-  - Los setters del lombok me los marca en rojo en el método setearSensorDeTemperalura().
-  
+![](D:\Pictures\TPA DDS\TPA_DDS_Donaciones.png)
+### Diagrama de Clases Tecnicos Heladeras y API
+![](D:\Pictures\TPA DDS\TPA_DDS_Tecnicos_Heladeras_API.png)
+### Diagrama de Clases Sistema de Reconocimiento
+![](D:\Pictures\TPA DDS\TPA_DDS_SistemaDeReconocimiento.png)

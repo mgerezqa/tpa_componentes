@@ -26,16 +26,13 @@ public class ColaboradorFisico extends Colaborador {
         this.unMedioDeContacto = medioDeContacto;
         this.activo = true;
         this.mediosDeContacto = new HashSet<>();
-
         this.agregarMedioDeContacto(medioDeContacto);
-
         this.completarFormulario();
     }
 
     @Override
     public void completarFormulario() {
         super.completarFormulario();
-        //formulario.autoCompletarCampo(this);
 
         formulario.agregarCampo("Nombre",new Campo(TipoCampo.CAMPO_NOMBRE));
         formulario.agregarCampo("Apellido",new Campo(TipoCampo.CAMPO_NOMBRE));

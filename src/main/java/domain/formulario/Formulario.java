@@ -1,5 +1,7 @@
 package domain.formulario;
 
+import domain.usuarios.Colaborador;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,8 +42,9 @@ public class Formulario {
         }
         System.out.println(mostrar);
     }
-    public void mostrarCampos(){
+    public void mostrarCampos(Colaborador colaborador){
         String mostrar = "Estos son los campos cargados: \n";
+        colaborador.completarFormulario(this);
         for(Map.Entry<String, Campo> entry : this.campos.entrySet()){
             mostrar += entry.getKey() + ": " + entry.getValue().getValor() + "\n";
         }
