@@ -5,8 +5,7 @@ a fin de facilitar la comprensión de la estructura del sistema.
 
 ### Diagrama de Clases Colaboraciones
 
-![TPA_DDS_Donaciones](https://github.com/mgerezqa/tpa_componentes/assets/54424951/312f4339-3c5f-42ee-b361-39cc62f9be70)
-
+![TPA_DDS_Donaciones](https://github.com/mgerezqa/tpa_componentes/assets/54424951/34032e6a-7264-464f-8b13-8b64c31a7c34)
 
 ### Diagrama de Clases Tecnicos Heladeras y API
 
