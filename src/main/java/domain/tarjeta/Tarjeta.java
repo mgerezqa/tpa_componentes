@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Getter
 public class Tarjeta {
-    private String codigoIdentificador; // Código alfanumérico de 11 caracteres
+    private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
     private PersonaVulnerable titular;
     private static int cantidadDisponiblePorDefecto = 4;
     private int cantidadUsadaEnElDia;
