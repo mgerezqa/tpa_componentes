@@ -25,23 +25,25 @@ public class ColaboradorJuridico implements Colaborador{
     private String direccion;
     private Rubro rubro;
     private Boolean activo;
+    private Formulario formularioColaborador;
 
     public ColaboradorJuridico(Formulario unFormulario) {
         this.medioContacto = new ArrayList<>();
         this.activo = false;
         this.donacionesPermitidas = new ArrayList<>(Arrays.asList(TipoDonacion.DONA_DINERO, TipoDonacion.DONA_HELADERA));
         this.cargarFormulario(unFormulario);
+        this.formularioColaborador = unFormulario;
     }
 
     private void cargarFormulario(Formulario unFormulario){
-        if(!corroborarFormulario(unFormulario))
+        if(!formularioCompleto(unFormulario))
             throw new RuntimeException("Formulario incompleto/invalido!");
         unFormulario.getRespuestas().forEach(this::cargarRespuesta);
     }
 
     // aca checkea si los campos minimos estan en el formulario
     // NO chequea si los datos son correctos, deberia estar chequeado de antemano
-    private Boolean corroborarFormulario(Formulario unForm){
+    private Boolean formularioCompleto(Formulario unForm){
         List<String> camposNecesarios = Arrays.asList("razon social" ,"tipo", "contacto");
         return unForm.estaCompleto() && new HashSet<>(unForm.getDescripciones()).containsAll(camposNecesarios);
     }

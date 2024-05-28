@@ -1,4 +1,4 @@
-package domain.carga_masiva;
+package domain.usuarios;
 
 public enum TipoDocumento {
     LC,

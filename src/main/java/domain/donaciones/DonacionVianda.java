@@ -14,4 +14,7 @@ public class DonacionVianda extends Donacion {
         super(TipoDonacion.DONA_VIANDA);
         this.unaVianda = unaVianda;
     }
+    public DonacionVianda(){
+        super(TipoDonacion.DONA_VIANDA);
+    }
 }

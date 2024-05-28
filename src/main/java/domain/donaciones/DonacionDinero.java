@@ -20,4 +20,7 @@ public class DonacionDinero extends Donacion {
     }
 
 
+    public DonacionDinero() {
+        super(TipoDonacion.DONA_DINERO);
+    }
 }

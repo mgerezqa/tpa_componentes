@@ -23,4 +23,7 @@ public class DonacionReparto extends Donacion {
         this.motivo = motivo;
         this.fechaDeDonacion = fechaDeDonacion;
     }
+    public DonacionReparto(){
+        super(TipoDonacion.DONA_REPARTO);
+    }
 }

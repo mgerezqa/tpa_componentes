@@ -22,17 +22,30 @@ public class ColaboradorFisico implements Colaborador{
 
     private String nombre;
     private String apellido;
+    private TipoDocumento tipoDocumento;
+    private Integer nroDocumento;
     private List <MedioDeContacto> medioContacto;
     private List <TipoDonacion> donacionesPermitidas;
     private LocalDate fechaNac;
     private String direccion;
     private Boolean activo;
+    private Formulario formularioColaborador;
 
     public ColaboradorFisico(Formulario unFormulario) {
         this.medioContacto = new ArrayList<>();
         this.activo = false;
         this.donacionesPermitidas = new ArrayList<>(Arrays.asList(TipoDonacion.DONA_DINERO, TipoDonacion.DONA_VIANDA, TipoDonacion.DONA_REPARTO));
         this.cargarFormulario(unFormulario);
+        this.formularioColaborador = unFormulario;
+    }
+    // este constructor se usa cuando no se encuentra al colaborador al hacer la migracion
+    public ColaboradorFisico(String nombre, String apellido, TipoDocumento tipoDocumento, Integer nroDocumento, MedioDeContacto medioContacto) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.tipoDocumento = tipoDocumento;
+        this.nroDocumento = nroDocumento;
+        this.medioContacto = new ArrayList<>();
+        this.medioContacto.add(medioContacto);
     }
 
     /*Punto de arranque*/
@@ -40,14 +53,14 @@ public class ColaboradorFisico implements Colaborador{
     // si cumple, se itera las respuestas y se van cargando los valores al colaborador,
     // si no cumple, tira excepcion
     private void cargarFormulario(Formulario unFormulario){
-        if(!corroborarFormulario(unFormulario))
+        if(!formularioCompleto(unFormulario))
             throw new RuntimeException("Formulario incompleto/invalido!");
         unFormulario.getRespuestas().forEach(this::cargarRespuesta);
     }
 
     // checkea si los campos minimamente necesarios para el colaborador estan en el formulario
     // NO chequea si los datos son correctos, deberia estar chequeado de antemano
-    private Boolean corroborarFormulario(Formulario unForm){
+    private Boolean formularioCompleto(Formulario unForm){
         List<String> camposNecesarios = Arrays.asList("nombre", "apellido", "contacto");
         return unForm.estaCompleto() && new HashSet<>(unForm.getDescripciones()).containsAll(camposNecesarios);
     }
@@ -62,6 +75,11 @@ public class ColaboradorFisico implements Colaborador{
             case "apellido":
                 this.apellido = (String) unaResp.getRespuesta();
                 break;
+            case "tipo de documento":
+                this.tipoDocumento = (TipoDocumento) unaResp.getRespuesta();
+                break;
+            case "Numero de documento":
+                this.nroDocumento = (Integer) unaResp.getRespuesta();
             case "contacto":
                 this.medioContacto.add((MedioDeContacto) unaResp.getRespuesta());
                 break;
@@ -84,6 +102,10 @@ public class ColaboradorFisico implements Colaborador{
     }
     public void removerContacto(String descripcionContacto){
         medioContacto.removeIf(contacto -> contacto.obtenerDescripcion().equals(descripcionContacto));
+    }
+
+    public Boolean identificarPorDocumento(TipoDocumento unTipo, Integer unDocumento){
+        return getTipoDocumento().equals(unTipo) && getNroDocumento().equals(unDocumento);
     }
 
     @Override

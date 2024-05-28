@@ -1,6 +1,7 @@
 package domain.carga_masiva;
 
 import domain.donaciones.TipoDonacion;
+import domain.usuarios.TipoDocumento;
 import lombok.Getter;
 
 import java.time.LocalDate;

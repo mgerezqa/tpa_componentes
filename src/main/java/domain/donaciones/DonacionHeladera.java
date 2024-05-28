@@ -13,4 +13,8 @@ public class DonacionHeladera extends Donacion{
         super(TipoDonacion.DONA_HELADERA);
         this.unaHeladera = unaHeladera;
     }
+
+    public DonacionHeladera() {
+        super(TipoDonacion.DONA_HELADERA);
+    }
 }
