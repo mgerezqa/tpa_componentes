@@ -5,6 +5,8 @@ import domain.tarjeta.Tarjeta;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class RegistroDePersonaVulnerable {
     private ColaboradorFisico colaborador;

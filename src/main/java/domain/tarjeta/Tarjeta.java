@@ -4,6 +4,8 @@ import domain.persona.PersonaVulnerable;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,13 @@ public class Tarjeta {
     private static int cantidadDisponiblePorDefecto = 4;
     private int cantidadUsadaEnElDia;
     private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
+    private LocalDate fechaInicioDeFuncionamiento;
     //Constructor
     public Tarjeta(PersonaVulnerable titular){
         this.titular = titular;
         this.cantidadUsadaEnElDia = 0;
         this.registros = new ArrayList<>();
+        this.fechaInicioDeFuncionamiento = LocalDate.now();
     }
     public int cantidadDisponiblePorMenores(){
         return 2*this.getTitular().cantidadDeMenoresACargo();
