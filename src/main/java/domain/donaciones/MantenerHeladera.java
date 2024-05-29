@@ -12,7 +12,7 @@ public class MantenerHeladera {
     private Heladera heladera;
     private LocalDate fechaDeDonacion;
     @Getter
-    private Colaborador colaboradorQueLaDono;
+    private ColaboradorJuridico colaboradorQueLaDono;
 
     public MantenerHeladera(Heladera heladera, LocalDate fechaDeDonacion, ColaboradorJuridico colaboradorQueLaDono) {
         this.heladera = heladera;

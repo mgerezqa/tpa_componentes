@@ -14,11 +14,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@ToString
+@Getter @Setter
 public class ColaboradorFisico extends Colaborador {
 
-    @Getter @Setter  private String nombre;
-    @Getter @Setter private String apellido;
+    private String nombre;
+    private String apellido;
 
     public ColaboradorFisico(String nombre, String apellido, MedioDeContacto medioDeContacto){
         this.nombre = nombre;
@@ -26,16 +26,13 @@ public class ColaboradorFisico extends Colaborador {
         this.unMedioDeContacto = medioDeContacto;
         this.activo = true;
         this.mediosDeContacto = new HashSet<>();
-
         this.agregarMedioDeContacto(medioDeContacto);
-
         this.completarFormulario();
     }
 
     @Override
     public void completarFormulario() {
         super.completarFormulario();
-        //formulario.autoCompletarCampo(this);
 
         formulario.agregarCampo("Nombre",new Campo(TipoCampo.CAMPO_NOMBRE));
         formulario.agregarCampo("Apellido",new Campo(TipoCampo.CAMPO_NOMBRE));

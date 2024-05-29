@@ -24,6 +24,7 @@ public abstract class Colaborador {
 
     /*Sobrecarga*/
     public void completarFormulario(Formulario formulario){
+
         this.formulario = formulario;
     }
 
@@ -41,12 +42,8 @@ public abstract class Colaborador {
     }
     public void darDeBaja(){ this.activo = false; }
 
-//    public void agregarRespuesta(String label, String valor) {
-//        formulario.cargarValor(label,valor);
-//    }
-
-    public void agregarRespuesta(String label, Entrada valor) {
-        formulario.cargarValor(label,valor.mostrarEntrada());
+    public void agregarRespuesta(String label, String valor) {
+        formulario.cargarValor(label,valor);
     }
 
     public void modificarRespuesta(String label, String valor) {
@@ -56,7 +53,8 @@ public abstract class Colaborador {
 
 
     public void leerFormulario(){
-        formulario.mostrarCampos();
+//        formulario.mostrarCampos();
+        formulario.mostrarCampos(this);
     }
 
     public void sumarPuntos(int puntos) {
