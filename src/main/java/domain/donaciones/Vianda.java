@@ -6,14 +6,12 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-public class Vianda  {
+public class Vianda  extends Contribucion {
 
 //    private LocalDateTime fechaVencimiento;
 //    private LocalDateTime fechaDonacion;
     private LocalDate fechaVencimiento;
     private LocalDate fechaDonacion;
-
-    @Getter private ColaboradorFisico colaboradorQueLaDono;
 
     @Setter @Getter
     private Heladera heladeraActual;
@@ -21,10 +19,14 @@ public class Vianda  {
     // ============================================================ //
 
     // < CONSTRUCTOR > //
-    public Vianda(LocalDate fechaVencimiento, LocalDate fechaDonacion, ColaboradorFisico colaboradorQueLaDono) {
+
+    public Vianda() {
+        super(TipoContribucion.VIANDA);
+    }
+    public Vianda(LocalDate fechaVencimiento, LocalDate fechaDonacion) {
+        super(TipoContribucion.VIANDA);
         this.fechaVencimiento = fechaVencimiento;
         this.fechaDonacion = fechaDonacion;
-        this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
 
     // ============================================================ //

@@ -1,23 +1,24 @@
 package domain.donaciones;
 
 import domain.heladera.Heladera.Heladera;
-import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
 import lombok.Getter;
 
 import java.time.LocalDate;
 
-public class MantenerHeladera {
+public class MantenerHeladera extends Contribucion {
 
     private Heladera heladera;
     private LocalDate fechaDeDonacion;
-    @Getter
-    private ColaboradorJuridico colaboradorQueLaDono;
 
-    public MantenerHeladera(Heladera heladera, LocalDate fechaDeDonacion, ColaboradorJuridico colaboradorQueLaDono) {
+    public MantenerHeladera() {
+        super(TipoContribucion.HELADERA);
+    }
+
+    public MantenerHeladera(Heladera heladera, LocalDate fechaDeDonacion) {
+        super(TipoContribucion.HELADERA);
         this.heladera = heladera;
         this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
 
 

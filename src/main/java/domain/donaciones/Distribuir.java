@@ -6,23 +6,24 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
-public class Distribuir  {
+public class Distribuir extends Contribucion {
     private Heladera heladeraOrigen;
     private Heladera heladeraDestino;
     @Getter private Integer cantidad;
     private Motivo motivo;
     private LocalDate fechaDeDonacion;
-    @Getter ColaboradorFisico colaboradorQueLaDono;
 
+    public Distribuir() {
+        super(TipoContribucion.HELADERA);
+    }
 
-
-    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, Motivo motivo, LocalDate fechaDeDonacion, ColaboradorFisico colaboradorQuelaDono){
+    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, Motivo motivo, LocalDate fechaDeDonacion){
+        super(TipoContribucion.DISTRIBUCION);
         this.heladeraOrigen = heladeraOrigen;
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
         this.motivo = motivo;
         this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQuelaDono;
 
 
     }

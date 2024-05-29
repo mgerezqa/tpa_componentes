@@ -1,12 +1,13 @@
 package domain.usuarios;
 
 import domain.contacto.MedioDeContacto;
-import domain.formulario.Entrada;
+import domain.donaciones.Contribucion;
+import domain.donaciones.TipoContribucion;
 import domain.formulario.Formulario;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.border.EmptyBorder;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Colaborador {
@@ -14,8 +15,11 @@ public abstract class Colaborador {
     @Getter @Setter protected MedioDeContacto unMedioDeContacto; //protected para que las clases hijas puedan acceder a este atributo
     @Getter @Setter protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
     /*ALTA Y BAJA*/
-    @Getter @Setter protected Boolean activo; //protected para que las clases hijas puedan acceder a este atributo
+    // no es necesario acceder a "activo" dado que se puede dar de alta y baja con metodos y un getter basta para mostrarlo
+    @Getter @Setter private Boolean activo; //(X) protected para que las clases hijas puedan acceder a este atributo
     @Getter public int puntosAcumulados = 0;
+
+    @Getter protected List<TipoContribucion> colaboracionesQueRealizara;
 
     /*Punto de arranque*/
     public void completarFormulario(){
@@ -36,9 +40,11 @@ public abstract class Colaborador {
     }
 
     public void darDeAlta(){
-        if(this.activo != true){
-            this.activo = true;
-        }
+        this.activo = true;
+    // no tiene sentido preguntar si lo vas a setear en true
+    //    if(this.activo != true){
+    //        this.activo = true;
+    //    }
     }
     public void darDeBaja(){ this.activo = false; }
 
@@ -63,4 +69,10 @@ public abstract class Colaborador {
     public void restarPuntos(int puntos) {
         this.puntosAcumulados -= puntos;
     }
+
+    public abstract List<TipoContribucion> colaboracionesDisponibles();
+    public Boolean puedeContribuir(Contribucion unaContribucion){
+        return this.colaboracionesQueRealizara.contains(unaContribucion.getTipoContribucion());
+    }
+
 }

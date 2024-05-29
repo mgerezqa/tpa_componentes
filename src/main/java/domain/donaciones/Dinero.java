@@ -1,22 +1,24 @@
 package domain.donaciones;
 
 import domain.usuarios.Colaborador;
-import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 
 import java.time.LocalDate;
 
-public class Dinero  {
+public class Dinero extends Contribucion {
     @Getter private Integer cantidad;
     private FrecuenciaDeDonacion frecuencia;
     private LocalDate fechaDeDonacion;
-    @Getter private Colaborador colaboradorQueLaDono;
 
-    public Dinero(Integer cantidad, FrecuenciaDeDonacion frecuencia, LocalDate fechaDeDonacion, Colaborador colaboradorQueLaDono) {
+    public Dinero() {
+        super(TipoContribucion.DINERO);
+    }
+
+    public Dinero(Integer cantidad, FrecuenciaDeDonacion frecuencia, LocalDate fechaDeDonacion) {
+        super(TipoContribucion.DINERO);
         this.cantidad = cantidad;
         this.frecuencia = frecuencia;
         this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQueLaDono;
 
     }
 

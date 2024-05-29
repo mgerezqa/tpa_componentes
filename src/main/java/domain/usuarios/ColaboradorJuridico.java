@@ -1,15 +1,16 @@
 package domain.usuarios;
 
 import domain.contacto.MedioDeContacto;
+import domain.donaciones.Contribucion;
+import domain.donaciones.TipoContribucion;
 import domain.formulario.Campo;
-import domain.formulario.Formulario;
 import domain.formulario.TipoCampo;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Setter @Getter
 public class ColaboradorJuridico extends Colaborador{
@@ -24,7 +25,7 @@ public class ColaboradorJuridico extends Colaborador{
         this.tipoDeRubro = rubro;
         this.unMedioDeContacto = unMedioDeContacto;
         this.mediosDeContacto = new HashSet<>();
-        this.activo = true;
+        this.darDeAlta();
 
         this.agregarMedioDeContacto(unMedioDeContacto);
         completarFormulario();
@@ -45,9 +46,10 @@ public class ColaboradorJuridico extends Colaborador{
         }
     }
 
-
-
-
+    @Override
+    public List<TipoContribucion> colaboracionesDisponibles() {
+        return Arrays.asList(TipoContribucion.DINERO, TipoContribucion.HELADERA);
+    }
 
 
 }

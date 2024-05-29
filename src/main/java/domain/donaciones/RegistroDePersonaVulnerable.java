@@ -6,12 +6,15 @@ import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 
 @Getter
-public class RegistroDePersonaVulnerable {
-    private ColaboradorFisico colaborador;
+public class RegistroDePersonaVulnerable extends Contribucion {
     private Tarjeta tarjeta;
 
-    public RegistroDePersonaVulnerable(ColaboradorFisico colaborador, Tarjeta tarjeta) {
-        this.colaborador = colaborador;
+    public RegistroDePersonaVulnerable() {
+        super(TipoContribucion.TARJETA);
+    }
+
+    public RegistroDePersonaVulnerable(Tarjeta tarjeta) {
+        super(TipoContribucion.TARJETA);
         this.tarjeta = tarjeta;
     }
 
