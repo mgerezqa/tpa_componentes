@@ -3,7 +3,7 @@ Cambios:
 Colaborador:
 - activo pasa a privado, no es necesario conocer el atributo si seteamos su valor con metodos y un getter basta para conocerlo
 - ColaboradorJuridico se le agregan el tipoDNI y numeroDNI por ser necesarios para la carga masiva de colaboradores (TODO agregar eso al formulario)
-- el enunciado menciona que las personas fisicas y juridicas pueden elegir de que forma contribuyen, asi que agrego una lista de las contribuciones que pienza hacer un colaborador que se setea por formulario
+- el enunciado menciona que las personas fisicas y juridicas pueden elegir de que forma contribuyen, asi que agrego una lista de las contribuciones que piensa hacer un colaborador que se setea por formulario
 - la clase Colaborador se le agregan 2 metodos:
   - colaboracionesDisponibles(abstracto): devuelve una lista con las colaboraciones que puede realizar el colaborador (OJO, no las que decidio contribuir)
   - puedeContribuir: se ingresa una contribucion, y chequea si el tipo de donacion esta dentro de las contribuciones que el colaborador decidio contribuir
