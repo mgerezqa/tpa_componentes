@@ -4,5 +4,9 @@ public abstract class MedioDeContacto {
 
     // TODO
     public abstract String obtenerDescripcion();
-//    public abstract String getLabel();
+
+    @Override
+    public String toString() {
+        return this.obtenerDescripcion();
+    }
 }

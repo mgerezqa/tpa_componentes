@@ -5,62 +5,52 @@ import domain.donaciones.Contribucion;
 import domain.donaciones.TipoContribucion;
 import domain.formulario.Formulario;
 import lombok.Getter;
-import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+@Getter
 public abstract class Colaborador {
-    @Getter @Setter protected Formulario formulario;
-    @Getter @Setter protected MedioDeContacto unMedioDeContacto; //protected para que las clases hijas puedan acceder a este atributo
-    @Getter @Setter protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
-    /*ALTA Y BAJA*/
-    // no es necesario acceder a "activo" dado que se puede dar de alta y baja con metodos y un getter basta para mostrarlo
-    @Getter @Setter private Boolean activo; //(X) protected para que las clases hijas puedan acceder a este atributo
-    @Getter public int puntosAcumulados = 0;
+    protected Formulario formulario;
+    protected List<MedioDeContacto> mediosDeContacto;
+    private Boolean activo;
+    protected Integer puntosAcumulados;
+    protected List<TipoContribucion> contribucionesQueRealizara;
 
-    @Getter protected List<TipoContribucion> colaboracionesQueRealizara;
+    public Colaborador(){
+        this.mediosDeContacto = new ArrayList<>();
+        this.contribucionesQueRealizara = new ArrayList<>();
+        this.puntosAcumulados = 0;
+    }
 
     /*Punto de arranque*/
-    public void completarFormulario(){
-        this.formulario = new Formulario();
-    }
 
-    /*Sobrecarga*/
-    public void completarFormulario(Formulario formulario){
-
-        this.formulario = formulario;
-    }
-
-    public void agregarMedioDeContacto(MedioDeContacto medio) {
-        if (mediosDeContacto.size() >= 3) {
-            throw new IllegalArgumentException("No se pueden agregar más de 3 medios de contacto");
-        }
-        mediosDeContacto.add(medio);
-    }
-
-    public void darDeAlta(){
-        this.activo = true;
-    // no tiene sentido preguntar si lo vas a setear en true
-    //    if(this.activo != true){
-    //        this.activo = true;
-    //    }
-    }
+    public void darDeAlta(){ this.activo = true; }
     public void darDeBaja(){ this.activo = false; }
+    public Boolean estaActivo(){ return this.activo; }
+    public Boolean formularioPresente(){ return this.formulario != null; }
 
-    public void agregarRespuesta(String label, String valor) {
-        formulario.cargarValor(label,valor);
+    public abstract List<TipoContribucion> contribucionesDisponibles();
+
+
+    public void agregarContacto(MedioDeContacto unContacto){
+        this.mediosDeContacto.add(unContacto);
+    }
+    public void removerContacto(String descripcionContacto){
+        mediosDeContacto.removeIf(contacto -> contacto.obtenerDescripcion().equals(descripcionContacto));
+    }
+    public void agregarFormaContribucionQueRealizara(TipoContribucion unTipoContribucion){
+        if (contribucionesDisponibles().contains(unTipoContribucion))
+            contribucionesQueRealizara.add(unTipoContribucion);
+        else
+            throw new RuntimeException("El Colaborador no puede realizar ese tipo de contribucion");
     }
 
-    public void modificarRespuesta(String label, String valor) {
-        formulario.modificarValor(label,valor);
+    public Boolean puedeContribuir(Contribucion unaContribucion){
+        return puedeContribuir(unaContribucion.getTipoContribucion());
     }
-
-
-
-    public void leerFormulario(){
-//        formulario.mostrarCampos();
-        formulario.mostrarCampos(this);
+    public Boolean puedeContribuir(TipoContribucion unTipo){
+        return this.contribucionesQueRealizara.contains(unTipo);
     }
 
     public void sumarPuntos(int puntos) {
@@ -69,10 +59,4 @@ public abstract class Colaborador {
     public void restarPuntos(int puntos) {
         this.puntosAcumulados -= puntos;
     }
-
-    public abstract List<TipoContribucion> colaboracionesDisponibles();
-    public Boolean puedeContribuir(Contribucion unaContribucion){
-        return this.colaboracionesQueRealizara.contains(unaContribucion.getTipoContribucion());
-    }
-
 }

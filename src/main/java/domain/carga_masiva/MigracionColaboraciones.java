@@ -22,8 +22,8 @@ public class MigracionColaboraciones {
                 .filter(unColab -> unColab.identificarPorDocumento(unaLectura.getTipoDoc(), unaLectura.getNroDoc()))
                 .findFirst().orElse(null);
         if(aux == null){
-            ColaboradorFisico nuevoColab = new ColaboradorFisico(unaLectura);
-            listColabFisico.add(nuevoColab);
+            aux = new ColaboradorFisico(unaLectura, unaLectura.getTipoColab());
+            listColabFisico.add(aux);
             enviarCorreo(unaLectura.getMail());
         }
         return generarDonacion(unaLectura, aux);
