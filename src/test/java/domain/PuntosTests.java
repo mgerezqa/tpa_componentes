@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,12 +58,19 @@ public class PuntosTests {
         this.sensorMovimiento = new SensorMovimiento();
         this.sensorTemperatura = new SensorTemperatura();
         this.modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
-        this.heladeraPalermo = new Heladera(ubicacion, "Heladera Palermo", 200, LocalDate.parse("2024-01-01"), sensorMovimiento, sensorTemperatura, modeloHeladera);
-        this.heladeraMedrano = new Heladera(ubicacion, "Heladera Medrano", 200, LocalDate.parse("2023-01-01"), sensorMovimiento, sensorTemperatura, modeloHeladera);
 
+        LocalDate fechaInicioFuncMed = LocalDate.parse("2023-01-01");
+        LocalDate fechaInicioFuncPal = LocalDate.parse("2024-01-01");
+        Integer capacidadMax = 200;
 
+        this.heladeraMedrano = new Heladera(modeloHeladera,"Heladera medrano", ubicacion, sensorMovimiento, sensorTemperatura);
+        this.heladeraPalermo = new Heladera(modeloHeladera,"Heladera Palermo", ubicacion, sensorMovimiento, sensorTemperatura);
 
-
+        heladeraPalermo.setCapacidadMax(200);
+        heladeraMedrano.setCapacidadMax(180);
+        LocalDate fechaInicGenerica = LocalDate.now();
+        heladeraMedrano.setFechaInicioFuncionamiento(fechaInicGenerica);
+        heladeraPalermo.setFechaInicioFuncionamiento(fechaInicGenerica);
     }
 
     @Test

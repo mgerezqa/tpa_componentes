@@ -18,12 +18,12 @@ public class Heladera {
     private Ubicacion ubicacion;
     @Setter @Getter
     private String nombreIdentificador;
-    @Getter
+    @Setter @Getter
     private Integer capacidadMax; // (se mide en numero de viandas)
     @Setter @Getter
     private Integer capacidadActual;
 
-    @Getter
+    @Getter @Setter
     private LocalDate fechaInicioFuncionamiento;
     @Getter @Setter
     private EstadoHeladera estadoHeladera;
@@ -36,21 +36,18 @@ public class Heladera {
     @Getter @Setter
     private SensorTemperatura sensorTemperatura;
 
-   @Getter @Setter
-   private List<String> historialDeEstados;
+    @Getter @Setter
+    private List<String> historialDeEstados;
 
     // ============================================================ //
     // < CONSTRUCTOR > //
-    public Heladera(Ubicacion ubicacion, String nombreIdentificador, Integer capacidadMax,
-                    LocalDate fechaInicioFuncionamiento, SensorMovimiento sensorMovimiento,
-                    SensorTemperatura sensorTemperatura, ModeloDeHeladera modelo){
+    public Heladera( ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion,
+                     SensorMovimiento sensorMovimiento, SensorTemperatura sensorTemperatura){
 
         this.darDeAltaHeladera();
         this.nombreIdentificador = nombreIdentificador;
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
-        this.capacidadMax = capacidadMax;
-        this.fechaInicioFuncionamiento = fechaInicioFuncionamiento;
         this.sensorTemperatura = sensorTemperatura;
         this.sensorMovimiento = sensorMovimiento;
         this.modelo = modelo;
@@ -102,21 +99,21 @@ public class Heladera {
 
     // Para cambiar de estados.
     public void cambiarEstadoAActiva(){
-        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERADESERVICIO)){
+        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERA_DE_SERVICIO)){
             this.estadoHeladera = EstadoHeladera.ACTIVA;
             trackearEstado(this.getEstadoHeladera());
         }
     }
 
     public void cambiarEstadoAInactiva(){
-        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERADESERVICIO)){
+        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERA_DE_SERVICIO)){
             this.estadoHeladera = EstadoHeladera.INACTIVA;
             trackearEstado(this.getEstadoHeladera());
         }
     }
 
     public void cambiarEstadoAFueraDeServicio(){
-        this.estadoHeladera = EstadoHeladera.FUERADESERVICIO;
+        this.estadoHeladera = EstadoHeladera.FUERA_DE_SERVICIO;
         trackearEstado(this.getEstadoHeladera());
     }
 
@@ -126,13 +123,17 @@ public class Heladera {
 
     // Sensores.
 
-    public Float temperaturaActual(){
-        return this.sensorTemperatura.recibirTemperaturaActual();
+    // Temperatura
+    @Setter @Getter
+    public Float temperaturaActual;
+
+    public Boolean problemaDeTemperatura(){
+        return ((temperaturaActual > sensorTemperatura.getTemperaturaMax()) ||
+                (temperaturaActual < sensorTemperatura.getTemperaturaMin()));
     }
 
-    // TODO (...a futuro...)
-    public void heladeraSufreDesperfecto(){
-            this.cambiarEstadoAInactiva();
+    // Movimiento
+    public void alertaDetectada() {
     }
 
 }

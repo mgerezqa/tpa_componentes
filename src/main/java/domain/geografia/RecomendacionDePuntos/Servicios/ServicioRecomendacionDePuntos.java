@@ -11,7 +11,7 @@ public class ServicioRecomendacionDePuntos {
 
     private static ServicioRecomendacionDePuntos instancia = null;
     private Retrofit retrofit;
-    private static String urlApi = "https://27eb376e-1830-44e7-8383-fddafec9e810.mock.pstmn.io/api/"; // SACARLO DE UN ARCHIVO DE CONFIGURACION !!
+    private static String urlApi = "https://27eb376e-1830-44e7-8383-fddafec9e810.mock.pstmn.io/api/";
 
     // ---------------------------------------------------------------- //
 

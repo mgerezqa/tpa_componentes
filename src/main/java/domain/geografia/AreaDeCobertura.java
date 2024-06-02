@@ -6,13 +6,17 @@ import java.util.List;
 
 public class AreaDeCobertura {
 
+    @Getter
+    private String nombreAreaDeCobertura;
+
     @Getter @Setter
     private List<Ciudad> ciudades;
 
     // ============================================================ //
     // < CONSTRUCTOR > //
 
-    public AreaDeCobertura(List<Ciudad> ciudades) {
+    public AreaDeCobertura(String nombreAreaDeCobertura, List<Ciudad> ciudades) {
+        this.nombreAreaDeCobertura = nombreAreaDeCobertura;
         this.ciudades = ciudades;
     }
 

@@ -14,7 +14,7 @@ public class SensorMovimiento {
         // A traves de este metodo, nuestro sistema es capaz de recibir
         // una alerta del sensor fisico.
 
-        return;
+        heladera.alertaDetectada();
     }
 
 }

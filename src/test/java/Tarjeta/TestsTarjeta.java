@@ -50,7 +50,9 @@ public class TestsTarjeta {
         modeloHeladera = new ModeloDeHeladera("Modelo XG-295");
         modeloHeladera.setTemperaturaMinima(tempMin);
         modeloHeladera.setTemperaturaMaxima(tempMax);
-        heladeraDeMedrano = new Heladera(ubicacionDeHeladera,"heladera medrano", 20,LocalDate.of(2020,7,15),sensorMovimiento,sensorTemperatura, modeloHeladera);
+        //LocalDate fechaInicioFunc = LocalDate.of("2020","7","21");
+        heladeraDeMedrano = new Heladera(modeloHeladera,"Heladera medrano",ubicacionDeHeladera,sensorMovimiento,sensorTemperatura);
+
     }
     @Test
     @DisplayName("La cantidad disponible para una persona vulnerable con 4 menores a cargo es 12 por dia")
