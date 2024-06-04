@@ -1,5 +1,6 @@
 package domain.puntos;
 
+import domain.excepciones.ExcepcionCanjePuntosInsuficientes;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class Oferta {
             // Canje Exitoso
             colaborador.restarPuntos(oferta.getCostoPuntos());
         }else {
-            throw new FalloCanjePuntosInsuficientes("No alcanzan los puntos para hacer el canje.");
+            throw new ExcepcionCanjePuntosInsuficientes("No alcanzan los puntos para hacer el canje.");
         }
     }
 }
