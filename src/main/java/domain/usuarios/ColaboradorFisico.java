@@ -4,6 +4,7 @@ import domain.carga_masiva.ContribucionCSV;
 import domain.contacto.MedioDeContacto;
 import domain.donaciones.TipoContribucion;
 import domain.formulario.Formulario;
+import domain.formulario.TipoCampoFormulario;
 import domain.formulario.UnaRespuesta;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,12 +29,12 @@ public class ColaboradorFisico extends Colaborador {
         this.darDeAlta();
     }
     // este constructor se usa cuando no se encuentra al colaborador al hacer la migracion
-    public ColaboradorFisico(ContribucionCSV unaLectura, TipoContribucion unaContribucion) {
+    public ColaboradorFisico(ContribucionCSV unaLectura) {
         this.nombre = unaLectura.getNombre();
         this.apellido = unaLectura.getApellido();
         this.tipoDocumento = unaLectura.getTipoDoc();
         this.numeroDocumento = unaLectura.getNroDoc();
-        this.contribucionesQueRealizara.add(unaContribucion);
+        this.contribucionesQueRealizara.add(unaLectura.getTipoColab());
         // aca se debe pedir que una ves logueado ingrese el formulario
         this.darDeBaja();
     }
@@ -50,36 +51,42 @@ public class ColaboradorFisico extends Colaborador {
     // checkea si los campos minimamente necesarios para el colaborador estan en el formulario
     // NO chequea si los datos son correctos, deberia estar chequeado de antemano
     private Boolean formularioCompleto(Formulario unForm){
-        List<String> camposNecesarios = Arrays.asList("nombre", "apellido", "contacto", "tipo de documento", "numero de documento", "forma de contribucion");
-        return unForm.estaCompleto() && new HashSet<>(unForm.getDescripciones()).containsAll(camposNecesarios);
+        List<TipoCampoFormulario> camposNecesarios = Arrays.asList(
+                TipoCampoFormulario.NOMBRE,
+                TipoCampoFormulario.APELLIDO,
+                TipoCampoFormulario.CONTACTO,
+                TipoCampoFormulario.TIPO_DOCUMENTO,
+                TipoCampoFormulario.NRO_DOCUMENTO,
+                TipoCampoFormulario.FORMA_CONTRIBUCION);
+        return tiposRespuestasForm(unForm).containsAll(camposNecesarios);
     }
 
     // toma una respuesta, y segun el campo asociado se setea su contenido en el atributo apropiado
     // si el campo no corresponde a ningun atributo del colaborador, no hace nada
-    private void cargarRespuesta(UnaRespuesta unaResp){
-        switch (unaResp.getCampo().getDescripcion()){
-            case "nombre":
+    private void cargarRespuesta(UnaRespuesta<?> unaResp){
+        switch (TipoCampoFormulario.obtenerEnum(unaResp.getTipoCampo())){
+            case NOMBRE:
                 this.nombre = (String)unaResp.getRespuesta();
                 break;
-            case "apellido":
+            case APELLIDO:
                 this.apellido = (String) unaResp.getRespuesta();
                 break;
-            case "tipo de documento":
+            case TIPO_DOCUMENTO:
                 this.tipoDocumento = (TipoDocumento) unaResp.getRespuesta();
                 break;
-            case "numero de documento":
+            case NRO_DOCUMENTO:
                 this.numeroDocumento = (Integer) unaResp.getRespuesta();
                 break;
-            case "contacto":
+            case CONTACTO:
                 this.agregarContacto((MedioDeContacto) unaResp.getRespuesta());
                 break;
-            case "fecha de nacimiento":
+            case FECHA_NACIMIENTO:
                 this.fechaNac = (LocalDate) unaResp.getRespuesta();
                 break;
-            case "direccion":
+            case DIRECCION:
                 this.direccion = (String) unaResp.getRespuesta();
                 break;
-            case "forma de contribucion":
+            case FORMA_CONTRIBUCION:
                 this.agregarFormaContribucionQueRealizara((TipoContribucion) unaResp.getRespuesta());
                 break;
             default:

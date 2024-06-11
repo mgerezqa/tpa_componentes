@@ -1,71 +1,68 @@
 package cargaMasiva;
 
 import com.opencsv.exceptions.CsvValidationException;
-import domain.carga_masiva.MigracionColaboraciones;
+import domain.carga_masiva.ImportacionColaboraciones;
 import domain.contacto.Email;
 import domain.contacto.Telefono;
+import domain.donaciones.Contribucion;
 import domain.donaciones.TipoContribucion;
 import domain.formulario.Campo;
 import domain.formulario.Formulario;
+import domain.formulario.TipoCampoFormulario;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.TipoDocumento;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TestCarga {
-    ColaboradorFisico unColab;
-    ColaboradorFisico unColab2;
-
-    List<ColaboradorFisico> unaLista = new ArrayList<>();
+    List<ColaboradorFisico> listaColaboradoresFisicos = new ArrayList<>();
 
     @BeforeEach
     public void init(){
         Formulario formColabFisico = new Formulario();
         // estos 6 campos son necesarios para registrar un colaborador fisico
-        formColabFisico.agregarCampo(new Campo("nombre"));
-        formColabFisico.agregarCampo(new Campo("apellido"));
-        formColabFisico.agregarCampo(new Campo("tipo de documento"));
-        formColabFisico.agregarCampo(new Campo("numero de documento"));
-        formColabFisico.agregarCampo(new Campo("contacto"));
-        formColabFisico.agregarCampo(new Campo("forma de contribucion"));
-        // campos opcionales (si comentas los campos y respuestas aun funciona)
-        formColabFisico.agregarCampo(new Campo("fecha de nacimiento"));
-        formColabFisico.agregarCampo(new Campo("direccion"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.NOMBRE, "Ingrese su nombre"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.APELLIDO, "Ingrese su apellido"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.TIPO_DOCUMENTO, "Seleccione su tipo de documento"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.NRO_DOCUMENTO, "Ingrese su numero de documento"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.CONTACTO, "Ingrese almenos 1 forma de contacto"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.FORMA_CONTRIBUCION, "Seleccione su forma de contribucion"));
+        // campos opcionales
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.FECHA_NACIMIENTO, "Ingrese su fecha de nacimiento"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.DIRECCION, "Ingrese su direccion"));
 
-        formColabFisico.responderCampo("nombre", "pepe");
-        formColabFisico.responderCampo("apellido", "argento");
-        formColabFisico.responderCampo("tipo de documento", TipoDocumento.DNI);
-        formColabFisico.responderCampo("numero de documento", 123456789);
-        formColabFisico.responderCampo("contacto", new Telefono(54,11,1234567));
-        formColabFisico.responderCampo("contacto", new Email("mailPersonal@fisico.com"));
-        formColabFisico.responderCampo("forma de contribucion", TipoContribucion.DINERO);
-        formColabFisico.responderCampo("forma de contribucion", TipoContribucion.VIANDA);
-        formColabFisico.responderCampo("forma de contribucion", TipoContribucion.TARJETA);
-        formColabFisico.responderCampo("direccion", "calle falsa 123");
-        formColabFisico.responderCampo("fecha de nacimiento", LocalDate.parse("2000-10-20"));
+        formColabFisico.responderCampo(TipoCampoFormulario.NOMBRE, "pepe");
+        formColabFisico.responderCampo(TipoCampoFormulario.APELLIDO, "argento");
+        formColabFisico.responderCampo(TipoCampoFormulario.TIPO_DOCUMENTO, TipoDocumento.DNI);
+        formColabFisico.responderCampo(TipoCampoFormulario.NRO_DOCUMENTO, 123456789);
+        formColabFisico.responderCampo(TipoCampoFormulario.CONTACTO, new Telefono(54,11,1234567));
+        formColabFisico.responderCampo(TipoCampoFormulario.CONTACTO, new Email("mailPersonal@fisico.com"));
+        formColabFisico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.DINERO);
+        formColabFisico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.VIANDA);
+        formColabFisico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.TARJETA);
+        formColabFisico.responderCampo(TipoCampoFormulario.DIRECCION, "calle falsa 123");
+        formColabFisico.responderCampo(TipoCampoFormulario.FECHA_NACIMIENTO, LocalDate.parse("2000-10-20"));
 
-        unColab = new ColaboradorFisico(formColabFisico);
-        unColab2 = new ColaboradorFisico(formColabFisico);
+        listaColaboradoresFisicos.add(new ColaboradorFisico(formColabFisico));
+        listaColaboradoresFisicos.add(new ColaboradorFisico(formColabFisico));
+        listaColaboradoresFisicos.add(new ColaboradorFisico(formColabFisico));
     }
 
     @Test
     public void testCarga() throws CsvValidationException, IOException {
-        unaLista.add(unColab);
-        unaLista.add(unColab2);
-        MigracionColaboraciones migrador = new MigracionColaboraciones();
-        //FileReader csv = new FileReader("src/main/resources/test.csv");
+        ImportacionColaboraciones importador = new ImportacionColaboraciones();
+        List<ColaboradorFisico> colaboradoresImportados = new ArrayList<>();
+        List<Contribucion> contribucionesImportadas = importador.importarColaboracion("src/main/resources/test.csv", listaColaboradoresFisicos, colaboradoresImportados);
         System.out.println("Lista colaboradores improvisada: ");
-        System.out.println(unaLista);
+        System.out.println(listaColaboradoresFisicos);
         System.out.println("Donaciones Migradas: ");
-        System.out.println(migrador.migrarColaboracion("src/main/resources/test.csv",unaLista));
-        System.out.println("Lista colaboradores actualizada: ");
-        System.out.println(unaLista);
+        System.out.println(contribucionesImportadas);
+        System.out.println("Lista colaboradores agregados: ");
+        System.out.println(colaboradoresImportados);
     }
 }

@@ -6,6 +6,7 @@ import domain.contacto.Whatsapp;
 import domain.donaciones.TipoContribucion;
 import domain.formulario.Campo;
 import domain.formulario.Formulario;
+import domain.formulario.TipoCampoFormulario;
 import domain.usuarios.*;
 import org.junit.jupiter.api.Test;
 
@@ -21,56 +22,56 @@ public class TestFormulario {
     public void initFormulario(){
         formColabFisico = new Formulario();
         // estos 6 campos son necesarios para registrar un colaborador fisico
-        formColabFisico.agregarCampo(new Campo("nombre"));
-        formColabFisico.agregarCampo(new Campo("apellido"));
-        formColabFisico.agregarCampo(new Campo("tipo de documento"));
-        formColabFisico.agregarCampo(new Campo("numero de documento"));
-        formColabFisico.agregarCampo(new Campo("contacto"));
-        formColabFisico.agregarCampo(new Campo("forma de contribucion"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.NOMBRE, "Ingrese su nombre"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.APELLIDO, "Ingrese su apellido"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.TIPO_DOCUMENTO, "Seleccione su tipo de documento"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.NRO_DOCUMENTO, "Ingrese su numero de documento"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.CONTACTO, "Ingrese almenos 1 forma de contacto"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.FORMA_CONTRIBUCION, "Seleccione su forma de contribucion"));
         // campos opcionales
-        formColabFisico.agregarCampo(new Campo("fecha de nacimiento"));
-        formColabFisico.agregarCampo(new Campo("direccion"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.FECHA_NACIMIENTO, "Ingrese su fecha de nacimiento"));
+        formColabFisico.agregarCampo(new Campo(TipoCampoFormulario.DIRECCION, "Ingrese su direccion"));
 
         formColabJuridico = new Formulario();
         // estos 5 campos son necesarios para registrar un colaborador juridico
-        formColabJuridico.agregarCampo(new Campo("razon social"));
-        formColabJuridico.agregarCampo(new Campo("tipo"));
-        formColabJuridico.agregarCampo(new Campo("rubro"));
-        formColabJuridico.agregarCampo(new Campo("contacto"));
-        formColabJuridico.agregarCampo(new Campo("forma de contribucion"));
+        formColabJuridico.agregarCampo(new Campo(TipoCampoFormulario.RAZON_SOCIAL, "Ingrese su razon social"));
+        formColabJuridico.agregarCampo(new Campo(TipoCampoFormulario.TIPO_JURIDICO, "Seleccione el tipo de su razon social"));
+        formColabJuridico.agregarCampo(new Campo(TipoCampoFormulario.RUBRO, "Ingrese su rubro"));
+        formColabJuridico.agregarCampo(new Campo(TipoCampoFormulario.CONTACTO, "Ingrese almenos 1 forma de contacto"));
+        formColabJuridico.agregarCampo(new Campo(TipoCampoFormulario.FORMA_CONTRIBUCION, "Seleccione su forma de contribucion"));
         // campos opcionales
-        formColabJuridico.agregarCampo(new Campo("direccion"));
+        formColabJuridico.agregarCampo(new Campo(TipoCampoFormulario.DIRECCION, "Ingrese su direccion"));
 
         // por el momento la unica forma de distinguir un campo es un string, pero
         // se buscara alguna otra forma mas segura, talves un enum de cada tipo de campo?
 
         // CADA CAMPO DEBE TENER ALMENOS 1 INSTANCIA DE RESPUESTA ASOCIADA (por verificacion si el formulario esta completo)
         // (incluso si es un campo que no tiene nada que ver con nosotros, y/o si el contenido de la respuesta es null)
-        formColabFisico.responderCampo("nombre", "pepe");
-        formColabFisico.responderCampo("apellido", "argento");
-        formColabFisico.responderCampo("tipo de documento", TipoDocumento.DNI);
-        formColabFisico.responderCampo("numero de documento", 123456789);
-        formColabFisico.responderCampo("contacto", new Telefono(54,11,1234567));
-        formColabFisico.responderCampo("contacto", new Email("mailPersonal@fisico.com"));
-        formColabFisico.responderCampo("forma de contribucion", TipoContribucion.DINERO);
-        formColabFisico.responderCampo("forma de contribucion", TipoContribucion.VIANDA);
-        formColabFisico.responderCampo("forma de contribucion", TipoContribucion.TARJETA);
-        formColabFisico.responderCampo("direccion", "calle falsa 123");
-        formColabFisico.responderCampo("fecha de nacimiento", LocalDate.parse("2000-10-20"));
+        formColabFisico.responderCampo(TipoCampoFormulario.NOMBRE, "pepe");
+        formColabFisico.responderCampo(TipoCampoFormulario.APELLIDO, "argento");
+        formColabFisico.responderCampo(TipoCampoFormulario.TIPO_DOCUMENTO, TipoDocumento.DNI);
+        formColabFisico.responderCampo(TipoCampoFormulario.NRO_DOCUMENTO, 123456789);
+        formColabFisico.responderCampo(TipoCampoFormulario.CONTACTO, new Telefono(54,11,1234567));
+        formColabFisico.responderCampo(TipoCampoFormulario.CONTACTO, new Email("mailPersonal@fisico.com"));
+        formColabFisico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.DINERO);
+        formColabFisico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.VIANDA);
+        formColabFisico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.TARJETA);
+        formColabFisico.responderCampo(TipoCampoFormulario.DIRECCION, "calle falsa 123");
+        formColabFisico.responderCampo(TipoCampoFormulario.FECHA_NACIMIENTO, LocalDate.parse("2000-10-20"));
 
-        formColabJuridico.responderCampo("razon social", "unaRazon");
-        formColabJuridico.responderCampo("tipo", TipoRazonSocial.EMPRESA);
-        formColabJuridico.responderCampo("rubro", Rubro.FINANZAS);
-        formColabJuridico.responderCampo("contacto", new Whatsapp("+123456789012"));
-        formColabJuridico.responderCampo("contacto", new Email("unMail@empresa.com"));
-        formColabJuridico.responderCampo("forma de contribucion", TipoContribucion.DINERO);
-        formColabJuridico.responderCampo("forma de contribucion", TipoContribucion.HELADERA);
-        formColabJuridico.responderCampo("direccion", "mozart 900");
+        formColabJuridico.responderCampo(TipoCampoFormulario.RAZON_SOCIAL, "unaRazon");
+        formColabJuridico.responderCampo(TipoCampoFormulario.TIPO_JURIDICO, TipoRazonSocial.EMPRESA);
+        formColabJuridico.responderCampo(TipoCampoFormulario.RUBRO, Rubro.FINANZAS);
+        formColabJuridico.responderCampo(TipoCampoFormulario.CONTACTO, new Whatsapp("+123456789012"));
+        formColabJuridico.responderCampo(TipoCampoFormulario.CONTACTO, new Email("unMail@empresa.com"));
+        formColabJuridico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.DINERO);
+        formColabJuridico.responderCampo(TipoCampoFormulario.FORMA_CONTRIBUCION, TipoContribucion.HELADERA);
+        formColabJuridico.responderCampo(TipoCampoFormulario.DIRECCION, "mozart 900");
 
         System.out.println("Formulario Fisico: (puede haber campos repetidos pero son el mismo campo)");
         System.out.println(" ---");
         formColabFisico.getRespuestas().forEach(unaRespuesta -> {
-            System.out.println(" - Campo: "+unaRespuesta.getCampo().getDescripcion());
+            System.out.println(" - Campo: "+unaRespuesta.getTipoCampo());
             System.out.println(" - Respuesta: "+unaRespuesta.getRespuesta());
             System.out.println(" ---");
         });
@@ -80,7 +81,7 @@ public class TestFormulario {
         System.out.println("Formulario Juridico: (puede haber campos repetidos pero son el mismo campo)");
         System.out.println(" ---");
         formColabJuridico.getRespuestas().forEach(unaRespuesta -> {
-            System.out.println(" - Campo: "+unaRespuesta.getCampo().getDescripcion());
+            System.out.println(" - Campo: "+unaRespuesta.getTipoCampo());
             System.out.println(" - Respuesta: "+unaRespuesta.getRespuesta());
             System.out.println(" ---");
         });

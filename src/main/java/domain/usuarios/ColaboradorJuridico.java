@@ -3,6 +3,7 @@ package domain.usuarios;
 import domain.contacto.MedioDeContacto;
 import domain.donaciones.TipoContribucion;
 import domain.formulario.Formulario;
+import domain.formulario.TipoCampoFormulario;
 import domain.formulario.UnaRespuesta;
 import lombok.Getter;
 
@@ -33,28 +34,33 @@ public class ColaboradorJuridico extends Colaborador{
     // aca checkea si los campos minimos estan en el formulario
     // NO chequea si los datos son correctos, deberia estar chequeado de antemano
     private Boolean formularioCompleto(Formulario unForm){
-        List<String> camposNecesarios = Arrays.asList("razon social" ,"tipo", "rubro", "contacto", "forma de contribucion");
-        return unForm.estaCompleto() && new HashSet<>(unForm.getDescripciones()).containsAll(camposNecesarios);
+        List<TipoCampoFormulario> camposNecesarios = Arrays.asList(
+                TipoCampoFormulario.RAZON_SOCIAL,
+                TipoCampoFormulario.TIPO_JURIDICO,
+                TipoCampoFormulario.RUBRO,
+                TipoCampoFormulario.CONTACTO,
+                TipoCampoFormulario.FORMA_CONTRIBUCION);
+        return tiposRespuestasForm(unForm).containsAll(camposNecesarios);
     }
 
     private void cargarRespuesta(UnaRespuesta<?> unaResp){
-        switch (unaResp.getCampo().getDescripcion()){
-            case "razon social":
+        switch (TipoCampoFormulario.obtenerEnum(unaResp.getTipoCampo())){
+            case RAZON_SOCIAL:
                 this.razonSocial = (String) unaResp.getRespuesta();
                 break;
-            case "tipo":
+            case TIPO_JURIDICO:
                 this.tipoRazonSocial = (TipoRazonSocial) unaResp.getRespuesta();
                 break;
-            case "rubro":
+            case RUBRO:
                 this.tipoDeRubro = (Rubro) unaResp.getRespuesta();
                 break;
-            case "contacto":
+            case CONTACTO:
                 this.agregarContacto((MedioDeContacto) unaResp.getRespuesta());
                 break;
-            case "direccion":
+            case DIRECCION:
                 this.direccion = (String) unaResp.getRespuesta();
                 break;
-            case "forma de contribucion":
+            case FORMA_CONTRIBUCION:
                 this.agregarFormaContribucionQueRealizara((TipoContribucion) unaResp.getRespuesta());
                 break;
             default:

@@ -25,6 +25,11 @@ public abstract class Contribucion {
             this.colaboradorResponsable = unColaborador;
     }
 
+    // OJO, metodo solo para importaciones, evita controles y setea directamente
+    public void importarColaborador(Colaborador unColaborador){
+        this.colaboradorResponsable = unColaborador;
+    }
+
     // metodo creado para testeo, posiblemente no se utilice
     public void reasignarDonacion(Colaborador unColaborador){
         setearColaborador(unColaborador);

@@ -4,10 +4,13 @@ import domain.contacto.MedioDeContacto;
 import domain.donaciones.Contribucion;
 import domain.donaciones.TipoContribucion;
 import domain.formulario.Formulario;
+import domain.formulario.TipoCampoFormulario;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 public abstract class Colaborador {
@@ -44,6 +47,11 @@ public abstract class Colaborador {
             contribucionesQueRealizara.add(unTipoContribucion);
         else
             throw new RuntimeException("El Colaborador no puede realizar ese tipo de contribucion");
+    }
+
+    // toma los tipos de respuestas de formulario, de string a enum
+    protected Set<TipoCampoFormulario> tiposRespuestasForm(Formulario unForm){
+        return unForm.getTiposRespuesta().stream().map(TipoCampoFormulario::obtenerEnum).collect(Collectors.toSet());
     }
 
     public Boolean puedeContribuir(Contribucion unaContribucion){

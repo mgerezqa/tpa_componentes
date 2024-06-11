@@ -9,24 +9,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MigracionColaboraciones {
-    public List<Contribucion> migrarColaboracion(String archivo, List<ColaboradorFisico> listaColabFisico) throws CsvValidationException, IOException {
+public class ImportacionColaboraciones {
+    public List<Contribucion> importarColaboracion(String archivo, List<ColaboradorFisico> listaColabFisico, List<ColaboradorFisico> colabImportados) throws CsvValidationException, IOException {
         List<Contribucion> donacionesMigradas = new ArrayList<>();
         LectorCSV unLector = new LectorCSV();
         List<String[]> listado = unLector.obtenerListaDeLecturas(archivo);
-        listado.forEach(fila -> donacionesMigradas.add(migrar(new ContribucionCSV(fila), listaColabFisico)));
+        listado.forEach(fila -> donacionesMigradas.add(importar(new ContribucionCSV(fila), listaColabFisico, colabImportados)));
         return donacionesMigradas;
     }
-    private Contribucion migrar(ContribucionCSV unaLectura, List<ColaboradorFisico> listColabFisico){
-        ColaboradorFisico aux = listColabFisico.stream()
-                .filter(unColab -> unColab.identificarPorDocumento(unaLectura.getTipoDoc(), unaLectura.getNroDoc()))
-                .findFirst().orElse(null);
+    private Contribucion importar(ContribucionCSV unaLectura, List<ColaboradorFisico> listColabFisico, List<ColaboradorFisico> colabImportados){
+        ColaboradorFisico aux = buscarEnLista(unaLectura, listColabFisico);
         if(aux == null){
-            aux = new ColaboradorFisico(unaLectura, unaLectura.getTipoColab());
-            listColabFisico.add(aux);
-            enviarCorreo(unaLectura.getMail());
+            aux = buscarEnLista(unaLectura, colabImportados);
+            if(aux == null){
+                aux = new ColaboradorFisico(unaLectura);
+                colabImportados.add(aux);
+                enviarCorreo(unaLectura.getMail());
+            }
         }
         return generarDonacion(unaLectura, aux);
+    }
+
+    // esto deberia hacerlo el responsable de la lista, por ahora lo hacemos aca
+    private ColaboradorFisico buscarEnLista(ContribucionCSV unaLectura, List<ColaboradorFisico> unaLista){
+        return unaLista.stream()
+                .filter(unColab -> unColab.identificarPorDocumento(unaLectura.getTipoDoc(), unaLectura.getNroDoc()))
+                .findFirst().orElse(null);
     }
 
     private void enviarCorreo(String direccion){
@@ -40,7 +48,7 @@ public class MigracionColaboraciones {
         if(nueva == null){
             throw new RuntimeException("Tipo de donacion no admitida");
         } else {
-            nueva.asignarColaborador(unColab);
+            nueva.importarColaborador(unColab);
             return nueva;
         }
 
