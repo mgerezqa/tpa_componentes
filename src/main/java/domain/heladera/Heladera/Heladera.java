@@ -92,11 +92,6 @@ public class Heladera {
         return this.getEstadoHeladera() == EstadoHeladera.ACTIVA;
     }
 
-    public int mesesActiva(){
-        int months = (int) ChronoUnit.MONTHS.between(fechaInicioFuncionamiento, LocalDate.now());
-        return months;
-    }
-
     // Para cambiar de estados.
     public void cambiarEstadoAActiva(){
         if(!(this.estadoActualHeladera() == EstadoHeladera.FUERA_DE_SERVICIO)){
