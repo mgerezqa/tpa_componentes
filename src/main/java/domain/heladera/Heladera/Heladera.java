@@ -121,20 +121,30 @@ public class Heladera {
         historialDeEstados.add("\n" + estadoActual + " - " + LocalDateTime.now());
     }
 
+    // Fallas ----------------------------------------------------------------------
     // Sensores.
 
     // Temperatura
     @Setter @Getter
     public Float temperaturaActual;
 
-    public Boolean problemaDeTemperatura(){
-        return ((temperaturaActual > sensorTemperatura.getTemperaturaMax()) ||
-                (temperaturaActual < sensorTemperatura.getTemperaturaMin()));
+    // Falla de temperatura
+    public void problemaDeTemperatura(){
+        if((temperaturaActual > sensorTemperatura.getTemperaturaMax()) ||
+                (temperaturaActual < sensorTemperatura.getTemperaturaMin())){
+            this.cambiarEstadoAInactiva();
+        }
     }
+
+    // Falla de conexion
+    
 
     // Movimiento
     public void alertaDetectada() {
+        this.cambiarEstadoAInactiva();
     }
+
+    // ---------------------------------------------------------------------------
 
 }
 
