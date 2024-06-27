@@ -10,20 +10,22 @@ public class SensorTemperatura {
     private Float temperaturaMax;
     private Float temperaturaMin;
 
-    public void setearTemperaturasMaxMin(){
-        temperaturaMax = heladera.getModelo().getTemperaturaMaxima();
-        temperaturaMin = heladera.getModelo().getTemperaturaMinima();
+    public SensorTemperatura(Heladera heladera) {
+        this.heladera = heladera;
     }
 
-    // TODO (lógica no especificada)
-    public Float recibirTemperaturaActual(String dato){
+    // ============================================================ //
+    // MéTODOS //
+    // ============================================================ //
+
+    public void recibirTemperaturaActual(String dato){
 
         // El sensor fisico nos envia la temperatura sensada.
         // Nosotros como sistema debemos ser capaces de "recibirla".
         // Se recibe el dato en un "string" que bien podria ser un archivo json u otro.
-        // ACA HABRIA QUE SETEAR LA TEMPERATURA ACTUAL DE LA HELADERA. Float temperaturaActual
+        Float temperaturaActual = Float.parseFloat(dato);
+        heladera.setUltimaTemperaturaRegistrada(temperaturaActual);
 
-        return 0f;
     }
 
 }

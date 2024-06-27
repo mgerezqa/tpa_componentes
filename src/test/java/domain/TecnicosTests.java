@@ -3,12 +3,10 @@ import domain.formulario.Cuil;
 import domain.formulario.Documento;
 import domain.formulario.TipoDocumento;
 import domain.contacto.MedioDeContacto;
-import domain.contacto.Telefono;
 import domain.contacto.Whatsapp;
-import domain.geografia.AreaDeCobertura;
-import domain.geografia.Ciudad;
-import domain.usuarios.Tecnico;
-import java.util.ArrayList;
+import domain.geografia.area.AreaDeCobertura;
+import domain.tecnicos.Tecnico;
+
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

@@ -2,17 +2,11 @@ package domain.usuarios;
 
 import domain.contacto.MedioDeContacto;
 import domain.formulario.Campo;
-import domain.formulario.Formulario;
 import domain.formulario.TipoCampo;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
-import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter @Setter
 public class ColaboradorFisico extends Colaborador {
@@ -20,6 +14,9 @@ public class ColaboradorFisico extends Colaborador {
     private String nombre;
     private String apellido;
 
+    // ============================================================ //
+    // Constructor //
+    // ============================================================ //
     public ColaboradorFisico(String nombre, String apellido, MedioDeContacto medioDeContacto){
         this.nombre = nombre;
         this.apellido = apellido;
@@ -30,6 +27,9 @@ public class ColaboradorFisico extends Colaborador {
         this.completarFormulario();
     }
 
+    // ============================================================ //
+    // Metodos //
+    // ============================================================ //
     @Override
     public void completarFormulario() {
         super.completarFormulario();

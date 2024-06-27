@@ -14,4 +14,5 @@ public class Ubicacion {
         this.longitud = longitud;
         this.calle = calle;
     }
+
 }

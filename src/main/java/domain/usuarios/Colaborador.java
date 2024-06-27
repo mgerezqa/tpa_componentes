@@ -50,8 +50,6 @@ public abstract class Colaborador {
         formulario.modificarValor(label,valor);
     }
 
-
-
     public void leerFormulario(){
 //        formulario.mostrarCampos();
         formulario.mostrarCampos(this);

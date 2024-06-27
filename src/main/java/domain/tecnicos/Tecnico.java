@@ -1,16 +1,17 @@
-package domain.usuarios;
+package domain.tecnicos;
 import domain.contacto.MedioDeContacto;
 import domain.formulario.Cuil;
 import domain.formulario.Documento;
 import domain.formulario.TipoDocumento;
-import domain.geografia.AreaDeCobertura;
-import lombok.Getter;
-import lombok.Setter;
+import domain.geografia.area.AreaDeCobertura;
+import domain.geografia.Ubicacion;
+import domain.geografia.area.TamanioArea;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter @Getter
+@Data
 public class Tecnico {
 
     private String nombre;
@@ -19,14 +20,13 @@ public class Tecnico {
     private Cuil cuil;
     private List<MedioDeContacto> mediosDeContacto;
     private AreaDeCobertura area;
-
     private Boolean activo;
 
     // ============================================================ //
     // < CONSTRUCTOR > //
+    // ============================================================ //
 
     public Tecnico(String nombre, String apellido, Documento documento, Cuil cuil) {
-
         this.activo = true;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -37,45 +37,30 @@ public class Tecnico {
 
     // ============================================================ //
 
-    public TipoDocumento tipoDeDocumento(){
-        return documento.getTipo();
-    }
-
-    public String numeroDeDocumento(){
-        return documento.getNumeroDeDocumento();
-    }
-
-    public void darDeBaja() {
-        this.activo = false;
-    }
-
     public Boolean estaActivo() {
         return activo;
     }
-
+    public TipoDocumento tipoDeDocumento(){
+        return documento.getTipo();
+    }
+    public String numeroDeDocumento(){
+        return documento.getNumeroDeDocumento();
+    }
     public void agregarMedioDeContacto(MedioDeContacto medioDeContacto){
         this.mediosDeContacto.add(medioDeContacto);
     }
-
     public void quitarMedioDeContacto(MedioDeContacto medioDeContacto){
         this.mediosDeContacto.remove(medioDeContacto);
     }
-
     public void limpiarMediosDeContacto(){
         this.mediosDeContacto.clear();
     }
 
+    // ============================================================ //
+
+    public void setAreaDeCobertura(Ubicacion ubicacion, String tamanioArea){
+        area.setUbicacionPrincipal(ubicacion);
+        area.setTamanioArea(TamanioArea.valueOf(tamanioArea));
+    }
+
 }
-
-    // < ALTA > //
-    // Para dar de alta un tecnico, solamente se crea una instancia del mismo, la cual
-    // se inicializa con el booleano "activo" en true.
-    // new Tecnico(nombre,apellido,numDocumento,cuil,[mediosDeContacto],area);
-
-    // < BAJA > //
-    // Para dar de baja un tecnico, se cambia el estado a activo a ´false´.
-
-    // < MODIFICACIÓN > //
-    // Al tener los atributos, que pueden ser modificados, con "setters",
-    // estos pueden ser MODIFICADOS.
-
