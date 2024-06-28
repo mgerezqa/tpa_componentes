@@ -40,7 +40,7 @@ public class HeladerasTests {
         tempMin = modeloHeladera.getTemperaturaMinima();
         tempMax = modeloHeladera.getTemperaturaMaxima();
 
-        heladera = new Heladera(ubicacion, nombre, capacidadMax, fechaInicio, sensorMovimiento, sensorTemperatura, modeloHeladera);
+        heladera = new Heladera(modeloHeladera,nombre,ubicacion,sensorMovimiento,sensorTemperatura);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class HeladerasTests {
     @DisplayName("Verifica que la heladera es dada de baja")
     public void heladeraDadaDeBaja(){
         heladera.cambiarEstadoAFueraDeServicio();
-        Assertions.assertEquals(heladera.getEstadoHeladera(), EstadoHeladera.FUERADESERVICIO);
+        Assertions.assertEquals(heladera.getEstadoHeladera(), EstadoHeladera.FUERA_DE_SERVICIO);
     }
 
     @Test

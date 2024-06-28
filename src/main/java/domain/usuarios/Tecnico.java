@@ -1,11 +1,13 @@
 package domain.usuarios;
-import domain.contacto.Documentos.Cuil;
-import domain.contacto.Documentos.Documento;
 import domain.contacto.MedioDeContacto;
+import domain.formulario.Cuil;
+import domain.formulario.Documento;
+import domain.formulario.TipoDocumento;
 import domain.geografia.AreaDeCobertura;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter @Getter
@@ -23,27 +25,24 @@ public class Tecnico {
     // ============================================================ //
     // < CONSTRUCTOR > //
 
-    public Tecnico(String nombre, String apellido, Documento documento, Cuil cuil,
-                   List<MedioDeContacto> mediosDeContacto, AreaDeCobertura area) {
+    public Tecnico(String nombre, String apellido, Documento documento, Cuil cuil) {
 
+        this.activo = true;
         this.nombre = nombre;
         this.apellido = apellido;
         this.documento = documento;
         this.cuil = cuil;
-        this.mediosDeContacto = mediosDeContacto;
-        this.area = area;
-        this.activo = true;
+        this.mediosDeContacto = new ArrayList<>();
     }
-
 
     // ============================================================ //
 
-    public String tipoDeDocumento(){
-        return documento.tipoDocumento();
+    public TipoDocumento tipoDeDocumento(){
+        return documento.getTipo();
     }
 
     public String numeroDeDocumento(){
-        return documento.numeroDocumento();
+        return documento.getNumeroDeDocumento();
     }
 
     public void darDeBaja() {

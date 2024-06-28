@@ -15,16 +15,15 @@ public class SensorTemperatura {
         temperaturaMin = heladera.getModelo().getTemperaturaMinima();
     }
 
-    // TODO (logica no especificada)
-    public Float recibirTemperaturaActual(){
+    // TODO (lógica no especificada)
+    public Float recibirTemperaturaActual(String dato){
+
         // El sensor fisico nos envia la temperatura sensada.
         // Nosotros como sistema debemos ser capaces de "recibirla".
-        return 0f;
-    }
+        // Se recibe el dato en un "string" que bien podria ser un archivo json u otro.
+        // ACA HABRIA QUE SETEAR LA TEMPERATURA ACTUAL DE LA HELADERA. Float temperaturaActual
 
-    public Boolean problemaDeTemperatura(){
-        float temperaturaActual = this.recibirTemperaturaActual();
-        return ((temperaturaActual > temperaturaMax) || (temperaturaActual < temperaturaMin));
+        return 0f;
     }
 
 }
