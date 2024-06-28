@@ -1,4 +1,4 @@
-package domain.tecnicos;
+package domain.usuarios;
 import domain.contacto.MedioDeContacto;
 import domain.formulario.Cuil;
 import domain.formulario.Documento;
@@ -21,6 +21,7 @@ public class Tecnico {
     private List<MedioDeContacto> mediosDeContacto;
     private AreaDeCobertura area;
     private Boolean activo;
+    private String id;
 
     // ============================================================ //
     // < CONSTRUCTOR > //

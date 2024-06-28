@@ -1,17 +1,29 @@
 package domain.incidentes;
 import domain.heladera.Heladera.Heladera;
-import dtos.FallaTecnicaInputDTO;
+import domain.usuarios.Usuario;
+import dtos.FallaTecnicaDTO;
 
 import java.time.LocalDateTime;
 
 public class IncidenteFactory {
-
     public static Alerta crearAlerta(Heladera heladera, String tipoAlerta){
-        return new Alerta(LocalDateTime.now(), heladera, tipoAlerta);
-    }
+        Alerta alerta = new Alerta();
 
-    public static FallaTecnica crearFallaTecnica(Heladera heladera, String reportadoPor, String descripcion, String foto){
-        return new FallaTecnica(LocalDateTime.now(), heladera, reportadoPor, descripcion, foto);
-    }
+        alerta.setHeladera(heladera);
+        alerta.setFechaYHora(LocalDateTime.now());
+        alerta.setTipoAlerta(tipoAlerta);
 
+        return alerta;
+    }
+    public static FallaTecnica crearFallaTecnica(FallaTecnicaDTO fallaTecnicaDTO, Heladera heladera, Usuario usuario){
+        FallaTecnica fallaTecnica = new FallaTecnica();
+
+        fallaTecnica.setHeladera(heladera);
+        fallaTecnica.setFechaYHora(LocalDateTime.now());
+        fallaTecnica.setReportadoPor(usuario);
+        fallaTecnica.setDescripcion(fallaTecnicaDTO.getDescripcion());
+        fallaTecnica.setFoto(fallaTecnicaDTO.getFoto());
+
+        return fallaTecnica;
+    }
 }

@@ -5,6 +5,7 @@ import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
 import domain.temperatura.Temperatura;
+import domain.usuarios.Tecnico;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -128,5 +129,6 @@ public class Heladera {
     }
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"
+
 }
 

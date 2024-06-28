@@ -8,11 +8,5 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Alerta extends Incidente {
-
     private String tipoAlerta;
-
-    public Alerta(LocalDateTime fechaYHora, Heladera heladera, String tipoAlerta) {
-        super(heladera, fechaYHora);
-        this.tipoAlerta = tipoAlerta;
-    }
 }

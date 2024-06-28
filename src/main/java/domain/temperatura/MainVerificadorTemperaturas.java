@@ -3,7 +3,7 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
-import repositorios.RepositorioHeladeras;
+import repositorios.reposEnMemoria.RepositorioHeladeras;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.Incidente;
 

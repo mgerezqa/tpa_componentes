@@ -1,32 +1,33 @@
 package controladores;
+import domain.heladera.Heladera.Heladera;
 import domain.incidentes.Incidente;
 import domain.incidentes.IncidenteFactory;
-import dtos.FallaTecnicaInputDTO;
-import repositorios.IRepositorioIncidentes;
-
-import java.time.LocalDateTime;
+import domain.usuarios.Usuario;
+import dtos.FallaTecnicaDTO;
+import repositorios.interfaces.IRepositorioHeladeras;
+import repositorios.interfaces.IRepositorioIncidentes;
+import repositorios.interfaces.IRepositorioUsuarios;
 
 public class ControladorFallasTecnicas {
 
-    private IRepositorioIncidentes iRepositorioIncidentes;
+    private IRepositorioIncidentes repositorioIncidentes;
+    private IRepositorioHeladeras repositorioHeladeras;
+    private IRepositorioUsuarios repositorioUsuarios;
 
-    // Duda a consultar: la "recepcion" de los datos, la deberia hacer mediante un DTO? o directamente en el "crearFallaTecnica" ???
-    public void crearFallaTecnica(FallaTecnicaInputDTO dto){
-
-        if(dto.getFoto() == null){
-            dto.setFoto("sin foto");
-        }
-        if(dto.getDescripcion() == null){
-            dto.setDescripcion("sin descripcion");
-        }
-
-        Incidente incidente = IncidenteFactory.crearFallaTecnica(
-                        dto.getHeladera(),
-                        dto.getReportadoPor().toString(),
-                        dto.getDescripcion(),
-                        dto.getFoto());
-
-        iRepositorioIncidentes.agregarIncidente(incidente);
+    public ControladorFallasTecnicas(IRepositorioIncidentes repositorioIncidentes, IRepositorioHeladeras repositorioHeladeras, IRepositorioUsuarios repositorioUsuarios) {
+        this.repositorioIncidentes = repositorioIncidentes;
+        this.repositorioHeladeras = repositorioHeladeras;
+        this.repositorioUsuarios = repositorioUsuarios;
     }
 
+    public void crearFallaTecnica(FallaTecnicaDTO fallaTecnicaDTO){
+
+        // Encuentro al usuario y la heladera aqui en el controlador, ya que tengo acceso a los repos.
+        // De aca, lo envio al "factory" junto con la fallaTecnicaDTO.
+        Heladera heladera = repositorioHeladeras.obtenerHeladeraPorNombre(fallaTecnicaDTO.getNombreHeladera());
+        Usuario usuario = repositorioUsuarios.buscarUsuarioPorNombre(fallaTecnicaDTO.getNombreUsuario());
+
+        Incidente incidente = IncidenteFactory.crearFallaTecnica(fallaTecnicaDTO, heladera, usuario);
+        repositorioIncidentes.agregarIncidente(incidente);
+    }
 }
