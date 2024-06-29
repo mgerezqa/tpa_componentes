@@ -1,5 +1,5 @@
-package domain.geografia.RecomendacionDePuntos.Servicios;
-import domain.geografia.RecomendacionDePuntos.Entidades.ListadoDePuntos;
+package utils.recomendacionDePuntos.Servicios;
+import utils.recomendacionDePuntos.Entidades.ListadoDePuntos;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

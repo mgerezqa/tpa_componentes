@@ -1,4 +1,4 @@
-package domain.geografia.calculadorDistancia;
+package utils.calculadorDistancia;
 
 import domain.geografia.Ubicacion;
 

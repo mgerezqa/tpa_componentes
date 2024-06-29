@@ -1,9 +1,7 @@
-package domain.geografia.RecomendacionDePuntos;
-import domain.geografia.Calle;
-import domain.geografia.RecomendacionDePuntos.Entidades.ListadoDePuntos;
-import domain.geografia.RecomendacionDePuntos.Entidades.Punto;
-import domain.geografia.Ubicacion;
-import domain.geografia.RecomendacionDePuntos.Servicios.ServicioRecomendacionDePuntos;
+package utils.recomendacionDePuntos;
+import utils.recomendacionDePuntos.Entidades.ListadoDePuntos;
+import utils.recomendacionDePuntos.Entidades.Punto;
+import utils.recomendacionDePuntos.Servicios.ServicioRecomendacionDePuntos;
 import java.io.IOException;
 
 public class EjemploDeUsoMAIN {

@@ -30,4 +30,7 @@ public class ControladorFallasTecnicas {
         Incidente incidente = IncidenteFactory.crearFallaTecnica(fallaTecnicaDTO, heladera, usuario);
         repositorioIncidentes.agregarIncidente(incidente);
     }
+
 }
+
+

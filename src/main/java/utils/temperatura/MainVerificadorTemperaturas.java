@@ -1,4 +1,4 @@
-package domain.temperatura;
+package utils.temperatura;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;

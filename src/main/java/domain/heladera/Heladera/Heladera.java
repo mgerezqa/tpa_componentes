@@ -4,8 +4,7 @@ import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
-import domain.temperatura.Temperatura;
-import domain.usuarios.Tecnico;
+import utils.temperatura.Temperatura;
 import lombok.Getter;
 import lombok.Setter;
 

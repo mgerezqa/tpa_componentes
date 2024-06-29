@@ -1,6 +1,6 @@
 package domain.geografia.area;
 import domain.geografia.Ubicacion;
-import domain.geografia.calculadorDistancia.ICalculadorDistanciaKM;
+import utils.calculadorDistancia.ICalculadorDistanciaKM;
 import lombok.Data;
 
 //@Getter

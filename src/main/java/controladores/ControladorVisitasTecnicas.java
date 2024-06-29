@@ -27,9 +27,7 @@ public class ControladorVisitasTecnicas {
 
         Tecnico tecnico = repositorioTecnicos.obtenerTecnicoPorNumeroDocumento(visitaTecnicaDTO.getTecnicoNumeroDocumento());
         Incidente incidente = repositorioIncidentes.obtenerIncidentePorId(visitaTecnicaDTO.getIncidenteId());
-        if (tecnico == null) {
-            throw new VisitaNoValidaException("Técnico no encontrado.");
-        }
+
         Visita visita = VisitaFactory.crearVisita(visitaTecnicaDTO, tecnico, incidente);
         repositorioVisitas.agregarVisita(visita);
     }

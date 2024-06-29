@@ -1,4 +1,4 @@
-package domain.geografia.RecomendacionDePuntos.Entidades;
+package utils.recomendacionDePuntos.Entidades;
 
 import lombok.Getter;
 
