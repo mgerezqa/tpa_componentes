@@ -39,6 +39,9 @@ public class Heladera {
     @Setter @Getter
     public List<Incidente> incidentes;
 
+    @Getter @Setter
+    private List<SolicitudApertura> solicitudesPendientes;
+
     // ============================================================ //
     // < CONSTRUCTOR > //
     // ============================================================ //
@@ -50,6 +53,7 @@ public class Heladera {
         this.modelo = modelo;
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
+        this.solicitudesPendientes = new ArrayList<>();
 
     }
 
@@ -130,5 +134,13 @@ public class Heladera {
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"
 
+    public void registrarSolicitud(SolicitudApertura solicitudApertura) {
+        solicitudesPendientes.add(solicitudApertura);
+    }
+
+    public void registrarApertura(SolicitudApertura solicitudApertura) {
+        solicitudApertura.completarSolicitud(LocalDateTime.now());
+        solicitudesPendientes.remove(solicitudApertura);
+    }
 }
 

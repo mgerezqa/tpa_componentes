@@ -59,7 +59,7 @@ public class DonacionesTests {
         modelo = new ModeloDeHeladera("Modelo XR-221");
         modelo.setTemperaturaMinima(tempMin);
         modelo.setTemperaturaMaxima(tempMax);
-        this.heladera = new Heladera(modelo,"Heladera palermo", ubicacion, sensorMovimiento, sensorTemperatura);
+        this.heladera = new Heladera(modelo,"Heladera palermo", ubicacion);
         heladera.setCapacidadMax(200);
     }
 
