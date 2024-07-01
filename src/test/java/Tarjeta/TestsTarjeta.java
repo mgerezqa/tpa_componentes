@@ -1,15 +1,15 @@
 package Tarjeta;
 
-import domain.geografia.Calle;
-import domain.geografia.Ubicacion;
-import domain.heladera.Heladera.Heladera;
-import domain.heladera.Heladera.ModeloDeHeladera;
-import domain.heladera.Sensores.SensorMovimiento;
-import domain.heladera.Sensores.SensorTemperatura;
-import domain.persona.Persona;
-import domain.persona.PersonaVulnerable;
-import domain.tarjeta.RegistroDeUso;
-import domain.tarjeta.Tarjeta;
+import models.entities.geografia.Calle;
+import models.entities.geografia.Ubicacion;
+import models.entities.heladera.Heladera.Heladera;
+import models.entities.heladera.Heladera.ModeloDeHeladera;
+import models.entities.heladera.Sensores.SensorMovimiento;
+import models.entities.heladera.Sensores.SensorTemperatura;
+import models.entities.persona.Persona;
+import models.entities.persona.PersonaVulnerable;
+import models.entities.tarjeta.RegistroDeUso;
+import models.entities.tarjeta.Tarjeta;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,0 +1,25 @@
+package models.entities.donaciones;
+
+import models.entities.usuarios.Colaborador;
+import lombok.Getter;
+
+import java.time.LocalDate;
+
+public class Dinero  {
+    @Getter private Integer cantidad;
+    private FrecuenciaDeDonacion frecuencia;
+    private LocalDate fechaDeDonacion;
+    @Getter private Colaborador colaboradorQueLaDono;
+
+    public Dinero(Integer cantidad, FrecuenciaDeDonacion frecuencia, LocalDate fechaDeDonacion, Colaborador colaboradorQueLaDono) {
+        this.cantidad = cantidad;
+        this.frecuencia = frecuencia;
+        this.fechaDeDonacion = fechaDeDonacion;
+        this.colaboradorQueLaDono = colaboradorQueLaDono;
+
+    }
+
+
+
+
+}

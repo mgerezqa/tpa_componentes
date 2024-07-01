@@ -1,7 +1,7 @@
 package PersonaVulnerable;
 
-import domain.persona.Persona;
-import domain.persona.PersonaVulnerable;
+import models.entities.persona.Persona;
+import models.entities.persona.PersonaVulnerable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
