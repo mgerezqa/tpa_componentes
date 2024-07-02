@@ -1,21 +1,22 @@
 package domain.usuarios;
 
 import domain.contacto.MedioDeContacto;
-import domain.formulario.Entrada;
 import domain.formulario.Formulario;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.border.EmptyBorder;
 import java.util.Set;
 
 public abstract class Colaborador {
+    @Getter @Setter protected String id;
     @Getter @Setter protected Formulario formulario;
     @Getter @Setter protected MedioDeContacto unMedioDeContacto; //protected para que las clases hijas puedan acceder a este atributo
     @Getter @Setter protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
     /*ALTA Y BAJA*/
     @Getter @Setter protected Boolean activo; //protected para que las clases hijas puedan acceder a este atributo
     @Getter public int puntosAcumulados = 0;
+
+
 
     /*Punto de arranque*/
     public void completarFormulario(){
@@ -36,7 +37,7 @@ public abstract class Colaborador {
     }
 
     public void darDeAlta(){
-        if(this.activo != true){
+        if(!this.activo){
             this.activo = true;
         }
     }
