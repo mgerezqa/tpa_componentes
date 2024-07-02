@@ -3,6 +3,7 @@ package domain.heladera.Heladera;
 import domain.excepciones.ExcepcionSolicitudExpirada;
 import domain.usuarios.Colaborador;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -11,7 +12,7 @@ public class SolicitudApertura {
     private LocalDateTime fechaHoraInicio;
     private String detalle;
     private Colaborador colaborador;
-    @Getter
+    @Getter @Setter
     private LocalDateTime fechaHoraConcretado;
     private Integer horasExpiracion = 3;
 
