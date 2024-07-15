@@ -3,21 +3,24 @@ package domain.usuarios;
 import domain.contacto.MedioDeContacto;
 import domain.formulario.Campo;
 import domain.formulario.TipoCampo;
+import domain.suscripciones.iSuscriptor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
 
 @Getter @Setter
-public class ColaboradorFisico extends Colaborador {
+public class ColaboradorFisico extends Colaborador implements iSuscriptor {
 
     private String nombre;
     private String apellido;
-
+    @Getter @Setter
+    private boolean notificacionRecibida;
     // ============================================================ //
     // Constructor //
     // ============================================================ //
     public ColaboradorFisico(String nombre, String apellido, MedioDeContacto medioDeContacto){
+        this.notificacionRecibida = false;
         this.nombre = nombre;
         this.apellido = apellido;
         this.unMedioDeContacto = medioDeContacto;
@@ -44,6 +47,12 @@ public class ColaboradorFisico extends Colaborador {
         for (MedioDeContacto contacto : this.mediosDeContacto) {
             formulario.cargarValor("Medio de contacto", contacto.obtenerDescripcion());
         }
+    }
+
+    @Override
+    public void update() {
+        setNotificacionRecibida(true);
+        System.out.println("Usted ha sido notificado");
     }
 
 }

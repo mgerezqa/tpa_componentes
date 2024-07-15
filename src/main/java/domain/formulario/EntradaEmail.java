@@ -1,6 +1,7 @@
 package domain.formulario;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class EntradaEmail extends Entrada{

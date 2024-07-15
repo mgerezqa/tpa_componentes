@@ -1,8 +1,12 @@
 package domain.contacto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public abstract class MedioDeContacto {
 
-    // TODO
+    @Getter @Setter
+    private boolean notificar;
+
     public abstract String obtenerDescripcion();
-//    public abstract String getLabel();
 }

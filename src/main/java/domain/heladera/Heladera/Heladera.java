@@ -1,9 +1,11 @@
 package domain.heladera.Heladera;
+import domain.donaciones.Vianda;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
+import domain.suscripciones.EventManager;
 import utils.temperatura.Temperatura;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Heladera {
+    @Getter
+    private CondicionActual condicionActual;
+    @Getter @Setter
+    private EventManager eventManager;
+
+
     @Setter @Getter
     private Ubicacion ubicacion;
     @Setter @Getter
@@ -38,6 +46,7 @@ public class Heladera {
     @Setter @Getter
     public List<Incidente> incidentes;
 
+
     // ============================================================ //
     // < CONSTRUCTOR > //
     // ============================================================ //
@@ -49,6 +58,9 @@ public class Heladera {
         this.modelo = modelo;
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
+        this.condicionActual = new CondicionActual(this);
+        this.eventManager = new EventManager();
+
 
     }
 
@@ -128,6 +140,29 @@ public class Heladera {
     }
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"
+
+
+    // ============================================================ //
+    // Gestion de viandas (SOLO PARA TEST)
+    // LLAMAR AL EVENTMANAGER CUANDO INGRESEN O RETIREN VIANDAS
+    // ============================================================ //
+
+
+    public  void ingresarVianda(){
+        if(this.capacidadActual < this.capacidadMax){
+            this.capacidadActual += 1;
+            eventManager.notifyObservers();
+        }
+    }
+
+    public void retirarVianda(){
+        if(this.capacidadActual > 0){
+            this.capacidadActual -= 1;
+            eventManager.notifyObservers();
+
+        }
+    }
+
 
 }
 

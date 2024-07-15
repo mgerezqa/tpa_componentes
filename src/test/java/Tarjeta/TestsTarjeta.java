@@ -51,7 +51,7 @@ public class TestsTarjeta {
         modeloHeladera.setTemperaturaMinima(tempMin);
         modeloHeladera.setTemperaturaMaxima(tempMax);
         //LocalDate fechaInicioFunc = LocalDate.of("2020","7","21");
-        heladeraDeMedrano = new Heladera(modeloHeladera,"Heladera medrano",ubicacionDeHeladera,sensorMovimiento,sensorTemperatura);
+        heladeraDeMedrano = new Heladera(modeloHeladera,"Heladera medrano",ubicacionDeHeladera);
 
     }
     @Test

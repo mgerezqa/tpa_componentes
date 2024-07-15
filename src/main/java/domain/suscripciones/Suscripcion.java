@@ -5,20 +5,25 @@ import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter @Getter
 public class Suscripcion {
 
+    @Setter @Getter
     private EventManager eventManager;
+    @Setter @Getter
     private Heladera heladera;
+    @Setter @Getter
     private ColaboradorFisico colaboradorFisico;
+    @Setter @Getter
     private TipoDeSuscripcion tipoSuscripcion;
 
     public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, TipoDeSuscripcion tipoSuscripcion) {
-        this.eventManager = new EventManager();
         this.heladera = heladera;
         this.colaboradorFisico = colaboradorFisico;
         this.tipoSuscripcion = tipoSuscripcion;
+
+        heladera.getEventManager().suscribe(colaboradorFisico);
     }
+
 
 
 }

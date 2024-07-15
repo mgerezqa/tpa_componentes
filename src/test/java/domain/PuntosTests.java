@@ -52,16 +52,16 @@ public class PuntosTests {
         this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS, laloEmail);
 
         this.ubicacion = new Ubicacion(-54F, -48F, new Calle("Av. Rivadavia", "1234"));
-        this.sensorMovimiento = new SensorMovimiento();
-        this.sensorTemperatura = new SensorTemperatura();
         this.modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
 
         LocalDate fechaInicioFuncMed = LocalDate.parse("2023-01-01");
         LocalDate fechaInicioFuncPal = LocalDate.parse("2024-01-01");
         Integer capacidadMax = 200;
 
-        this.heladeraMedrano = new Heladera(modeloHeladera,"Heladera medrano", ubicacion, sensorMovimiento, sensorTemperatura);
-        this.heladeraPalermo = new Heladera(modeloHeladera,"Heladera Palermo", ubicacion, sensorMovimiento, sensorTemperatura);
+        this.heladeraMedrano = new Heladera(modeloHeladera,"Heladera medrano", ubicacion);
+        this.heladeraPalermo = new Heladera(modeloHeladera,"Heladera Palermo", ubicacion);
+        this.sensorMovimiento = new SensorMovimiento(heladeraMedrano);
+        this.sensorTemperatura = new SensorTemperatura(heladeraPalermo);
 
         heladeraPalermo.setCapacidadMax(200);
         heladeraMedrano.setCapacidadMax(180);
