@@ -102,6 +102,7 @@ public class Heladera {
     public void cambiarEstadoAFueraDeServicio(){
         this.estadoHeladera = EstadoHeladera.FUERA_DE_SERVICIO;
         trackearEstado(this.getEstadoHeladera());
+        eventManager.notifyObservers();
     }
 
     // Trackeo de estados.

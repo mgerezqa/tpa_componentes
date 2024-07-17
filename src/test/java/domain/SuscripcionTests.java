@@ -52,6 +52,7 @@ public class SuscripcionTests {
     private Suscripcion otraSuscripcion;
     private SuscripcionPorCantidadDeViandasDisp NotificarCuandoFaltanCincoViandasEnLaHeladera;
     private SuscripcionPorCantidadDeViandasHastaAlcMax NotificarCuandoFalten10ViandasParaAlcanzarelMax;
+    private SuscripcionPorDesperfectoH NotificarCuandoSeProduceUnDesperfecto;
 
     @BeforeEach
     public void setUp() {
@@ -79,16 +80,20 @@ public class SuscripcionTests {
         //Tipo de suscripciones
         fabrica = new TipoDeSuscripcionFactory();
 
-        //Genero suscripcion para que me informe cuando restan 5 viandas
+        //Genero suscripcion para que  informe cuando restan 5 viandas
         NotificarCuandoFaltanCincoViandasEnLaHeladera = (SuscripcionPorCantidadDeViandasDisp) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
         NotificarCuandoFaltanCincoViandasEnLaHeladera.setCantidadDeViandasDisp(5);
 
+        //Genero suscripcion para que informe cuando se esté por alcanzar el max de 10 viandas
         NotificarCuandoFalten10ViandasParaAlcanzarelMax =  (SuscripcionPorCantidadDeViandasHastaAlcMax) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_HASTA_ALC_MAX);
         NotificarCuandoFalten10ViandasParaAlcanzarelMax.setCantidadDeViandasHastaAlcMax(10);
+
+        //Genero suscripcion para que informe cuando se produce un desperfecto
+        NotificarCuandoSeProduceUnDesperfecto = (SuscripcionPorDesperfectoH) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_DESPERFECTO_H);
     }
 
     @Test
-    @DisplayName("Colaborador se suscribe a una heladera según cantidad de viandas disponibles")
+    @DisplayName("Un Colaborador se suscribe a una heladera según la cantidad de viandas disponibles en ella")
     public void colaboradorSeSuscribeSegunCantidadDeViandasDisponibles() {
 
         //Suscripcion
@@ -104,7 +109,7 @@ public class SuscripcionTests {
     }
 
     @Test
-    @DisplayName("Colaborador se suscribe a una heladera según cantidad de viandas necesarias para alcanzar el máximo")
+    @DisplayName("Un Colaborador se suscribe a una heladera según la cantidad de viandas necesarias para que alcance su máximo de capacidad")
     public void colaboradorSeSuscribeSegunCantidadDeViandasNecesariasParaAlcanzarElMaximo(){
         //Suscripcion
         //La suscripción informa al colaborador cuando falten 10 viandas hasta alcanzar el máximo
@@ -126,7 +131,7 @@ public class SuscripcionTests {
 
 
     @Test
-    @DisplayName("Colaborador se suscribe a una heladera según cantidad de viandas necesarias para alcanzar el máximo, la heladera ya alcanzó el máximo establecido en la suscripción")
+    @DisplayName("Un colaborador se suscribe a una heladera según la cantidad de viandas necesarias para que alcance su máximo, si la heladera ya alcanzó el máximo establecido en la suscripción cont notificando")
     public void colaboradorSeSuscribeSegunCantidadDeViandasNecesariasParaSuperarElMaximo(){
         //Suscripcion
         //La suscripción informa al colaborador cuando falten 10 viandas hasta alcanzar el máximo
@@ -140,6 +145,25 @@ public class SuscripcionTests {
         heladera.ingresarVianda(); //capacidad actual 17 | superó el máximo (-8), el eventManager notifica despues de ingresar la vianda
 
         assertEquals(colaborador.isNotificacionRecibida(),true);
+
+
+    }
+
+    @Test
+    @DisplayName("Un colaborador suscrito según maximo de viandas, no es notificado si la heladera no alcanza el limite establecido")
+    public void colaboradorQueSeSuscribeYNoSeCumpleCriterioNoESNotificado(){
+        //Suscripcion
+        //La suscripción informa al colaborador cuando falten 10 viandas hasta alcanzar el máximo
+        unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoFalten10ViandasParaAlcanzarelMax);
+
+        /*Evaluar flujo*/
+
+        heladera.setCapacidadActual(5);
+        heladera.setCapacidadMax(25);
+
+        heladera.ingresarVianda(); //capacidad actual 19 , no se genera notifiación
+
+        assertEquals(colaborador.isNotificacionRecibida(),false);
 
 
     }
@@ -192,5 +216,39 @@ public class SuscripcionTests {
         assertEquals(otroColaborador.isNotificacionRecibida(),true);
 
     }
+
+    @Test
+    @DisplayName("Un colaborador se suscribe a una heladera cuando se produce un desperfecto")
+    public void unColabodorSuscriptoAUnaHeladeraConDesperfecto(){
+
+            //Suscripcion
+            unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoSeProduceUnDesperfecto);
+
+            /*Evaluar flujo*/
+            heladera.cambiarEstadoAFueraDeServicio();
+            assertTrue(colaborador.isNotificacionRecibida());
+    }
+
+    @Test
+    @DisplayName("Dos colaboradores se suscriben a la misma heladera por suscripción por desperfecto")
+
+    public void dosColaboradoresSeSuscribenAlaMismaHeladeraPorDesperfectos(){
+
+
+        //Suscripcion
+        unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoSeProduceUnDesperfecto);
+        otraSuscripcion = new Suscripcion(heladera,otroColaborador, NotificarCuandoSeProduceUnDesperfecto);
+
+        /*Evaluar flujo*/
+        assertFalse(colaborador.isNotificacionRecibida());
+        assertFalse(otroColaborador.isNotificacionRecibida());
+
+        heladera.cambiarEstadoAFueraDeServicio();
+
+        assertEquals(colaborador.isNotificacionRecibida(),true);
+        assertEquals(otroColaborador.isNotificacionRecibida(),true);
+
+    }
+
 
 }
