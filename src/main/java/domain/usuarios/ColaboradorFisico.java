@@ -52,7 +52,7 @@ public class ColaboradorFisico extends Colaborador implements iSuscriptor {
     @Override
     public void update() {
         setNotificacionRecibida(true);
-        System.out.println("Usted ha sido notificado");
+        System.out.println("Usted ha sido notificado "+ this.getNombre() + " " + this.getApellido());
     }
 
 }

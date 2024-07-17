@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SuscripcionTests {
     /*Colaborador*/
     private ColaboradorFisico colaborador;
+    private ColaboradorFisico otroColaborador;
     private MedioDeContacto laloEmail;
     private MedioDeContacto laloTelefono;
     private MedioDeContacto laloWhatsapp;
@@ -48,8 +49,9 @@ public class SuscripcionTests {
 
     /*Suscripcion */
     private Suscripcion unaSuscripcion;
-    private SuscripcionPorCantidadDeViandasDisp unaSuscripcionPorCantidadDeViandas;
-    private SuscripcionPorCantidadDeViandasHastaAlcMax unaSuscripcionDeViandasHastaAlcanzarMaximo;
+    private Suscripcion otraSuscripcion;
+    private SuscripcionPorCantidadDeViandasDisp NotificarCuandoFaltanCincoViandasEnLaHeladera;
+    private SuscripcionPorCantidadDeViandasHastaAlcMax NotificarCuandoFalten10ViandasParaAlcanzarelMax;
 
     @BeforeEach
     public void setUp() {
@@ -58,7 +60,7 @@ public class SuscripcionTests {
         this.laloTelefono = new Telefono(54,11,400090000);
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.colaborador = new ColaboradorFisico("Lalo", "Menz",laloEmail);
-        this.formulario = new Formulario();
+        this.otroColaborador = new ColaboradorFisico("Pepe","Argento",laloWhatsapp);
 
         //Heladera
         nombre = "Heladera Medrano";
@@ -78,11 +80,11 @@ public class SuscripcionTests {
         fabrica = new TipoDeSuscripcionFactory();
 
         //Genero suscripcion para que me informe cuando restan 5 viandas
-        unaSuscripcionPorCantidadDeViandas = (SuscripcionPorCantidadDeViandasDisp) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
-        unaSuscripcionPorCantidadDeViandas.setCantidadDeViandasDisp(5);
+        NotificarCuandoFaltanCincoViandasEnLaHeladera = (SuscripcionPorCantidadDeViandasDisp) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
+        NotificarCuandoFaltanCincoViandasEnLaHeladera.setCantidadDeViandasDisp(5);
 
-        unaSuscripcionDeViandasHastaAlcanzarMaximo =  (SuscripcionPorCantidadDeViandasHastaAlcMax) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_HASTA_ALC_MAX);
-        unaSuscripcionDeViandasHastaAlcanzarMaximo.setCantidadDeViandasHastaAlcMax(10);
+        NotificarCuandoFalten10ViandasParaAlcanzarelMax =  (SuscripcionPorCantidadDeViandasHastaAlcMax) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_HASTA_ALC_MAX);
+        NotificarCuandoFalten10ViandasParaAlcanzarelMax.setCantidadDeViandasHastaAlcMax(10);
     }
 
     @Test
@@ -90,13 +92,13 @@ public class SuscripcionTests {
     public void colaboradorSeSuscribeSegunCantidadDeViandasDisponibles() {
 
         //Suscripcion
-        unaSuscripcion = new Suscripcion(heladera,colaborador,unaSuscripcionPorCantidadDeViandas);
+        unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
 
         /*Evaluar flujo*/
         heladera.setCapacidadActual(6);
         assertFalse(colaborador.isNotificacionRecibida());
 
-        heladera.retirarVianda();
+        heladera.retirarVianda(); //Capacidad actual 5 | recibe notificación
         assertEquals(colaborador.isNotificacionRecibida(),true);
 
     }
@@ -106,7 +108,7 @@ public class SuscripcionTests {
     public void colaboradorSeSuscribeSegunCantidadDeViandasNecesariasParaAlcanzarElMaximo(){
         //Suscripcion
         //La suscripción informa al colaborador cuando falten 10 viandas hasta alcanzar el máximo
-        unaSuscripcion = new Suscripcion(heladera,colaborador,unaSuscripcionDeViandasHastaAlcanzarMaximo);
+        unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoFalten10ViandasParaAlcanzarelMax);
 
         /*Evaluar flujo*/
 
@@ -128,7 +130,7 @@ public class SuscripcionTests {
     public void colaboradorSeSuscribeSegunCantidadDeViandasNecesariasParaSuperarElMaximo(){
         //Suscripcion
         //La suscripción informa al colaborador cuando falten 10 viandas hasta alcanzar el máximo
-        unaSuscripcion = new Suscripcion(heladera,colaborador,unaSuscripcionDeViandasHastaAlcanzarMaximo);
+        unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoFalten10ViandasParaAlcanzarelMax);
 
         /*Evaluar flujo*/
 
@@ -143,7 +145,51 @@ public class SuscripcionTests {
     }
 
     @Test
+    @DisplayName("Dos colaboradores se suscriben a la misma heladera bajo el mismo criterio")
+
+    public void dosColaboradoresSeSuscribenAlaMismaHeladeraBajoMismoCriterio(){
+
+        //Suscripcion
+        unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
+        otraSuscripcion = new Suscripcion(heladera,otroColaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
+        /*Evaluar flujo*/
+
+        heladera.setCapacidadActual(6);
+        assertFalse(colaborador.isNotificacionRecibida());
+        assertFalse(otroColaborador.isNotificacionRecibida());
+
+        heladera.retirarVianda();
+        assertEquals(colaborador.isNotificacionRecibida(),true);
+        assertEquals(otroColaborador.isNotificacionRecibida(),true);
+
+    }
+
+    @Test
+    @DisplayName("Dos colaboradores se suscriben a la misma heladera bajo criterios diferentes")
+
     public void dosColaboradoresSeSuscribenAlaMismaHeladeraBajoCriteriosDiferentes(){
+
+        heladera.setCapacidadActual(6);
+        heladera.setCapacidadMax(25);
+
+        //Suscripcion
+        unaSuscripcion = new Suscripcion(heladera,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
+        otraSuscripcion = new Suscripcion(heladera,otroColaborador, NotificarCuandoFalten10ViandasParaAlcanzarelMax);
+
+        /*Evaluar flujo*/
+        assertFalse(colaborador.isNotificacionRecibida());
+        assertFalse(otroColaborador.isNotificacionRecibida());
+
+        heladera.retirarVianda(); //Capacidad actual 5 | recibe notificación
+
+        assertEquals(colaborador.isNotificacionRecibida(),true);
+
+        for(int i =0 ; i<9; i++){
+        heladera.ingresarVianda();
+        }
+
+        heladera.ingresarVianda(); //Capacidad actual 15 | recibe notificación
+        assertEquals(otroColaborador.isNotificacionRecibida(),true);
 
     }
 
