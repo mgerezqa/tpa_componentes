@@ -3,7 +3,9 @@ package domain.heladera.Heladera;
 public class CondicionActual {
     private Heladera heladera;
 
-    public CondicionActual(Heladera heladera) {
+
+    // Constructor protegido que solo puede ser llamado desde la clase Heladera
+    protected CondicionActual(Heladera heladera) {
         this.heladera = heladera;
     }
 

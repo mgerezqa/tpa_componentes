@@ -21,7 +21,9 @@ public class Suscripcion {
         this.colaboradorFisico = colaboradorFisico;
         this.tipoSuscripcion = tipoSuscripcion;
 
-        heladera.getEventManager().suscribe(colaboradorFisico);
+        this.eventManager = heladera.getEventManager();
+        this.eventManager.setSuscripcion(this);
+        this.eventManager.suscribe(colaboradorFisico);
     }
 
 

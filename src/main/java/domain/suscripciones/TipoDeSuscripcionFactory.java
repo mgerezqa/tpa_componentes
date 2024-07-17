@@ -1,6 +1,6 @@
 package domain.suscripciones;
 
-public class SuscripcionFactory {
+public class TipoDeSuscripcionFactory {
 
     public TipoDeSuscripcion crearSuscripcion(eTipoDeSuscripcion tipoSuscripcion) {
         switch (tipoSuscripcion) {
