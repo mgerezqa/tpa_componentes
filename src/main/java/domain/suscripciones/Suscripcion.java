@@ -1,44 +1,11 @@
 package domain.suscripciones;
 
+import domain.geografia.area.AreaDeCobertura;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
 
-//public class Suscripcion {
-//
-//    @Setter @Getter
-//    private EventManager eventManager;
-//    @Setter @Getter
-//    private Heladera heladera;
-//    @Setter @Getter
-//    private ColaboradorFisico colaboradorFisico;
-//    @Setter @Getter
-//    private TipoDeSuscripcion tipoSuscripcion;
-//
-//    public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, TipoDeSuscripcion tipoSuscripcion) {
-//        this.heladera = heladera;
-//        this.colaboradorFisico = colaboradorFisico;
-//        this.tipoSuscripcion = tipoSuscripcion;
-//
-//        this.eventManager = heladera.getEventManager();
-//        this.eventManager.setSuscripcion(this);
-//        this.eventManager.suscribe(colaboradorFisico);
-//    }
-//
-//
-//
-//}
-
-
-import domain.heladera.Heladera.Heladera;
-import domain.usuarios.ColaboradorFisico;
-
-
-import domain.heladera.Heladera.Heladera;
-import domain.usuarios.ColaboradorFisico;
-import lombok.Getter;
-import lombok.Setter;
 
 public class Suscripcion {
     @Setter @Getter
@@ -49,12 +16,22 @@ public class Suscripcion {
     private ColaboradorFisico colaboradorFisico;
     @Setter @Getter
     private TipoDeSuscripcion tipoSuscripcion;
+    @Getter
+    private AreaDeCobertura zona;
 
     public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, TipoDeSuscripcion tipoSuscripcion) {
         this.heladera = heladera;
-        this.colaboradorFisico = colaboradorFisico;
         this.tipoSuscripcion = tipoSuscripcion;
+        //if(!Zona.verificarQueEstanEnMismaZona(//zona, listaDeBarrios));
+        if(!zona.estaEnZonaQueFrecuenta(colaboradorFisico,heladera))
+            throw new RuntimeException("No esta cerca de la heladera");
+
+        this.colaboradorFisico = colaboradorFisico;
         this.eventManager = heladera.getEventManager();
         this.eventManager.suscribe(this);
     }
+
+
+
+
 }

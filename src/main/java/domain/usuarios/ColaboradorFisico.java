@@ -3,6 +3,7 @@ package domain.usuarios;
 import domain.contacto.MedioDeContacto;
 import domain.formulario.Campo;
 import domain.formulario.TipoCampo;
+import domain.geografia.area.AreaDeCobertura;
 import domain.suscripciones.iSuscriptor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,9 @@ public class ColaboradorFisico extends Colaborador implements iSuscriptor {
 
     private String nombre;
     private String apellido;
-    @Getter @Setter
     private boolean notificacionRecibida;
+    @Getter
+    private AreaDeCobertura zonaQueFrecuenta;
     // ============================================================ //
     // Constructor //
     // ============================================================ //
