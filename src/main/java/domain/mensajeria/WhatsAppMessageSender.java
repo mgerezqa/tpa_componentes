@@ -6,6 +6,7 @@ import com.twilio.type.PhoneNumber;
 
 public class WhatsAppMessageSender{
     // Find your Account Sid and Token at twilio.com/console
+    //comento para pusheo.
     public static final String ACCOUNT_SID = "AC122d945b1c0c4a9a9d471447a3520322";
     public static final String AUTH_TOKEN = "adbf30fefeff07f70588a5e32e88d74d";
 
