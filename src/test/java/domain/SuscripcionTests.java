@@ -30,6 +30,7 @@ public class SuscripcionTests {
     private MedioDeContacto laloTelefono;
     private MedioDeContacto laloWhatsapp;
     private AreaDeCobertura areaDeCobertura;
+    private AreaDeCobertura otraAreaDeCobertura;
 
     /*Heladeras*/
     private Formulario formulario;
@@ -66,12 +67,13 @@ public class SuscripcionTests {
     @BeforeEach
     public void setUp() {
         //Medios de contacto
-        this.areaDeCobertura = new AreaDeCobertura();
         this.laloEmail = new Email("lalo@gmail.com");
         this.laloTelefono = new Telefono(54,11,400090000);
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.colaborador = new ColaboradorFisico("Lalo", "Menz",laloEmail);
         this.otroColaborador = new ColaboradorFisico("Pepe","Argento",laloWhatsapp);
+        this.areaDeCobertura = new AreaDeCobertura(colaborador);
+        this.otraAreaDeCobertura = new AreaDeCobertura(otroColaborador);
 
         //Geografia
 
@@ -83,9 +85,16 @@ public class SuscripcionTests {
         localidadCABA = new Localidad("CABA");
         barrioAlmagro = new Barrio("Almagro");
 
+        //Area de cobertura
+        areaDeCobertura.agregarProvincia(provinciaBA);
+        areaDeCobertura.agregarLocalidad(localidadCABA);
+        areaDeCobertura.agregarBarrio(barrioAlmagro);
+
+        otraAreaDeCobertura.agregarProvincia(provinciaBA);
+        otraAreaDeCobertura.agregarLocalidad(localidadCABA);
+        otraAreaDeCobertura.agregarBarrio(barrioAlmagro);
         //Heladera
         nombre = "Heladera Medrano";
-//        ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
         ubicacionCABA = new Ubicacion(provinciaBA, localidadCABA, barrioAlmagro);
         ubicacionSalta = new Ubicacion(provinciaSalta,localidadSalta,barrioSalta);
 
@@ -275,13 +284,15 @@ public class SuscripcionTests {
     }
 
     @Test
-    @DisplayName("Un colaborador que está frecuenta por la provincia de Salta no puede suscribirse a una heladera que está ubicada en Buenos Aires")
+    @DisplayName("Un colaborador que frecuenta por la provincia de Salta NO PUEDE SUSCRIBIRSE a una heladera que está ubicada en Buenos Aires")
 
     public void colaboradorNoPuedeSuscribirseAUnaHeladeraQueNoEstaEnSuProvincia(){
 
-        colaborador.getZonaQueFrecuenta().setProvincia(provinciaSalta);
-        colaborador.getZonaQueFrecuenta().agregarBarrio(barrioSalta);
-        colaborador.getZonaQueFrecuenta().agregarLocalidad(localidadSalta);
+        AreaDeCobertura zonaQueFrecuenta = new AreaDeCobertura(colaborador);
+        zonaQueFrecuenta.agregarProvincia(provinciaSalta);
+        zonaQueFrecuenta.agregarBarrio(barrioSalta);
+        zonaQueFrecuenta.agregarLocalidad(localidadSalta);
+
 
         assertThrows(RuntimeException.class, () -> {
             unaSuscripcion = new Suscripcion(heladeraCABA,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
@@ -289,5 +300,48 @@ public class SuscripcionTests {
 
 
     }
+
+    @Test
+    @DisplayName("Un colaborador que frecuenta por la provincia de Salta y localidad puede suscribirse a una heladera ubicada en la misma provincia y localidad pero diferente barrio")
+
+    public void colaboradorPuedeSuscribirseAunaHeladeraSiFrecuentaPorEsaProvinciaYLocalidadPeroBarriosDiferentes(){
+
+        AreaDeCobertura zonaQueFrecuenta = new AreaDeCobertura(colaborador);
+        zonaQueFrecuenta.agregarProvincia(provinciaSalta);
+        zonaQueFrecuenta.agregarLocalidad(localidadSalta);
+
+        Barrio barrioSanMartin = new Barrio("Barrio San Martín");
+        Barrio barrioSanPedro = new Barrio("Barrio San Pedro");
+
+        zonaQueFrecuenta.agregarBarrio(barrioSanMartin);
+        zonaQueFrecuenta.agregarBarrio(barrioSanPedro);
+
+
+        unaSuscripcion = new Suscripcion(heladeraSalta,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
+
+    }
+
+
+    @Test
+    @DisplayName("Un colaborador que frecuenta por la provincia de Salta,centro Salta,barrios San Jose, San Martin y San Pedro y la heladera está ubicada en San Pedro")
+
+    public void colaboradorPuedeSuscribirseAunaHeladeraSiFrecuentaPorEsaProvinciaYLocalidadYAlgunosBarriosCoincidentes(){
+
+        AreaDeCobertura zonaQueFrecuenta = new AreaDeCobertura(colaborador);
+        zonaQueFrecuenta.agregarProvincia(provinciaSalta);
+        zonaQueFrecuenta.agregarLocalidad(localidadSalta);
+
+        Barrio barrioSanMartin = new Barrio("Barrio San Martín");
+        Barrio barrioSanPedro = new Barrio("Barrio San Pedro");
+
+        zonaQueFrecuenta.agregarBarrio(barrioSanMartin);
+        zonaQueFrecuenta.agregarBarrio(barrioSanPedro);
+        zonaQueFrecuenta.agregarBarrio(barrioSalta);
+
+
+        unaSuscripcion = new Suscripcion(heladeraSalta,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
+
+    }
+
 
 }

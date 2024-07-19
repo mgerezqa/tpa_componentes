@@ -67,14 +67,18 @@ public class AreaDeCobertura {
     }
 
     // ============================================================ //
-    // < Agregado para controlar el area de suscripciones > //
+    // < Agregado para controlar las suscripciones > //
     // ============================================================ //
 
-    public AreaDeCobertura() {
-
+    public AreaDeCobertura(ColaboradorFisico colaboradorFisico) {
+        colaboradorFisico.setZonaQueFrecuenta(this);
     }
 
-        public void agregarLocalidad(Localidad localidad) {
+    public void agregarProvincia(Provincia provincia){
+        this.provincia = provincia;
+    }
+
+    public void agregarLocalidad(Localidad localidad) {
         localidades.add(localidad);
     }
 
@@ -87,9 +91,10 @@ public class AreaDeCobertura {
         //el colaborador está en la misma provincia que la ubicacion de la heladera
         //y además se cumple que alguna de las localidades del colaborador coincide con la localidad de la heladera
         //y además alguno de los barrios donde el colaborador frecuenta coincide con el barrio de la heladera
-        return estaEnLaMismaProvincia(colaborador, heladera) && estaEnLaMismaLocalidad(colaborador, heladera) && estanEnElMismoBarrio(colaborador, heladera);
+        return estaEnLaMismaProvincia(colaborador, heladera) && tieneAlMenosUnaLocalidadEnComun(colaborador, heladera) || tieneAlMenosUnBarrioEnComun(colaborador, heladera);
 
     }
+
 
     public Boolean estaEnLaMismaProvincia(ColaboradorFisico colaborador, Heladera heladera) {
         if (colaborador.getZonaQueFrecuenta().getProvincia().equals(heladera.getUbicacion().getProvincia())) {
@@ -98,16 +103,20 @@ public class AreaDeCobertura {
         return false;
     }
 
-    public Boolean estaEnLaMismaLocalidad(ColaboradorFisico colaborador, Heladera heladera) {
-        if (colaborador.getZonaQueFrecuenta().getLocalidades().contains(heladera.getUbicacion().getLocalidad())) {
-            return true;
+    public Boolean tieneAlMenosUnaLocalidadEnComun(ColaboradorFisico colaborador, Heladera heladera){
+        for (Localidad localidad : colaborador.getZonaQueFrecuenta().getLocalidades()) {
+            if (heladera.getUbicacion().getLocalidad().equals(localidad)) {
+                return true;
+            }
         }
         return false;
     }
 
-    public Boolean estanEnElMismoBarrio(ColaboradorFisico colaborador, Heladera heladera){
-        if (colaborador.getZonaQueFrecuenta().getBarrios().contains(heladera.getUbicacion().getBarrio())) {
-            return true;
+    public Boolean tieneAlMenosUnBarrioEnComun(ColaboradorFisico colaborador, Heladera heladera){
+        for (Barrio barrio : colaborador.getZonaQueFrecuenta().getBarrios()) {
+            if (heladera.getUbicacion().getBarrio().equals(barrio)) {
+                return true;
+            }
         }
         return false;
     }

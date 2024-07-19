@@ -22,7 +22,7 @@ public class Suscripcion {
     public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, TipoDeSuscripcion tipoSuscripcion) {
         this.heladera = heladera;
         this.tipoSuscripcion = tipoSuscripcion;
-        //if(!Zona.verificarQueEstanEnMismaZona(//zona, listaDeBarrios));
+        this.zona = colaboradorFisico.getZonaQueFrecuenta();
         if(!zona.estaEnZonaQueFrecuenta(colaboradorFisico,heladera))
             throw new RuntimeException("No esta cerca de la heladera");
 
