@@ -55,14 +55,14 @@ public class SuscripcionTests {
     private Barrio barrioSalta;
 
     /*Tipo de Suscripciones*/
-    private TipoDeSuscripcionFactory fabrica;
+    private CriterioDeSuscripcionFactory fabrica;
 
     /*Suscripcion */
     private Suscripcion unaSuscripcion;
     private Suscripcion otraSuscripcion;
-    private SuscripcionPorCantidadDeViandasDisp NotificarCuandoFaltanCincoViandasEnLaHeladera;
-    private SuscripcionPorCantidadDeViandasHastaAlcMax NotificarCuandoFalten10ViandasParaAlcanzarelMax;
-    private SuscripcionPorDesperfectoH NotificarCuandoSeProduceUnDesperfecto;
+    private CriterioPorCantidadDeViandasDisponibles NotificarCuandoFaltanCincoViandasEnLaHeladera;
+    private CriterioPorCantidadDeViandasHastaAlcMax NotificarCuandoFalten10ViandasParaAlcanzarelMax;
+    private CriterioPorDesperfectoH NotificarCuandoSeProduceUnDesperfecto;
 
     @BeforeEach
     public void setUp() {
@@ -111,18 +111,18 @@ public class SuscripcionTests {
 
 
         //Tipo de suscripciones
-        fabrica = new TipoDeSuscripcionFactory();
+        fabrica = new CriterioDeSuscripcionFactory();
 
         //Genero suscripcion para que  informe cuando restan 5 viandas
-        NotificarCuandoFaltanCincoViandasEnLaHeladera = (SuscripcionPorCantidadDeViandasDisp) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
+        NotificarCuandoFaltanCincoViandasEnLaHeladera = (CriterioPorCantidadDeViandasDisponibles) fabrica.crearSuscripcion(eCriterioDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
         NotificarCuandoFaltanCincoViandasEnLaHeladera.setCantidadDeViandasDisp(5);
 
         //Genero suscripcion para que informe cuando se esté por alcanzar el max de 10 viandas
-        NotificarCuandoFalten10ViandasParaAlcanzarelMax =  (SuscripcionPorCantidadDeViandasHastaAlcMax) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_HASTA_ALC_MAX);
+        NotificarCuandoFalten10ViandasParaAlcanzarelMax =  (CriterioPorCantidadDeViandasHastaAlcMax) fabrica.crearSuscripcion(eCriterioDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_HASTA_ALC_MAX);
         NotificarCuandoFalten10ViandasParaAlcanzarelMax.setCantidadDeViandasHastaAlcMax(10);
 
         //Genero suscripcion para que informe cuando se produce un desperfecto
-        NotificarCuandoSeProduceUnDesperfecto = (SuscripcionPorDesperfectoH) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_DESPERFECTO_H);
+        NotificarCuandoSeProduceUnDesperfecto = (CriterioPorDesperfectoH) fabrica.crearSuscripcion(eCriterioDeSuscripcion.POR_DESPERFECTO_H);
     }
 
     @Test

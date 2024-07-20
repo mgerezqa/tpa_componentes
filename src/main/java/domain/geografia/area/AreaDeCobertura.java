@@ -71,7 +71,7 @@ public class AreaDeCobertura {
     // ============================================================ //
 
     public AreaDeCobertura(ColaboradorFisico colaboradorFisico) {
-        colaboradorFisico.setZonaQueFrecuenta(this);
+        colaboradorFisico.setZona(this);
     }
 
     public void agregarProvincia(Provincia provincia){
@@ -97,14 +97,14 @@ public class AreaDeCobertura {
 
 
     public Boolean estaEnLaMismaProvincia(ColaboradorFisico colaborador, Heladera heladera) {
-        if (colaborador.getZonaQueFrecuenta().getProvincia().equals(heladera.getUbicacion().getProvincia())) {
+        if (colaborador.getZona().getProvincia().equals(heladera.getUbicacion().getProvincia())) {
             return true;
         }
         return false;
     }
 
     public Boolean tieneAlMenosUnaLocalidadEnComun(ColaboradorFisico colaborador, Heladera heladera){
-        for (Localidad localidad : colaborador.getZonaQueFrecuenta().getLocalidades()) {
+        for (Localidad localidad : colaborador.getZona().getLocalidades()) {
             if (heladera.getUbicacion().getLocalidad().equals(localidad)) {
                 return true;
             }
@@ -113,7 +113,7 @@ public class AreaDeCobertura {
     }
 
     public Boolean tieneAlMenosUnBarrioEnComun(ColaboradorFisico colaborador, Heladera heladera){
-        for (Barrio barrio : colaborador.getZonaQueFrecuenta().getBarrios()) {
+        for (Barrio barrio : colaborador.getZona().getBarrios()) {
             if (heladera.getUbicacion().getBarrio().equals(barrio)) {
                 return true;
             }

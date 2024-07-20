@@ -17,7 +17,7 @@ public class ColaboradorFisico extends Colaborador implements iSuscriptor {
     private String apellido;
     private boolean notificacionRecibida;
     @Getter
-    private AreaDeCobertura zonaQueFrecuenta;
+    private AreaDeCobertura zona;
     // ============================================================ //
     // Constructor //
     // ============================================================ //

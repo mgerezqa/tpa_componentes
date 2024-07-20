@@ -1,17 +1,5 @@
 package domain.suscripciones;
 
-import domain.heladera.Heladera.Heladera;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import domain.heladera.Heladera.Heladera;
-import java.util.ArrayList;
-import java.util.List;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +16,7 @@ public class EventManager {
 
     public void notifyObservers() {
         for (Suscripcion suscripcion : suscripciones) {
-            if (suscripcion.getTipoSuscripcion().verificarCondicion(suscripcion.getHeladera())) {
+            if (suscripcion.getCriterioDeSuscripcion().verificarCondicion(suscripcion.getHeladera())) {
                 suscripcion.getColaboradorFisico().update();
             }
         }

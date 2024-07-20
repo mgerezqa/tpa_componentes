@@ -4,7 +4,7 @@ import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
-public class SuscripcionPorCantidadDeViandasDisp extends TipoDeSuscripcion {
+public class CriterioPorCantidadDeViandasDisponibles extends CriterioDeSuscripcion {
 
     @Setter @Getter
     private int cantidadDeViandasDisp;
@@ -12,7 +12,17 @@ public class SuscripcionPorCantidadDeViandasDisp extends TipoDeSuscripcion {
     private final String descripcion = "CANTIDAD_DE_VIANDAS_DISPONIBLES";
 
     @Override
+
     public boolean verificarCondicion(Heladera heladera) {
-        return heladera.getCondicionActual().verificarCantidadViandasDisponibles(cantidadDeViandasDisp);
+        return verificarCantidadViandasDisponibles(cantidadDeViandasDisp,heladera);
     }
+
+    public boolean verificarCantidadViandasDisponibles(int n,Heladera heladera)
+    {
+        return capacidadActualHeladera(heladera) <= n;
+    }
+
+
+
+
 }

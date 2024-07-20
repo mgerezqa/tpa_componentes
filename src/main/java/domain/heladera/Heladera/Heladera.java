@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Heladera {
-    @Getter
-    private CondicionActual condicionActual;
+
     @Getter @Setter
     private EventManager eventManager;
 
@@ -58,7 +57,6 @@ public class Heladera {
         this.modelo = modelo;
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
-        this.condicionActual = new CondicionActual(this);
         this.eventManager = new EventManager();
 
 

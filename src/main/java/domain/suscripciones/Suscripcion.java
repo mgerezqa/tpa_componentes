@@ -1,6 +1,5 @@
 package domain.suscripciones;
 
-import domain.geografia.area.AreaDeCobertura;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
@@ -15,15 +14,14 @@ public class Suscripcion {
     @Setter @Getter
     private ColaboradorFisico colaboradorFisico;
     @Setter @Getter
-    private TipoDeSuscripcion tipoSuscripcion;
-    @Getter
-    private AreaDeCobertura zona;
+    private CriterioDeSuscripcion criterioDeSuscripcion;
 
-    public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, TipoDeSuscripcion tipoSuscripcion) {
+
+    public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, CriterioDeSuscripcion criterioDeSuscripcion) {
         this.heladera = heladera;
-        this.tipoSuscripcion = tipoSuscripcion;
-        this.zona = colaboradorFisico.getZonaQueFrecuenta();
-        if(!zona.estaEnZonaQueFrecuenta(colaboradorFisico,heladera))
+        this.criterioDeSuscripcion = criterioDeSuscripcion;
+
+        if(!colaboradorFisico.getZona().estaEnZonaQueFrecuenta(colaboradorFisico,heladera))
             throw new RuntimeException("No esta cerca de la heladera");
 
         this.colaboradorFisico = colaboradorFisico;

@@ -4,17 +4,17 @@ import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
-public class SuscripcionPorDesperfectoH extends  TipoDeSuscripcion{
+public class CriterioPorDesperfectoH extends CriterioDeSuscripcion {
 
     @Getter
     private final String descripcion = "DESPERFECTO";
 
-    @Getter @Setter
-    private boolean desperfecto;
-
-
     @Override
     public boolean verificarCondicion(Heladera heladera) {
-        return heladera.getCondicionActual().verificarDesperfecto();
+        return verificarDesperfecto(heladera);
+    }
+
+    public boolean verificarDesperfecto(Heladera heladera) {
+        return !heladera.estaActivaHeladera();
     }
 }
