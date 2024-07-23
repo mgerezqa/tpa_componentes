@@ -1,4 +1,5 @@
 package domain.heladera.Heladera;
+import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
@@ -43,13 +44,11 @@ public class Heladera {
     // ============================================================ //
 
     public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion){
-
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
         this.modelo = modelo;
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
-
     }
 
     // ============================================================ //
@@ -98,9 +97,9 @@ public class Heladera {
     }
 
     // Setear la temperatura actual.
-    public void setUltimaTemperaturaRegistrada(Float temp){
+    public void setUltimaTemperaturaRegistrada(Float temp, LocalDateTime fecha){
         this.ultimaTemperaturaRegistrada.setTemperatura(temp);
-        this.ultimaTemperaturaRegistrada.setFechaYhora(LocalDateTime.now());
+        this.ultimaTemperaturaRegistrada.setFechaYhora(fecha);
     }
 
     // Get temperatura actual.
@@ -110,7 +109,8 @@ public class Heladera {
 
     // Ver si la temperatura esta en rango.
     public boolean temperaturaFueraDeRango(){
-        return this.getUltimaTemperaturaRegistrada() < modelo.getTemperaturaMinima() || this.getUltimaTemperaturaRegistrada() > modelo.getTemperaturaMaxima();
+        return this.getUltimaTemperaturaRegistrada() < modelo.getTemperaturaMinima() ||
+                this.getUltimaTemperaturaRegistrada() > modelo.getTemperaturaMaxima();
     }
 
     // Agregar incidente a la lista de incidentes de la heladera.

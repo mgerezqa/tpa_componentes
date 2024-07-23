@@ -1,0 +1,44 @@
+public class IncidenteFactory {
+
+    private static INotificadorIncidentes notificador;
+
+    public static void setNotificador(INotificadorIncidentes notificador) {
+        IncidenteFactory.notificador = notificador;
+    }
+
+    public static Alerta crearAlerta(Heladera heladera, String tipoAlerta) {
+        Alerta alerta = new Alerta(heladera);
+        alerta.setFechaYHora(LocalDateTime.now());
+        alerta.setTipoAlerta(tipoAlerta);
+
+        // Persistir el incidente en la heladera
+        heladera.agregarIncidente(alerta);
+
+        // Notificar al técnico más cercano
+        notificarTecnico(alerta);
+
+        return alerta;
+    }
+
+    public static FallaTecnica crearFallaTecnica(FallaTecnicaDTO fallaTecnicaDTO, Heladera heladera, Usuario usuario) {
+        FallaTecnica fallaTecnica = new FallaTecnica(heladera);
+        fallaTecnica.setFechaYHora(LocalDateTime.now());
+        fallaTecnica.setReportadoPor(usuario);
+        fallaTecnica.setDescripcion(fallaTecnicaDTO.getDescripcion());
+        fallaTecnica.setFoto(fallaTecnicaDTO.getFoto());
+
+        // Persistir el incidente en la heladera
+        heladera.agregarIncidente(fallaTecnica);
+
+        // Notificar al técnico más cercano
+        notificarTecnico(fallaTecnica);
+
+        return fallaTecnica;
+    }
+
+    private static void notificarTecnico(Incidente incidente) {
+        if (notificador != null) {
+            notificador.notificarTecnico(incidente);
+        }
+    }
+}

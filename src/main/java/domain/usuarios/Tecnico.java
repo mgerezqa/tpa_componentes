@@ -34,6 +34,7 @@ public class Tecnico {
         this.documento = documento;
         this.cuil = cuil;
         this.mediosDeContacto = new ArrayList<>();
+        this.area = new AreaDeCobertura(null, TamanioArea.PEQUENA); // GENERICO
     }
 
     // ============================================================ //
@@ -56,12 +57,13 @@ public class Tecnico {
     public void limpiarMediosDeContacto(){
         this.mediosDeContacto.clear();
     }
-
+    public void darDeBaja(){
+        this.activo = false;
+    }
     // ============================================================ //
 
-    public void setAreaDeCobertura(Ubicacion ubicacion, String tamanioArea){
-        area.setUbicacionPrincipal(ubicacion);
-        area.setTamanioArea(TamanioArea.valueOf(tamanioArea));
+    public void setAreaDeCobertura(AreaDeCobertura areaDeCobertura){
+        areaDeCobertura.setUbicacionPrincipal(areaDeCobertura.getUbicacionPrincipal());
+        areaDeCobertura.setTamanioArea((areaDeCobertura.getTamanioArea()));
     }
-
 }

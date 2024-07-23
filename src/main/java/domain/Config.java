@@ -19,4 +19,17 @@ public class Config {
     public static String getProperty(String key) {
         return properties.getProperty(key);
     }
+
+    public static Long getPropertyToLong(String key) {
+        String property = properties.getProperty(key);
+        if (property != null) {
+            try {
+                return Long.parseLong(property);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException();
+            }
+        }
+        throw new IllegalArgumentException();
+    }
 }
+
