@@ -1,18 +1,22 @@
 package domain.usuarios;
 
 import domain.contacto.MedioDeContacto;
+import domain.donaciones.Vianda;
 import domain.formulario.Campo;
 import domain.formulario.TipoCampo;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Getter @Setter
 public class ColaboradorFisico extends Colaborador {
 
     private String nombre;
     private String apellido;
+
+    private List<Vianda> viandasDonadas;
 
     // ============================================================ //
     // Constructor //
