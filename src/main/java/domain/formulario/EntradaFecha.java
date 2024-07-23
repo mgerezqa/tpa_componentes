@@ -9,17 +9,13 @@ public class EntradaFecha extends Entrada{
     private LocalDate fecha;
 
     @Override
-    public void cargarEntrada(String entrada) {
-        this.fecha = LocalDate.parse(entrada);
+    public void ingresarRespuesta(String fechaIngresada) {
+        this.fecha = LocalDate.parse(fechaIngresada);
     }
 
     @Override
-    public String mostrarEntrada() {
+    public String obtenerRespuesta() {
         return fecha.toString();
     }
 
-    @Override
-    public LocalDate mostrarFecha(){
-        return this.fecha;
-    }
 }

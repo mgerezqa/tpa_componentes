@@ -1,27 +1,19 @@
 package domain.contacto;
 
-public class Whatsapp extends MedioDeContacto{
-    private String numero;
+public class Whatsapp extends Telefono{
 
-    public Whatsapp(String numero) {
-        if (numero == null) {
-            throw new IllegalArgumentException("El número de Whatsapp no puede ser nulo");
-        }
-
-        if (!numero.startsWith("+")) {
-            throw new IllegalArgumentException("El número de Whatsapp debe comenzar con un '+'");
-        }
-
-        if (numero.length() < 12 || numero.length() > 13) {
-            throw new IllegalArgumentException("El número de Whatsapp debe tener entre 12 y 13 caracteres");
-        }
-
-        this.numero = numero;
+    public Whatsapp(String numero){
+        super(numero);
     }
 
     @Override
-    public String obtenerDescripcion() {
-        return numero;
+    public String tipoMedioDeContacto() {
+        return "Whatsapp";
+    }
+
+    @Override
+    public String informacionDeMedioDeContacto() {
+        return getNumero();
     }
 }
 

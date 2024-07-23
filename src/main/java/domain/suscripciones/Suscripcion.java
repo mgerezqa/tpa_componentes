@@ -14,12 +14,12 @@ public class Suscripcion {
     @Setter @Getter
     private ColaboradorFisico colaboradorFisico;
     @Setter @Getter
-    private CriterioDeSuscripcion criterioDeSuscripcion;
+    private TipoDeSuscripcion tipoDeSuscripcion;
 
 
-    public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, CriterioDeSuscripcion criterioDeSuscripcion) {
+    public Suscripcion(Heladera heladera, ColaboradorFisico colaboradorFisico, TipoDeSuscripcion tipoDeSuscripcion) {
         this.heladera = heladera;
-        this.criterioDeSuscripcion = criterioDeSuscripcion;
+        this.tipoDeSuscripcion = tipoDeSuscripcion;
 
         if(!colaboradorFisico.getZona().estaEnZonaQueFrecuenta(colaboradorFisico,heladera))
             throw new RuntimeException("No esta cerca de la heladera");

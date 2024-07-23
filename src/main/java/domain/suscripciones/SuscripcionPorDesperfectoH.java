@@ -2,15 +2,14 @@ package domain.suscripciones;
 
 import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
-import lombok.Setter;
 
-public class CriterioPorDesperfectoH extends CriterioDeSuscripcion {
+public class SuscripcionPorDesperfectoH extends TipoDeSuscripcion {
 
     @Getter
     private final String descripcion = "DESPERFECTO";
 
     @Override
-    public boolean verificarCondicion(Heladera heladera) {
+    public boolean cumpleCriterio(Heladera heladera) {
         return verificarDesperfecto(heladera);
     }
 

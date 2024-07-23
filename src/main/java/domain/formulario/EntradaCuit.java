@@ -4,15 +4,11 @@ public class EntradaCuit extends Entrada{
     private Integer prefijo;
     private Integer nroSociedad;
     private Integer verificador;
-    private String entrada;
+    private String cuit;
 
-    public EntradaCuit(){
-
-    }
-
-    public void cargarEntrada(String entrada) {
-        this.entrada = entrada;
-        this.parsearEntrada(entrada);
+    public void ingresarRespuesta(String cuitIngresado) {
+        this.cuit = cuitIngresado;
+        this.parsearEntrada(cuitIngresado);
         this.validarRespuesta();
     }
 
@@ -48,7 +44,7 @@ public class EntradaCuit extends Entrada{
     }
 
     @Override
-    public String mostrarEntrada() {
+    public String obtenerRespuesta() {
         return prefijo + "-" + nroSociedad + "-" + verificador;
     }
 }

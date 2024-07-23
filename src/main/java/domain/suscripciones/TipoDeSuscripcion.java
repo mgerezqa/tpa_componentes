@@ -6,13 +6,13 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-public abstract class CriterioDeSuscripcion {
+public abstract class TipoDeSuscripcion {
     @Getter
     private String descripcion;
     @Setter @Getter
     private LocalDateTime fecha;
 
-    public abstract boolean verificarCondicion(Heladera heladera);
+    public abstract boolean cumpleCriterio(Heladera heladera);
 
     public int capacidadActualHeladera(Heladera heladera) {
         return heladera.getCapacidadActual();

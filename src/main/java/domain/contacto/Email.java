@@ -1,12 +1,20 @@
 package domain.contacto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class Email extends MedioDeContacto {
     private String email;
+    @Setter
+    private boolean notificar;
 
     public Email(String email) {
+        validarEmail(email);
+        this.email = email;
+    }
+
+    private void validarEmail(String email){
         if (email == null) {
             throw new IllegalArgumentException("El email no puede ser nulo");
         }
@@ -26,12 +34,15 @@ public class Email extends MedioDeContacto {
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             throw new IllegalArgumentException("El email no tiene un formato valido");
         }
-
-        this.email = email;
     }
 
     @Override
-    public String obtenerDescripcion() {
-        return email;
+    public String tipoMedioDeContacto() {
+        return "Email";
+    }
+
+    @Override
+    public String informacionDeMedioDeContacto() {
+        return getEmail();
     }
 }

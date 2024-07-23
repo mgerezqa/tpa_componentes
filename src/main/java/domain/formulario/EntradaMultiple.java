@@ -14,22 +14,23 @@ public class EntradaMultiple extends Entrada{
     }
 
     @Override
-    public void cargarEntrada(String entrada) {
+    public void ingresarRespuesta(String entrada) {
         this.entradas.add(entrada);
     }
 
     @Override
-    public String mostrarEntrada() {
+    public String obtenerRespuesta() {
         return entradas.toString();
     }
+
+
     @Override
-    public List<String> mostrarEntradas(){
-        return entradas;
-    }
-    @Override
-    public String mostrarEntrada(Integer index){
+    public String obtenerRespuesta(Integer index){
         return entradas.get(index);
     }
 
+    public List<String> mostrarEntradas(){
+        return entradas;
+    }
 
 }

@@ -1,14 +1,12 @@
 package domain.formulario;
 
-public interface GenerarEntrada {
-    public static Entrada generar(TipoCampo tipo){
+public interface EntradaFactory {
+    public static Entrada crear(eTipoCampo tipo){
         switch (tipo){
             case CAMPO_TEXTO:
                 return new EntradaTexto();
             case CAMPO_NUMERICO:
                 return new EntradaNumerica();
-            case CAMPO_FECHA_NACIMIENTO:
-                return new EntradaFechaNacimiento();
             case CAMPO_FECHA:
                 return new EntradaFecha();
             case CAMPO_MULTIPLE:
@@ -17,6 +15,10 @@ public interface GenerarEntrada {
                 return new EntradaNombre();
             case CAMPO_CUIT:
                 return new EntradaCuit();
+            case CAMPO_TELEFONO:
+                return new EntradaTelefono();
+            case CAMPO_EMAIL:
+                return new EntradaEmail();
 
             default:
                 return null;

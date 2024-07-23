@@ -2,7 +2,7 @@ package domain;
 
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
-import domain.contacto.Telefono;
+import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
 import domain.formulario.Formulario;
 import domain.geografia.*;
@@ -55,23 +55,23 @@ public class SuscripcionTests {
     private Barrio barrioSalta;
 
     /*Tipo de Suscripciones*/
-    private CriterioDeSuscripcionFactory fabrica;
+    private TipoDeSuscripcionFactory fabrica;
 
     /*Suscripcion */
     private Suscripcion unaSuscripcion;
     private Suscripcion otraSuscripcion;
-    private CriterioPorCantidadDeViandasDisponibles NotificarCuandoFaltanCincoViandasEnLaHeladera;
-    private CriterioPorCantidadDeViandasHastaAlcMax NotificarCuandoFalten10ViandasParaAlcanzarelMax;
-    private CriterioPorDesperfectoH NotificarCuandoSeProduceUnDesperfecto;
+    private SuscripcionPorCantidadDeViandasDisponibles NotificarCuandoFaltanCincoViandasEnLaHeladera;
+    private SuscripcionPorCantidadDeViandasHastaAlcMax NotificarCuandoFalten10ViandasParaAlcanzarelMax;
+    private SuscripcionPorDesperfectoH NotificarCuandoSeProduceUnDesperfecto;
 
     @BeforeEach
     public void setUp() {
         //Medios de contacto
         this.laloEmail = new Email("lalo@gmail.com");
-        this.laloTelefono = new Telefono(54,11,400090000);
+        this.laloTelefono = new Telegram("+5491165974084");
         this.laloWhatsapp = new Whatsapp("+549116574460");
-        this.colaborador = new ColaboradorFisico("Lalo", "Menz",laloEmail);
-        this.otroColaborador = new ColaboradorFisico("Pepe","Argento",laloWhatsapp);
+        this.colaborador = new ColaboradorFisico("Lalo", "Menz");
+        this.otroColaborador = new ColaboradorFisico("Pepe","Argento");
         this.areaDeCobertura = new AreaDeCobertura(colaborador);
         this.otraAreaDeCobertura = new AreaDeCobertura(otroColaborador);
 
@@ -111,18 +111,18 @@ public class SuscripcionTests {
 
 
         //Tipo de suscripciones
-        fabrica = new CriterioDeSuscripcionFactory();
+        fabrica = new TipoDeSuscripcionFactory();
 
         //Genero suscripcion para que  informe cuando restan 5 viandas
-        NotificarCuandoFaltanCincoViandasEnLaHeladera = (CriterioPorCantidadDeViandasDisponibles) fabrica.crearSuscripcion(eCriterioDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
+        NotificarCuandoFaltanCincoViandasEnLaHeladera = (SuscripcionPorCantidadDeViandasDisponibles) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
         NotificarCuandoFaltanCincoViandasEnLaHeladera.setCantidadDeViandasDisp(5);
 
         //Genero suscripcion para que informe cuando se esté por alcanzar el max de 10 viandas
-        NotificarCuandoFalten10ViandasParaAlcanzarelMax =  (CriterioPorCantidadDeViandasHastaAlcMax) fabrica.crearSuscripcion(eCriterioDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_HASTA_ALC_MAX);
+        NotificarCuandoFalten10ViandasParaAlcanzarelMax =  (SuscripcionPorCantidadDeViandasHastaAlcMax) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_HASTA_ALC_MAX);
         NotificarCuandoFalten10ViandasParaAlcanzarelMax.setCantidadDeViandasHastaAlcMax(10);
 
         //Genero suscripcion para que informe cuando se produce un desperfecto
-        NotificarCuandoSeProduceUnDesperfecto = (CriterioPorDesperfectoH) fabrica.crearSuscripcion(eCriterioDeSuscripcion.POR_DESPERFECTO_H);
+        NotificarCuandoSeProduceUnDesperfecto = (SuscripcionPorDesperfectoH) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_DESPERFECTO_H);
     }
 
     @Test
@@ -322,8 +322,9 @@ public class SuscripcionTests {
     }
 
 
+
     @Test
-    @DisplayName("Un colaborador que frecuenta por la provincia de Salta,centro Salta,barrios San Jose, San Martin y San Pedro y la heladera está ubicada en San Pedro")
+    @DisplayName("Un colaborador que frecuenta por la provincia de Salta,centro Salta,barrios San Jose, San Martin y San Pedro, se puede suscribir a una heladera que está ubicada en San Pedro")
 
     public void colaboradorPuedeSuscribirseAunaHeladeraSiFrecuentaPorEsaProvinciaYLocalidadYAlgunosBarriosCoincidentes(){
 
@@ -342,6 +343,5 @@ public class SuscripcionTests {
         unaSuscripcion = new Suscripcion(heladeraSalta,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
 
     }
-
 
 }

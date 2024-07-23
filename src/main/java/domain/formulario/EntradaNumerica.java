@@ -7,17 +7,14 @@ public class EntradaNumerica extends Entrada{
     private Integer entrada;
 
     @Override
-    public void cargarEntrada(String entrada) {
+    public void ingresarRespuesta(String entrada) {
         this.entrada = Integer.parseInt(entrada);
     }
 
     @Override
-    public String mostrarEntrada() {
+    public String obtenerRespuesta() {
         return entrada.toString();
     }
 
-    @Override
-    public Integer mostrarNumero(){
-        return this.entrada;
-    }
+
 }

@@ -4,11 +4,11 @@ import lombok.Getter;
 
 @Getter
 public class EntradaTexto extends Entrada{
-    private String entrada;
+    private String texto;
 
     @Override
-    public void cargarEntrada(String entrada) {
-        this.entrada = validarRespuesta(entrada);
+    public void ingresarRespuesta(String textoIngresado) {
+        this.texto = validarRespuesta(textoIngresado);
     }
 
     private String validarRespuesta(String entrada) {
@@ -24,7 +24,7 @@ public class EntradaTexto extends Entrada{
     }
 
     @Override
-    public String mostrarEntrada() {
-        return this.entrada;
+    public String obtenerRespuesta() {
+        return this.texto;
     }
 }

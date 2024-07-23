@@ -1,25 +1,19 @@
 package domain.formulario;
 
 public class EntradaTelefono extends Entrada{
-//    private Integer codPais;
-//    private Integer codArea;
-//    private Integer numeroAbonado;
-    private Integer entrada;
+    private String telefonoIngresado;
+
+    @Override
+    public void ingresarRespuesta(String nroTelefono) {
+        //las validaciones se hacen para cada operador de telefonía
+        this.telefonoIngresado = nroTelefono;
+    }
 
 
     @Override
-    public void cargarEntrada(String entrada) {
-        this.entrada = Integer.parseInt(entrada);
+    public String obtenerRespuesta() {
+        return telefonoIngresado.toString();
     }
 
-    @Override
-    public String mostrarEntrada() {
-        return entrada.toString();
-    }
-
-    @Override
-    public Integer mostrarNumero(){
-        return this.entrada;
-    }
 
 }

@@ -2,24 +2,22 @@ package domain.formulario;
 
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
-public class Campo implements GenerarEntrada{
-    private TipoCampo tipoCampo;
+public class Campo implements EntradaFactory {
+    private eTipoCampo tipoCampo;
     private Entrada entrada;
 
-    public Campo(TipoCampo tipo){
+    public Campo(eTipoCampo tipo){
         this.tipoCampo = tipo;
-        this.entrada = GenerarEntrada.generar(tipo);
+        this.entrada = EntradaFactory.crear(tipo);
     }
 
     public String getValor(){
-        return entrada.mostrarEntrada();
+        return entrada.obtenerRespuesta();
     }
 
     public void setValor(String valor){
-        this.entrada.cargarEntrada(valor);
+        this.entrada.ingresarRespuesta(valor);
     }
 
 

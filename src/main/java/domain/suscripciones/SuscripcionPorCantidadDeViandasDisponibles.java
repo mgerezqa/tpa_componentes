@@ -4,7 +4,7 @@ import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CriterioPorCantidadDeViandasDisponibles extends CriterioDeSuscripcion {
+public class SuscripcionPorCantidadDeViandasDisponibles extends TipoDeSuscripcion {
 
     @Setter @Getter
     private int cantidadDeViandasDisp;
@@ -13,7 +13,7 @@ public class CriterioPorCantidadDeViandasDisponibles extends CriterioDeSuscripci
 
     @Override
 
-    public boolean verificarCondicion(Heladera heladera) {
+    public boolean cumpleCriterio(Heladera heladera) {
         return verificarCantidadViandasDisponibles(cantidadDeViandasDisp,heladera);
     }
 

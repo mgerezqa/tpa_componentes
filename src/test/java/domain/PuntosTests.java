@@ -48,8 +48,8 @@ public class PuntosTests {
         this.calculadoraPuntos = new CalculadoraPuntos();
 
         this.laloEmail = new Email("lalo@gmail.com");
-        this.lalo = new ColaboradorFisico("Lalo", "Menz", laloEmail);
-        this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS, laloEmail);
+        this.lalo = new ColaboradorFisico("Lalo", "Menz");
+        this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
 
         this.ubicacion = new Ubicacion(-54F, -48F, new Calle("Av. Rivadavia", "1234"));
         this.modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
