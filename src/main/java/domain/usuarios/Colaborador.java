@@ -15,17 +15,6 @@ public abstract class  Colaborador {
     @Getter @Setter protected Boolean activo; //protected para que las clases hijas puedan acceder a este atributo
     @Getter public int puntosAcumulados = 0;
 
-//    /*Punto de arranque*/
-//    public void completarFormulario(){
-//        this.formulario = new Formulario();
-//    }
-//
-//    /*Sobrecarga*/
-//    public void completarFormulario(Formulario formulario){
-//
-//        this.formulario = formulario;
-//    }
-
     public void agregarMedioDeContacto(MedioDeContacto medio) {
         mediosDeContacto.add(medio);
     }
@@ -36,18 +25,6 @@ public abstract class  Colaborador {
         }
     }
     public void darDeBaja(){ this.activo = false; }
-
-//    public void agregarRespuesta(String label, String valor) {
-//        formulario.ingresarRespuesta(label,valor);
-//    }
-//
-//    public void modificarRespuesta(String label, String valor) {
-//        formulario.modificarRespuesta(label,valor);
-//    }
-//
-//    public void leerFormulario(){
-//        formulario.mostrarCampos(this);
-//    }
 
     public void sumarPuntos(int puntos) {
         this.puntosAcumulados += puntos;
