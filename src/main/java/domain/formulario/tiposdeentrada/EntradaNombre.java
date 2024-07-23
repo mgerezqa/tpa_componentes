@@ -1,4 +1,4 @@
-package domain.formulario;
+package domain.formulario.tiposdeentrada;
 
 public class EntradaNombre extends Entrada{
     private String nombre;

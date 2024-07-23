@@ -1,4 +1,4 @@
-package domain.formulario;
+package domain.formulario.documentos;
 
 import domain.excepciones.CuilInvalidoException;
 

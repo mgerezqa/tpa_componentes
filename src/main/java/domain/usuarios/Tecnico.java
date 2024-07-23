@@ -1,8 +1,8 @@
 package domain.usuarios;
 import domain.contacto.MedioDeContacto;
-import domain.formulario.Cuil;
-import domain.formulario.Documento;
-import domain.formulario.TipoDocumento;
+import domain.formulario.documentos.Cuil;
+import domain.formulario.documentos.Documento;
+import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.Ubicacion;
 import domain.geografia.area.TamanioArea;

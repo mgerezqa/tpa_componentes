@@ -1,4 +1,4 @@
-package domain.formulario;
+package domain.formulario.tiposdeentrada;
 
 public class EntradaCuit extends Entrada{
     private Integer prefijo;

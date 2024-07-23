@@ -26,7 +26,7 @@ public abstract class Telefono extends MedioDeContacto {
         }
 
         if (numero.length() < 13 || numero.length() > 14) {
-            throw new IllegalArgumentException("El número debe tener entre 12 y 13 caracteres");
+            throw new IllegalArgumentException("El número debe tener entre 13 y 14 caracteres");
         }
     }
 

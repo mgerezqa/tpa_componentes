@@ -1,5 +1,7 @@
 package domain.formulario;
 
+import domain.formulario.tiposdeentrada.Entrada;
+import domain.formulario.tiposdeentrada.EntradaFactory;
 import lombok.Getter;
 
 @Getter

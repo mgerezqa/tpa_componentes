@@ -1,4 +1,6 @@
-package domain.formulario;
+package domain.formulario.tiposdeentrada;
+
+import domain.formulario.eTipoCampo;
 
 public interface EntradaFactory {
     public static Entrada crear(eTipoCampo tipo){

@@ -1,7 +1,4 @@
-package domain.formulario;
-
-import domain.usuarios.Rubro;
-import domain.usuarios.TipoRazonSocial;
+package domain.formulario.tiposdeentrada;
 
 public abstract class Entrada {
 
