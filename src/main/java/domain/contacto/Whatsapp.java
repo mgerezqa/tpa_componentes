@@ -1,5 +1,8 @@
 package domain.contacto;
 
+import domain.heladera.Heladera.Heladera;
+import domain.usuarios.ColaboradorFisico;
+
 public class Whatsapp extends Telefono{
 
     public Whatsapp(String numero){
@@ -14,6 +17,12 @@ public class Whatsapp extends Telefono{
     @Override
     public String informacionDeMedioDeContacto() {
         return getNumero();
+    }
+
+    @Override
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera) {
+        //TODO: Implementar envío de mensaje por Whatsapp
+        System.out.println("Enviando mensaje por Whatsapp a " + getNumero());
     }
 }
 

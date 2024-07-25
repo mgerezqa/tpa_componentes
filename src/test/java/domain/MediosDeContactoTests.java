@@ -71,4 +71,5 @@ public class MediosDeContactoTests {
     public void testWhatsappLongitud() {
         assertThrows(Exception.class, () -> new Whatsapp("549116574460555"));
     }
+
 }

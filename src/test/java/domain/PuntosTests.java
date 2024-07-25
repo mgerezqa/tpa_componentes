@@ -39,11 +39,12 @@ public class PuntosTests {
     private ModeloDeHeladera modeloHeladera;
     private Heladera heladeraPalermo;
     private Heladera heladeraMedrano;
-
+    private Config config;
 
     @BeforeEach
     public void setUp() throws IOException {
-        Config.init();
+
+        config = Config.getInstance();
 
         this.calculadoraPuntos = new CalculadoraPuntos();
 
@@ -75,15 +76,12 @@ public class PuntosTests {
     public void lecturaArchivoProperties() {
         try {
             System.out.println("TestProperties");
-            Config.init();
-            System.out.println("Coeficiente de dinero donado: " + Config.getProperty("puntos.coefDineroDonado"));
-            System.out.println("Coeficiente de viandas distribuidas: " + Config.getProperty("puntos.coefViandasDistribuidas"));
-            System.out.println("Coeficiente de viandas donadas: " + Config.getProperty("puntos.coefViandasDonadas"));
-            System.out.println("Coeficiente de tarjetas repartidas: " + Config.getProperty("puntos.coefTarjetasRepartidas"));
-            System.out.println("Coeficiente de heladeras activas: " + Config.getProperty("puntos.coefHeladerasActivas"));
+            System.out.println("Coeficiente de dinero donado: " + config.getProperty("puntos.coefDineroDonado"));
+            System.out.println("Coeficiente de viandas distribuidas: " + config.getProperty("puntos.coefViandasDistribuidas"));
+            System.out.println("Coeficiente de viandas donadas: " + config.getProperty("puntos.coefViandasDonadas"));
+            System.out.println("Coeficiente de tarjetas repartidas: " + config.getProperty("puntos.coefTarjetasRepartidas"));
+            System.out.println("Coeficiente de heladeras activas: " + config.getProperty("puntos.coefHeladerasActivas"));
             System.out.println("--------------------------------------------------");
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NumberFormatException e) {
             System.err.println("Error en el formato del archivo de propiedades: " + e.getMessage());
         }

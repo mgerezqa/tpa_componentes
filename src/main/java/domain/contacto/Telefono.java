@@ -1,12 +1,13 @@
 package domain.contacto;
 
+import domain.heladera.Heladera.Heladera;
+import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 public abstract class Telefono extends MedioDeContacto {
     @Setter
-    private boolean notificar;
     private String numero;
 
     public Telefono(String numero) {
@@ -33,4 +34,10 @@ public abstract class Telefono extends MedioDeContacto {
     public abstract String tipoMedioDeContacto();
 
     public abstract String informacionDeMedioDeContacto();
+
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera){
+
+
+    }
+
 }

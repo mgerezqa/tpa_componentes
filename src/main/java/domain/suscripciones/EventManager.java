@@ -1,10 +1,13 @@
 package domain.suscripciones;
 
+import utils.notificador.Notificador;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventManager {
     private List<Suscripcion> suscripciones = new ArrayList<>();
+    private Notificador notificador = new Notificador();
 
     public void suscribe(Suscripcion suscripcion) {
         suscripciones.add(suscripcion);
@@ -17,7 +20,8 @@ public class EventManager {
     public void notifyObservers() {
         for (Suscripcion suscripcion : suscripciones) {
             if (suscripcion.getTipoDeSuscripcion().cumpleCriterio(suscripcion.getHeladera())) {
-                suscripcion.getColaboradorFisico().update();
+                notificador.notificar(suscripcion.getColaboradorFisico(), suscripcion.getHeladera());
+                suscripcion.getColaboradorFisico().setNotificacionRecibida(true);
             }
         }
     }

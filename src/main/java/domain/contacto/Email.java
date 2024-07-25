@@ -1,17 +1,21 @@
 package domain.contacto;
 
+import domain.heladera.Heladera.Heladera;
+import domain.mensajeria.EmailSender;
+import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 public class Email extends MedioDeContacto {
     private String email;
-    @Setter
-    private boolean notificar;
+    private EmailSender emailSender;
+
 
     public Email(String email) {
         validarEmail(email);
         this.email = email;
+        emailSender = EmailSender.getInstance();
     }
 
     private void validarEmail(String email){
@@ -44,5 +48,11 @@ public class Email extends MedioDeContacto {
     @Override
     public String informacionDeMedioDeContacto() {
         return getEmail();
+    }
+
+    @Override
+    public void enviarMensaje(ColaboradorFisico c, Heladera h) {
+        System.out.println("Enviando mensaje a " + getEmail());
+
     }
 }

@@ -9,7 +9,6 @@ import java.util.Set;
 
 public abstract class  Colaborador {
     @Getter @Setter protected Formulario formulario;
-    @Getter @Setter protected MedioDeContacto unMedioDeContacto; //protected para que las clases hijas puedan acceder a este atributo
     @Getter @Setter protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
     /*ALTA Y BAJA*/
     @Getter @Setter protected Boolean activo; //protected para que las clases hijas puedan acceder a este atributo

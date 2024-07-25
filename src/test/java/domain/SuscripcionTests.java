@@ -16,6 +16,7 @@ import domain.usuarios.ColaboradorFisico;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import utils.notificador.Notificador;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,11 +24,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SuscripcionTests {
+    /*Config file*/
+    private Config config;
     /*Colaborador*/
     private ColaboradorFisico colaborador;
     private ColaboradorFisico otroColaborador;
     private MedioDeContacto laloEmail;
-    private MedioDeContacto laloTelefono;
+    private MedioDeContacto laloTelegram;
     private MedioDeContacto laloWhatsapp;
     private AreaDeCobertura areaDeCobertura;
     private AreaDeCobertura otraAreaDeCobertura;
@@ -64,12 +67,20 @@ public class SuscripcionTests {
     private SuscripcionPorCantidadDeViandasHastaAlcMax NotificarCuandoFalten10ViandasParaAlcanzarelMax;
     private SuscripcionPorDesperfectoH NotificarCuandoSeProduceUnDesperfecto;
 
+    /*Notificador*/
+    private Notificador notificador;
+
+
+
     @BeforeEach
     public void setUp() {
+        //Config
+        config = Config.getInstance();
+
         //Medios de contacto
-        this.laloEmail = new Email("lalo@gmail.com");
-        this.laloTelefono = new Telegram("+5491165974084");
-        this.laloWhatsapp = new Whatsapp("+549116574460");
+        this.laloEmail = new Email("mgerez@frba.utn.edu.ar");
+        this.laloTelegram = new Telegram("+5491165974084");
+        this.laloWhatsapp = new Whatsapp("+5491165974084");
         this.colaborador = new ColaboradorFisico("Lalo", "Menz");
         this.otroColaborador = new ColaboradorFisico("Pepe","Argento");
         this.areaDeCobertura = new AreaDeCobertura(colaborador);
@@ -123,11 +134,29 @@ public class SuscripcionTests {
 
         //Genero suscripcion para que informe cuando se produce un desperfecto
         NotificarCuandoSeProduceUnDesperfecto = (SuscripcionPorDesperfectoH) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_DESPERFECTO_H);
+
+        //Agregar medios de contacto
+        colaborador.agregarMedioDeContacto(laloEmail);
+        colaborador.agregarMedioDeContacto(laloTelegram);
+        otroColaborador.agregarMedioDeContacto(laloEmail);
+        otroColaborador.agregarMedioDeContacto(laloTelegram);
+        //Notificador
+        notificador = new Notificador();
+        notificador.habilitarNotificacion(colaborador, laloTelegram);
+        notificador.habilitarNotificacion(otroColaborador, laloTelegram);
+        notificador.habilitarNotificacion(colaborador, laloEmail);
+        notificador.habilitarNotificacion(otroColaborador, laloEmail);
     }
 
     @Test
     @DisplayName("Un Colaborador se suscribe a una heladera según la cantidad de viandas disponibles en ella")
     public void colaboradorSeSuscribeSegunCantidadDeViandasDisponibles() {
+
+        //Area de cobertura
+        AreaDeCobertura zonaQueFrecuenta = new AreaDeCobertura(colaborador);
+        zonaQueFrecuenta.agregarProvincia(provinciaBA);
+        zonaQueFrecuenta.agregarLocalidad(localidadCABA);
+        zonaQueFrecuenta.agregarBarrio(barrioAlmagro);
 
         //Suscripcion
         unaSuscripcion = new Suscripcion(heladeraCABA,colaborador, NotificarCuandoFaltanCincoViandasEnLaHeladera);
@@ -272,6 +301,9 @@ public class SuscripcionTests {
         unaSuscripcion = new Suscripcion(heladeraCABA,colaborador, NotificarCuandoSeProduceUnDesperfecto);
         otraSuscripcion = new Suscripcion(heladeraCABA,otroColaborador, NotificarCuandoSeProduceUnDesperfecto);
 
+        colaborador.agregarMedioDeContacto(laloTelegram);
+        notificador.habilitarNotificacion(colaborador, laloTelegram);
+
         /*Evaluar flujo*/
         assertFalse(colaborador.isNotificacionRecibida());
         assertFalse(otroColaborador.isNotificacionRecibida());
@@ -287,6 +319,7 @@ public class SuscripcionTests {
     @DisplayName("Un colaborador que frecuenta por la provincia de Salta NO PUEDE SUSCRIBIRSE a una heladera que está ubicada en Buenos Aires")
 
     public void colaboradorNoPuedeSuscribirseAUnaHeladeraQueNoEstaEnSuProvincia(){
+
 
         AreaDeCobertura zonaQueFrecuenta = new AreaDeCobertura(colaborador);
         zonaQueFrecuenta.agregarProvincia(provinciaSalta);

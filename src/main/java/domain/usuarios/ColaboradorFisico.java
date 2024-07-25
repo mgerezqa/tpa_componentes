@@ -1,9 +1,7 @@
 package domain.usuarios;
 
-import domain.contacto.MedioDeContacto;
-import domain.formulario.Campo;
-import domain.formulario.eTipoCampo;
 import domain.geografia.area.AreaDeCobertura;
+import domain.heladera.Heladera.Heladera;
 import domain.suscripciones.iSuscriptor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +9,7 @@ import lombok.Setter;
 import java.util.HashSet;
 
 @Getter @Setter
-public class ColaboradorFisico extends Colaborador implements iSuscriptor {
+public class ColaboradorFisico extends Colaborador  {
 
     private String nombre;
     private String apellido;
@@ -33,11 +31,6 @@ public class ColaboradorFisico extends Colaborador implements iSuscriptor {
     // Metodos //
     // ============================================================ //
 
-    @Override
-    public void update() {
-        setNotificacionRecibida(true);
-        System.out.println("Usted ha sido notificado "+ this.getNombre() + " " + this.getApellido());
-    }
 
 
 
