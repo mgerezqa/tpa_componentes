@@ -1,7 +1,6 @@
 package repositorios.interfaces;
 
 import domain.heladera.Heladera.Heladera;
-
 import java.util.List;
 import java.util.Optional;
 

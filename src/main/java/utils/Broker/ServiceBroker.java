@@ -1,49 +1,69 @@
 package utils.Broker;
 
-import domain.heladera.Sensores.SensorMovimiento;
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import repositorios.interfaces.IRepositorioIncidentes;
+import utils.Broker.receptors.ReceptorTemp;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ServiceBroker implements IServiceBroker {
+    String broker;
+    String clientId;
+    Integer qos = 1;
+    Boolean retain = false;
+    MemoryPersistence persistence;
+    MqttClient sampleClient;
+    MqttConnectOptions connOpts;
+    Boolean AUTH = true;
+    String username;
+    String password;
 
-public class ServiceBroker {
-    private IRepositorioIncidentes repositorioIncidentes;
-    private List<SensorMovimiento> sensores;
-    private String topic;
-    String broker = "tcp://broker.hivemq.com:1883";
-    String clientId = "JavaSample";
-    MemoryPersistence persistence = new MemoryPersistence();
 
-    public ServiceBroker(String topic,IRepositorioIncidentes repositorioIncidentes) {
-        this.topic = topic;
-        this.repositorioIncidentes = repositorioIncidentes;
-        this.sensores = new ArrayList<>();
+    public ServiceBroker(String broker, ClientCredentials credentials) {
+        this.broker = broker;
+        this.persistence = new MemoryPersistence();
+        this.username = credentials.getUsername();
+        this.password = credentials.getPassword();
+        this.clientId = credentials.getClientID();
     }
-    public void agregarSensores(SensorMovimiento sensor){
-        this.sensores.add(sensor);
-    }
+    @Override
     public void init(){
         try {
-            MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
-            MqttConnectOptions connOpts = new MqttConnectOptions();
-            connOpts.setCleanSession(true);
-            sampleClient.connect(connOpts);
-            for (SensorMovimiento sensor:sensores) {
-                System.out.println("Now we subscribe to the topic");
-                sampleClient.subscribe(topic, sensor);
-                System.out.println("Right! We are subscribed");
+            sampleClient = new MqttClient(broker, clientId, persistence);
+            connOpts = new MqttConnectOptions();
+            if (AUTH) {
+                connOpts.setUserName(username);
+                connOpts.setPassword(password.toCharArray());
+                connOpts.setMaxInflight(200);
             }
+            connOpts.setCleanSession(true);
+            System.out.println("Conectando al broker... "+ broker);
+            sampleClient.connect(connOpts);
+            System.out.println("Conectado!");
+
         } catch(MqttException me) {
             System.out.println("reason " + me.getReasonCode());
             System.out.println("msg " + me.getMessage());
-            System.out.println("loc " + me.getLocalizedMessage());
-            System.out.println("cause " + me.getCause());
-            System.out.println("excep " + me);
-            me.printStackTrace();
+        }
+    }
+    @Override
+    public void publishMessage(String topic, String message){
+        try {
+            sampleClient.publish(topic, message.getBytes(), qos, retain);
+        } catch(MqttException me) {
+            System.out.println("reason " + me.getReasonCode());
+            System.out.println("msg " + me.getMessage());
+        }
+    }
+    @Override
+    public void suscribe(String topic, IMqttMessageListener receptor){
+        try {
+            System.out.println("Suscripción al topic: "+ topic);
+            sampleClient.subscribe(topic, qos, receptor);
+        } catch(MqttException me) {
+            System.out.println("reason " + me.getReasonCode());
+            System.out.println("msg " + me.getMessage());
         }
     }
 }

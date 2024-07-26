@@ -15,6 +15,5 @@ public class MainTest {
         List<Heladera> heladeras = new RepositorioHeladeras().obtenerTodasLasHeladeras();
         VerificadorTemperaturas verificadorTemperaturas = new VerificadorTemperaturas(heladeras,repositorioIncidentes);
         verificadorTemperaturas.verificarTemperaturas();
-
     }
 }
