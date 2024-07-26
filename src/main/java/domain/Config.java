@@ -35,7 +35,7 @@ public class Config {
         return properties.getProperty(key);
     }
 
-    public static Long getPropertyToLong(String key) {
+    public Long getPropertyToLong(String key) {
         String property = properties.getProperty(key);
         if (property != null) {
             try {

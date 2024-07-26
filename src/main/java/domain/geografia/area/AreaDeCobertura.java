@@ -5,7 +5,7 @@ import domain.geografia.Provincia;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
-import utils.calculadorDistancia.ICalculadorDistanciaKM;
+//import utils.calculadorDistancia.ICalculadorDistanciaKM;
 import lombok.Data;
 
 import java.util.HashSet;
