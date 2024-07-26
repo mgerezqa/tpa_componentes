@@ -3,6 +3,7 @@ package domain.contacto;
 import domain.heladera.Heladera.Heladera;
 import domain.mensajeria.EmailSender;
 import domain.usuarios.ColaboradorFisico;
+import jakarta.mail.MessagingException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,7 +52,8 @@ public class Email extends MedioDeContacto {
     }
 
     @Override
-    public void enviarMensaje(ColaboradorFisico c, Heladera h) {
+    public void enviarMensaje(ColaboradorFisico c, Heladera h) throws MessagingException {
+        emailSender.sendEmail("Sistema de vulnerabilidad G17", "Hola " + c.getNombre() + ", la heladera " + h.getNombreIdentificador() + " necesita mantenimiento.", getEmail());
         System.out.println("Enviando mensaje a " + getEmail());
 
     }

@@ -11,6 +11,8 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.mensajeria.EmailSender;
+import domain.mensajeria.TelegramBot;
 import domain.suscripciones.*;
 import domain.usuarios.ColaboradorFisico;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,6 +72,9 @@ public class SuscripcionTests {
     /*Notificador*/
     private Notificador notificador;
 
+    /*Senders */
+    private TelegramBot telegramBot;
+    private EmailSender emailSender;
 
 
     @BeforeEach
@@ -142,10 +147,18 @@ public class SuscripcionTests {
         otroColaborador.agregarMedioDeContacto(laloTelegram);
         //Notificador
         notificador = new Notificador();
-        notificador.habilitarNotificacion(colaborador, laloTelegram);
-        notificador.habilitarNotificacion(otroColaborador, laloTelegram);
+
+        //Habilitar Notificaciones
+//        notificador.habilitarNotificacion(colaborador, laloTelegram);
+//        notificador.habilitarNotificacion(otroColaborador, laloTelegram);
         notificador.habilitarNotificacion(colaborador, laloEmail);
-        notificador.habilitarNotificacion(otroColaborador, laloEmail);
+//        notificador.habilitarNotificacion(otroColaborador, laloEmail);
+        //Telegram Bot
+
+        telegramBot = TelegramBot.getInstance();
+        //Email Sender
+        emailSender = EmailSender.getInstance();
+
     }
 
     @Test

@@ -1,9 +1,12 @@
 package domain.mensajeria;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import domain.Config;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +15,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final Set<Long> knownChatIds = new HashSet<>();
 
     private TelegramBot() { //Constructor privado
-         //Inicializo el bot
+            //Inicializo el bot
     }
 
     public static TelegramBot getInstance() {
@@ -21,16 +24,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
         return instance;
     }
-
-//    public void init() { //Inicializo el bot
-//        try {
-//            TelegramBotsApi chatBot = new TelegramBotsApi(DefaultBotSession.class);
-//            chatBot.registerBot(TelegramBot.getInstance());
-//        } catch (TelegramApiException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     @Override
     public String getBotUsername() {

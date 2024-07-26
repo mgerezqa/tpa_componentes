@@ -1,5 +1,6 @@
 package domain.contacto;
 
+import domain.Config;
 import domain.heladera.Heladera.Heladera;
 import domain.mensajeria.TelegramBot;
 import domain.usuarios.ColaboradorFisico;
@@ -9,10 +10,11 @@ import lombok.Getter;
 
 public class Telegram extends Telefono{
     private TelegramBot bot;
+    private Config config;
 
     public Telegram(String numero){
         super(numero);
-//        this.bot = TelegramBot.getInstance();
+        this.bot = TelegramBot.getInstance();
 
     }
 
@@ -28,7 +30,7 @@ public class Telegram extends Telefono{
     @Override
     public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera) {
         System.out.println("Enviando mensaje a " + getNumero());
-//        bot.notifyUsers("Hola " + colaborador.getNombre() + ", la heladera " + heladera.getNombreIdentificador() + " necesita mantenimiento.");
+        bot.notifyUsers("Hola " + colaborador.getNombre() + ", la heladera " + heladera.getNombreIdentificador() + " necesita mantenimiento.");
     }
 
 

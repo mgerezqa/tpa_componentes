@@ -11,11 +11,14 @@ public class Notificador {
 
     public void notificar(ColaboradorFisico colaborador, Heladera heladera){
         colaborador.getMediosDeContacto().forEach(medio -> {
-            if(!medio.isNotificar()){
-                throw new RuntimeException("No tiene habilitado este medio para ser notificado");
-            }
-            medio.enviarMensaje(colaborador, heladera);
-            colaborador.setNotificacionRecibida(true);
+            if(medio.isNotificar()){
+                try {
+                    medio.enviarMensaje(colaborador, heladera);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+                colaborador.setNotificacionRecibida(true);
+               }
         });
     }
 

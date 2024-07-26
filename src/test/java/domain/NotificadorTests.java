@@ -10,6 +10,8 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.mensajeria.EmailSender;
+import domain.mensajeria.TelegramBot;
 import domain.usuarios.ColaboradorFisico;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,13 +46,18 @@ public class NotificadorTests {
 
     //Notificador
     private Notificador notificador;
+    //Config
+    private Config config;
+    /*Senders */
+    private TelegramBot telegramBot;
+    private EmailSender emailSender;
 
 
     @BeforeEach
     public void setUp() {
 
         //Medios de contacto
-        this.laloEmail = new Email("lalo@gmail.com");
+        this.laloEmail = new Email("mingerez@gmail.com");
         this.laloTelegram = new Telegram("+549116574460");
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
@@ -58,6 +65,7 @@ public class NotificadorTests {
         this.lalo.agregarMedioDeContacto(laloEmail);
         this.lalo.agregarMedioDeContacto(laloTelegram);
         this.lalo.agregarMedioDeContacto(laloWhatsapp);
+
         //Heladera
         nombre = "Heladera Medrano";
         ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
@@ -69,9 +77,17 @@ public class NotificadorTests {
         heladera = new Heladera(modeloHeladera,nombre,ubicacion);
         sensorMovimiento = new SensorMovimiento(heladera);
         sensorTemperatura = new SensorTemperatura(heladera);
-        //Notificador
-        notificador = new Notificador();
 
+
+        //Notificador
+
+        notificador = new Notificador();
+        //Telegram Bot
+        telegramBot = TelegramBot.getInstance();
+        //Email Sender
+        emailSender = EmailSender.getInstance();
+        //Config
+        config = Config.getInstance();
 
     }
 
@@ -104,9 +120,17 @@ public class NotificadorTests {
     }
 
     @Test
-    @DisplayName("Un colaborador recibe una notificación segun el medio de contacto elegido")
-    public void testNotificar() throws IOException {
+    @DisplayName("Un colaborador recibe una notificación por telegram ")
+    public void testNotificarPorTelegram() throws IOException {
         notificador.habilitarNotificacion(lalo, laloTelegram);
+        notificador.notificar(lalo,heladera);
+
+    }
+
+    @Test
+    @DisplayName("Un colaborador recibe una notificación por email ")
+    public void testNotificarPorEmail() throws IOException {
+        notificador.habilitarNotificacion(lalo, laloEmail);
         notificador.notificar(lalo,heladera);
     }
 }
