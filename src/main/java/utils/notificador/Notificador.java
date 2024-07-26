@@ -22,6 +22,7 @@ public class Notificador {
         });
     }
 
+
     public void habilitarNotificacion(ColaboradorFisico colaborador, MedioDeContacto medioDeContacto){
         if(colaborador.getMediosDeContacto().isEmpty())
             throw new RuntimeException("No tiene medios de contactos agregados");
