@@ -1,14 +1,14 @@
-package domain.formulario;
+package domain.formulario.tiposdeentrada;
 
 import lombok.Getter;
 
 @Getter
 public class EntradaEmail extends Entrada{
-    private String entrada;
+    private String mail;
 
     @Override
-    public void cargarEntrada(String entrada) {
-        this.entrada = validarRespuesta(entrada);
+    public void ingresarRespuesta(String mailIngresado) {
+        this.mail = validarRespuesta(mailIngresado);
     }
 
     private String validarRespuesta(String entrada) {
@@ -25,7 +25,7 @@ public class EntradaEmail extends Entrada{
     }
 
     @Override
-    public String mostrarEntrada() {
-        return this.entrada;
+    public String obtenerRespuesta() {
+        return this.mail;
     }
 }

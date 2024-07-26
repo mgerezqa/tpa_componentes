@@ -1,11 +1,11 @@
-package domain.formulario;
+package domain.formulario.tiposdeentrada;
 
 public class EntradaNombre extends Entrada{
-    private String entrada;
+    private String nombre;
 
     @Override
-    public void cargarEntrada(String entrada) {
-        this.entrada = validarRespuesta(entrada);
+    public void ingresarRespuesta(String nombreIngresado) {
+        this.nombre = validarRespuesta(nombreIngresado);
     }
 
     private String validarRespuesta(String entrada) {
@@ -17,12 +17,16 @@ public class EntradaNombre extends Entrada{
         if (entrada.length() > 64) {
             throw new IllegalArgumentException("La entrada no puede ser mayor a 64 caracteres");
         }
+        //Solo letras y espacios
+        if (!entrada.matches("^[a-zA-Z ]*$")) {
+            throw new IllegalArgumentException("La entrada solo puede contener letras y espacios");
+        }
         return entrada;
     }
 
     @Override
-    public String mostrarEntrada() {
-        return this.entrada;
+    public String obtenerRespuesta() {
+        return this.nombre;
     }
 }
 

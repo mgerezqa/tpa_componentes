@@ -1,4 +1,4 @@
-package domain.formulario;
+package domain.formulario.documentos;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

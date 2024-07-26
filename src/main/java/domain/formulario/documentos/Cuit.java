@@ -1,4 +1,4 @@
-package domain.formulario;
+package domain.formulario.documentos;
 
 public class Cuit {
     private Integer prefijo;

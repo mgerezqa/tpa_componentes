@@ -1,4 +1,4 @@
-package domain.formulario;
+package domain.formulario.tiposdeentrada;
 
 import lombok.Getter;
 
@@ -9,8 +9,8 @@ public class EntradaFechaNacimiento extends Entrada{
     private LocalDate fecha;
 
     @Override
-    public void cargarEntrada(String entrada) {
-        this.fecha = validarEntrada(LocalDate.parse(entrada));
+    public void ingresarRespuesta(String fechaIngresada) {
+        this.fecha = validarEntrada(LocalDate.parse(fechaIngresada));
     }
 
     private LocalDate validarEntrada(LocalDate entrada) {
@@ -27,12 +27,8 @@ public class EntradaFechaNacimiento extends Entrada{
     }
 
     @Override
-    public String mostrarEntrada() {
+    public String obtenerRespuesta() {
         return fecha.toString();
     }
 
-    @Override
-    public LocalDate mostrarFecha(){
-        return this.fecha;
-    }
 }

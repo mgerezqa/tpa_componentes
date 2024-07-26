@@ -47,7 +47,7 @@ public class TecnicosTests {
 
     @Test
     public void darDeBajaUnTecnico(){
-        tecnico.darDeBaja();
+        tecnico.setActivo(false);
         Assertions.assertFalse(tecnico.estaActivo());
     }
 
