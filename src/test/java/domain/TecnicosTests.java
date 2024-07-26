@@ -1,15 +1,15 @@
 package domain;
-import domain.contacto.Documentos.Cuil;
-import domain.contacto.Documentos.Dni;
-import domain.contacto.Documentos.Documento;
+
 import domain.contacto.MedioDeContacto;
-import domain.contacto.Telefono;
 import domain.contacto.Whatsapp;
-import domain.geografia.AreaDeCobertura;
-import domain.geografia.Ciudad;
+import domain.formulario.documentos.Cuil;
+import domain.formulario.documentos.Documento;
+import domain.formulario.documentos.TipoDocumento;
+import domain.geografia.Ubicacion;
+import domain.geografia.area.AreaDeCobertura;
+import domain.geografia.area.TamanioArea;
 import domain.usuarios.Tecnico;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,22 +22,15 @@ public class TecnicosTests {
     private Cuil cuil;
     private List<MedioDeContacto> mediosDeContacto;
     private AreaDeCobertura area;
-    private Ciudad ciudadA;
-    private Ciudad ciudadB;
-    private Ciudad ciudadC;
+    private Ubicacion ubicacion;
 
     @BeforeEach
     public void setUp(){
-        documento = new Dni("44531865");
-        cuil = new Cuil("20-44531865-8");
-        mediosDeContacto = new ArrayList<>(Arrays.asList(new Telefono(54, 11, 43560072)));
-        area = new AreaDeCobertura(Arrays.asList(ciudadA,ciudadB,ciudadC));
+        documento = new Documento(TipoDocumento.DNI,"44567823");
+        cuil = new Cuil("20",documento.getNumeroDeDocumento(),"4");
+        area = new AreaDeCobertura(ubicacion, TamanioArea.MEDIANA);
 
-        ciudadA = new Ciudad("Palermo");
-        ciudadB = new Ciudad("El palomar");
-        ciudadC = new Ciudad("Lujan");
-
-        tecnico = new Tecnico("Max", "Verstappen", documento, cuil, mediosDeContacto, area);
+        tecnico = new Tecnico("Max", "Verstappen", documento, cuil);
     }
 
     @Test
@@ -49,13 +42,13 @@ public class TecnicosTests {
     public void modificarTecnico(){
         Whatsapp whatsapp = new Whatsapp("+541161964087");
         tecnico.agregarMedioDeContacto(whatsapp);
-        Assertions.assertEquals(2,(tecnico.getMediosDeContacto().size()));
+        Assertions.assertEquals(1,(tecnico.getMediosDeContacto().size()));
 
     }
 
     @Test
     public void darDeBajaUnTecnico(){
-        tecnico.darDeBaja();
+        tecnico.setActivo(false);
         Assertions.assertFalse(tecnico.estaActivo());
     }
 

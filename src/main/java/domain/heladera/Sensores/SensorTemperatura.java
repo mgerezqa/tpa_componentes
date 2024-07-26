@@ -3,6 +3,8 @@ import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter @Getter
 public class SensorTemperatura {
 
@@ -10,21 +12,19 @@ public class SensorTemperatura {
     private Float temperaturaMax;
     private Float temperaturaMin;
 
-    public void setearTemperaturasMaxMin(){
-        temperaturaMax = heladera.getModelo().getTemperaturaMaxima();
-        temperaturaMin = heladera.getModelo().getTemperaturaMinima();
+    public SensorTemperatura(Heladera heladera) {
+        this.heladera = heladera;
     }
 
-    // TODO (logica no especificada)
-    public Float recibirTemperaturaActual(){
+    // ============================================================ //
+    // MéTODOS //
+    // ============================================================ //
+
+    public void recibirTemperaturaActual(String dato){
         // El sensor fisico nos envia la temperatura sensada.
         // Nosotros como sistema debemos ser capaces de "recibirla".
-        return 0f;
+        // Se recibe el dato en un "string" que bien podria ser un archivo json u otro.
+        Float temperaturaActual = Float.parseFloat(dato);
+        heladera.setUltimaTemperaturaRegistrada(temperaturaActual, LocalDateTime.now());
     }
-
-    public Boolean problemaDeTemperatura(){
-        float temperaturaActual = this.recibirTemperaturaActual();
-        return ((temperaturaActual > temperaturaMax) || (temperaturaActual < temperaturaMin));
-    }
-
 }

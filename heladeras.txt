@@ -1,0 +1,33 @@
+Nombre Identificador: medrano
+Ubicacion: Av medrano 6742
+Modelo: XMR-283
+Temperatura Actual: 17.050926
+Fecha y Hora de la Temperatura Actual: 2024-07-17T16:53:25.516808100
+
+Incidentes:
+Heladera sin incidentes registrados.
+
+ACTIVA
+-----------------------------------------------------
+Nombre Identificador: rivadavia
+Ubicacion: Av rivadavia 13106
+Modelo: XMR-283
+Temperatura Actual: 6.5066986
+Fecha y Hora de la Temperatura Actual: 2024-07-17T16:53:25.516808100
+
+Incidentes:
+Heladera sin incidentes registrados.
+
+ACTIVA
+-----------------------------------------------------
+Nombre Identificador: juarez
+Ubicacion: Juarez 352
+Modelo: XMR-283
+Temperatura Actual: -15.005872
+Fecha y Hora de la Temperatura Actual: 2024-07-17T16:53:25.516808100
+
+Incidentes:
+Hay incidentes registrados.
+
+INACTIVA
+-----------------------------------------------------

@@ -1,5 +1,6 @@
 package domain.persona;
 
+import domain.formulario.documentos.Documento;
 import domain.geografia.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;

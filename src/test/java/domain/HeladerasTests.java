@@ -34,13 +34,13 @@ public class HeladerasTests {
         ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
         capacidadMax = 35;
         fechaInicio = LocalDate.now();
-        sensorMovimiento = new SensorMovimiento();
-        sensorTemperatura = new SensorTemperatura();
+        sensorMovimiento = new SensorMovimiento(heladera);
+        sensorTemperatura = new SensorTemperatura(heladera);
         modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
         tempMin = modeloHeladera.getTemperaturaMinima();
         tempMax = modeloHeladera.getTemperaturaMaxima();
 
-        heladera = new Heladera(ubicacion, nombre, capacidadMax, fechaInicio, sensorMovimiento, sensorTemperatura, modeloHeladera);
+        heladera = new Heladera(modeloHeladera,nombre,ubicacion);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class HeladerasTests {
     @DisplayName("Verifica que la heladera es dada de baja")
     public void heladeraDadaDeBaja(){
         heladera.cambiarEstadoAFueraDeServicio();
-        Assertions.assertEquals(heladera.getEstadoHeladera(), EstadoHeladera.FUERADESERVICIO);
+        Assertions.assertEquals(heladera.getEstadoHeladera(), EstadoHeladera.FUERA_DE_SERVICIO);
     }
 
     @Test

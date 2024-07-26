@@ -1,93 +1,76 @@
 package domain.heladera.Heladera;
+import domain.geografia.Calle;
+import domain.donaciones.Vianda;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.incidentes.IncidenteFactory;
+import domain.incidentes.Incidente;
+import domain.suscripciones.EventManager;
+import utils.temperatura.Temperatura;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Heladera {
+
+    @Getter @Setter
+    private EventManager eventManager;
+
 
     @Setter @Getter
     private Ubicacion ubicacion;
     @Setter @Getter
     private String nombreIdentificador;
-    @Getter
+    @Setter @Getter
     private Integer capacidadMax; // (se mide en numero de viandas)
     @Setter @Getter
     private Integer capacidadActual;
-
-    @Getter
+    @Setter @Getter // ojo con el setter, creo q no va
     private LocalDate fechaInicioFuncionamiento;
-    @Getter @Setter
+    @Setter @Getter
     private EstadoHeladera estadoHeladera;
-
     @Getter
     private ModeloDeHeladera modelo;
-
-    @Getter @Setter
+    @Setter @Getter
     private SensorMovimiento sensorMovimiento;
-    @Getter @Setter
+    @Setter @Getter
     private SensorTemperatura sensorTemperatura;
-
-   @Getter @Setter
-   private List<String> historialDeEstados;
+    @Setter @Getter
+    private List<String> historialDeEstados;
+    public Temperatura ultimaTemperaturaRegistrada;
+    @Setter @Getter
+    public List<Incidente> incidentes;
 
     // ============================================================ //
     // < CONSTRUCTOR > //
-    public Heladera(Ubicacion ubicacion, String nombreIdentificador, Integer capacidadMax,
-                    LocalDate fechaInicioFuncionamiento, SensorMovimiento sensorMovimiento,
-                    SensorTemperatura sensorTemperatura, ModeloDeHeladera modelo){
+    // ============================================================ //
 
-        this.darDeAltaHeladera();
-        this.nombreIdentificador = nombreIdentificador;
+    public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion){
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
-        this.capacidadMax = capacidadMax;
-        this.fechaInicioFuncionamiento = fechaInicioFuncionamiento;
-        this.sensorTemperatura = sensorTemperatura;
-        this.sensorMovimiento = sensorMovimiento;
         this.modelo = modelo;
+        this.nombreIdentificador = nombreIdentificador;
+        this.darDeAltaHeladera();
+        this.eventManager = new EventManager();
+
 
     }
+
+    // ============================================================ //
+    // MéTODOS //
     // ============================================================ //
 
+    // Da de alta la heladera.
     public void darDeAltaHeladera(){
         this.historialDeEstados = new ArrayList<>();
+        this.ultimaTemperaturaRegistrada = new Temperatura(modelo.getTemperaturaMinima(), LocalDateTime.now());
+        this.incidentes = new ArrayList<>();
         this.cambiarEstadoAActiva();
-    }
-
-    // < ALTA > //
-    // Para dar de alta una heladera, solamente se crea una instancia de la misma, la cual tendrá
-    // su estadoHeladera como un new HeladeraActiva();
-    // new Heladera(ubicacion, nombreId, capacidad, fechaInicio, new HeladeraActiva(), tMax, tMin);
-
-    // < BAJA > //
-    // Para dar de baja una heladera, se cambia el estado a "HeladeraFueraDeServicio"
-
-    // < MODIFICACIÓN > //
-    // Al tener los atributos, que pueden ser modificados, con "setters",
-    // estos pueden ser MODIFICADOS.
-
-    // ============================================================ //
-
-    // Por ahora solo se necesita conocer el estado de la heladera: activa o inactiva.
-    // La idea que pense es que al modelarlo con un patron state, en el futuro se pueden establecer comportamientos.
-    // La idea del estado "Inactiva", es para cuando sufran desperfectos por ejemplo. Ya que al estar "fueraDeServicio"
-    // estas no podran volver a ser utilizadas.
-    // ============================================================ //
-
-    // MéTODOS //
-
-    // Retorna el estado actual.
-    public EstadoHeladera estadoActualHeladera(){
-        return this.getEstadoHeladera();
     }
 
     // Booleano retorna si esta activa o no.
@@ -95,45 +78,90 @@ public class Heladera {
         return this.getEstadoHeladera() == EstadoHeladera.ACTIVA;
     }
 
-    public int mesesActiva(){
-        int months = (int) ChronoUnit.MONTHS.between(fechaInicioFuncionamiento, LocalDate.now());
-        return months;
+    // Retorna el estado actual.
+    public EstadoHeladera estadoActualHeladera(){
+        return this.getEstadoHeladera();
     }
 
     // Para cambiar de estados.
     public void cambiarEstadoAActiva(){
-        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERADESERVICIO)){
+        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERA_DE_SERVICIO)){
             this.estadoHeladera = EstadoHeladera.ACTIVA;
             trackearEstado(this.getEstadoHeladera());
         }
     }
-
     public void cambiarEstadoAInactiva(){
-        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERADESERVICIO)){
+        if(!(this.estadoActualHeladera() == EstadoHeladera.FUERA_DE_SERVICIO)){
             this.estadoHeladera = EstadoHeladera.INACTIVA;
             trackearEstado(this.getEstadoHeladera());
         }
     }
-
     public void cambiarEstadoAFueraDeServicio(){
-        this.estadoHeladera = EstadoHeladera.FUERADESERVICIO;
+        this.estadoHeladera = EstadoHeladera.FUERA_DE_SERVICIO;
         trackearEstado(this.getEstadoHeladera());
+        eventManager.notifyObservers();
     }
 
+    // Trackeo de estados.
     public void trackearEstado(EstadoHeladera estadoActual){
         historialDeEstados.add("\n" + estadoActual + " - " + LocalDateTime.now());
     }
 
-    // Sensores.
-
-    public Float temperaturaActual(){
-        return this.sensorTemperatura.recibirTemperaturaActual();
+    // Setear la temperatura actual.
+    public void setUltimaTemperaturaRegistrada(Float temp, LocalDateTime fecha){
+        this.ultimaTemperaturaRegistrada.setTemperatura(temp);
+        this.ultimaTemperaturaRegistrada.setFechaYhora(fecha);
     }
 
-    // TODO (...a futuro...)
-    public void heladeraSufreDesperfecto(){
-            this.cambiarEstadoAInactiva();
+    // Get temperatura actual.
+    public Float getUltimaTemperaturaRegistrada(){
+        return this.ultimaTemperaturaRegistrada.getTemperatura();
     }
+
+    // Ver si la temperatura esta en rango.
+    public boolean temperaturaFueraDeRango(){
+        return this.getUltimaTemperaturaRegistrada() < modelo.getTemperaturaMinima() ||
+                this.getUltimaTemperaturaRegistrada() > modelo.getTemperaturaMaxima();
+    }
+
+    // Agregar incidente a la lista de incidentes de la heladera.
+    public void agregarIncidente(Incidente incidente){
+        incidentes.add(incidente);
+    }
+
+    // ============================================================ //
+    // Fallas, sensores y alertas //
+    // ============================================================ //
+
+    // Falla de temperatura
+    public void fallaTemperatura() {
+        IncidenteFactory.crearAlerta(this, "falla_temperatura");
+    }
+    // Falla de conexion: se encarga el "VerificadorTemperatura"
+    // Falla de fraude  : se encarga el "SensorMovimiento"
+
+
+    // ============================================================ //
+    // Gestion de viandas (SOLO PARA TEST)
+    // LLAMAR AL EVENTMANAGER CUANDO INGRESEN O RETIREN VIANDAS
+    // ============================================================ //
+
+
+    public  void ingresarVianda(){
+        if(this.capacidadActual < this.capacidadMax){
+            this.capacidadActual += 1;
+            eventManager.notifyObservers();
+        }
+    }
+
+    public void retirarVianda(){
+        if(this.capacidadActual > 0){
+            this.capacidadActual -= 1;
+            eventManager.notifyObservers();
+
+        }
+    }
+
 
 }
 

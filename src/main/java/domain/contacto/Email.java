@@ -1,12 +1,25 @@
 package domain.contacto;
 
+import domain.heladera.Heladera.Heladera;
+import domain.mensajeria.EmailSender;
+import domain.usuarios.ColaboradorFisico;
+import jakarta.mail.MessagingException;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class Email extends MedioDeContacto {
     private String email;
+    private EmailSender emailSender;
+
 
     public Email(String email) {
+        validarEmail(email);
+        this.email = email;
+        emailSender = EmailSender.getInstance();
+    }
+
+    private void validarEmail(String email){
         if (email == null) {
             throw new IllegalArgumentException("El email no puede ser nulo");
         }
@@ -26,12 +39,22 @@ public class Email extends MedioDeContacto {
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             throw new IllegalArgumentException("El email no tiene un formato valido");
         }
-
-        this.email = email;
     }
 
     @Override
-    public String obtenerDescripcion() {
-        return email;
+    public String tipoMedioDeContacto() {
+        return "Email";
+    }
+
+    @Override
+    public String informacionDeMedioDeContacto() {
+        return getEmail();
+    }
+
+    @Override
+    public void enviarMensaje(ColaboradorFisico c, Heladera h) throws MessagingException {
+        emailSender.sendEmail("Sistema de vulnerabilidad G17", "Hola " + c.getNombre() + ", la heladera " + h.getNombreIdentificador() + " necesita mantenimiento.", getEmail());
+        System.out.println("Enviando mensaje a " + getEmail());
+
     }
 }

@@ -3,5 +3,5 @@ package domain.heladera.Heladera;
 public enum EstadoHeladera {
     ACTIVA,
     INACTIVA,
-    FUERADESERVICIO
+    FUERA_DE_SERVICIO
 }

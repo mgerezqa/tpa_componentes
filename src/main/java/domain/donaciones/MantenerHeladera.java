@@ -4,8 +4,10 @@ import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class MantenerHeladera {
 
@@ -13,6 +15,8 @@ public class MantenerHeladera {
     private LocalDate fechaDeDonacion;
     @Getter
     private ColaboradorJuridico colaboradorQueLaDono;
+    @Getter @Setter
+    Integer mesesPuntarizados = 0;
 
     public MantenerHeladera(Heladera heladera, LocalDate fechaDeDonacion, ColaboradorJuridico colaboradorQueLaDono) {
         this.heladera = heladera;
@@ -20,5 +24,8 @@ public class MantenerHeladera {
         this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
 
-
+    public int mesesMantenida(){
+        int months = (int) ChronoUnit.MONTHS.between(this.fechaDeDonacion, LocalDate.now());
+        return months;
+    }
 }

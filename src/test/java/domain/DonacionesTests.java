@@ -50,8 +50,8 @@ public class DonacionesTests {
         this.fechaVencimiento = LocalDate.of(2024, 5, 31); // Ejemplo de fecha de vencimiento
         this.fechaDeDonacion = LocalDate.now(); // Ejemplo de fecha de donación (fecha actual)
         this.fechaInicioFuncionamiento = LocalDate.of(2021, 5, 31); // Ejemplo de fecha de inicio de funcionamiento
-        this.lalo = new ColaboradorFisico("Lalo", "Menz",laloEmail);
-        this.metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.SERVICIOS,laloEmail);
+        this.lalo = new ColaboradorFisico("Lalo", "Menz");
+        this.metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
         this.ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
         this.diego = new PersonaVulnerable("Diego", LocalDate.of(2000, 5, 31));
         this.tarjeta = new Tarjeta(diego);
@@ -59,7 +59,8 @@ public class DonacionesTests {
         modelo = new ModeloDeHeladera("Modelo XR-221");
         modelo.setTemperaturaMinima(tempMin);
         modelo.setTemperaturaMaxima(tempMax);
-        this.heladera = new Heladera(ubicacion,"Heladera Palermo",200, fechaInicioFuncionamiento, sensorMovimiento, sensorTemperatura, modelo);
+        this.heladera = new Heladera(modelo,"Heladera palermo", ubicacion);
+        heladera.setCapacidadMax(200);
     }
 
 
