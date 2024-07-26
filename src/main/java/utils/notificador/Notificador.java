@@ -14,6 +14,7 @@ public class Notificador {
             if(medio.isNotificar()){
                 try {
                     medio.enviarMensaje(colaborador, heladera);
+                    //registrar mensaje enviado en logger
                 } catch (MessagingException e) {
                     throw new RuntimeException(e);
                 }
@@ -43,35 +44,6 @@ public class Notificador {
         });
 
     }
-
-
-
-//    public static void habilitarNotificacion(ColaboradorFisico colaborador, String medioDeContacto){
-//        colaborador.getMediosDeContacto().forEach(medio -> {
-//            if(medio.tipoMedioDeContacto().equals(medioDeContacto)){
-//                medio.setNotificar(true);
-//            }
-//        });
-//    }
-//
-//    public static void habilitarNotificacion(ColaboradorFisico colaborador, eTipoMedioDeContacto medioDeContacto){
-//        habilitarNotificacion(colaborador, medioDeContacto.name());
-//    }
-//
-//    public static void deshabilitarNotificacion(ColaboradorFisico colaborador, String medioDeContacto){
-//        colaborador.getMediosDeContacto().forEach(medio -> {
-//            if(medio.tipoMedioDeContacto().equals(medioDeContacto)){
-//                medio.setNotificar(false);
-//            }
-//        });
-//    }
-//
-//    public static void deshabilitarNotificacion(ColaboradorFisico colaborador, eTipoMedioDeContacto medioDeContacto){
-//            deshabilitarNotificacion(colaborador, medioDeContacto.name());
-//    }
-
-
-
 
 
 }
