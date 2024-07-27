@@ -5,12 +5,18 @@ import repositorios.interfaces.IRepositorioHeladeras;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RepositorioHeladeras implements IRepositorioHeladeras {
     private List<Heladera> heladeras;
 
     public RepositorioHeladeras() {
         this.heladeras = new ArrayList<>();
+    }
+
+    @Override
+    public Optional<Heladera> obtenerHeladeraPorID(Integer id) {
+        return this.heladeras.stream().filter(heladera -> heladera.getId().equals(id)).findFirst();
     }
 
     @Override

@@ -13,8 +13,11 @@ public class ModeloDeHeladera {
     @Setter @Getter
     private Float temperaturaMaxima;
 
-    public ModeloDeHeladera(String nombreModelo) {
+    public ModeloDeHeladera(String nombreModelo,Float temperaturaMinima, Float temperaturaMaxima) {
         this.nombreModelo = nombreModelo;
+        this.temperaturaMinima = temperaturaMinima;
+        this.temperaturaMaxima = temperaturaMaxima;
+
     }
 
 }

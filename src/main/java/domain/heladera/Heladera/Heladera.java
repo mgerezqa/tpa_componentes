@@ -27,20 +27,25 @@ public class Heladera {
     @Setter @Getter
     private String nombreIdentificador;
     @Setter @Getter
+    private Integer id;
+    @Setter @Getter
     private Integer capacidadMax; // (se mide en numero de viandas)
     @Setter @Getter
     private Integer capacidadActual;
     @Setter @Getter // ojo con el setter, creo q no va
     private LocalDate fechaInicioFuncionamiento;
-    @Setter @Getter
+    @Getter @Setter
     private EstadoHeladera estadoHeladera;
+
     @Getter
     private ModeloDeHeladera modelo;
-    @Setter @Getter
+
+    @Getter @Setter
     private SensorMovimiento sensorMovimiento;
-    @Setter @Getter
+    @Getter @Setter
     private SensorTemperatura sensorTemperatura;
-    @Setter @Getter
+
+    @Getter @Setter
     private List<String> historialDeEstados;
     public Temperatura ultimaTemperaturaRegistrada;
     @Setter @Getter
@@ -48,8 +53,6 @@ public class Heladera {
 
     // ============================================================ //
     // < CONSTRUCTOR > //
-    // ============================================================ //
-
     public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion){
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
@@ -57,8 +60,6 @@ public class Heladera {
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
         this.eventManager = new EventManager();
-
-
     }
 
     // ============================================================ //
