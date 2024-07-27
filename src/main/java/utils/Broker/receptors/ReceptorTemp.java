@@ -23,7 +23,7 @@ public class ReceptorTemp implements IMqttMessageListener {
         String jsonString = mqttMessage.toString();
         JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
         Integer idHeladera = Integer.parseInt(jsonObject.get("id").getAsString());
-        Float temperatura = Float.parseFloat(jsonObject.get("temp").getAsString());
+        String temperatura = jsonObject.get("temp").getAsString();
         Optional<Heladera> heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera);
         if(heladera.isPresent()){
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);

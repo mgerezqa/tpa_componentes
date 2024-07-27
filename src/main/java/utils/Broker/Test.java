@@ -29,15 +29,15 @@ public class Test {
         Heladera heladera;
         //Configuración de repositorios,heladera, etc.
         repositorioHeladeras = new RepositorioHeladeras();
-        modeloHeladera = new ModeloDeHeladera("Modelo X-R98",60.4f,80.4f);
+        modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
         ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
         heladera = new Heladera(modeloHeladera,"Medrano",ubicacion);
         heladera.darDeAltaHeladera();
-        sensorMovimiento = new SensorMovimiento();
-        sensorMovimiento.setHeladera(heladera);
+        modeloHeladera.setTemperaturaMaxima(60.4f);
+        modeloHeladera.setTemperaturaMinima(80.4f);
+        sensorMovimiento = new SensorMovimiento(heladera);
         heladera.setSensorMovimiento(sensorMovimiento);
-        sensorTemperatura = new SensorTemperatura();
-        sensorTemperatura.setHeladera(heladera);
+        sensorTemperatura = new SensorTemperatura(heladera);
         heladera.setSensorTemperatura(sensorTemperatura);
         heladera.setId(10); //Seteo el id ya que la persistencia es en memoria.
         repositorioHeladeras.darDeAlta(heladera);
@@ -49,13 +49,9 @@ public class Test {
         IMqttMessageListener receptor2 = new ReceptorTemp(repositorioHeladeras);
 
         //Acceso al config para traer las credentials, martin realizo algo, ver.
-        try {
-            Config.init();
-        } catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
 
-        ClientCredentials credentials = new ClientCredentials(Config.getProperty("broker.clientID"),Config.getProperty("broker.clientUsername"),Config.getProperty("broker.clientPassword"));
+        Config config = Config.getInstance();
+        ClientCredentials credentials = new ClientCredentials(config.getProperty("broker.clientID"),config.getProperty("broker.clientUsername"),config.getProperty("broker.clientPassword"));
         IServiceBroker serviceBroker = new ServiceBroker(broker,credentials);
 
         String msg1 = "{'id': 10}";

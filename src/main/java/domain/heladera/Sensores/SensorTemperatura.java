@@ -1,14 +1,8 @@
 package domain.heladera.Sensores;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import domain.heladera.Heladera.Heladera;
-import domain.incidentes.Alerta;
-import domain.incidentes.IncidenteFactory;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import utils.Broker.ServiceBroker;
 
 import java.time.LocalDateTime;
 

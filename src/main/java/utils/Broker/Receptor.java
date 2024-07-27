@@ -27,7 +27,7 @@ public abstract class Receptor implements IMqttMessageListener {
         Optional<Heladera> heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera);
         if(heladera.isPresent()){
             SensorMovimiento sensorMovimiento = heladera.get().getSensorMovimiento();
-            sensorMovimiento.recibirAlertaPorMovimientoDetectado();
+            sensorMovimiento.recibirMovimientoDetectado();
         }
     }
 

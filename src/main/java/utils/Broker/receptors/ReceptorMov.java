@@ -26,7 +26,7 @@ public class ReceptorMov implements IMqttMessageListener {
         if(heladera.isPresent()){
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);
             SensorMovimiento sensorMovimiento = heladera.get().getSensorMovimiento();
-            sensorMovimiento.recibirAlertaPorMovimientoDetectado();
+            sensorMovimiento.recibirMovimientoDetectado();
         }
     }
 }
