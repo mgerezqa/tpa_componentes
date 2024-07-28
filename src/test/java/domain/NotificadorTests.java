@@ -12,6 +12,10 @@ import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.mensajeria.EmailSender;
 import domain.mensajeria.TelegramBot;
+import domain.suscripciones.Suscripcion;
+import domain.suscripciones.SuscripcionPorCantidadDeViandasDisponibles;
+import domain.suscripciones.TipoDeSuscripcionFactory;
+import domain.suscripciones.eTipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -52,6 +56,12 @@ public class NotificadorTests {
     private TelegramBot telegramBot;
     private EmailSender emailSender;
 
+    //Suscripciones
+    private TipoDeSuscripcionFactory fabrica;
+    private Suscripcion unaSuscripcion;
+    private SuscripcionPorCantidadDeViandasDisponibles NotificarCuandoFaltanCincoViandasEnLaHeladera;
+
+
 
     @BeforeEach
     public void setUp() {
@@ -66,6 +76,7 @@ public class NotificadorTests {
         this.lalo.agregarMedioDeContacto(laloTelegram);
         this.lalo.agregarMedioDeContacto(laloWhatsapp);
 
+
         //Heladera
         nombre = "Heladera Medrano";
         ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
@@ -78,9 +89,7 @@ public class NotificadorTests {
         sensorMovimiento = new SensorMovimiento(heladera);
         sensorTemperatura = new SensorTemperatura(heladera);
 
-
         //Notificador
-
         notificador = new Notificador();
         //Telegram Bot
         telegramBot = TelegramBot.getInstance();
@@ -88,6 +97,13 @@ public class NotificadorTests {
         emailSender = EmailSender.getInstance();
         //Config
         config = Config.getInstance();
+
+        //Tipo de suscripciones
+        fabrica = new TipoDeSuscripcionFactory();
+        //Genero suscripcion para que  informe cuando restan 5 viandas
+        NotificarCuandoFaltanCincoViandasEnLaHeladera = (SuscripcionPorCantidadDeViandasDisponibles) fabrica.crearSuscripcion(eTipoDeSuscripcion.POR_CANTIDAD_DE_VIANDAS_DISP);
+        NotificarCuandoFaltanCincoViandasEnLaHeladera.setCantidadDeViandasDisp(5);
+
 
     }
 
@@ -123,7 +139,7 @@ public class NotificadorTests {
     @DisplayName("Un colaborador recibe una notificación por telegram ")
     public void testNotificarPorTelegram() throws IOException {
         notificador.habilitarNotificacion(lalo, laloTelegram);
-        notificador.notificar(lalo,heladera);
+        notificador.notificar(lalo,heladera, NotificarCuandoFaltanCincoViandasEnLaHeladera);
 
     }
 
@@ -131,6 +147,6 @@ public class NotificadorTests {
     @DisplayName("Un colaborador recibe una notificación por email ")
     public void testNotificarPorEmail() throws IOException {
         notificador.habilitarNotificacion(lalo, laloEmail);
-        notificador.notificar(lalo,heladera);
+        notificador.notificar(lalo,heladera, NotificarCuandoFaltanCincoViandasEnLaHeladera);
     }
 }

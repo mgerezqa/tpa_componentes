@@ -9,7 +9,8 @@ public class SuscripcionPorCantidadDeViandasHastaAlcMax extends TipoDeSuscripcio
     @Getter @Setter
     private int cantidadDeViandasHastaAlcMax;
 
-    private final String descripcion = "CANTIDAD_DE_VIANDAS_HASTA_ALCANZAR_MAX";
+    @Getter
+    public final String descripcion = " tiene " + cantidadDeViandasHastaAlcMax + " viandas hasta alcanzar el máximo.";
 
 
     @Override

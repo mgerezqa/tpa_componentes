@@ -9,7 +9,9 @@ public class SuscripcionPorCantidadDeViandasDisponibles extends TipoDeSuscripcio
     @Setter @Getter
     private int cantidadDeViandasDisp;
 
-    private final String descripcion = "CANTIDAD_DE_VIANDAS_DISPONIBLES";
+    @Getter
+    public final String descripcion = " tiene " + cantidadDeViandasDisp + " viandas disponibles.";
+
 
     @Override
 

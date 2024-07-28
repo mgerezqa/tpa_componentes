@@ -1,19 +1,18 @@
 package utils.notificador;
 
 import domain.contacto.MedioDeContacto;
-import domain.contacto.eTipoMedioDeContacto;
 import domain.heladera.Heladera.Heladera;
-import domain.usuarios.Colaborador;
+import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import jakarta.mail.MessagingException;
 
 public class Notificador {
 
-    public void notificar(ColaboradorFisico colaborador, Heladera heladera){
+    public void notificar(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion notificacion){
         colaborador.getMediosDeContacto().forEach(medio -> {
             if(medio.isNotificar()){
                 try {
-                    medio.enviarMensaje(colaborador, heladera);
+                    medio.enviarMensaje(colaborador, heladera, notificacion);
                     //registrar mensaje enviado en logger
                 } catch (MessagingException e) {
                     throw new RuntimeException(e);
@@ -22,6 +21,7 @@ public class Notificador {
                }
         });
     }
+
 
 
     public void habilitarNotificacion(ColaboradorFisico colaborador, MedioDeContacto medioDeContacto){
