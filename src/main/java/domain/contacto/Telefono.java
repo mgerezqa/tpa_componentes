@@ -1,6 +1,7 @@
 package domain.contacto;
 
 import domain.heladera.Heladera.Heladera;
+import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +36,7 @@ public abstract class Telefono extends MedioDeContacto {
 
     public abstract String informacionDeMedioDeContacto();
 
-    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera){
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion){
 
 
     }

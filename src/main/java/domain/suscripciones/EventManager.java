@@ -20,7 +20,7 @@ public class EventManager {
     public void notifyObservers() {
         for (Suscripcion suscripcion : suscripciones) {
             if (suscripcion.getTipoDeSuscripcion().cumpleCriterio(suscripcion.getHeladera())) {
-                notificador.notificar(suscripcion.getColaboradorFisico(), suscripcion.getHeladera());
+                notificador.notificar(suscripcion.getColaboradorFisico(), suscripcion.getHeladera(),suscripcion.getTipoDeSuscripcion());
             }
         }
     }
