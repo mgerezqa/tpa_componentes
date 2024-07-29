@@ -22,6 +22,8 @@ public class Tecnico {
     private AreaDeCobertura area;
     private Boolean activo;
     private String id;
+    private boolean notificacionRecibida;
+
 
     // ============================================================ //
     // < CONSTRUCTOR > //

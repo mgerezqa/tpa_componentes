@@ -31,8 +31,10 @@ public class Telegram extends Telefono{
     @Override
     public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) {
         System.out.println("Enviando mensaje a " + getNumero());
-        bot.notifyUsers("Hola " + colaborador.getNombre() + ", la heladera " + heladera.getNombreIdentificador() + " necesita mantenimiento.");
-
+        bot.notifyUsers(
+                "Hola " + colaborador.getNombre() +
+                        ", la heladera " + heladera.getNombreIdentificador() +
+                        tipoDeSuscripcion.getDescripcion());
 
     }
 

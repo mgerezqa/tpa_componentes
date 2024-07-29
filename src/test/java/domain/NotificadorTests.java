@@ -136,7 +136,7 @@ public class NotificadorTests {
     }
 
     @Test
-    @DisplayName("Un colaborador recibe una notificación por telegram ")
+    @DisplayName("Un colaborador recibe una notificación de tipo suscripcion por telegram ")
     public void testNotificarPorTelegram() throws IOException {
         notificador.habilitarNotificacion(lalo, laloTelegram);
         notificador.notificar(lalo,heladera, NotificarCuandoFaltanCincoViandasEnLaHeladera);
@@ -144,7 +144,7 @@ public class NotificadorTests {
     }
 
     @Test
-    @DisplayName("Un colaborador recibe una notificación por email ")
+    @DisplayName("Un colaborador recibe una notificación de tipo suscripcion por email ")
     public void testNotificarPorEmail() throws IOException {
         notificador.habilitarNotificacion(lalo, laloEmail);
         notificador.notificar(lalo,heladera, NotificarCuandoFaltanCincoViandasEnLaHeladera);

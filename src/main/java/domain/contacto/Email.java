@@ -1,9 +1,13 @@
 package domain.contacto;
 
 import domain.heladera.Heladera.Heladera;
+import domain.incidentes.Alerta;
+import domain.incidentes.FallaTecnica;
+import domain.incidentes.Incidente;
 import domain.mensajeria.EmailSender;
 import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
+import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
 import lombok.Getter;
 
@@ -53,14 +57,35 @@ public class Email extends MedioDeContacto {
 
     @Override
     public void enviarMensaje(ColaboradorFisico c, Heladera h, TipoDeSuscripcion tipoDeSuscripcion) throws MessagingException {
-
-
-        emailSender.sendEmail(
+    emailSender.sendEmail(
                 "Aviso de suscripción",
                 "Hola " + c.getNombre() + " " + c.getApellido() +
                 ", la heladera " + h.getNombreIdentificador() +
-                tipoDeSuscripcion.getDescripcion(), getEmail());
+                tipoDeSuscripcion.getDescripcion(), getEmail()
+    );
+    }
 
+
+    public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {
+        emailSender.sendEmail(
+                "Alerta" + alerta.getId(),
+                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
+                ", se ha generado una alerta de tipo " + alerta.getTipoAlerta() +
+                        " en la heladera " + alerta.getHeladera().getNombreIdentificador() +
+                        "a las " + alerta.getFechaYHora(),
+                getEmail()
+        );
+    }
+
+    public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) throws MessagingException {
+        emailSender.sendEmail(
+                "Falla Tecnica" + falla.getId(),
+                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
+                ", se ha generado una falla tecnica de tipo " + falla.getDescripcion() +
+                        " en la heladera " + falla.getHeladera().getNombreIdentificador() +
+                        "a las " + falla.getFechaYHora() + "reportada por" + falla.getReportadoPor(),
+                getEmail()
+        );
     }
 
 
