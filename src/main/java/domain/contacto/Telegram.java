@@ -2,18 +2,22 @@ package domain.contacto;
 
 import domain.Config;
 import domain.heladera.Heladera.Heladera;
+import domain.incidentes.Alerta;
+import domain.incidentes.FallaTecnica;
 import domain.mensajeria.TelegramBot;
 import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
+import domain.usuarios.Tecnico;
+import jakarta.mail.MessagingException;
 import lombok.Getter;
 
 @Getter
 
-public class Telegram extends Telefono{
+public class Telegram extends Telefono {
     private TelegramBot bot;
     private Config config;
 
-    public Telegram(String numero){
+    public Telegram(String numero) {
         super(numero);
         this.bot = TelegramBot.getInstance();
 
@@ -23,6 +27,7 @@ public class Telegram extends Telefono{
     public String tipoMedioDeContacto() {
         return "Telegram";
     }
+
     @Override
     public String informacionDeMedioDeContacto() {
         return getNumero();
@@ -38,6 +43,23 @@ public class Telegram extends Telefono{
 
     }
 
+    public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) {
+        bot.notifyUsers("Falla Tecnica " + falla.getId() +
+                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
+                ", se ha generado una falla tecnica de tipo " + falla.getDescripcion() +
+                " en la heladera " + falla.getHeladera().getNombreIdentificador() +
+                " a las " + falla.getFechaYHora() + " reportada por " + falla.getReportadoPor()
+        );
+    }
 
+    public void enviarMensaje(Tecnico tecnico, Alerta alerta){
+        bot.notifyUsers(
+                "Alerta " + alerta.getId() +
+                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
+                        ", se ha generado una alerta de tipo " + alerta.getTipoAlerta() +
+                        " en la heladera " + alerta.getHeladera().getNombreIdentificador() +
+                        " a las " + alerta.getFechaYHora()
+        );
+    }
 
 }

@@ -1,6 +1,7 @@
 package utils.notificador;
 
 import domain.contacto.MedioDeContacto;
+import domain.excepciones.MedioDeContactoException;
 import domain.heladera.Heladera.Heladera;
 import domain.incidentes.Alerta;
 import domain.incidentes.FallaTecnica;
@@ -19,7 +20,7 @@ public class Notificador {
                     medio.enviarMensaje(colaborador, heladera, notificacion);
                     //registrar mensaje enviado en logger
                 } catch (MessagingException e) {
-                    throw new RuntimeException(e);
+                    throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
                 }
                 colaborador.setNotificacionRecibida(true);
                }
@@ -33,7 +34,7 @@ public class Notificador {
                     medio.enviarMensaje(tecnico, alerta);
                 //registrar mensaje enviado en logger
                 } catch (MessagingException e) {
-                    throw new RuntimeException(e);
+                    throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
                 }
                 tecnico.setNotificacionRecibida(true);
             }
@@ -47,7 +48,7 @@ public class Notificador {
                     medio.enviarMensaje(tecnico, fallaTecnica);
                 //registrar mensaje enviado en logger
                 } catch (MessagingException e) {
-                    throw new RuntimeException(e);
+                    throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
                 }
                 tecnico.setNotificacionRecibida(true);
             }
@@ -56,7 +57,7 @@ public class Notificador {
 
     public void habilitarNotificacion(ColaboradorFisico colaborador, MedioDeContacto medioDeContacto){
         if(colaborador.getMediosDeContacto().isEmpty())
-            throw new RuntimeException("No tiene medios de contactos agregados");
+        throw new  MedioDeContactoException("El usuario no tiene medios de contactos agregados");
         colaborador.getMediosDeContacto().forEach(medio -> {
             if(medio.equals(medioDeContacto)){
                 medio.setNotificar(true);
@@ -65,16 +66,28 @@ public class Notificador {
     }
 
     public void habilitarNotificacion(Tecnico tecnico, MedioDeContacto medioDeContacto){
-        habilitarNotificacion(tecnico, medioDeContacto);
+        if(tecnico.getMediosDeContacto().isEmpty())
+            throw new  MedioDeContactoException("El usuario no tiene medios de contactos agregados");
+        tecnico.getMediosDeContacto().forEach(medio -> {
+            if(medio.equals(medioDeContacto)){
+                medio.setNotificar(true);
+            }
+        });
     }
 
     public void deshabilitarNotificacion(Tecnico tecnico, MedioDeContacto medioDeContacto){
-        deshabilitarNotificacion(tecnico, medioDeContacto);
+        if(tecnico.getMediosDeContacto().isEmpty())
+            throw new  MedioDeContactoException("El usuario no tiene medios de contactos agregados");
+        tecnico.getMediosDeContacto().forEach(medio -> {
+            if(medio.equals(medioDeContacto)){
+                medio.setNotificar(false);
+            }
+        });
     }
 
     public  void deshabilitarNotificacion(ColaboradorFisico colaborador, MedioDeContacto medioDeContacto){
         if(colaborador.getMediosDeContacto().isEmpty())
-            throw new RuntimeException("No tiene medios de contactos agregados");
+            throw new  MedioDeContactoException("El usuario no tiene medios de contactos agregados");
         colaborador.getMediosDeContacto().forEach(medio -> {
             if(medio.equals(medioDeContacto)){
                 medio.setNotificar(false);
