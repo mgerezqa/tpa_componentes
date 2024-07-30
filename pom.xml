@@ -109,7 +109,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>utils.zCronjobVerificadorTemperaturas.MainTemperaturas</mainClass>
+                            <mainClass>main_tests.cron_verificador_temperaturas.MainTemperaturas</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -23,4 +23,5 @@ public abstract class MedioDeContacto {
     }
     public void enviarMensaje(Tecnico tecnico, FallaTecnica alerta) throws MessagingException {
     }
+
 }

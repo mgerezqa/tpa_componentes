@@ -1,4 +1,4 @@
-package utils.zCronjobVerificadorTemperaturas;
+package main_tests.cron_verificador_temperaturas;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
@@ -6,7 +6,7 @@ import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorTemperatura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import utils.temperatura.VerificadorTemperaturas;
+import domain.temperatura.VerificadorTemperaturas;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -90,6 +90,5 @@ public class TemperaturasSetUp {
             e.printStackTrace();
         }
     }
-
 
 }

@@ -13,6 +13,34 @@ import jakarta.mail.MessagingException;
 
 public class Notificador {
 
+    public void notificar(Tecnico tecnico, Alerta alerta) {
+        tecnico.getMediosDeContacto().forEach(medio -> {
+            if (medio.isNotificar()) {
+                try {
+                    medio.enviarMensaje(tecnico, alerta);
+                    //registrar mensaje enviado en logger
+                } catch (MessagingException e) {
+                    throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
+                }
+                tecnico.setNotificacionRecibida(true);
+            }
+        });
+    }
+
+    public void notificar(Tecnico tecnico, FallaTecnica fallaTecnica) {
+        tecnico.getMediosDeContacto().forEach(medio -> {
+            if (medio.isNotificar()) {
+                try {
+                    medio.enviarMensaje(tecnico, fallaTecnica);
+                    //registrar mensaje enviado en logger
+                } catch (MessagingException e) {
+                    throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
+                }
+                tecnico.setNotificacionRecibida(true);
+            }
+        });
+    }
+
     public void notificar(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion notificacion){
         colaborador.getMediosDeContacto().forEach(medio -> {
             if(medio.isNotificar()){
@@ -23,34 +51,6 @@ public class Notificador {
                     throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
                 }
                 colaborador.setNotificacionRecibida(true);
-               }
-        });
-    }
-
-    public void notificar(Tecnico tecnico, Alerta alerta){
-        tecnico.getMediosDeContacto().forEach(medio -> {
-            if(medio.isNotificar()){
-                try {
-                    medio.enviarMensaje(tecnico, alerta);
-                //registrar mensaje enviado en logger
-                } catch (MessagingException e) {
-                    throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
-                }
-                tecnico.setNotificacionRecibida(true);
-            }
-        });
-    }
-
-    public void notificar(Tecnico tecnico, FallaTecnica fallaTecnica){
-        tecnico.getMediosDeContacto().forEach(medio -> {
-            if(medio.isNotificar()){
-                try {
-                    medio.enviarMensaje(tecnico, fallaTecnica);
-                //registrar mensaje enviado en logger
-                } catch (MessagingException e) {
-                    throw new MedioDeContactoException("El medio de contacto seleccionado no está disponible");
-                }
-                tecnico.setNotificacionRecibida(true);
             }
         });
     }
@@ -95,6 +95,5 @@ public class Notificador {
         });
 
     }
-
 
 }

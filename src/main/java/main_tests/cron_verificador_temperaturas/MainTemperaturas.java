@@ -1,4 +1,4 @@
-package utils.zCronjobVerificadorTemperaturas;
+package main_tests.cron_verificador_temperaturas;
 
 public class MainTemperaturas {
     public static void main(String[] args){

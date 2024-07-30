@@ -1,4 +1,4 @@
-package utils.recomendacionDePuntos;
+package main_tests.recomendacion_puntos;
 import utils.recomendacionDePuntos.Entidades.ListadoDePuntos;
 import utils.recomendacionDePuntos.Entidades.Punto;
 import utils.recomendacionDePuntos.Servicios.ServicioRecomendacionDePuntos;

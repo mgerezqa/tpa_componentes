@@ -1,13 +1,11 @@
 package domain.heladera.Heladera;
-import domain.geografia.Calle;
-import domain.donaciones.Vianda;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
 import domain.suscripciones.EventManager;
-import utils.temperatura.Temperatura;
+import domain.temperatura.Temperatura;
 import lombok.Getter;
 import lombok.Setter;
 

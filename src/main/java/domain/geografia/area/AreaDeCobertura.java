@@ -17,7 +17,6 @@ public class AreaDeCobertura {
     private Ubicacion ubicacionPrincipal;
     private TamanioArea tamanioArea;
 
-
     private Provincia provincia;
     private Set<Localidad> localidades = new HashSet<>();
     private Set<Barrio> barrios = new HashSet<>();
