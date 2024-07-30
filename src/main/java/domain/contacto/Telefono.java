@@ -1,42 +1,44 @@
 package domain.contacto;
 
+import domain.heladera.Heladera.Heladera;
+import domain.suscripciones.TipoDeSuscripcion;
+import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+public abstract class Telefono extends MedioDeContacto {
+    @Setter
+    private String numero;
 
-public class Telefono extends MedioDeContacto{
-    private Integer codPais;
-    private Integer codArea;
-    private double numeroAbonado;
-
-    public Telefono(Integer codPais, Integer codArea, Integer numeroAbonado) {
-
-        // Validar que los valores proporcionados no sean nulos
-        if (codPais == null || codArea == null || numeroAbonado == null) {
-            throw new IllegalArgumentException("Los campos codPais, codArea y numeroAbonado no pueden ser nulos");
-        }
-
-        // Validar que los códigos de país, área y número de abonado sean positivos
-        if (codPais <= 0 || codArea <= 0 || numeroAbonado <= 0) {
-            throw new IllegalArgumentException("Los campos codPais, codArea y numeroAbonado deben ser valores positivos");
-        }
-
-        // Validar longitud del número de abonado ( Entre 6 y 10 dígitos)
-        String numeroAbonadoStr = String.valueOf(numeroAbonado);
-        int longitudNumero = numeroAbonadoStr.length();
-
-        if (longitudNumero < 6 || longitudNumero > 10) {
-            throw new IllegalArgumentException("La longitud del número de abonado debe estar entre 6 y 10 dígitos");
-        }
-
-        this.codPais = codPais;
-        this.codArea = codArea;
-        this.numeroAbonado = numeroAbonado;
+    public Telefono(String numero) {
+        //Como las validaciones de formato para whatsapp y telegram son las mismas, se dejan en la clase padre.
+        validarNumero(numero);
+        this.numero = numero;
     }
 
-    @Override
-    public String obtenerDescripcion() {
-        return codPais+ " " + codArea + " " + numeroAbonado;
+
+    private void validarNumero(String numero) {
+        if (numero == null) {
+            throw new IllegalArgumentException("El número no puede ser nulo");
+        }
+
+        if (!numero.startsWith("+")) {
+            throw new IllegalArgumentException("El número debe comenzar con un '+'");
+        }
+
+        if (numero.length() < 13 || numero.length() > 14) {
+            throw new IllegalArgumentException("El número debe tener entre 13 y 14 caracteres");
+        }
     }
+
+    public abstract String tipoMedioDeContacto();
+
+    public abstract String informacionDeMedioDeContacto();
+
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion){
+
+
+    }
+
 }

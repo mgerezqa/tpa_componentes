@@ -7,8 +7,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class FallaTecnica extends Incidente{
+public class FallaTecnica extends Incidente {
     private Usuario reportadoPor;
     private String descripcion;
     private String foto;
+
+    public FallaTecnica(Heladera heladera) {
+        super(heladera);
+    }
 }

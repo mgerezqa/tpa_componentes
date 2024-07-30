@@ -41,11 +41,14 @@ public class HeladerasTests {
         ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
         capacidadMax = 35;
         fechaInicio = LocalDate.now();
+        sensorMovimiento = new SensorMovimiento(heladera);
+        sensorTemperatura = new SensorTemperatura(heladera);
 
         modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
         tempMin = modeloHeladera.getTemperaturaMinima();
         tempMax = modeloHeladera.getTemperaturaMaxima();
 
+        heladera = new Heladera(modeloHeladera,nombre,ubicacion);
         heladera = new Heladera(modeloHeladera,nombre,ubicacion);
         sensorMovimiento = new SensorMovimiento(heladera);
         sensorTemperatura = new SensorTemperatura(heladera);

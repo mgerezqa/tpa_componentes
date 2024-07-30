@@ -9,4 +9,8 @@ import java.time.LocalDateTime;
 @Setter
 public class Alerta extends Incidente {
     private String tipoAlerta;
+
+    public Alerta(Heladera heladera) {
+        super(heladera);
+    }
 }

@@ -1,8 +1,8 @@
 package domain.usuarios;
 import domain.contacto.MedioDeContacto;
-import domain.formulario.Cuil;
-import domain.formulario.Documento;
-import domain.formulario.TipoDocumento;
+import domain.formulario.documentos.Cuil;
+import domain.formulario.documentos.Documento;
+import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.Ubicacion;
 import domain.geografia.area.TamanioArea;
@@ -22,6 +22,8 @@ public class Tecnico {
     private AreaDeCobertura area;
     private Boolean activo;
     private String id;
+    private boolean notificacionRecibida;
+
 
     // ============================================================ //
     // < CONSTRUCTOR > //
@@ -34,6 +36,7 @@ public class Tecnico {
         this.documento = documento;
         this.cuil = cuil;
         this.mediosDeContacto = new ArrayList<>();
+        this.area = new AreaDeCobertura(null, TamanioArea.PEQUENA); // GENERICO
     }
 
     // ============================================================ //
@@ -56,12 +59,13 @@ public class Tecnico {
     public void limpiarMediosDeContacto(){
         this.mediosDeContacto.clear();
     }
-
+    public void darDeBaja(){
+        this.activo = false;
+    }
     // ============================================================ //
 
-    public void setAreaDeCobertura(Ubicacion ubicacion, String tamanioArea){
-        area.setUbicacionPrincipal(ubicacion);
-        area.setTamanioArea(TamanioArea.valueOf(tamanioArea));
+    public void setAreaDeCobertura(AreaDeCobertura areaDeCobertura){
+        areaDeCobertura.setUbicacionPrincipal(areaDeCobertura.getUbicacionPrincipal());
+        areaDeCobertura.setTamanioArea((areaDeCobertura.getTamanioArea()));
     }
-
 }

@@ -79,7 +79,7 @@ public class TestsTarjeta {
         Assertions.assertEquals(RegistroDeUso.class, tarjeta.getRegistros().get(0).getClass());
     }
     @Test
-    @DisplayName("Se disminuye la cantidadDisponible porque se registro un nuevo uso de la tarjeta")
+    @DisplayName("Se aumenta la cantidadUsadaEnElDia porque se registro un nuevo uso de la tarjeta")
     void validarCantidadDisponibleSiSeUsoLaTarjeta() throws Exception{
         RegistroDeUso nuevoRegistro = new RegistroDeUso(heladeraDeMedrano);
         tarjeta.usoDeTarjeta(nuevoRegistro);
@@ -97,5 +97,28 @@ public class TestsTarjeta {
         String actualMessage = exception.getMessage();
 
         Assertions.assertEquals(expectedMessage,actualMessage);
+    }
+    @Test
+    @DisplayName("Se valida que la cantidadUsadaEnElDia sea acorde con el numero de uso de la tarjeta")
+    void validarCantidaUsadaEnElDiaConNumeroDeUsoDeTarjeta() throws Exception{
+        RegistroDeUso registro1 = new RegistroDeUso(heladeraDeMedrano);
+        RegistroDeUso registro2 = new RegistroDeUso(heladeraDeMedrano);
+        RegistroDeUso registro3 = new RegistroDeUso(heladeraDeMedrano);
+        tarjeta.usoDeTarjeta(registro1);
+        tarjeta.usoDeTarjeta(registro2);
+        tarjeta.usoDeTarjeta(registro3);
+        Assertions.assertEquals(3,tarjeta.getCantidadUsadaEnElDia());
+    }
+    @Test
+    @DisplayName("Se realizo correctamente el reseteo de la cantidadUsadaEnElDia a 0")
+    void validarElResetDeLaCantidadUsadaEnElDia() throws Exception{
+        RegistroDeUso registro1 = new RegistroDeUso(heladeraDeMedrano);
+        RegistroDeUso registro2 = new RegistroDeUso(heladeraDeMedrano);
+        RegistroDeUso registro3 = new RegistroDeUso(heladeraDeMedrano);
+        tarjeta.usoDeTarjeta(registro1);
+        tarjeta.usoDeTarjeta(registro2);
+        tarjeta.usoDeTarjeta(registro3);
+        tarjeta.resetCantidadUsadaEnElDia();
+        Assertions.assertEquals(0,tarjeta.getCantidadUsadaEnElDia());
     }
 }

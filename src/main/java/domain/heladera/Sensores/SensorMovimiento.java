@@ -21,6 +21,7 @@ public class SensorMovimiento {
     public void recibirMovimientoDetectado(){
         // A traves de este metodo, nuestro sistema es capaz de recibir una alerta del sensor fisico.
         IncidenteFactory.crearAlerta(heladera, "fraude");
+        System.out.println("Activación de alerta de fraude!");
     }
 
 }

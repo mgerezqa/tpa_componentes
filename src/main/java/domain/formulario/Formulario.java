@@ -15,11 +15,19 @@ public class Formulario {
         this.campos.put(label, campo);
     }
 
+    public void agregarCampo(Enum<?> label, Campo campo) {
+        this.campos.put(label.name(), campo);
+    }
+
     public Campo getCampo(String nombre){
         return this.campos.get(nombre);
     }
 
-    public void cargarValor(String label, String valor){
+    public Map<String, Campo> getCampos() {
+        return this.campos;
+    }
+
+    public void ingresarRespuesta(String label, String valor){
         if(!this.campos.containsKey(label)){
             System.out.println("No se encuentra el campo");
         } else {
@@ -27,28 +35,36 @@ public class Formulario {
         }
     }
 
-    public void modificarValor(String label, String valor){
-        this.cargarValor(label, valor);
+    public void ingresarRespuesta(Enum<?> label, String valor){
+        if(!this.campos.containsKey(label.name())){
+            System.out.println("No se encuentra el campo");
+        } else {
+            this.campos.get(label.name()).setValor(valor);
+        }
     }
 
-    public String obtenerValor(String label){
+
+    public boolean buscarCampo(String label){
+        return this.campos.containsKey(label);
+    }
+
+    public boolean buscarCampo(Enum<?> label) {
+        return this.campos.containsKey(label.name());
+    }
+
+    public void modificarRespuesta(String label, String valor){
+        this.ingresarRespuesta(label, valor);
+    }
+    public void modificarRespuesta(Enum<?> label, String valor){
+        this.ingresarRespuesta(label.name(), valor);
+    }
+
+    public String obtenerRespuesta(String label){
         return this.getCampo(label).getValor();
     }
 
-    public void mostrarLabels(){
-        String mostrar = "Estos son los nombres de campos cargados: \n";
-        for(Map.Entry<String, Campo> entry : this.campos.entrySet()){
-            mostrar += entry.getKey()+ "\n";
-        }
-        System.out.println(mostrar);
-    }
-    public void mostrarCampos(Colaborador colaborador){
-        String mostrar = "Estos son los campos cargados: \n";
-        colaborador.completarFormulario(this);
-        for(Map.Entry<String, Campo> entry : this.campos.entrySet()){
-            mostrar += entry.getKey() + ": " + entry.getValue().getValor() + "\n";
-        }
-        System.out.println(mostrar);
+    public String obtenerRespuesta(Enum<?> label) {
+        return this.getCampo(label.name()).getValor();
     }
 
 
@@ -56,13 +72,4 @@ public class Formulario {
         return campos.size();
     }
 
-    public Integer cantDeValoresSegunKey(String key) {
-        Integer contador = 0;
-        for(Map.Entry<String, Campo> entry : this.campos.entrySet()){
-            if(entry.getKey().equals(key)){
-                contador++;
-            }
-        }
-        return contador;
-    }
 }

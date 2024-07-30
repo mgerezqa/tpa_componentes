@@ -1,11 +1,13 @@
 package domain.heladera.Heladera;
+import domain.geografia.Calle;
+import domain.donaciones.Vianda;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
-import domain.temperatura.Temperatura;
-import domain.usuarios.Tecnico;
+import domain.suscripciones.EventManager;
+import utils.temperatura.Temperatura;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,25 +17,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Heladera {
+
+    @Getter @Setter
+    private EventManager eventManager;
+
+
     @Setter @Getter
     private Ubicacion ubicacion;
     @Setter @Getter
     private String nombreIdentificador;
+    @Setter @Getter
+    private Integer id;
     @Setter @Getter
     private Integer capacidadMax; // (se mide en numero de viandas)
     @Setter @Getter
     private Integer capacidadActual;
     @Setter @Getter // ojo con el setter, creo q no va
     private LocalDate fechaInicioFuncionamiento;
-    @Setter @Getter
+    @Getter @Setter
     private EstadoHeladera estadoHeladera;
+
     @Getter
     private ModeloDeHeladera modelo;
-    @Setter @Getter
+
+    @Getter @Setter
     private SensorMovimiento sensorMovimiento;
-    @Setter @Getter
+    @Getter @Setter
     private SensorTemperatura sensorTemperatura;
-    @Setter @Getter
+
+    @Getter @Setter
     private List<String> historialDeEstados;
     public Temperatura ultimaTemperaturaRegistrada;
     @Setter @Getter
@@ -44,10 +56,7 @@ public class Heladera {
 
     // ============================================================ //
     // < CONSTRUCTOR > //
-    // ============================================================ //
-
     public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion){
-
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
         this.modelo = modelo;
@@ -55,6 +64,7 @@ public class Heladera {
         this.darDeAltaHeladera();
         this.solicitudesPendientes = new ArrayList<>();
 
+        this.eventManager = new EventManager();
     }
 
     // ============================================================ //
@@ -95,6 +105,7 @@ public class Heladera {
     public void cambiarEstadoAFueraDeServicio(){
         this.estadoHeladera = EstadoHeladera.FUERA_DE_SERVICIO;
         trackearEstado(this.getEstadoHeladera());
+        eventManager.notifyObservers();
     }
 
     // Trackeo de estados.
@@ -103,9 +114,9 @@ public class Heladera {
     }
 
     // Setear la temperatura actual.
-    public void setUltimaTemperaturaRegistrada(Float temp){
+    public void setUltimaTemperaturaRegistrada(Float temp, LocalDateTime fecha){
         this.ultimaTemperaturaRegistrada.setTemperatura(temp);
-        this.ultimaTemperaturaRegistrada.setFechaYhora(LocalDateTime.now());
+        this.ultimaTemperaturaRegistrada.setFechaYhora(fecha);
     }
 
     // Get temperatura actual.
@@ -115,7 +126,8 @@ public class Heladera {
 
     // Ver si la temperatura esta en rango.
     public boolean temperaturaFueraDeRango(){
-        return this.getUltimaTemperaturaRegistrada() < modelo.getTemperaturaMinima() || this.getUltimaTemperaturaRegistrada() > modelo.getTemperaturaMaxima();
+        return this.getUltimaTemperaturaRegistrada() < modelo.getTemperaturaMinima() ||
+                this.getUltimaTemperaturaRegistrada() > modelo.getTemperaturaMaxima();
     }
 
     // Agregar incidente a la lista de incidentes de la heladera.
@@ -142,5 +154,28 @@ public class Heladera {
         solicitudApertura.completarSolicitud(LocalDateTime.now());
         solicitudesPendientes.remove(solicitudApertura);
     }
+
+    // ============================================================ //
+    // Gestion de viandas (SOLO PARA TEST)
+    // LLAMAR AL EVENTMANAGER CUANDO INGRESEN O RETIREN VIANDAS
+    // ============================================================ //
+
+
+    public  void ingresarVianda(){
+        if(this.capacidadActual < this.capacidadMax){
+            this.capacidadActual += 1;
+            eventManager.notifyObservers();
+        }
+    }
+
+    public void retirarVianda(){
+        if(this.capacidadActual > 0){
+            this.capacidadActual -= 1;
+            eventManager.notifyObservers();
+
+        }
+    }
+
+
 }
 

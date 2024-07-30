@@ -1,9 +1,9 @@
 package GeoTests;
 
-import domain.geografia.RecomendacionDePuntos.Entidades.ListadoDePuntos;
-import domain.geografia.RecomendacionDePuntos.Entidades.Punto;
-import domain.geografia.RecomendacionDePuntos.Servicios.ServicioRecomendacionDePuntos;
-import domain.geografia.RecomendacionDePuntos.Servicios.ServicioRecomendacionDePuntosInterface;
+import utils.recomendacionDePuntos.Entidades.ListadoDePuntos;
+import utils.recomendacionDePuntos.Entidades.Punto;
+import utils.recomendacionDePuntos.Servicios.ServicioRecomendacionDePuntos;
+import utils.recomendacionDePuntos.Servicios.ServicioRecomendacionDePuntosInterface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

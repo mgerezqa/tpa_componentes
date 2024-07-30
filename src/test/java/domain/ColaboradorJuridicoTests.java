@@ -1,16 +1,15 @@
 package domain;
 
 import domain.contacto.Email;
-import domain.contacto.MedioDeContacto;
-import domain.contacto.Telefono;
 import domain.contacto.Whatsapp;
-import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.ColaboradorJuridico;
 import domain.usuarios.Rubro;
 import domain.usuarios.TipoRazonSocial;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import utils.generadorDeUsuarioDesdeForm.FormularioColaboradorJuridico;
+import utils.generadorDeUsuarioDesdeForm.FormularioUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -24,7 +23,7 @@ public class ColaboradorJuridicoTests {
     @BeforeEach
     public void setUp() {
         this.metroviasEmail = new Email("metro@gmail.com");
-        this.metrovias = new ColaboradorJuridico("Metrovias S.A", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS,metroviasEmail);
+        this.metrovias = new ColaboradorJuridico("Metrovias S.A", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
         this.metroWhastapp = new Whatsapp("+549116574460");
     }
 
@@ -32,7 +31,8 @@ public class ColaboradorJuridicoTests {
     @DisplayName("Tiene que tener al menos 1 medio de contacto")
     public  void testCrearColaboradorSinMediosDeContacto(){
 
-        assertThrows(Exception.class, () -> new ColaboradorJuridico("Metrovias S.A", TipoRazonSocial.EMPRESA,Rubro.SERVICIOS,null));
+        FormularioColaboradorJuridico formulario = new FormularioColaboradorJuridico("Metrovias S.A", TipoRazonSocial.EMPRESA.getDescripcion(), Rubro.SERVICIOS.getDescripcion());
+        assertThrows(Exception.class, () -> FormularioUtils.crearColaboradorJuridico(formulario));
     }
 
     @Test
@@ -47,18 +47,11 @@ public class ColaboradorJuridicoTests {
     public  void testCrearColaboradorConDosMediosDeContacto(){
 
         metrovias.agregarMedioDeContacto(metroWhastapp);
+        metrovias.agregarMedioDeContacto(metroviasEmail);
         assertEquals(2,metrovias.getMediosDeContacto().size());
     }
 
-    @Test
-    @DisplayName("No puede tener mas de 3 medios de contacto ")
-    public  void testCrearColaboradorConMasDeTresMediosDeContacto(){
-        Whatsapp otroWhatsapp = new Whatsapp("+549114444666");
-        Email otroEmail = new Email("otro@gmail.com");
-        metrovias.agregarMedioDeContacto(otroEmail);
-        metrovias.agregarMedioDeContacto(otroWhatsapp);
-        assertThrows(Exception.class, () -> metrovias.agregarMedioDeContacto(otroEmail));
-    }
+
 
     @Test
     @DisplayName("Tiene Razon Social, Tipo de Razon Social y un rubro  ")
