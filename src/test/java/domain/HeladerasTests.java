@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,6 +51,12 @@ public class HeladerasTests {
         sensorTemperatura = new SensorTemperatura(heladera);
 
         lalo = new ColaboradorFisico("Lalo", "Menz", new Email("lalo@gmail.com"));
+
+        try {
+            Config.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

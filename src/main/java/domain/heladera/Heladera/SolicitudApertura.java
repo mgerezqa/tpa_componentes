@@ -1,5 +1,6 @@
 package domain.heladera.Heladera;
 
+import domain.Config;
 import domain.excepciones.ExcepcionSolicitudExpirada;
 import domain.usuarios.Colaborador;
 import lombok.Getter;
@@ -14,7 +15,6 @@ public class SolicitudApertura {
     private Colaborador colaborador;
     @Getter @Setter
     private LocalDateTime fechaHoraConcretado;
-    private Integer horasExpiracion = 3;
 
     public SolicitudApertura(LocalDateTime fechaHora, String detalle, Colaborador colaborador) {
         this.fechaHoraInicio = fechaHora;
@@ -23,7 +23,7 @@ public class SolicitudApertura {
     }
 
     public void completarSolicitud(LocalDateTime fechaHora) {
-        if ((int) ChronoUnit.MINUTES.between(this.fechaHoraInicio, fechaHora) > this.horasExpiracion*60) {
+        if ((int) ChronoUnit.MINUTES.between(this.fechaHoraInicio, fechaHora) > Integer.parseInt(Config.getProperty("solicitudApertura.expiryHours"))*60) {
             throw new ExcepcionSolicitudExpirada("Su solicitud expiró. Debe generar una nueva solicitud.");
         }else {
             this.fechaHoraConcretado = fechaHora;

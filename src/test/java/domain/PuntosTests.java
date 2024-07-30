@@ -45,7 +45,7 @@ public class PuntosTests {
     public void setUp() throws IOException {
         Config.init();
 
-        this.calculadoraPuntos = new CalculadoraPuntos();
+        this.calculadoraPuntos = CalculadoraPuntos.obtenerInstancia();
 
         this.laloEmail = new Email("lalo@gmail.com");
         this.lalo = new ColaboradorFisico("Lalo", "Menz", laloEmail);

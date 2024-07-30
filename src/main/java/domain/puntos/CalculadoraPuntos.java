@@ -8,8 +8,7 @@ import java.io.IOException;
 public class CalculadoraPuntos {
     private static CalculadoraPuntos instancia;
 
-    public CalculadoraPuntos() throws IOException {
-        Config.init();
+    private CalculadoraPuntos() {
     }
 
     public static CalculadoraPuntos obtenerInstancia() throws IOException {
