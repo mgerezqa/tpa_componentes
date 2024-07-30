@@ -27,7 +27,7 @@ public class ControladorSolicitudApertura {
 
         //TODO
         //Reemplazar parametro
-        SolicitudApertura solicitudApertura = SolicitudAperturaFactory.crear(solicitudAperturaDTO, new ColaboradorFisico("Lalo", "Menz", new Email("lalo@gmail.com")));
+        SolicitudApertura solicitudApertura = SolicitudAperturaFactory.crear(solicitudAperturaDTO, new ColaboradorFisico("Lalo", "Menz"));
         heladera.registrarSolicitud(solicitudApertura);
     }
 }

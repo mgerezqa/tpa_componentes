@@ -34,6 +34,7 @@ public class HeladerasTests {
     private Float tempMax;
     private List<String> historialDeEstados;
     private ColaboradorFisico lalo;
+    private Config config;
 
     @BeforeEach
     public void setUp(){
@@ -53,11 +54,11 @@ public class HeladerasTests {
         sensorMovimiento = new SensorMovimiento(heladera);
         sensorTemperatura = new SensorTemperatura(heladera);
 
-        lalo = new ColaboradorFisico("Lalo", "Menz", new Email("lalo@gmail.com"));
+        lalo = new ColaboradorFisico("Lalo", "Menz");
 
         try {
-            Config.init();
-        } catch (IOException e) {
+            config = Config.getInstance();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
