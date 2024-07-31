@@ -56,10 +56,10 @@ public class AsignadorDeTecnicosSetUp {
         // Parque las heras
         Ubicacion ubicacionB = new Ubicacion((-34.582835f), (-58.408439f), new Calle("Avenida DEFE", "1030"));
 
-        AreaDeCobertura areaB = new AreaDeCobertura(ubicacionA,TamanioArea.MEDIANA);
+        AreaDeCobertura areaB = new AreaDeCobertura(ubicacionB,TamanioArea.MEDIANA);
         MedioDeContacto emailB = new Email("bryanbattagliese@gmail.com");
 
-        tecnicoB = new Tecnico("Eduardo", "Lopez", documentoA, cuilA);
+        tecnicoB = new Tecnico("Eduardo", "Lopez", documentoB, cuilB);
         tecnicoB.setAreaDeCobertura(areaB);
         tecnicoB.agregarMedioDeContacto(emailB);
 
@@ -94,7 +94,9 @@ public class AsignadorDeTecnicosSetUp {
 
     public void ejecucion(String filePath) {
 
-        List<Tecnico> tecnicos = new ArrayList<>();
+
+        List<Tecnico> tecnicos = setUpTecnicos();
+
         List<Incidente> incidentes = setUpIncidentes();
         AsignadorDeTecnico asignador = new AsignadorDeTecnico();
         EmailSender emailSender = EmailSender.getInstance();
@@ -131,8 +133,8 @@ public class AsignadorDeTecnicosSetUp {
         MedioDeContacto emailB = new Email("bryanbattagliese@gmail.com");
 
         tecnicoB = new Tecnico("Eduardo", "Lopez", documentoA, cuilA);
-        tecnicoB.setAreaDeCobertura(areaB);
-        tecnicoB.agregarMedioDeContacto(emailB);
+        tecnicoB.setAreaDeCobertura(areaA);
+        tecnicoB.agregarMedioDeContacto(emailA);
         notificador.habilitarNotificacion(tecnicoB, emailB);
 
         // ============================================================

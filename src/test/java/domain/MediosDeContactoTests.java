@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 public class MediosDeContactoTests {
 
@@ -23,7 +24,7 @@ public class MediosDeContactoTests {
     public void setUp() {
 
         //Medios de contacto
-        this.laloEmail = new Email("lalo@gmail.com");
+        this.laloEmail = mock(Email.class);
         this.laloTelefono = new Telegram("+549116574460");
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
