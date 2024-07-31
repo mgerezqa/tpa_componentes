@@ -17,10 +17,21 @@ public class Telegram extends Telefono {
     private TelegramBot bot;
     private Config config;
 
-    public Telegram(String numero) {
-        super(numero);
+    public Telegram(String userName) {
+        this.setUsername(userName);
+        validarUserName(userName);
         this.bot = TelegramBot.getInstance();
 
+    }
+
+    private void validarUserName(String username) {
+        if (username == null) {
+            throw new IllegalArgumentException("El username no puede ser nulo");
+        }
+
+        if (username.length() < 5 || username.length() > 20) {
+            throw new IllegalArgumentException("El username debe tener entre 5 y 20 caracteres");
+        }
     }
 
     @Override
@@ -35,31 +46,61 @@ public class Telegram extends Telefono {
 
     @Override
     public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) {
-        System.out.println("Enviando mensaje a " + getNumero());
-        bot.notifyUsers(
-                "Hola " + colaborador.getNombre() +
-                        ", la heladera " + heladera.getNombreIdentificador() +
-                        tipoDeSuscripcion.getDescripcion());
+
+        String mensaje = String.format(
+                "📢 *Hola %s*!\n\n" +
+                        "La heladera *%s* tiene una nueva suscripción de tipo: *%s*.\n\n" +
+                        "¡Mantente informado! 🧊",
+                colaborador.getNombre(),
+                heladera.getNombreIdentificador(),
+                tipoDeSuscripcion.getDescripcion()
+        );
+
+        bot.notifyUsers(getUsername(), mensaje);
+        System.out.println("Enviando mensaje a " + getUsername() + ": " + mensaje);
+
 
     }
 
     public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) {
-        bot.notifyUsers("Falla Tecnica " + falla.getId() +
-                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
-                ", se ha generado una falla tecnica de tipo " + falla.getDescripcion() +
-                " en la heladera " + falla.getHeladera().getNombreIdentificador() +
-                " a las " + falla.getFechaYHora() + " reportada por " + falla.getReportadoPor()
+
+        String mensaje = String.format(
+                "🚨 *Falla Técnica* #%s\n\n" +
+                        "*Hola %s %s*!\n\n" +
+                        "Se ha generado una falla técnica de tipo: *%s*\n" +
+                        "En la heladera: *%s*\n" +
+                        "Fecha y hora: *%s*\n" +
+                        "Reportada por: *%s*",
+                falla.getId(),
+                tecnico.getNombre(),
+                tecnico.getApellido(),
+                falla.getDescripcion(),
+                falla.getHeladera().getNombreIdentificador(),
+                falla.getFechaYHora(),
+                falla.getReportadoPor()
         );
+
+        bot.notifyUsers(getUsername(), mensaje);
+        System.out.println("Enviando mensaje a " + getUsername() + ": " + mensaje);
     }
 
     public void enviarMensaje(Tecnico tecnico, Alerta alerta){
-        bot.notifyUsers(
-                "Alerta " + alerta.getId() +
-                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
-                        ", se ha generado una alerta de tipo " + alerta.getTipoAlerta() +
-                        " en la heladera " + alerta.getHeladera().getNombreIdentificador() +
-                        " a las " + alerta.getFechaYHora()
+        String mensaje = String.format(
+                "⚠️ *Alerta* #%s\n\n" +
+                        "*Hola %s %s*!\n\n" +
+                        "Se ha generado una alerta de tipo: *%s*\n" +
+                        "En la heladera: *%s*\n" +
+                        "Fecha y hora: *%s*",
+                alerta.getId(),
+                tecnico.getNombre(),
+                tecnico.getApellido(),
+                alerta.getTipoAlerta(),
+                alerta.getHeladera().getNombreIdentificador(),
+                alerta.getFechaYHora()
         );
+
+        bot.notifyUsers(getUsername(), mensaje);
+        System.out.println("Enviando mensaje a " + getUsername() + ": " + mensaje);
     }
 
 }

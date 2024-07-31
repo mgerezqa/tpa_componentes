@@ -15,7 +15,7 @@ public class MediosDeContactoTests {
 
     private ColaboradorFisico lalo;
     private MedioDeContacto laloEmail;
-    private MedioDeContacto laloTelefono;
+    private MedioDeContacto laloTelegram;
     private MedioDeContacto laloWhatsapp;
 
 
@@ -24,7 +24,7 @@ public class MediosDeContactoTests {
 
         //Medios de contacto
         this.laloEmail = new Email("lalo@gmail.com");
-        this.laloTelefono = new Telegram("+549116574460");
+        this.laloTelegram = new Telegram("melli11_ok");
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
 
@@ -49,15 +49,21 @@ public class MediosDeContactoTests {
     }
 
     @Test
-    @DisplayName("El número de teléfono no puede tener números negativos")
-    public void testNumeroDeTelefonoValido() {
-        assertThrows(Exception.class, () -> new Telegram("-51140009000"));
+    @DisplayName("El usuario de Telegram no puede estar vacio")
+    public void testUserNameTelegram() {
+        assertThrows(Exception.class, () -> new Telegram(""));
     }
 
     @Test
-    @DisplayName("El número de teléfono no puede tener solo valores nulos")
+    @DisplayName("El número de WhatsApp no puede tener números negativos")
+    public void testNumeroDeTelefonoValido() {
+        assertThrows(Exception.class, () -> new Whatsapp("-51140009000"));
+    }
+
+    @Test
+    @DisplayName("El número de WhatsApp no puede tener solo valores nulos")
     public void testNumeroDeTelefonoLongitud() {
-        assertThrows(Exception.class, () -> new Telegram("0"));
+        assertThrows(Exception.class, () -> new Whatsapp("0"));
     }
 
     @Test
