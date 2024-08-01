@@ -27,7 +27,7 @@ public class ColaboradorFisicoTests {
     public void setUp() {
         //Medios de contacto
         this.laloEmail = new Email("lalo@gmail.com");
-        this.laloTelefono = new Telegram("+549116574460");
+        this.laloTelefono = new Telegram("melli11_ok");
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
         this.formulario = new FormularioColaboradorFisico("Lalo", "Menz");

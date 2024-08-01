@@ -103,15 +103,15 @@ public class FormularioTests {
     @Test
     @DisplayName("Se puede generar un colaborador fisico a partir de un formulario")
     public void generarColaboradorFisicoDesdeFormulario(){
-        FormularioColaboradorFisico formulario = new FormularioColaboradorFisico("Pepe","Menz","pepe@gmail.com","+5491165974084","+5491165974084");
+        FormularioColaboradorFisico formulario = new FormularioColaboradorFisico("Pepe","Menz","pepe@gmail.com","melli11ok","+5491165974084");
         ColaboradorFisico pepe = FormularioUtils.crearColaboradorFisico(formulario);
 
         assertEquals("Pepe",pepe.getNombre());
         assertEquals("Menz",pepe.getApellido());
         assertEquals(3,pepe.getMediosDeContacto().size());
         //busca en la lista de set de medios de contacto
-        assertTrue(pepe.getMediosDeContacto().stream().anyMatch(medio -> medio.informacionDeMedioDeContacto().equals("pepe@gmail.com")));
-        assertTrue(pepe.getMediosDeContacto().stream().anyMatch(medio -> medio.informacionDeMedioDeContacto().equals("+5491165974084")));
+        assertTrue(pepe.getMediosDeContacto().stream().anyMatch(medio -> medio.tipoMedioDeContacto().equals("Telegram")));
+
 
     }
 

@@ -86,8 +86,8 @@ public class NotificadorTests {
 
         this.tecnico = new Tecnico("Juan", "Perez", mock(Documento.class), mock(Cuil.class));
         //Medios de contacto
-        this.laloEmail = new Email("mingerez@gmail.com");
-        this.laloTelegram = new Telegram("+549116574460");
+        this.laloEmail =  new Email("mingerez@gmail.com");
+        this.laloTelegram = new Telegram("melli11ok");
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
 
@@ -229,11 +229,12 @@ public class NotificadorTests {
     }
 
     @Test
-    @DisplayName("Un tecnico recibe un aviso de falla técnica por mail")
+    @DisplayName("Un tecnico recibe un aviso de falla técnica por Telegram")
     public void testNotificarTecnicoPorFallaPorTelegram() throws IOException {
         notificador.habilitarNotificacion(tecnico, laloTelegram);
         notificador.notificar(tecnico,fallaTecnica);
     }
+
 
 
 
