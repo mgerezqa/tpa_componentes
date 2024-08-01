@@ -7,4 +7,5 @@ import domain.usuarios.Usuario;
 public interface IRepositorioColaboradores {
     void alta(Colaborador colaborador);
     Colaborador buscarColaborador(Colaborador colaborador);
+    Colaborador buscarColaborador(Integer id);
 }

@@ -1,4 +1,4 @@
-package utils.Broker;
+package utils.Broker.receptors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
