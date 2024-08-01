@@ -84,7 +84,7 @@ public class SuscripcionTests {
 
         //Medios de contacto
         this.laloEmail = new Email("mgerez@frba.utn.edu.ar");
-        this.laloTelegram = new Telegram("+melli11_ok");
+        this.laloTelegram = new Telegram("melli11_ok");
         this.laloWhatsapp = new Whatsapp("+5491165974084");
         this.colaborador = new ColaboradorFisico("Lalo", "Menz");
         this.otroColaborador = new ColaboradorFisico("Pepe","Argento");
