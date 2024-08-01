@@ -48,52 +48,35 @@ public class Telegram extends Telefono {
     public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) {
 
         String mensaje = String.format(
-                "📢 *Hola %s*!\n\n" +
-                        "La heladera *%s* tiene una nueva suscripción de tipo: *%s*.\n\n" +
-                        "¡Mantente informado! 🧊",
+                "📢 INFORME DE SUSCRIPCIÓN\n" +
+                        "===============================\n\n" +
+                        "Hola %s!\n\n" +
+                        "🧊 Heladera %s\n" +
+                        "🔔 Tipo de suscripción: %s\n\n" +
+                        "¡Gracias por colaborar! 📬",
                 colaborador.getNombre(),
                 heladera.getNombreIdentificador(),
                 tipoDeSuscripcion.getDescripcion()
         );
 
         bot.notifyUsers(getUsername(), mensaje);
-        System.out.println("Enviando mensaje a " + getUsername() + ": " + mensaje);
+        System.out.println("Enviando mensaje a " + getUsername() + ": \n\n" + mensaje);
 
 
-    }
-
-    public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) {
-
-        String mensaje = String.format(
-                "🚨 *Falla Técnica* #%s\n\n" +
-                        "*Hola %s %s*!\n\n" +
-                        "Se ha generado una falla técnica de tipo: *%s*\n" +
-                        "En la heladera: *%s*\n" +
-                        "Fecha y hora: *%s*\n" +
-                        "Reportada por: *%s*",
-                falla.getId(),
-                tecnico.getNombre(),
-                tecnico.getApellido(),
-                falla.getDescripcion(),
-                falla.getHeladera().getNombreIdentificador(),
-                falla.getFechaYHora(),
-                falla.getReportadoPor()
-        );
-
-        bot.notifyUsers(getUsername(), mensaje);
-        System.out.println("Enviando mensaje a " + getUsername() + ": " + mensaje);
     }
 
     public void enviarMensaje(Tecnico tecnico, Alerta alerta){
         String mensaje = String.format(
-                "⚠️ *Alerta* #%s\n\n" +
-                        "*Hola %s %s*!\n\n" +
-                        "Se ha generado una alerta de tipo: *%s*\n" +
-                        "En la heladera: *%s*\n" +
-                        "Fecha y hora: *%s*",
-                alerta.getId(),
+                "⚠️ INFORME DE ALERTA\n" +
+                        "===============================\n\n" +
+                        "Hola %s %s!\n\n" +
+                        "🚨 Alerta: #%s\n" +
+                        "📝 Tipo de Alerta: %s\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🕒 Fecha y hora: %s\n\n",
                 tecnico.getNombre(),
                 tecnico.getApellido(),
+                alerta.getId(),
                 alerta.getTipoAlerta(),
                 alerta.getHeladera().getNombreIdentificador(),
                 alerta.getFechaYHora()
@@ -101,6 +84,29 @@ public class Telegram extends Telefono {
 
         bot.notifyUsers(getUsername(), mensaje);
         System.out.println("Enviando mensaje a " + getUsername() + ": " + mensaje);
+    }
+
+    public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) {
+
+        String mensaje = String.format(
+                "🚨 INFORME DE FALLA TÉCNICA\n" +
+                        "===============================\n\n" +
+                        "Hola %s %s!\n\n" +
+                        "⚠️ Falla Técnica: #%s\n" +
+                        "🔧 Descripción: %s\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🕒 Fecha y hora: %s\n" +
+                        "👤 Reportada por: %s\n\n",
+                tecnico.getNombre(),
+                tecnico.getApellido(),
+                falla.getId(),
+                falla.getDescripcion(),
+                falla.getHeladera().getNombreIdentificador(),
+                falla.getFechaYHora(),
+                falla.getReportadoPor()
+        );
+        bot.notifyUsers(getUsername(), mensaje);
+        System.out.println("Enviando mensaje a " + getUsername() + ": \n\n" + mensaje);
     }
 
 }

@@ -11,7 +11,7 @@ public class FormularioColaboradorFisico extends Formulario {
         agregarCampo("Nombre", new Campo(eTipoCampo.CAMPO_NOMBRE));
         agregarCampo("Apellido", new Campo(eTipoCampo.CAMPO_NOMBRE));
         agregarCampo("Email", new Campo(eTipoCampo.CAMPO_EMAIL));
-        agregarCampo("Telegram", new Campo(eTipoCampo.CAMPO_TELEFONO));
+        agregarCampo("Telegram", new Campo(eTipoCampo.CAMPO_TEXTO));
         agregarCampo("Whatsapp", new Campo(eTipoCampo.CAMPO_TELEFONO));
 
         ingresarRespuesta("Nombre", nombre);
@@ -38,7 +38,7 @@ public class FormularioColaboradorFisico extends Formulario {
         agregarCampo("Nombre", new Campo(eTipoCampo.CAMPO_NOMBRE));
         agregarCampo("Apellido", new Campo(eTipoCampo.CAMPO_NOMBRE));
         agregarCampo("Email", new Campo(eTipoCampo.CAMPO_EMAIL));
-        agregarCampo("Telegram", new Campo(eTipoCampo.CAMPO_TELEFONO));
+        agregarCampo("Telegram", new Campo(eTipoCampo.CAMPO_TEXTO));
         agregarCampo("Whatsapp", new Campo(eTipoCampo.CAMPO_TELEFONO));
     }
 

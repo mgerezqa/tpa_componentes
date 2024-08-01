@@ -57,33 +57,57 @@ public class Email extends MedioDeContacto {
 
     @Override
     public void enviarMensaje(ColaboradorFisico colaboradorFisico, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) throws MessagingException {
-    emailSender.sendEmail(
-                "Aviso de suscripción",
-                "Hola " + colaboradorFisico.getNombre() + " " + colaboradorFisico.getApellido() +
-                ", la heladera " + heladera.getNombreIdentificador() +
-                tipoDeSuscripcion.getDescripcion(), getEmail()
-    );
+        String mensaje = String.format(
+                        "Hola %s!\n\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🔔 Tipo de suscripción: %s\n\n" +
+                        "¡Gracias por colaborar! 📬",
+                colaboradorFisico.getNombre(),
+                heladera.getNombreIdentificador(),
+                tipoDeSuscripcion.getDescripcion()
+        );
+
+        emailSender.sendEmail("📢 INFORME DE SUSCRIPCIÓN",mensaje,getEmail());
     }
+
 
 
     public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {
-        emailSender.sendEmail(
-                "Alerta " + alerta.getId(),
-                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
-                ", se ha generado una alerta de tipo " + alerta.getTipoAlerta() +
-                        " en la heladera " + alerta.getHeladera().getNombreIdentificador() +
-                        " a las " + alerta.getFechaYHora(),
-                getEmail()
+        String mensaje = String.format(
+                        "Hola %s %s!\n\n" +
+                        "🚨 Alerta: #%s\n" +
+                        "📝 Tipo de Alerta: %s\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🕒 Fecha y hora: %s\n\n",
+                tecnico.getNombre(),
+                tecnico.getApellido(),
+                alerta.getId(),
+                alerta.getTipoAlerta(),
+                alerta.getHeladera().getNombreIdentificador(),
+                alerta.getFechaYHora()
         );
+        emailSender.sendEmail("⚠️ INFORME DE ALERTA", mensaje, getEmail());
     }
 
     public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) throws MessagingException {
+        String mensaje = String.format(
+                        "Hola %s %s!\n\n" +
+                        "⚠️ Falla Técnica: #%s\n" +
+                        "🔧 Descripción: %s\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🕒 Fecha y hora: %s\n" +
+                        "👤 Reportada por: %s\n\n",
+                tecnico.getNombre(),
+                tecnico.getApellido(),
+                falla.getId(),
+                falla.getDescripcion(),
+                falla.getHeladera().getNombreIdentificador(),
+                falla.getFechaYHora(),
+                falla.getReportadoPor()
+        );
         emailSender.sendEmail(
-                "Falla Tecnica " + falla.getId(),
-                "Hola " + tecnico.getNombre() + " " + tecnico.getApellido() +
-                ", se ha generado una falla tecnica de tipo " + falla.getDescripcion() +
-                        " en la heladera " + falla.getHeladera().getNombreIdentificador() +
-                        " a las " + falla.getFechaYHora() + " reportada por " + falla.getReportadoPor(),
+                "🚨 INFORME DE FALLA TÉCNICA",
+                mensaje,
                 getEmail()
         );
     }
