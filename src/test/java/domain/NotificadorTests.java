@@ -87,7 +87,8 @@ public class NotificadorTests {
         this.tecnico = new Tecnico("Juan", "Perez", mock(Documento.class), mock(Cuil.class));
         //Medios de contacto
         this.laloEmail =  new Email("mingerez@gmail.com");
-        this.laloTelegram = new Telegram("melli11ok");
+//        this.laloTelegram = new Telegram("melli11ok");
+        this.laloTelegram = new Telegram("MgerezUserTest1108");
         this.laloWhatsapp = new Whatsapp("+549116574460");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
 
