@@ -1,0 +1,7 @@
+Fecha y hora actual: 2024-07-18T13:12:49.890780300
+
+Heladeras con falla temperatura: medrano
+Temperatura registrada: 100.0
+
+Heladeras con falla de conexion: rivadavia
+Horario ult temperatura: 2024-07-18T13:04:49.889754200

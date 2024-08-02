@@ -4,28 +4,32 @@ import domain.persona.PersonaVulnerable;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
 public class Tarjeta {
-    String codigoIdentificador; // Código alfanumérico de 11 caracteres
-    PersonaVulnerable titular;
-    private int cantidadDisponiblePorDefecto = 4;
+    private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
+    private PersonaVulnerable titular;
+    private static int cantidadDisponiblePorDefecto = 4;
     private int cantidadUsadaEnElDia;
     private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
+    private LocalDate fechaInicioDeFuncionamiento;
     //Constructor
     public Tarjeta(PersonaVulnerable titular){
         this.titular = titular;
         this.cantidadUsadaEnElDia = 0;
         this.registros = new ArrayList<>();
+        this.fechaInicioDeFuncionamiento = LocalDate.now();
     }
     public int cantidadDisponiblePorMenores(){
         return 2*this.getTitular().cantidadDeMenoresACargo();
     }
     public int cantidadLimiteDisponiblePorDia(){
-        return this.getCantidadDisponiblePorDefecto() + this.cantidadDisponiblePorMenores();
+        return cantidadDisponiblePorDefecto + this.cantidadDisponiblePorMenores();
     }
     public boolean tieneCantidadDisponible(){
            return this.getCantidadUsadaEnElDia() < this.cantidadLimiteDisponiblePorDia();
@@ -43,5 +47,8 @@ public class Tarjeta {
             }else{
                 throw new Exception("No hay más cantidad disponible por hoy!");
             }
+    }
+    public void resetCantidadUsadaEnElDia(){
+        this.setCantidadUsadaEnElDia(0);
     }
 }

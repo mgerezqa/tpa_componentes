@@ -1,9 +1,10 @@
 package domain;
-import domain.formulario.Cuil;
-import domain.formulario.Documento;
-import domain.formulario.TipoDocumento;
+
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Whatsapp;
+import domain.formulario.documentos.Cuil;
+import domain.formulario.documentos.Documento;
+import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.Ubicacion;
 import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
@@ -47,7 +48,7 @@ public class TecnicosTests {
 
     @Test
     public void darDeBajaUnTecnico(){
-        //tecnico.darDeBaja();
+        tecnico.setActivo(false);
         Assertions.assertFalse(tecnico.estaActivo());
     }
 

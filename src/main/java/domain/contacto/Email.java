@@ -1,12 +1,29 @@
 package domain.contacto;
 
+import domain.heladera.Heladera.Heladera;
+import domain.incidentes.Alerta;
+import domain.incidentes.FallaTecnica;
+import domain.incidentes.Incidente;
+import domain.mensajeria.EmailSender;
+import domain.suscripciones.TipoDeSuscripcion;
+import domain.usuarios.ColaboradorFisico;
+import domain.usuarios.Tecnico;
+import jakarta.mail.MessagingException;
 import lombok.Getter;
 
 @Getter
 public class Email extends MedioDeContacto {
     private String email;
+    private EmailSender emailSender;
+
 
     public Email(String email) {
+        validarEmail(email);
+        this.email = email;
+        emailSender = EmailSender.getInstance();
+    }
+
+    private void validarEmail(String email){
         if (email == null) {
             throw new IllegalArgumentException("El email no puede ser nulo");
         }
@@ -26,12 +43,74 @@ public class Email extends MedioDeContacto {
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
             throw new IllegalArgumentException("El email no tiene un formato valido");
         }
-
-        this.email = email;
     }
 
     @Override
-    public String obtenerDescripcion() {
-        return email;
+    public String tipoMedioDeContacto() {
+        return "Email";
     }
+
+    @Override
+    public String informacionDeMedioDeContacto() {
+        return getEmail();
+    }
+
+    @Override
+    public void enviarMensaje(ColaboradorFisico colaboradorFisico, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) throws MessagingException {
+        String mensaje = String.format(
+                        "Hola %s!\n\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🔔 Tipo de suscripción: %s\n\n" +
+                        "¡Gracias por colaborar! 📬",
+                colaboradorFisico.getNombre(),
+                heladera.getNombreIdentificador(),
+                tipoDeSuscripcion.getDescripcion()
+        );
+
+        emailSender.sendEmail("📢 INFORME DE SUSCRIPCIÓN",mensaje,getEmail());
+    }
+
+
+
+    public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {
+        String mensaje = String.format(
+                        "Hola %s %s!\n\n" +
+                        "🚨 Alerta: #%s\n" +
+                        "📝 Tipo de Alerta: %s\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🕒 Fecha y hora: %s\n\n",
+                tecnico.getNombre(),
+                tecnico.getApellido(),
+                alerta.getId(),
+                alerta.getTipoAlerta(),
+                alerta.getHeladera().getNombreIdentificador(),
+                alerta.getFechaYHora()
+        );
+        emailSender.sendEmail("⚠️ INFORME DE ALERTA", mensaje, getEmail());
+    }
+
+    public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) throws MessagingException {
+        String mensaje = String.format(
+                        "Hola %s %s!\n\n" +
+                        "⚠️ Falla Técnica: #%s\n" +
+                        "🔧 Descripción: %s\n" +
+                        "🧊 Heladera: %s\n" +
+                        "🕒 Fecha y hora: %s\n" +
+                        "👤 Reportada por: %s\n\n",
+                tecnico.getNombre(),
+                tecnico.getApellido(),
+                falla.getId(),
+                falla.getDescripcion(),
+                falla.getHeladera().getNombreIdentificador(),
+                falla.getFechaYHora(),
+                falla.getReportadoPor()
+        );
+        emailSender.sendEmail(
+                "🚨 INFORME DE FALLA TÉCNICA",
+                mensaje,
+                getEmail()
+        );
+    }
+
+
 }

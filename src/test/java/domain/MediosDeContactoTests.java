@@ -2,7 +2,7 @@ package domain;
 
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
-import domain.contacto.Telefono;
+import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
 import domain.usuarios.ColaboradorFisico;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,7 @@ public class MediosDeContactoTests {
 
     private ColaboradorFisico lalo;
     private MedioDeContacto laloEmail;
-    private MedioDeContacto laloTelefono;
+    private MedioDeContacto laloTelegram;
     private MedioDeContacto laloWhatsapp;
 
 
@@ -24,9 +24,9 @@ public class MediosDeContactoTests {
 
         //Medios de contacto
         this.laloEmail = new Email("lalo@gmail.com");
-        this.laloTelefono = new Telefono(54,11,400090000);
+        this.laloTelegram = new Telegram("melli11_ok");
         this.laloWhatsapp = new Whatsapp("+549116574460");
-        this.lalo = new ColaboradorFisico("Lalo", "Menz",laloEmail);
+        this.lalo = new ColaboradorFisico("Lalo", "Menz");
 
     }
 
@@ -49,15 +49,21 @@ public class MediosDeContactoTests {
     }
 
     @Test
-    @DisplayName("El número de teléfono no puede tener números negativos")
-    public void testNumeroDeTelefonoValido() {
-        assertThrows(Exception.class, () -> new Telefono(-5, -11, 40009000));
+    @DisplayName("El usuario de Telegram no puede estar vacio")
+    public void testUserNameTelegram() {
+        assertThrows(Exception.class, () -> new Telegram(""));
     }
 
     @Test
-    @DisplayName("El número de teléfono no puede tener solo valores nulos")
+    @DisplayName("El número de WhatsApp no puede tener números negativos")
+    public void testNumeroDeTelefonoValido() {
+        assertThrows(Exception.class, () -> new Whatsapp("-51140009000"));
+    }
+
+    @Test
+    @DisplayName("El número de WhatsApp no puede tener solo valores nulos")
     public void testNumeroDeTelefonoLongitud() {
-        assertThrows(Exception.class, () -> new Telefono(0, 0, 0));
+        assertThrows(Exception.class, () -> new Whatsapp("0"));
     }
 
     @Test
@@ -71,4 +77,5 @@ public class MediosDeContactoTests {
     public void testWhatsappLongitud() {
         assertThrows(Exception.class, () -> new Whatsapp("549116574460555"));
     }
+
 }

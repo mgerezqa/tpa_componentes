@@ -1,27 +1,47 @@
 package domain.contacto;
 
-public class Whatsapp extends MedioDeContacto{
-    private String numero;
+import domain.heladera.Heladera.Heladera;
+import domain.suscripciones.TipoDeSuscripcion;
+import domain.usuarios.ColaboradorFisico;
 
-    public Whatsapp(String numero) {
+public class Whatsapp extends Telefono{
+
+    public Whatsapp(String numero){
+        this.setNumero(numero);
+        validarNumero(numero);
+    }
+
+
+
+    private void validarNumero(String numero) {
         if (numero == null) {
-            throw new IllegalArgumentException("El número de Whatsapp no puede ser nulo");
+            throw new IllegalArgumentException("El número no puede ser nulo");
         }
 
         if (!numero.startsWith("+")) {
-            throw new IllegalArgumentException("El número de Whatsapp debe comenzar con un '+'");
+            throw new IllegalArgumentException("El número debe comenzar con un '+'");
         }
 
-        if (numero.length() < 12 || numero.length() > 13) {
-            throw new IllegalArgumentException("El número de Whatsapp debe tener entre 12 y 13 caracteres");
+        if (numero.length() < 13 || numero.length() > 14) {
+            throw new IllegalArgumentException("El número debe tener entre 13 y 14 caracteres");
         }
+    }
 
-        this.numero = numero;
+
+    @Override
+    public String tipoMedioDeContacto() {
+        return "Whatsapp";
     }
 
     @Override
-    public String obtenerDescripcion() {
-        return numero;
+    public String informacionDeMedioDeContacto() {
+        return getNumero();
+    }
+
+    @Override
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) {
+        //TODO: Implementar envío de mensaje por Whatsapp
+        System.out.println("Enviando mensaje por Whatsapp a " + getNumero());
     }
 }
 

@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class PuntosTests {
 
@@ -39,21 +40,20 @@ public class PuntosTests {
     private ModeloDeHeladera modeloHeladera;
     private Heladera heladeraPalermo;
     private Heladera heladeraMedrano;
-
+    private Config config;
 
     @BeforeEach
     public void setUp() throws IOException {
-        Config.init();
+
+        config = Config.getInstance();
 
         this.calculadoraPuntos = new CalculadoraPuntos();
 
-        this.laloEmail = new Email("lalo@gmail.com");
-        this.lalo = new ColaboradorFisico("Lalo", "Menz", laloEmail);
-        this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS, laloEmail);
+        this.laloEmail = mock(Email.class);
+        this.lalo = new ColaboradorFisico("Lalo", "Menz");
+        this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
 
         this.ubicacion = new Ubicacion(-54F, -48F, new Calle("Av. Rivadavia", "1234"));
-        this.sensorMovimiento = new SensorMovimiento(heladeraPalermo);
-        this.sensorTemperatura = new SensorTemperatura(heladeraPalermo);
         this.modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
 
         LocalDate fechaInicioFuncMed = LocalDate.parse("2023-01-01");
@@ -62,6 +62,8 @@ public class PuntosTests {
 
         this.heladeraMedrano = new Heladera(modeloHeladera,"Heladera medrano", ubicacion);
         this.heladeraPalermo = new Heladera(modeloHeladera,"Heladera Palermo", ubicacion);
+        this.sensorMovimiento = new SensorMovimiento(heladeraMedrano);
+        this.sensorTemperatura = new SensorTemperatura(heladeraPalermo);
 
         heladeraPalermo.setCapacidadMax(200);
         heladeraMedrano.setCapacidadMax(180);
@@ -75,15 +77,12 @@ public class PuntosTests {
     public void lecturaArchivoProperties() {
         try {
             System.out.println("TestProperties");
-            Config.init();
-            System.out.println("Coeficiente de dinero donado: " + Config.getProperty("puntos.coefDineroDonado"));
-            System.out.println("Coeficiente de viandas distribuidas: " + Config.getProperty("puntos.coefViandasDistribuidas"));
-            System.out.println("Coeficiente de viandas donadas: " + Config.getProperty("puntos.coefViandasDonadas"));
-            System.out.println("Coeficiente de tarjetas repartidas: " + Config.getProperty("puntos.coefTarjetasRepartidas"));
-            System.out.println("Coeficiente de heladeras activas: " + Config.getProperty("puntos.coefHeladerasActivas"));
+            System.out.println("Coeficiente de dinero donado: " + config.getProperty("puntos.coefDineroDonado"));
+            System.out.println("Coeficiente de viandas distribuidas: " + config.getProperty("puntos.coefViandasDistribuidas"));
+            System.out.println("Coeficiente de viandas donadas: " + config.getProperty("puntos.coefViandasDonadas"));
+            System.out.println("Coeficiente de tarjetas repartidas: " + config.getProperty("puntos.coefTarjetasRepartidas"));
+            System.out.println("Coeficiente de heladeras activas: " + config.getProperty("puntos.coefHeladerasActivas"));
             System.out.println("--------------------------------------------------");
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NumberFormatException e) {
             System.err.println("Error en el formato del archivo de propiedades: " + e.getMessage());
         }

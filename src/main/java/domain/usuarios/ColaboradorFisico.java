@@ -2,8 +2,9 @@ package domain.usuarios;
 
 import domain.contacto.MedioDeContacto;
 import domain.donaciones.Vianda;
-import domain.formulario.Campo;
-import domain.formulario.TipoCampo;
+import domain.geografia.area.AreaDeCobertura;
+import domain.heladera.Heladera.Heladera;
+import domain.suscripciones.iSuscriptor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,36 +19,26 @@ public class ColaboradorFisico extends Colaborador {
 
     private List<Vianda> viandasDonadas;
 
+    private boolean notificacionRecibida;
+    @Getter
+    private AreaDeCobertura zona;
     // ============================================================ //
     // Constructor //
     // ============================================================ //
-    public ColaboradorFisico(String nombre, String apellido, MedioDeContacto medioDeContacto){
+    public ColaboradorFisico(String nombre, String apellido){
+        this.notificacionRecibida = false;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.unMedioDeContacto = medioDeContacto;
         this.activo = true;
         this.mediosDeContacto = new HashSet<>();
-        this.agregarMedioDeContacto(medioDeContacto);
-        this.completarFormulario();
     }
 
     // ============================================================ //
     // Metodos //
     // ============================================================ //
-    @Override
-    public void completarFormulario() {
-        super.completarFormulario();
 
-        formulario.agregarCampo("Nombre",new Campo(TipoCampo.CAMPO_NOMBRE));
-        formulario.agregarCampo("Apellido",new Campo(TipoCampo.CAMPO_NOMBRE));
-        formulario.agregarCampo("Medio de contacto",new Campo(TipoCampo.CAMPO_MULTIPLE));
 
-        formulario.cargarValor("Nombre", this.getNombre());
-        formulario.cargarValor("Apellido",this.getApellido());
 
-        for (MedioDeContacto contacto : this.mediosDeContacto) {
-            formulario.cargarValor("Medio de contacto", contacto.obtenerDescripcion());
-        }
-    }
+
 
 }

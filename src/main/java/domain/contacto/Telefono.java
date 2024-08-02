@@ -1,42 +1,23 @@
 package domain.contacto;
 
+import domain.heladera.Heladera.Heladera;
+import domain.suscripciones.TipoDeSuscripcion;
+import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+@Getter @Setter
+public abstract class Telefono extends MedioDeContacto {
+    private String numero;
+    private String username;
 
-public class Telefono extends MedioDeContacto{
-    private Integer codPais;
-    private Integer codArea;
-    private double numeroAbonado;
+    public abstract String tipoMedioDeContacto();
 
-    public Telefono(Integer codPais, Integer codArea, Integer numeroAbonado) {
+    public abstract String informacionDeMedioDeContacto();
 
-        // Validar que los valores proporcionados no sean nulos
-        if (codPais == null || codArea == null || numeroAbonado == null) {
-            throw new IllegalArgumentException("Los campos codPais, codArea y numeroAbonado no pueden ser nulos");
-        }
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion){
 
-        // Validar que los códigos de país, área y número de abonado sean positivos
-        if (codPais <= 0 || codArea <= 0 || numeroAbonado <= 0) {
-            throw new IllegalArgumentException("Los campos codPais, codArea y numeroAbonado deben ser valores positivos");
-        }
 
-        // Validar longitud del número de abonado ( Entre 6 y 10 dígitos)
-        String numeroAbonadoStr = String.valueOf(numeroAbonado);
-        int longitudNumero = numeroAbonadoStr.length();
-
-        if (longitudNumero < 6 || longitudNumero > 10) {
-            throw new IllegalArgumentException("La longitud del número de abonado debe estar entre 6 y 10 dígitos");
-        }
-
-        this.codPais = codPais;
-        this.codArea = codArea;
-        this.numeroAbonado = numeroAbonado;
     }
 
-    @Override
-    public String obtenerDescripcion() {
-        return codPais+ " " + codArea + " " + numeroAbonado;
-    }
 }
