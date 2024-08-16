@@ -3,13 +3,13 @@ package domain.contribucionNuevo;
 import domain.heladera.Heladera.Heladera;
 import domain.usuariosNuevo.Colaborador;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
+@Getter @Setter
 public class ContribucionVianda extends Contribucion{
     private LocalDate fechaVencimiento;
-    private LocalDate fechaDonacion;
     private Heladera heladeraActual;
 
     // ============================================================ //
@@ -18,7 +18,7 @@ public class ContribucionVianda extends Contribucion{
     public ContribucionVianda(LocalDate fechaVencimiento, LocalDate fechaDonacion, Colaborador colaboradorQueLaDono) {
         super(TipoContribucion.VIANDA);
         this.fechaVencimiento = fechaVencimiento;
-        this.fechaDonacion = fechaDonacion;
+        this.registrarFechaDeContribucion(fechaDonacion);
         this.registrarColaborador(colaboradorQueLaDono);
     }
     public ContribucionVianda(){

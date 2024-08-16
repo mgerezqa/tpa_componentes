@@ -3,6 +3,9 @@ package domain.usuariosNuevo;
 
 import domain.contacto.MedioDeContacto;
 import domain.contribucionNuevo.TipoContribucion;
+import domain.heladera.Heladera.Heladera;
+import domain.tarjeta.EventosTarjetasColab;
+import domain.tarjeta.TarjetaColaborador;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -18,6 +21,7 @@ public class ColaboradorFisico extends Colaborador {
     private Integer numeroDocumento;
     private LocalDate fechaNac;
     private String direccion;
+    private TarjetaColaborador tarjetaColaborador;
 
     public ColaboradorFisico(){
 
@@ -36,6 +40,26 @@ public class ColaboradorFisico extends Colaborador {
 
     public boolean identificarPorDocumento(TipoDocumento tipoDoc, Integer nroDoc) {
         return getNumeroDocumento().equals(nroDoc) && getTipoDocumento().equals(tipoDoc);
+    }
+
+
+    public void generarTarjetaColaborador(){
+        this.tarjetaColaborador = TarjetaColaborador.generar(this);
+        //logRecord.log(Event.of("Se genero una tarjeta: "+tarjetaContribucion.getCodigoTarjeta()));
+        tarjetaColaborador.registrarCreacionTarjeta();
+    }
+    public void enviarTarjeta(){
+        // TODO
+        //logRecord.log(Event.of("Se envio la tarjeta "));
+        tarjetaColaborador.registrarEnvioTarjeta();
+    }
+    public void abrirHeladera(Heladera unaHeladera){
+        if(this.tarjetaColaborador != null){
+            //TODO: hace algo
+            tarjetaColaborador.usarTarjeta(EventosTarjetasColab.USO_HELADERA, unaHeladera);
+        } else {
+            throw new RuntimeException("No tiene tarjeta generada");
+        }
     }
 
     @Override

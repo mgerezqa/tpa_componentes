@@ -25,4 +25,17 @@ public class CampoSimple implements iCampo {
     public List<String> obtenerRespuestas() {
         return Collections.singletonList(respuesta);
     }
+
+    @Override
+    public Integer cantidadRespuestas() {
+        if(respuesta == null)
+            return 0;
+        else
+            return 1;
+    }
+
+    @Override
+    public Boolean tieneRespuesta(){
+        return respuesta != null;
+    }
 }

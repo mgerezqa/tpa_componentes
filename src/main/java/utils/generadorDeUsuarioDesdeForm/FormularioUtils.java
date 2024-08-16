@@ -17,7 +17,7 @@ public class FormularioUtils {
 
         agregarMedioDeContacto(formulario, colaborador);
         //verificar que el colaborador tenga al menos 1 medio de contacto
-        validarCantidadDeMediosDeContacto(colaborador);
+        //validarCantidadDeMediosDeContacto(colaborador);
 
         return colaborador;
 

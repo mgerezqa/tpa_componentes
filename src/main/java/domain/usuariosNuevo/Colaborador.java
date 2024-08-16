@@ -4,15 +4,11 @@ import domain.contacto.MedioDeContacto;
 import domain.contribucionNuevo.Contribucion;
 import domain.contribucionNuevo.TipoContribucion;
 import domain.formularioNuevo.FormularioNuevo;
-import domain.heladera.Heladera.Heladera;
-import domain.tarjeta.EventosTarjetasColab;
-import domain.tarjeta.TarjetaColaborador;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Getter @Setter
 public abstract class Colaborador {
@@ -21,15 +17,14 @@ public abstract class Colaborador {
     protected List<MedioDeContacto> mediosDeContacto;
     private Boolean activo;
     protected Integer puntosAcumulados;
-    protected List<TipoContribucion> contribucionesQueRealizara;
-    protected TarjetaColaborador tarjetaColaborador;
+    protected Set<TipoContribucion> contribucionesQueRealizara;
     //protected LogRecord logRecord;
 
     @Setter private Integer idColab;
 
     public Colaborador(){
         this.mediosDeContacto = new ArrayList<>();
-        this.contribucionesQueRealizara = new ArrayList<>();
+        this.contribucionesQueRealizara = new LinkedHashSet<>();
         this.puntosAcumulados = 0;
         this.idColab = generarId();
         //this.logRecord = new LogRecord(new FileLogging("Colaborador_"+idColab));
@@ -60,7 +55,7 @@ public abstract class Colaborador {
     public void removerContacto(MedioDeContacto contacto){
         mediosDeContacto.remove(contacto);
     }
-    public void agregarFormaContribucionQueRealizara(TipoContribucion unTipoContribucion){
+    public void registrarContribuciones(TipoContribucion unTipoContribucion){
         if (contribucionesDisponibles().contains(unTipoContribucion))
             contribucionesQueRealizara.add(unTipoContribucion);
         else
@@ -74,22 +69,4 @@ public abstract class Colaborador {
         return this.contribucionesQueRealizara.contains(unTipo);
     }
 
-    public void generarTarjetaColaborador(){
-        this.tarjetaColaborador = TarjetaColaborador.generar(this);
-        //logRecord.log(Event.of("Se genero una tarjeta: "+tarjetaContribucion.getCodigoTarjeta()));
-        tarjetaColaborador.registrarCreacionTarjeta();
-    }
-    public void enviarTarjeta(){
-        // TODO
-        //logRecord.log(Event.of("Se envio la tarjeta "));
-        tarjetaColaborador.registrarEnvioTarjeta();
-    }
-    public void abrirHeladera(Heladera unaHeladera){
-        if(this.tarjetaColaborador != null){
-            //TODO: hace algo
-            tarjetaColaborador.usarTarjeta(EventosTarjetasColab.USO_HELADERA, unaHeladera);
-        } else {
-            throw new RuntimeException("No tiene tarjeta generada");
-        }
-    }
 }

@@ -29,4 +29,14 @@ public class CampoMultiple implements iCampo{
     public List<String> obtenerRespuestas() {
         return respuestas;
     }
+
+    @Override
+    public Integer cantidadRespuestas() {
+        return respuestas.size();
+    }
+
+    @Override
+    public Boolean tieneRespuesta(){
+        return (cantidadRespuestas()>0 && respuestas.get(0)!=null);
+    }
 }

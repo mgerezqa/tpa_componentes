@@ -4,17 +4,16 @@ import domain.donaciones.Motivo;
 import domain.heladera.Heladera.Heladera;
 import domain.usuariosNuevo.ColaboradorFisico;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
+@Getter @Setter
 public class ContribucionDistribucion extends Contribucion{
     private Heladera heladeraOrigen;
     private Heladera heladeraDestino;
     private Integer cantidad;
     private Motivo motivo;
-    private LocalDate fechaDeDonacion;
-
 
     public ContribucionDistribucion(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, Motivo motivo, LocalDate fechaDeDonacion, ColaboradorFisico colaboradorQuelaDono){
         super(TipoContribucion.DISTRIBUCION);
@@ -22,7 +21,7 @@ public class ContribucionDistribucion extends Contribucion{
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
         this.motivo = motivo;
-        this.fechaDeDonacion = fechaDeDonacion;
+        this.registrarFechaDeContribucion(fechaDeDonacion);
         this.registrarColaborador(colaboradorQuelaDono);
     }
     public ContribucionDistribucion(){

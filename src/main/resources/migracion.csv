@@ -1,5 +1,10 @@
-LC,111222,pepe,argento,uncorreo@mail.com,12/12/1980,DINERO,1000
-LC,111222,pepe,argento,uncorreo@mail.com,12/12/1980,DONACION_VIANDAS,5
-DNI,112233,moni,argento,uncorreo@mail.com,12/12/1980,DONACION_VIANDAS,3
-LE,123123,coqui,argento,uncorreo@mail.com,12/12/1980,REDISTRIBUCION_VIANDAS,2
-LE,321321,paola,argento,uncorreo@mail.com,12/12/1980,ENTREGA_TARJETAS,4
+LC,10001,pepe,argento,pepe@mail.com,01/08/2024,DINERO,1000
+LC,10001,pepe,argento,pepe@mail.com,02/08/2024,DONACION_VIANDAS,5
+DNI,10002,moni,argento,moni@mail.com,03/08/2024,DONACION_VIANDAS,3
+LE,10003,coqui,argento,coqui@mail.com,04/08/2024,REDISTRIBUCION_VIANDAS,2
+LC,10004,paola,argento,paola@mail.com,05/08/2024,ENTREGA_TARJETAS,4
+LE,20001,dardo,fuseneco,dardo@mail.com,06/08/2024,DINERO,1000
+DNI,20002,mariaelena,fuseneco,mariaelena@mail.com,07/08/2024,DONACION_VIANDAS,5
+LE,10003,coqui,argento,coqui@mail.com,08/08/2024,DONACION_VIANDAS,3
+LC,10001,pepe,argento,pepe@mail.com,09/08/2024,REDISTRIBUCION_VIANDAS,2
+DNI,20002,mariaelena,fuseneco,mariaelena@mail.com,10/08/2024,ENTREGA_TARJETAS,4

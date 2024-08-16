@@ -1,6 +1,8 @@
 package utils.generadores;
 
 import domain.contribucionNuevo.*;
+import domain.usuariosNuevo.Colaborador;
+import utils.importadorCsv.RegistroCSV;
 
 public interface GeneradorContribucion {
     static Contribucion generar(TipoContribucion unTipo){
@@ -12,5 +14,12 @@ public interface GeneradorContribucion {
             case VIANDA -> {return new ContribucionVianda();}
             default -> throw new RuntimeException("Tipo de contribucion Invalida!");
         }
+    }
+
+    static Contribucion generar(RegistroCSV lecturaRegistro, Colaborador unColab){
+        Contribucion aux = generar(lecturaRegistro.getTipoColab());
+        aux.registrarFechaDeContribucion(lecturaRegistro.getFechaColab());
+        aux.registrarColaborador(unColab);
+        return aux;
     }
 }

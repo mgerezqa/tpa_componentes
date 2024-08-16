@@ -7,4 +7,6 @@ public interface iCampo {
     String obtenerRespuesta();
     String obtenerRespuesta(Integer indice);
     List<String> obtenerRespuestas();
+    Integer cantidadRespuestas();
+    Boolean tieneRespuesta();
 }

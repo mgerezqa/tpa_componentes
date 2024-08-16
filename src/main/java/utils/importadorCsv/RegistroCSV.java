@@ -29,27 +29,20 @@ public class RegistroCSV {
         this.cantidad = Integer.parseInt(filaCVS[7]);
     }
     private TipoContribucion obtenerTipoDonacion(String tipoColab){
-        switch (tipoColab){
-            case "DINERO":
-                return TipoContribucion.DINERO;
-            case "DONACION_VIANDAS":
-                return TipoContribucion.VIANDA;
-            case "REDISTRIBUCION_VIANDAS":
-                return TipoContribucion.DISTRIBUCION;
-            case "ENTREGA_TARJETAS":
-                return TipoContribucion.REGISTRO_P_V;
-            default: return null;
-        }
+        return switch (tipoColab) {
+            case "DINERO" -> TipoContribucion.DINERO;
+            case "DONACION_VIANDAS" -> TipoContribucion.VIANDA;
+            case "REDISTRIBUCION_VIANDAS" -> TipoContribucion.DISTRIBUCION;
+            case "ENTREGA_TARJETAS" -> TipoContribucion.REGISTRO_P_V;
+            default -> null;
+        };
     }
     private TipoDocumento obtenerTipoDocumento(String tipoDoc){
-        switch (tipoDoc){
-            case "LC":
-                return TipoDocumento.LIBRETA_CIVICA;
-            case "LE":
-                return TipoDocumento.LIBRETA_ENROLAMIENTO;
-            case "DNI":
-                return TipoDocumento.DNI;
-            default: return null;
-        }
+        return switch (tipoDoc) {
+            case "LC" -> TipoDocumento.LIBRETA_CIVICA;
+            case "LE" -> TipoDocumento.LIBRETA_ENROLAMIENTO;
+            case "DNI" -> TipoDocumento.DNI;
+            default -> null;
+        };
     }
 }

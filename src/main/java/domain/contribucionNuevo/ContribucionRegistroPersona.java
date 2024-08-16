@@ -2,7 +2,10 @@ package domain.contribucionNuevo;
 
 import domain.tarjeta.Tarjeta;
 import domain.usuariosNuevo.ColaboradorFisico;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class ContribucionRegistroPersona extends Contribucion{
     private Tarjeta tarjeta;
 

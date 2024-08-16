@@ -22,7 +22,7 @@ public enum Rubro {
     public static Rubro obtenerEnum(String unString){
         try{
             return Rubro.valueOf(unString);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new RuntimeException("Rubro invalido!");
         }
     }

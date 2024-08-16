@@ -8,7 +8,7 @@ public enum TipoDocumento {
     public static TipoDocumento obtenerEnum(String unString){
         try{
             return TipoDocumento.valueOf(unString);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new RuntimeException("Tipo de documento invalido!");
         }
     }

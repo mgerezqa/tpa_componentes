@@ -12,7 +12,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 public class DatosColabJuridico {
@@ -20,15 +22,15 @@ public class DatosColabJuridico {
     private TipoRazonSocial tipoRazonSocial;
     private Rubro tipoDeRubro;
     private List<MedioDeContacto> contactos;
-    private List<TipoContribucion> contribuciones;
+    private Set<TipoContribucion> contribuciones;
     private String direccion;
 
     public DatosColabJuridico(){
         this.contactos = new ArrayList<>();
-        this.contribuciones = new ArrayList<>();
+        this.contribuciones = new LinkedHashSet<>();
     }
 
-    public DatosColabJuridico(String razonSocial, TipoRazonSocial tipoRazonSocial, Rubro tipoDeRubro, List<MedioDeContacto> contactos, List<TipoContribucion> contribuciones, String direccion) {
+    public DatosColabJuridico(String razonSocial, TipoRazonSocial tipoRazonSocial, Rubro tipoDeRubro, List<MedioDeContacto> contactos, Set<TipoContribucion> contribuciones, String direccion) {
         this.razonSocial = razonSocial;
         this.tipoRazonSocial = tipoRazonSocial;
         this.tipoDeRubro = tipoDeRubro;
@@ -48,15 +50,17 @@ public class DatosColabJuridico {
         DatosColabJuridico aux = new DatosColabJuridico();
         if(unForm.getTipoFormulario().equals(TipoFormulario.COLABORADOR_JURIDICO)){
             for(iDatosDeRegistro datos : unForm.getRegistros()){
-                switch (datos.obtenerTipoCampo()){
-                    case CAMPO_RAZON_SOCIAL -> aux.setRazonSocial(datos.obtenerRespuesta());
-                    case CAMPO_TIPO_JURIDICO -> aux.setTipoRazonSocial(TipoRazonSocial.obtenerEnum(datos.obtenerRespuesta()));
-                    case CAMPO_RUBRO -> aux.setTipoDeRubro(Rubro.obtenerEnum(datos.obtenerRespuesta()));
-                    case CAMPO_EMAIL -> datos.obtenerRespuestas().forEach(respuesta -> aux.agregarContacto(new Email(respuesta)));
-                    case CAMPO_WHATSAPP -> datos.obtenerRespuestas().forEach(respuesta -> aux.agregarContacto(new Whatsapp(respuesta)));
-                    case CAMPO_TELEGRAM -> datos.obtenerRespuestas().forEach(respuesta -> aux.agregarContacto(new Telegram(respuesta)));
-                    case CAMPO_FORMA_CONTRIBUCION -> datos.obtenerRespuestas().forEach(respuesta ->aux.agregarFormasContribucion(TipoContribucion.obtenerEnum(respuesta)));
-                    case CAMPO_DIRECCION -> aux.setDireccion(datos.obtenerRespuesta());
+                if(datos.fueRespondido()){
+                    switch (datos.obtenerTipoCampo()){
+                        case CAMPO_RAZON_SOCIAL -> aux.setRazonSocial(datos.obtenerRespuesta());
+                        case CAMPO_TIPO_JURIDICO -> aux.setTipoRazonSocial(TipoRazonSocial.obtenerEnum(datos.obtenerRespuesta()));
+                        case CAMPO_RUBRO -> aux.setTipoDeRubro(Rubro.obtenerEnum(datos.obtenerRespuesta()));
+                        case CAMPO_EMAIL -> datos.obtenerRespuestas().forEach(respuesta -> aux.agregarContacto(new Email(respuesta)));
+                        case CAMPO_WHATSAPP -> datos.obtenerRespuestas().forEach(respuesta -> aux.agregarContacto(new Whatsapp(respuesta)));
+                        case CAMPO_TELEGRAM -> datos.obtenerRespuestas().forEach(respuesta -> aux.agregarContacto(new Telegram(respuesta)));
+                        case CAMPO_FORMA_CONTRIBUCION -> datos.obtenerRespuestas().forEach(respuesta ->aux.agregarFormasContribucion(TipoContribucion.obtenerEnum(respuesta)));
+                        case CAMPO_DIRECCION -> aux.setDireccion(datos.obtenerRespuesta());
+                    }
                 }
             }
             return aux;

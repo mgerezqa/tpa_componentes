@@ -15,7 +15,7 @@ public enum TipoRazonSocial {
     public static TipoRazonSocial obtenerEnum(String unString){
         try{
             return TipoRazonSocial.valueOf(unString);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             throw new RuntimeException("Tipo de razon social invalido!");
         }
     }

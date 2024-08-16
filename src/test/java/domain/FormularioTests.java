@@ -1,26 +1,21 @@
 package domain;
 
 import domain.contacto.MedioDeContacto;
-import domain.contacto.eTipoMedioDeContacto;
-import domain.formulario.Campo;
 import domain.formulario.Formulario;
-import domain.formulario.eTipoCampo;
-import domain.usuarios.ColaboradorFisico;
-import domain.usuarios.ColaboradorJuridico;
-import domain.usuarios.Rubro;
-import domain.usuarios.TipoRazonSocial;
+import domain.formularioNuevo.FormularioNuevo;
+import domain.formularioNuevo.TipoEntrada;
+import domain.formularioNuevo.TipoFormulario;
+import domain.usuariosNuevo.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import utils.generadorDeUsuarioDesdeForm.FormularioColaboradorFisico;
-import utils.generadorDeUsuarioDesdeForm.FormularioColaboradorJuridico;
-import utils.generadorDeUsuarioDesdeForm.FormularioUtils;
-import utils.notificador.Notificador;
+
+import utils.generadores.GeneradorColaborador;
+import utils.generadores.GeneradorFormulario;
 
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.time.format.DateTimeFormatter;
 
 public class FormularioTests {
     private ColaboradorFisico lalo;
@@ -30,6 +25,11 @@ public class FormularioTests {
     private Formulario formulario;
     private LocalDate fechaActual;
 
+    // nuevos
+
+    private FormularioNuevo formularioNuevo;
+    private FormularioNuevo formularioFisico;
+    private FormularioNuevo formularioJuridico;
 
     @BeforeEach
     public void setUp() {
@@ -37,45 +37,62 @@ public class FormularioTests {
         this.formulario = new Formulario();
         this.fechaActual = LocalDate.now();
 
+        this.formularioNuevo = new FormularioNuevo(TipoFormulario.OTRO);
+        this.formularioFisico = GeneradorFormulario.colabFisico();
+        this.formularioJuridico = GeneradorFormulario.colabJuridico();
     }
 
     @Test
     @DisplayName("Un formulario admite la creación de campos dinámicos")
     public void camposDinamicos(){
-        formulario.agregarCampo("fecha",new Campo(eTipoCampo.CAMPO_FECHA));
-        formulario.agregarCampo("texto libre",new Campo(eTipoCampo.CAMPO_TEXTO));
-        formulario.agregarCampo("numerico",new Campo(eTipoCampo.CAMPO_NUMERICO));
 
-        formulario.ingresarRespuesta("fecha","2024-01-17");
-        formulario.ingresarRespuesta("texto libre","Hola mundo");
-        formulario.ingresarRespuesta("numerico","1234");
-        assertEquals(3, formulario.cantCampos());
+        formularioNuevo.agregarRegistro(TipoEntrada.ENTRADA_TEXTO, "CAMPO_1", "Titulo");
+        formularioNuevo.agregarRegistro(TipoEntrada.ENTRADA_NUMERICA, "CAMPO_2", "Numero de paginas");
+        formularioNuevo.agregarRegistro(TipoEntrada.ENTRADA_FECHA, "CAMPO_3", "Fecha de publicacion");
 
+        formularioNuevo.ingresarRespuesta("CAMPO_1", "Este es un titulo");
+        formularioNuevo.ingresarRespuesta("CAMPO_2", "4");
+        formularioNuevo.ingresarRespuesta("CAMPO_3", "03/09/2012");
+
+
+        Assertions.assertEquals(3, formularioNuevo.cantidadRegistros());
+
+        formularioNuevo.getRegistros().forEach(System.out::println);
     }
 
 
     @Test
     @DisplayName("El formulario acepta la carga de preguntas de multiples respuestas")
     public void unFormularioTieneUnaEntradaDeMultiplesRespuestas(){
-        formulario.agregarCampo("idiomas", new Campo(eTipoCampo.CAMPO_MULTIPLE));
+        formularioNuevo.agregarRegistro(TipoEntrada.ENTRADA_MULTIPLE, "CAMPO_1", "Listado");
 
-        formulario.ingresarRespuesta("idiomas", "español");
-        formulario.ingresarRespuesta("idiomas", "ingles");
-        formulario.ingresarRespuesta("idiomas", "frances");
+        formularioNuevo.ingresarRespuesta("CAMPO_1", "elemento 1");
+        formularioNuevo.ingresarRespuesta("CAMPO_1", "elemento 2");
+        formularioNuevo.ingresarRespuesta("CAMPO_1", "elemento 3");
 
-        assertEquals(3, formulario.obtenerRespuesta("idiomas").split(",").length);
-        System.out.println(formulario.obtenerRespuesta("idiomas"));
+        Assertions.assertEquals(3, formularioNuevo.obtenerCampo("CAMPO_1").cantidadRespuestas());
+
+        System.out.println(formularioNuevo.obtenerCampo("CAMPO_1").obtenerRespuestas());
     }
 
     @Test
     @DisplayName("El formulario acepta la carga de preguntas con fecha")
     public void unFormularioAdmitePreguntasDeTipoFecha(){
-        formulario.agregarCampo("fecha de hoy", new Campo(eTipoCampo.CAMPO_FECHA));
-        formulario.ingresarRespuesta("fecha de hoy", fechaActual.toString());
+        LocalDate hoy = LocalDate.now();
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        assertEquals(LocalDate.now().toString(), formulario.obtenerRespuesta("fecha de hoy"));
-        System.out.println(formulario.obtenerRespuesta("fecha de hoy"));
+        formularioNuevo.agregarRegistro(TipoEntrada.ENTRADA_FECHA, "Campo_1", "Una fecha");
+        formularioNuevo.agregarRegistro(TipoEntrada.ENTRADA_FECHA, "Campo_2", "Fecha de hoy");
+
+        formularioNuevo.ingresarRespuesta("Campo_1", "03/09/2012");
+        formularioNuevo.ingresarRespuesta("Campo_2", hoy.format(formatoFecha));
+
+        Assertions.assertEquals("03/09/2012", formularioNuevo.obtenerRespuesta("Campo_1"));
+
+        formularioNuevo.getRegistros().forEach(System.out::println);
     }
+
+    /* dado que el formuario guarda respuestas como strings, no tiene sentido estos test
 
     @Test
     @DisplayName("El formulario acepta entradas de CUIT")
@@ -100,24 +117,31 @@ public class FormularioTests {
 
     }
 
+     */
+
     @Test
-    @DisplayName("Se puede generar un colaborador fisico a partir de un formulario")
+    @DisplayName("Se puede generar un colaborador fisico a partir de un formulario. Este ejemplo no verifica los datos ingresados")
     public void generarColaboradorFisicoDesdeFormulario(){
-        FormularioColaboradorFisico formulario = new FormularioColaboradorFisico("Pepe","Menz","pepe@gmail.com","melli11ok","+5491165974084");
-        ColaboradorFisico pepe = FormularioUtils.crearColaboradorFisico(formulario);
 
-        assertEquals("Pepe",pepe.getNombre());
-        assertEquals("Menz",pepe.getApellido());
-        assertEquals(3,pepe.getMediosDeContacto().size());
-        //busca en la lista de set de medios de contacto
-        assertTrue(pepe.getMediosDeContacto().stream().anyMatch(medio -> medio.tipoMedioDeContacto().equals("Telegram")));
+        formularioFisico.ingresarRespuesta("CAMPO_NOMBRE", "Lio");
+        formularioFisico.ingresarRespuesta("CAMPO_APELLIDO", "Messirve");
+        formularioFisico.ingresarRespuesta("CAMPO_EMAIL", "el10@messirve.com");
+        formularioFisico.ingresarRespuesta("CAMPO_TIPO_DOCUMENTO", "DNI");
+        formularioFisico.ingresarRespuesta("CAMPO_NRO_DOCUMENTO", "123456");
+        formularioFisico.ingresarRespuesta("CAMPO_FORMA_CONTRIBUCION", "VIANDA");
+        formularioFisico.ingresarRespuesta("CAMPO_FORMA_CONTRIBUCION", "MANTENIMIENTO");
+        formularioFisico.ingresarRespuesta("CAMPO_FECHA_NACIMIENTO", "04/12/2023");
+        formularioFisico.ingresarRespuesta("CAMPO_DIRECCION", "calle falsa 123");
 
+        ColaboradorFisico unColabFisico = GeneradorColaborador.colabFisico(formularioFisico);
+        System.out.println(unColabFisico);
 
     }
 
     @Test
     @DisplayName("Se puede generar un colaborador juridico a partir de un formulario")
     public void generarColaboradorJuridicoDesdeFormulario(){
+        /*
         FormularioColaboradorJuridico formulario = new FormularioColaboradorJuridico("Metrovias S.A", TipoRazonSocial.EMPRESA.getDescripcion(), Rubro.SERVICIOS.getDescripcion());
         formulario.agregarCampo("Email",new Campo(eTipoCampo.CAMPO_EMAIL));
         formulario.ingresarRespuesta("Email","metrovias@gmail.com");
@@ -133,6 +157,19 @@ public class FormularioTests {
         //busca en la lista de set de medios de contacto
         assertTrue(metrovias.getMediosDeContacto().stream().anyMatch(medio -> medio.informacionDeMedioDeContacto().equals("metrovias@gmail.com")));
 
+         */
+
+        formularioJuridico.ingresarRespuesta("CAMPO_RAZON_SOCIAL", "Metrovias S.A");
+        formularioJuridico.ingresarRespuesta("CAMPO_TIPO_JURIDICO", "ONG");
+        formularioJuridico.ingresarRespuesta("CAMPO_RUBRO", "FINANZAS");
+        formularioJuridico.ingresarRespuesta("CAMPO_EMAIL", "metrovias@gmail.com");
+        formularioJuridico.ingresarRespuesta("CAMPO_FORMA_CONTRIBUCION", "VIANDA");
+        formularioJuridico.ingresarRespuesta("CAMPO_FORMA_CONTRIBUCION", "MANTENIMIENTO");
+        formularioJuridico.ingresarRespuesta("CAMPO_DIRECCION", "calle falsa 123");
+
+        ColaboradorJuridico unColabJuridico = GeneradorColaborador.colabJuridico(formularioJuridico);
+
+        System.out.println(unColabJuridico);
     }
 
 

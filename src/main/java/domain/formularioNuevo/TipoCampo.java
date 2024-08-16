@@ -20,7 +20,7 @@ public enum TipoCampo {
     public static TipoCampo obtenerEnum(String unString){
         try{
             return valueOf(unString);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | NullPointerException e) {
             return TipoCampo.CAMPO_OTRO;
         }
     }
