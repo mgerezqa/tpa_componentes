@@ -29,6 +29,7 @@ public class ReceptorTemp implements IMqttMessageListener {
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);
             SensorTemperatura sensorTemperatura = heladera.get().getSensorTemperatura();
             sensorTemperatura.recibirTemperaturaActual(temperatura);
+            repositorioHeladeras.actualizar(heladera.get());
         }
     }
 }

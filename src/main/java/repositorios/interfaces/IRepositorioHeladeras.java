@@ -11,4 +11,5 @@ public interface IRepositorioHeladeras {
     void darDeBaja(Heladera heladera);
     List<Heladera> obtenerTodasLasHeladeras();
     Heladera obtenerHeladeraPorNombre(String nombreIdentificador);
+    void actualizar(Heladera heladera);
 }

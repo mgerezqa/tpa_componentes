@@ -37,5 +37,8 @@ public class RepositorioHeladeras implements IRepositorioHeladeras {
     public Heladera obtenerHeladeraPorNombre(String nombreIdentificador) {
         return null;
     }
-
+    @Override
+    public void actualizar(Heladera heladera){
+        //TODO Realizar persistencia en base de datos
+    }
 }
