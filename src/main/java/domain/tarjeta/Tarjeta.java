@@ -1,11 +1,11 @@
 package domain.tarjeta;
 
+import domain.excepciones.CantidadDisponibleLimitePorDiaException;
 import domain.persona.PersonaVulnerable;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class Tarjeta {
     private int cantidadUsadaEnElDia;
     private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
     private LocalDate fechaInicioDeFuncionamiento;
-    //Constructor
+
     public Tarjeta(PersonaVulnerable titular){
         this.titular = titular;
         this.cantidadUsadaEnElDia = 0;
@@ -40,12 +40,12 @@ public class Tarjeta {
     public void aumentarCantidadDeUsoEnElDia() {
         this.setCantidadUsadaEnElDia(this.getCantidadUsadaEnElDia() + 1);
     }
-    public void usoDeTarjeta(RegistroDeUso nuevoRegistro) throws Exception{
+    public void usoDeTarjeta(RegistroDeUso nuevoRegistro){
             if(this.tieneCantidadDisponible()){
                 this.aumentarCantidadDeUsoEnElDia();
                 this.agregarRegistroDeUso(nuevoRegistro);
             }else{
-                throw new Exception("No hay más cantidad disponible por hoy!");
+                throw new CantidadDisponibleLimitePorDiaException("No hay más cantidad disponible por hoy!");
             }
     }
     public void resetCantidadUsadaEnElDia(){
