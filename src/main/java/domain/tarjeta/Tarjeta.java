@@ -5,7 +5,9 @@ import domain.persona.PersonaVulnerable;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +16,16 @@ import java.util.List;
 public class Tarjeta {
     private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
     private PersonaVulnerable titular;
-    private static int cantidadDisponiblePorDefecto = 4;
-    private int cantidadUsadaEnElDia;
+    private static Integer cantidadDisponiblePorDefecto = 4;
+    private Integer cantidadUsadaEnElDia;
     private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
-    private LocalDate fechaInicioDeFuncionamiento;
+    private LocalDateTime fechaInicioDeFuncionamiento;
 
     public Tarjeta(PersonaVulnerable titular){
         this.titular = titular;
         this.cantidadUsadaEnElDia = 0;
         this.registros = new ArrayList<>();
-        this.fechaInicioDeFuncionamiento = LocalDate.now();
+        this.fechaInicioDeFuncionamiento = LocalDateTime.now();
     }
     public int cantidadDisponiblePorMenores(){
         return 2*this.getTitular().cantidadDeMenoresACargo();

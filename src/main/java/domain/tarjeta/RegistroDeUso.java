@@ -4,15 +4,16 @@ import domain.heladera.Heladera.Heladera;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 public class RegistroDeUso { //Cuándo la usó, y en cuál heladera.
-    private LocalDate datetime;
+    private LocalDateTime datetime;
     private Heladera heladera;
 
     public RegistroDeUso(Heladera heladera){
-        this.datetime = LocalDate.now();
+        this.datetime = LocalDateTime.now();
         this.heladera = heladera;
     }
 }
