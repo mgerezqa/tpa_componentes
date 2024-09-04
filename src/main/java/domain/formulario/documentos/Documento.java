@@ -4,10 +4,17 @@ import domain.excepciones.NumeroDeDocumentoInvalidoException;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter @Getter
-public class Documento {
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
+@Setter @Getter
+@Embeddable
+public class Documento {
+    @Enumerated(EnumType.STRING)
     private TipoDocumento tipo;
+    @Column(name = "numero_documento")
     private String numeroDeDocumento;
 
     public Documento(TipoDocumento tipo, String numeroDeDocumento) {

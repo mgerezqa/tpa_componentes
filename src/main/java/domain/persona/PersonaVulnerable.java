@@ -25,8 +25,9 @@ public class PersonaVulnerable {
     private LocalDate fechaRegitrado;
     @Embedded
     private Ubicacion domicilio;
-
+    @Embedded
     private Documento documento;
+
     private List<Persona> menoresACargo;
 
     public PersonaVulnerable(String nombre, LocalDate fechaNacimiento) {
