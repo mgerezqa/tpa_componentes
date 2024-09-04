@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class PuntosTests {
 
@@ -48,7 +49,7 @@ public class PuntosTests {
 
         this.calculadoraPuntos = new CalculadoraPuntos();
 
-        this.laloEmail = new Email("lalo@gmail.com");
+        this.laloEmail = mock(Email.class);
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
         this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
 

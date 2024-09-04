@@ -49,6 +49,9 @@ public class Heladera {
     @Setter @Getter
     public List<Incidente> incidentes;
 
+    @Getter @Setter
+    private List<SolicitudApertura> solicitudesPendientes;
+
     // ============================================================ //
     // < CONSTRUCTOR > //
     public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion){
@@ -57,6 +60,8 @@ public class Heladera {
         this.modelo = modelo;
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
+        this.solicitudesPendientes = new ArrayList<>();
+
         this.eventManager = new EventManager();
     }
 
@@ -139,6 +144,14 @@ public class Heladera {
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"
 
+    public void registrarSolicitud(SolicitudApertura solicitudApertura) {
+        solicitudesPendientes.add(solicitudApertura);
+    }
+
+    public void registrarApertura(SolicitudApertura solicitudApertura) {
+        solicitudApertura.completarSolicitud(LocalDateTime.now());
+        solicitudesPendientes.remove(solicitudApertura);
+    }
 
     // ============================================================ //
     // Gestion de viandas (SOLO PARA TEST)

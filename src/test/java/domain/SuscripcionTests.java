@@ -24,7 +24,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 public class SuscripcionTests {
     /*Config file*/
@@ -84,8 +83,8 @@ public class SuscripcionTests {
         config = Config.getInstance();
 
         //Medios de contacto
-        this.laloEmail = mock(Email.class);
-        this.laloTelegram = new Telegram("+5491165974084");
+        this.laloEmail = new Email("mgerez@frba.utn.edu.ar");
+        this.laloTelegram = new Telegram("melli11_ok");
         this.laloWhatsapp = new Whatsapp("+5491165974084");
         this.colaborador = new ColaboradorFisico("Lalo", "Menz");
         this.otroColaborador = new ColaboradorFisico("Pepe","Argento");

@@ -36,3 +36,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/src/main/resources/META-INF/MANIFEST.MF
+/.idea/artifacts/tpa_componentes_jar.xml
