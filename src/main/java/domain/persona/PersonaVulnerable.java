@@ -28,6 +28,7 @@ public class PersonaVulnerable {
     @Embedded
     private Documento documento;
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "persona_vulnerable_id")
     private List<Persona> menoresACargo;
 
     public PersonaVulnerable(String nombre, LocalDate fechaNacimiento) {
