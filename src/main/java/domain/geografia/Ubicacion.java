@@ -2,14 +2,26 @@ package domain.geografia;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 @Setter
 @Getter
+@Embeddable
 public class Ubicacion {
+    @Column(name = "latitud", nullable = false)
     private Float latitud;
+
+    @Column(name = "longitud", nullable = false)
     private Float longitud;
+    @Embedded
     private Calle calle;
+    @OneToOne
+    @JoinColumn(name = "provincia_id", referencedColumnName = "id")
     private Provincia provincia;
+    @OneToOne
+    @JoinColumn(name = "localidad_id", referencedColumnName = "id")
     private Localidad localidad;
+    @Embedded
     private Barrio barrio;
 
     public Ubicacion(Float latitud, Float longitud, Calle calle) {

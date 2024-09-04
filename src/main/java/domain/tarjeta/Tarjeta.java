@@ -5,17 +5,22 @@ import domain.persona.PersonaVulnerable;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
+@Entity
+@Table (name = "tarjeta_persona_vulnerable")
 public class Tarjeta {
+    @Transient
     private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
+    @OneToOne
+    @JoinColumn(name = "titular_id", referencedColumnName = "id")
     private PersonaVulnerable titular;
+
     private static Integer cantidadDisponiblePorDefecto = 4;
     private Integer cantidadUsadaEnElDia;
     private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
