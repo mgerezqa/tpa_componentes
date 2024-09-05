@@ -15,6 +15,8 @@ import java.util.List;
 @Entity
 @Table (name = "tarjeta_persona_vulnerable")
 public class Tarjeta {
+    @Id
+    private Long id;
     @Transient
     private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
     @OneToOne

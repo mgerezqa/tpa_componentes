@@ -17,7 +17,7 @@ public class PersonaVulnerable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
-    @Column(name = "nombre", columnDefinition = "VARCHAR(30)")
+    @Column(name = "nombre_personaVulnerable")
     private String nombre;
     @Column(name = "fecha_nacimiento",columnDefinition = "DATE")
     private LocalDate fechaNacimiento;

@@ -17,7 +17,7 @@ public class RegistroDeUso { //Cuándo la usó, y en cuál heladera.
     private Long id;
     @Column(name = "registro_fecha_uso")
     private LocalDateTime datetime;
-    @Column(name = "heladera")
+    @Transient
     private Heladera heladera;
 
     public RegistroDeUso(Heladera heladera){
