@@ -20,10 +20,14 @@ public class Tarjeta {
     @OneToOne
     @JoinColumn(name = "titular_id", referencedColumnName = "id")
     private PersonaVulnerable titular;
-
+    @Transient
     private static Integer cantidadDisponiblePorDefecto = 4;
+    @Column(name = "cantidad_usada_dia")
     private Integer cantidadUsadaEnElDia;
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "tarjeta_id")
     private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
+    @Column(name = "fecha_inicio_funcionamiento")
     private LocalDateTime fechaInicioDeFuncionamiento;
 
     public Tarjeta(PersonaVulnerable titular){
