@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 @Embeddable
 public class Documento {
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_documento")
     private TipoDocumento tipo;
     @Column(name = "numero_documento")
     private String numeroDeDocumento;

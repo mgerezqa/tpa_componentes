@@ -16,10 +16,10 @@ public class Ubicacion {
     @Embedded
     private Calle calle;
     @OneToOne
-    @JoinColumn(name = "provincia_id", referencedColumnName = "id")
+    @JoinColumn(name = "id_provincia", referencedColumnName = "id")
     private Provincia provincia;
     @OneToOne
-    @JoinColumn(name = "localidad_id", referencedColumnName = "id")
+    @JoinColumn(name = "id_localidad", referencedColumnName = "id")
     private Localidad localidad;
     @Embedded
     private Barrio barrio;

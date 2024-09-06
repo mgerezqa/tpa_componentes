@@ -10,9 +10,9 @@ import javax.persistence.Embeddable;
 @Getter
 @Embeddable
 public class Calle {
-    @Column(name = "nombre")
+    @Column(name = "nombre_calle")
     private String nombre;
-    @Column(name = "altura")
+    @Column(name = "altura_calle")
     private String altura;
 
     public Calle(String calle, String altura) {

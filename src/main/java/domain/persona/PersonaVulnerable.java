@@ -17,7 +17,7 @@ public class PersonaVulnerable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
-    @Column(name = "nombre_personaVulnerable")
+    @Column(name = "nombre")
     private String nombre;
     @Column(name = "fecha_nacimiento",columnDefinition = "DATE")
     private LocalDate fechaNacimiento;
@@ -28,7 +28,7 @@ public class PersonaVulnerable {
     @Embedded
     private Documento documento;
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_vulnerable_id")
+    @JoinColumn(name = "id_persona_vulnerable")
     private List<Persona> menoresACargo;
 
     public PersonaVulnerable(String nombre, LocalDate fechaNacimiento) {
