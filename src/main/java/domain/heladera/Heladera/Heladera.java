@@ -6,50 +6,70 @@ import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
 import domain.suscripciones.EventManager;
 import domain.temperatura.Temperatura;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "heladeras")
 public class Heladera {
 
-    @Getter @Setter
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Transient
     private EventManager eventManager;
 
-
-    @Setter @Getter
+    @OneToOne
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
     private Ubicacion ubicacion;
-    @Setter @Getter
+
+    @Column(name = "nombre", nullable = false)
     private String nombreIdentificador;
-    @Setter @Getter
-    private Integer id;
-    @Setter @Getter
+
+    @Column(name = "capacidadMax")
     private Integer capacidadMax; // (se mide en numero de viandas)
-    @Setter @Getter
+
+    @Column(name = "capacidadActual")
     private Integer capacidadActual;
-    @Setter @Getter // ojo con el setter, creo q no va
+
+    @Column(name = "fechaInicioFunc", columnDefinition = "DATE")
     private LocalDate fechaInicioFuncionamiento;
-    @Getter @Setter
+
+    @Enumerated(EnumType.STRING)
     private EstadoHeladera estadoHeladera;
 
-    @Getter
+    @ManyToOne
+    @JoinColumn(name = "modeloDeHeladera_id", referencedColumnName = "id", nullable = false)
     private ModeloDeHeladera modelo;
 
-    @Getter @Setter
+    @Transient
     private SensorMovimiento sensorMovimiento;
-    @Getter @Setter
+
+    @Transient
     private SensorTemperatura sensorTemperatura;
 
-    @Getter @Setter
+    @Transient
     private List<String> historialDeEstados;
+
+    @Embedded
     public Temperatura ultimaTemperaturaRegistrada;
-    @Setter @Getter
+
+    @OneToMany
+    @JoinColumn(name = "incidente_id", referencedColumnName = "id")
     public List<Incidente> incidentes;
 
-    @Getter @Setter
+    @Transient
     private List<SolicitudApertura> solicitudesPendientes;
 
     // ============================================================ //

@@ -46,7 +46,7 @@ public class DonacionesTests {
 
     @BeforeEach
     public void setUp() {
-        this.laloEmail = new Email("lalo@gmail.com");
+        this.laloEmail = new Email("NOT@gmail.com");
         this.fechaVencimiento = LocalDate.of(2024, 5, 31); // Ejemplo de fecha de vencimiento
         this.fechaDeDonacion = LocalDate.now(); // Ejemplo de fecha de donación (fecha actual)
         this.fechaInicioFuncionamiento = LocalDate.of(2021, 5, 31); // Ejemplo de fecha de inicio de funcionamiento

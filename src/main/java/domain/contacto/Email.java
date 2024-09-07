@@ -10,12 +10,23 @@ import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@NoArgsConstructor
 @Getter
+@Entity
+@DiscriminatorValue("email")
 public class Email extends MedioDeContacto {
-    private String email;
-    private EmailSender emailSender;
 
+    @Column(name = "email")
+    private String email;
+    @Transient
+    private EmailSender emailSender;
 
     public Email(String email) {
         validarEmail(email);
@@ -69,8 +80,6 @@ public class Email extends MedioDeContacto {
 
         emailSender.sendEmail("📢 INFORME DE SUSCRIPCIÓN",mensaje,getEmail());
     }
-
-
 
     public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {
         String mensaje = String.format(

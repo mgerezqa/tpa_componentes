@@ -39,7 +39,7 @@ public class Test {
         heladera.setSensorMovimiento(sensorMovimiento);
         sensorTemperatura = new SensorTemperatura(heladera);
         heladera.setSensorTemperatura(sensorTemperatura);
-        heladera.setId(10); //Seteo el id ya que la persistencia es en memoria.
+        //heladera.setId(10); //Seteo el id ya que la persistencia es en memoria.
         repositorioHeladeras.darDeAlta(heladera);
         //Configuración de conexión con el broker, topics.
         String topic1 = "dds2024/heladera/movimiento";

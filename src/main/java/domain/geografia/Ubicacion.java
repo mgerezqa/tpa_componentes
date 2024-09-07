@@ -1,15 +1,38 @@
 package domain.geografia;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
+@NoArgsConstructor
 @Setter
 @Getter
+@Entity
+@Table(name = "ubicaciones")
 public class Ubicacion {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "latitud", nullable = false)
     private Float latitud;
+
+    @Column(name = "longitud", nullable = false)
     private Float longitud;
+
+    @Transient
     private Calle calle;
+
+    @ManyToOne
+    @JoinColumn(name = "provincia_id", nullable = false)
     private Provincia provincia;
+
+    @Transient
     private Localidad localidad;
+
+    @Transient
     private Barrio barrio;
 
     public Ubicacion(Float latitud, Float longitud, Calle calle) {
@@ -54,7 +77,4 @@ public class Ubicacion {
         this.localidad = localidad;
         this.barrio = barrio;
     }
-
-
-
 }

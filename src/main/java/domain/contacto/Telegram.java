@@ -10,11 +10,20 @@ import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+@NoArgsConstructor
 @Getter
-
+@Entity
+@DiscriminatorValue("telegram")
 public class Telegram extends Telefono {
+    @Transient
     private TelegramBot bot;
+    @Transient
     private Config config;
 
     public Telegram(String userName) {

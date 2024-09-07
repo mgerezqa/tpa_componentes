@@ -23,9 +23,9 @@ public class MediosDeContactoTests {
     public void setUp() {
 
         //Medios de contacto
-        this.laloEmail = new Email("lalo@gmail.com");
+        this.laloEmail = new Email("NOT@gmail.com");
         this.laloTelegram = new Telegram("melli11_ok");
-        this.laloWhatsapp = new Whatsapp("+549116574460");
+        this.laloWhatsapp = new Whatsapp("+5491161964086");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
 
     }
@@ -69,13 +69,13 @@ public class MediosDeContactoTests {
     @Test
     @DisplayName("El número de WhatsApp debe empezar con +")
     public void testWhatsappFormato() {
-        assertThrows(Exception.class, () -> new Whatsapp("549116574460"));
+        assertThrows(Exception.class, () -> new Whatsapp("5491161964086"));
     }
 
     @Test
     @DisplayName("El número de WhatsApp tiene una longitud incorrecta")
     public void testWhatsappLongitud() {
-        assertThrows(Exception.class, () -> new Whatsapp("549116574460555"));
+        assertThrows(Exception.class, () -> new Whatsapp("5491161964086"));
     }
 
 }

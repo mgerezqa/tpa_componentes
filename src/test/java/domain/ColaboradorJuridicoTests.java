@@ -22,9 +22,9 @@ public class ColaboradorJuridicoTests {
 
     @BeforeEach
     public void setUp() {
-        this.metroviasEmail = new Email("metro@gmail.com");
+        this.metroviasEmail = new Email("NOT@gmail.com");
         this.metrovias = new ColaboradorJuridico("Metrovias S.A", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
-        this.metroWhastapp = new Whatsapp("+549116574460");
+        this.metroWhastapp = new Whatsapp("+5491161964086");
     }
 
     @Test
