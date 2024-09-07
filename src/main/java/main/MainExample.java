@@ -5,6 +5,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MainExample implements WithSimplePersistenceUnit {
     private Repositorio repositorio;
@@ -13,26 +14,12 @@ public class MainExample implements WithSimplePersistenceUnit {
         MainExample instance = new MainExample();
         instance.repositorio = new Repositorio();
 
-        instance.guardarServicios();
-        //instance.recuperarServicios();
-        //instance.agregarTareasAServicios();
-
-        instance.recuperarServicios2();
-        //instance.actualizarNombreDeServicios();
+        //instance.guardarPersonas();
+        instance.recuperarPersonas();
+        instance.recuperarPersonaPorId(2L);
     }
 
-    private void guardarServicios() {
-        /*Servicio servicio1 = new Servicio();
-        servicio1.setNombre("Abogacia");
-
-        Servicio servicio2 = new Servicio();
-        servicio2.setNombre("Ingenieria en Sistemas");
-
-        beginTransaction();
-        repositorioDeServicios.guardar(servicio1);
-        repositorioDeServicios.guardar(servicio2);
-        commitTransaction();*/
-
+    private void guardarPersonas() {
         withTransaction(() -> {
             Persona persona1 = new Persona("nahuel",15);
             Persona persona2 = new Persona("miguel",15);
@@ -41,9 +28,19 @@ public class MainExample implements WithSimplePersistenceUnit {
         });
     }
 
-    private void recuperarServicios2() {
-        List<Persona> personas = this.repositorio.buscarTodos();
+    private void recuperarPersonas() {
+        List<Object> personas = this.repositorio.buscarTodos(Persona.class);
         System.out.println(personas);
+    }
+    private void recuperarPersonaPorId(Long id) {
+        Optional<Object> personaGuardada = repositorio.buscarPorID(Persona.class,id);
+        if(personaGuardada.isPresent()){
+            Persona personaEncontrada = (Persona)  personaGuardada.get();
+            System.out.println(personaEncontrada.getNombre());
+            System.out.println(personaEncontrada.getEdad());
+        }else{
+            System.out.println("No se encontro la persona con id:"+id);
+        }
     }
 
 }

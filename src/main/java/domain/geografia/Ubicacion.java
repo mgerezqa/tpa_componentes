@@ -1,5 +1,6 @@
 package domain.geografia;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Embeddable
+@NoArgsConstructor
 public class Ubicacion {
     @Column(name = "latitud", nullable = false)
     private Float latitud;

@@ -1,9 +1,12 @@
 package domain.geografia;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "localidad")
+@NoArgsConstructor
 public class Localidad {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

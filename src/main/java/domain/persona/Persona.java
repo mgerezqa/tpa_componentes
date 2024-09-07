@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Persona {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue
     private Long id;
     @Column(name = "nombre", nullable = false)
     private String nombre;

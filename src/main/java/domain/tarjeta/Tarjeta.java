@@ -3,6 +3,7 @@ package domain.tarjeta;
 import domain.excepciones.CantidadDisponibleLimitePorDiaException;
 import domain.persona.PersonaVulnerable;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -15,12 +16,13 @@ import java.util.List;
 @Getter
 @Entity
 @Table (name = "tarjeta_persona_vulnerable")
+@NoArgsConstructor
 public class Tarjeta {
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.generadorUUID")
     private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_persona_vulnerable", referencedColumnName = "id")
     private PersonaVulnerable titular;
     @Transient

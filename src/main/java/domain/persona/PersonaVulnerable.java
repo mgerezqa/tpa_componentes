@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PersonaVulnerable {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue
     private Long id;
     @Column(name = "nombre")
     private String nombre;

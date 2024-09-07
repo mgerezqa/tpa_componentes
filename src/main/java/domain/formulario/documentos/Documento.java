@@ -2,6 +2,7 @@ package domain.formulario.documentos;
 
 import domain.excepciones.NumeroDeDocumentoInvalidoException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Enumerated;
 
 @Setter @Getter
 @Embeddable
+@NoArgsConstructor
 public class Documento {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_documento")

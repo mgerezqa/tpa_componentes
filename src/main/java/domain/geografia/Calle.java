@@ -1,6 +1,7 @@
 package domain.geografia;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Embeddable;
 @Setter
 @Getter
 @Embeddable
+@NoArgsConstructor
 public class Calle {
     @Column(name = "nombre_calle")
     private String nombre;
