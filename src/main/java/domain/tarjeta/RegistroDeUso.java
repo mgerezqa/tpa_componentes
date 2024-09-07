@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "registro_uso_tarjeta")
 public class RegistroDeUso { //Cuándo la usó, y en cuál heladera.
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "registro_fecha_uso")
     private LocalDateTime datetime;
