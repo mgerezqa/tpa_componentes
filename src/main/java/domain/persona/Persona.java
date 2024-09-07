@@ -1,6 +1,7 @@
 package domain.persona;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "persona")
+@NoArgsConstructor
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

@@ -5,7 +5,6 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import utils.Broker.receptors.ReceptorTemp;
 
 public class ServiceBroker implements IServiceBroker {
     private String broker;

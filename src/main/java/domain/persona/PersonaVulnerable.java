@@ -3,6 +3,7 @@ package domain.persona;
 import domain.formulario.documentos.Documento;
 import domain.geografia.Ubicacion;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table (name = "persona_vulnerable")
+@NoArgsConstructor
 public class PersonaVulnerable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
