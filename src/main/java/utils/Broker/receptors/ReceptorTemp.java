@@ -12,16 +12,14 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ReceptorTemp implements IMqttMessageListener {
+public class ReceptorTemp extends Receptor {
     private IRepositorioHeladeras repositorioHeladeras;
     public ReceptorTemp(IRepositorioHeladeras repositorioHeladeras) {
         this.repositorioHeladeras = repositorioHeladeras;
     }
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) {
-        Gson gson = new Gson();
-        String jsonString = mqttMessage.toString();
-        JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
+        JsonObject jsonObject = getJsonObjectFrom(mqttMessage);
         Integer idHeladera = Integer.parseInt(jsonObject.get("id").getAsString());
         String temperatura = jsonObject.get("temp").getAsString();
         Optional<Heladera> heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera);

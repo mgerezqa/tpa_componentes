@@ -13,7 +13,7 @@ import repositorios.interfaces.IRepositorioHeladeras;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class ReceptorAutorizacion implements IMqttMessageListener {
+public class ReceptorAutorizacion extends Receptor {
     private IRepositorioHeladeras repositorioHeladeras;
     private IRepositorioColaboradores repositorioColaboradores;
     public ReceptorAutorizacion(IRepositorioHeladeras repositorioHeladeras, IRepositorioColaboradores repositorioColaboradores) {
@@ -23,9 +23,7 @@ public class ReceptorAutorizacion implements IMqttMessageListener {
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) {
-        Gson gson = new Gson();
-        String jsonString = mqttMessage.toString();
-        JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
+        JsonObject jsonObject = getJsonObjectFrom(mqttMessage);
         Integer idHeladera = Integer.parseInt(jsonObject.get("idH").getAsString());
         Optional<Heladera> heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera);
         Integer idColaborador = Integer.parseInt(jsonObject.get("idC").getAsString());
