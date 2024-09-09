@@ -21,7 +21,7 @@ public class Tarjeta {
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.generadorUUID")
-    private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
+    private String codigoIdentificador;
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_persona_vulnerable", referencedColumnName = "id")
     private PersonaVulnerable titular;
@@ -31,7 +31,7 @@ public class Tarjeta {
     private Integer cantidadUsadaEnElDia;
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tarjeta")
-    private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
+    private List<RegistroDeUso> registros;
     @Column(name = "fecha_inicio_funcionamiento")
     private LocalDateTime fechaInicioDeFuncionamiento;
 

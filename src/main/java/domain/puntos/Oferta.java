@@ -25,7 +25,7 @@ public class Oferta {
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria")
     private CategoriaOferta categoria;
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_colaborador_juridico", referencedColumnName = "id")
     private ColaboradorJuridico ofertante;
     @Column(name = "costo")
