@@ -3,19 +3,32 @@ package domain.puntos;
 import domain.excepciones.ExcepcionCanjePuntosInsuficientes;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Oferta")
+@Data
+@NoArgsConstructor
 public class Oferta {
-    @Setter @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "nombre")
     private String nombre;
-    @Setter @Getter
+    @Column(name = "descripcion")
     private String descripcion;
-    @Setter @Getter
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria")
     private CategoriaOferta categoria;
-    @Setter @Getter
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_colaborador_juridico", referencedColumnName = "id")
     private ColaboradorJuridico ofertante;
-    @Setter @Getter
+    @Column(name = "costo")
     private Integer costoPuntos;
 
     public Oferta(String nombre, String descripcion, CategoriaOferta categoria, ColaboradorJuridico ofertante, Integer costoPuntos) {

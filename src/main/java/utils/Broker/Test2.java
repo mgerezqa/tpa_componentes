@@ -49,7 +49,7 @@ public class Test2 {
         repositorioHeladeras.darDeAlta(heladera);
         repositorioColaboradores = new RepositorioColaboradores();
         colaborador = new ColaboradorFisico("Lalo", "Menz");
-        colaborador.setId("lalo");
+        colaborador.setId(1L);
         repositorioColaboradores.alta(colaborador);
         //Configuración de conexión con el broker, topics.
         String topic = "dds2024/heladera/autorizacion";

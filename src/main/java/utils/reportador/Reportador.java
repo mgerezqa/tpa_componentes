@@ -50,8 +50,8 @@ public class Reportador {
         return reporteViandas;
     }
 
-    public Map<String, Integer> generarReporteViandasPorColaborador(ColaboradorFisico colaborador){
-        Map<String, Integer> reporteViandasColaboradas = new HashMap<>();
+    public Map<Long, Integer> generarReporteViandasPorColaborador(ColaboradorFisico colaborador){
+        Map<Long, Integer> reporteViandasColaboradas = new HashMap<>();
         reporteViandasColaboradas.put(colaborador.getId(), colaborador.getViandasDonadas().size());
         return reporteViandasColaboradas;
     }

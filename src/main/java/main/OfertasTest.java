@@ -1,30 +1,36 @@
 package main;
 
 import domain.persona.Persona;
+import domain.puntos.CategoriaOferta;
+import domain.puntos.Oferta;
+import domain.usuarios.ColaboradorJuridico;
+import domain.usuarios.Rubro;
+import domain.usuarios.TipoRazonSocial;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.util.List;
 import java.util.Optional;
 
-public class MainExample implements WithSimplePersistenceUnit {
+public class OfertasTest implements WithSimplePersistenceUnit {
     private Repositorio repositorio;
 
     public static void main(String[] args) {
-        MainExample instance = new MainExample();
+        OfertasTest instance = new OfertasTest();
         instance.repositorio = new Repositorio();
 
-        //instance.guardarPersonas();
-        instance.recuperarPersonas();
-        instance.recuperarPersonaPorId(2L);
+        instance.guardarOfertas();
+        //instance.recuperarOfertas();
+        //instance.recuperarOfertasPorId(2L);
     }
 
-    private void guardarPersonas() {
+    private void guardarOfertas() {
         withTransaction(() -> {
-            Persona persona1 = new Persona("nahuel",15);
-            Persona persona2 = new Persona("miguel",15);
-            repositorio.guardar(persona1);
-            repositorio.guardar(persona2);
+            ColaboradorJuridico restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
+            Oferta ofertaAlmohada = new Oferta("Almohada Coinor", "Almohada Suave", CategoriaOferta.ARTICULOS_HOGAR, restaurant, 2000);
+            Oferta ofertaAlmohada2 = new Oferta("Almohada Coinor", "Almohada Suave", CategoriaOferta.ARTICULOS_HOGAR, restaurant, 2000);
+            repositorio.guardar(ofertaAlmohada);
+            repositorio.guardar(ofertaAlmohada2);
         });
     }
 

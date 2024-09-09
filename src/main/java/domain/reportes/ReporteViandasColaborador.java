@@ -33,7 +33,7 @@ public class ReporteViandasColaborador extends Reporte {
 
     @Override
     public void reportar() {
-        Map<String, Integer> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
+        Map<Long, Integer> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
         System.out.println("Reporte de cantidad de viandas donadas por colaborador: ");
         reporteViandasPorColaborador.forEach((colaborador, cantidad) -> System.out.println(colaborador + ": " + cantidad));
     }
