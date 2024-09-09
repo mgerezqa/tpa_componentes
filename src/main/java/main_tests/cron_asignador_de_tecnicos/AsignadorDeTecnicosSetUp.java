@@ -81,10 +81,10 @@ public class AsignadorDeTecnicosSetUp {
         Heladera heladeraCampus = new Heladera(new ModeloDeHeladera("xt12"), "HeladeraCampus",ubiCampus);
 
         Alerta alertaTemperaturaMED = IncidenteFactory.crearAlerta(heladeraMedrano,"falla_temperatura");
-        alertaTemperaturaMED.setId("01");
+        alertaTemperaturaMED.setId(01L);
 
         Alerta alertaTemperaturaCAM = IncidenteFactory.crearAlerta(heladeraCampus,"falla_temperatura");
-        alertaTemperaturaCAM.setId("02");
+        alertaTemperaturaCAM.setId(02L);
 
         incidentes.add(alertaTemperaturaMED);
         incidentes.add(alertaTemperaturaCAM);

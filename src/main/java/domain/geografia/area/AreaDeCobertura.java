@@ -18,15 +18,17 @@ import java.util.Set;
 @Embeddable
 public class AreaDeCobertura {
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
     private Ubicacion ubicacionPrincipal;
 
     @Enumerated(EnumType.STRING)
     private TamanioArea tamanioArea;
 
-    @Transient
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "provincia_id", referencedColumnName = "id", nullable = true)
     private Provincia provincia;
+
     @Transient
     private Set<Localidad> localidades = new HashSet<>();
     @Transient

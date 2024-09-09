@@ -18,17 +18,17 @@ import java.time.LocalDateTime;
 public abstract class Incidente {
 
     @Id
-    @GeneratedValue
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id", referencedColumnName = "id", nullable = false)
     private Heladera heladera;
 
     @Column(name = "fechaYHora", columnDefinition = "DATE")
     private LocalDateTime fechaYHora;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tecnicoAsig_id", referencedColumnName = "id", nullable = false)
     private Tecnico tecnicoAsignado;
 

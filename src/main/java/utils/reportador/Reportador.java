@@ -3,7 +3,7 @@ package utils.reportador;
 import domain.heladera.Heladera.Heladera;
 import domain.reportes.Reporte;
 import domain.usuarios.ColaboradorFisico;
-import repositorios.reposEnMemoria.RepositorioReportes;
+import repositorios.repositoriosBDD.RepositorioReportes;
 
 import java.util.HashMap;
 import java.util.Map;

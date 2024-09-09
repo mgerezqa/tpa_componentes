@@ -7,13 +7,10 @@ import domain.heladera.Heladera.SolicitudApertura;
 import domain.usuarios.Colaborador;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import repositorios.interfaces.IRepositorioColaboradores;
-import repositorios.interfaces.IRepositorioHeladeras;
-import repositorios.reposEnMemoria.RepositorioColaboradores;
-import repositorios.reposEnMemoria.RepositorioHeladeras;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class ReceptorAutorizacion implements IMqttMessageListener {
     private RepositorioHeladeras repositorioHeladeras;

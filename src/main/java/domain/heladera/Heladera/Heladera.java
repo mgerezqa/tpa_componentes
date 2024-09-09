@@ -24,14 +24,15 @@ import java.util.List;
 public class Heladera {
 
     @Id
-    @GeneratedValue
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Transient
     private EventManager eventManager;
 
-    @OneToOne
-    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
+    //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //@JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
+    @Transient
     private Ubicacion ubicacion;
 
     @Column(name = "nombre", nullable = false)
@@ -49,7 +50,7 @@ public class Heladera {
     @Enumerated(EnumType.STRING)
     private EstadoHeladera estadoHeladera;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "modeloDeHeladera_id", referencedColumnName = "id", nullable = false)
     private ModeloDeHeladera modelo;
 
@@ -65,8 +66,7 @@ public class Heladera {
     @Embedded
     public Temperatura ultimaTemperaturaRegistrada;
 
-    @OneToMany
-    @JoinColumn(name = "incidente_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public List<Incidente> incidentes;
 
     @Transient

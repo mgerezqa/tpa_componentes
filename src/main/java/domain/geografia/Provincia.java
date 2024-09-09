@@ -8,11 +8,12 @@ import javax.persistence.*;
 public class Provincia {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "provincia", nullable = false)
     private String provincia;
+
     public Provincia(String provincia) {
         this.provincia = provincia;
     }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Ubicacion {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "latitud", nullable = false)
@@ -25,8 +25,8 @@ public class Ubicacion {
     @Transient
     private Calle calle;
 
-    @ManyToOne
-    @JoinColumn(name = "provincia_id", nullable = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
     @Transient

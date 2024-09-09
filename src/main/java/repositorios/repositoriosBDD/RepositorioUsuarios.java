@@ -1,4 +1,4 @@
-package repositorios.reposEnMemoria;
+package repositorios.repositoriosBDD;
 import domain.usuarios.Usuario;
 import lombok.Data;
 import repositorios.interfaces.IRepositorioUsuarios;

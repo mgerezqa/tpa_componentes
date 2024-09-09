@@ -9,8 +9,8 @@ import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.usuarios.ColaboradorFisico;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
-import repositorios.reposEnMemoria.RepositorioColaboradores;
-import repositorios.reposEnMemoria.RepositorioHeladeras;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
 import utils.Broker.receptors.ReceptorAutorizacion;
 
 

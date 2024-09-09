@@ -6,12 +6,7 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Sensores.SensorTemperatura;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import repositorios.interfaces.IRepositorioHeladeras;
-import repositorios.reposEnMemoria.RepositorioHeladeras;
-
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
 
 public class ReceptorTemp implements IMqttMessageListener {
     private RepositorioHeladeras repositorioHeladeras;

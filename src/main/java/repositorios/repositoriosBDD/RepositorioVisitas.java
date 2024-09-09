@@ -1,4 +1,4 @@
-package repositorios.reposEnMemoria;
+package repositorios.repositoriosBDD;
 import domain.visitas.Visita;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 

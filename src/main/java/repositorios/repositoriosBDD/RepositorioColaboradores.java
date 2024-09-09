@@ -1,17 +1,9 @@
-package repositorios.reposEnMemoria;
-import domain.heladera.Heladera.Heladera;
-import domain.puntos.CategoriaOferta;
+package repositorios.repositoriosBDD;
 import domain.usuarios.Colaborador;
-import domain.usuarios.ColaboradorFisico;
-import domain.usuarios.Tecnico;
-import domain.usuarios.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Data;
-import repositorios.interfaces.IRepositorioColaboradores;
-import repositorios.interfaces.IRepositorioUsuarios;
 
 import java.util.List;
-import java.util.Optional;
 
 @Data
 public class RepositorioColaboradores implements WithSimplePersistenceUnit {

@@ -6,10 +6,7 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import repositorios.interfaces.IRepositorioHeladeras;
-import repositorios.reposEnMemoria.RepositorioHeladeras;
-
-import java.util.Optional;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
 
 public class ReceptorMov implements IMqttMessageListener {
     private RepositorioHeladeras repositorioHeladeras;

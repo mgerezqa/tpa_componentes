@@ -21,8 +21,8 @@ import javax.persistence.*;
 public abstract class MedioDeContacto {
 
     @Id
-    @GeneratedValue
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Transient
     private boolean notificar;

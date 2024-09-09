@@ -4,7 +4,7 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
-import repositorios.reposEnMemoria.RepositorioHeladeras;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.Incidente;
 import domain.temperatura.VerificadorTemperaturas;

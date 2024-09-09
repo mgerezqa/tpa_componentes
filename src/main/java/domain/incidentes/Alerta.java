@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @DiscriminatorValue("ALERTA")
 public class Alerta extends Incidente {
 
-    @Column(name = "tipoAlerta", nullable = false)
+    @Column(name = "tipoAlerta")
     private String tipoAlerta;
 
     public Alerta(Heladera heladera) {
