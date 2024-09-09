@@ -22,11 +22,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DonacionesTests {
+    private Long id;
     private ColaboradorFisico lalo;
     private ColaboradorJuridico metrovias;
     private LocalDate fechaDeDonacion;
@@ -34,6 +36,7 @@ public class DonacionesTests {
     private LocalDate fechaInicioFuncionamiento;
     private MedioDeContacto laloEmail;
     private Heladera heladera;
+    private Heladera heladera1;
     private Ubicacion ubicacion;
     private SensorMovimiento sensorMovimiento;
     private SensorTemperatura sensorTemperatura;
@@ -42,10 +45,13 @@ public class DonacionesTests {
     private Float tempMax = 20f;
     private Tarjeta tarjeta;
     private PersonaVulnerable diego;
+    private Motivo motivo;
 
 
     @BeforeEach
     public void setUp() {
+        this.id = 12345L;
+        this.motivo = Motivo.FALTA_DE_VIANDAS;
         this.laloEmail = new Email("NOT@gmail.com");
         this.fechaVencimiento = LocalDate.of(2024, 5, 31); // Ejemplo de fecha de vencimiento
         this.fechaDeDonacion = LocalDate.now(); // Ejemplo de fecha de donación (fecha actual)
@@ -54,13 +60,16 @@ public class DonacionesTests {
         this.metrovias = new ColaboradorJuridico("Metrovias S.A",TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
         this.ubicacion = new Ubicacion(-54F,-48F,new Calle("Av. Rivadavia", "1234"));
         this.diego = new PersonaVulnerable("Diego", LocalDate.of(2000, 5, 31));
-        this.tarjeta = new Tarjeta(diego);
+        this.tarjeta = new Tarjeta();
+        tarjeta.setVulnerable(diego);
 
         modelo = new ModeloDeHeladera("Modelo XR-221");
         modelo.setTemperaturaMinima(tempMin);
         modelo.setTemperaturaMaxima(tempMax);
         this.heladera = new Heladera(modelo,"Heladera palermo", ubicacion);
         heladera.setCapacidadMax(200);
+        this.heladera1 = new Heladera(modelo, "Heladera lanus", ubicacion);
+        heladera1.setCapacidadMax(200);
     }
 
 
@@ -98,7 +107,7 @@ public class DonacionesTests {
     @DisplayName("El sistema solo admite las donaciones de tipo distribución de viandas por parte de los colaboradores fisicos")
     public void donarDistribucionDeViandas(){
 
-        Distribuir distribucionDeViandas = new Distribuir(heladera,heladera,10, Motivo.FALTA_DE_VIANDAS,fechaDeDonacion,lalo);
+        Distribuir distribucionDeViandas = new Distribuir(id, heladera, heladera1,10, fechaDeDonacion, motivo, lalo);
         assertEquals(distribucionDeViandas.getColaboradorQueLaDono(),lalo);
 
     }
