@@ -25,7 +25,7 @@ public class Heladera {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private String id;
 
     @Transient
     private EventManager eventManager;

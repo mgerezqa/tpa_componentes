@@ -1,21 +1,38 @@
 package domain.donaciones;
 import domain.usuarios.ColaboradorFisico;
 import domain.heladera.Heladera.Heladera;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "viandas")
 public class Vianda  {
 
-//    private LocalDateTime fechaVencimiento;
-//    private LocalDateTime fechaDonacion;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    //@Column(name = "fechaYHora", columnDefinition = "DATE")
+    @Transient
     private LocalDate fechaVencimiento;
+
+    //@Column(name = "fechaYHora", columnDefinition = "DATE")
+    @Transient
     private LocalDate fechaDonacion;
 
-    @Getter private ColaboradorFisico colaboradorQueLaDono;
+    @ManyToOne
+    @JoinColumn(name = "colaboradorFisico_id", referencedColumnName = "id")
+    private ColaboradorFisico colaboradorQueLaDono;
 
-    @Setter @Getter
+    @ManyToOne
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladeraActual;
 
     // ============================================================ //

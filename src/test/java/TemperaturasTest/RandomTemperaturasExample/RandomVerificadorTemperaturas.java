@@ -38,9 +38,9 @@ public class RandomVerificadorTemperaturas {
         SensorTemperatura sensorTemperaturaC = new SensorTemperatura(heladeraC);
         heladeraC.setSensorTemperatura(sensorTemperaturaC);
 
-        heladeras.darDeAlta(heladeraA);
-        heladeras.darDeAlta(heladeraB);
-        heladeras.darDeAlta(heladeraC);
+        heladeras.guardar(heladeraA);
+        heladeras.guardar(heladeraB);
+        heladeras.guardar(heladeraC);
 
         heladeraA.getIncidentes().clear();
         heladeraB.getIncidentes().clear();

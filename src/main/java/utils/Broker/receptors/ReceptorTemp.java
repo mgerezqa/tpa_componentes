@@ -7,14 +7,15 @@ import domain.heladera.Sensores.SensorTemperatura;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import repositorios.interfaces.IRepositorioHeladeras;
+import repositorios.reposEnMemoria.RepositorioHeladeras;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ReceptorTemp implements IMqttMessageListener {
-    private IRepositorioHeladeras repositorioHeladeras;
-    public ReceptorTemp(IRepositorioHeladeras repositorioHeladeras) {
+    private RepositorioHeladeras repositorioHeladeras;
+    public ReceptorTemp(RepositorioHeladeras repositorioHeladeras) {
         this.repositorioHeladeras = repositorioHeladeras;
     }
     @Override
@@ -24,10 +25,10 @@ public class ReceptorTemp implements IMqttMessageListener {
         JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
         Integer idHeladera = Integer.parseInt(jsonObject.get("id").getAsString());
         String temperatura = jsonObject.get("temp").getAsString();
-        Optional<Heladera> heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera);
-        if(heladera.isPresent()){
+        Heladera heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera.toString());
+        if(heladera != null){
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);
-            SensorTemperatura sensorTemperatura = heladera.get().getSensorTemperatura();
+            SensorTemperatura sensorTemperatura = heladera.getSensorTemperatura();
             sensorTemperatura.recibirTemperaturaActual(temperatura);
         }
     }

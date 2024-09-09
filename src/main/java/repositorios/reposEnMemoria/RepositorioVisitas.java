@@ -1,24 +1,18 @@
 package repositorios.reposEnMemoria;
 import domain.visitas.Visita;
-import repositorios.interfaces.IRepositorioVisitas;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
-import java.util.List;
+public class RepositorioVisitas implements WithSimplePersistenceUnit {
 
-public class RepositorioVisitas implements IRepositorioVisitas {
-
-    List<Visita> visitas;
-
-    public RepositorioVisitas(List<Visita> visitas) {
-        this.visitas = visitas;
+    public void guardar(Visita visita) {
+        entityManager().persist(visita);
     }
 
-    @Override
-    public void agregarVisita(Visita visita) {
-        visitas.add(visita);
+    public void eliminar(Visita visita){
+        entityManager().remove(visita);
     }
 
-    @Override
-    public Visita buscarVisita(Visita visita) {
-        return null;
+    public Visita buscarVisitaPorId(Long id) {
+        return entityManager().find(Visita.class, id);
     }
 }

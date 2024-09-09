@@ -19,7 +19,7 @@ import java.util.Set;
 public class AreaDeCobertura {
 
     @OneToOne
-    @JoinColumn(name = "ubicacionPrincipal_id")
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
     private Ubicacion ubicacionPrincipal;
 
     @Enumerated(EnumType.STRING)

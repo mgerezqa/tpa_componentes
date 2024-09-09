@@ -1,41 +1,28 @@
 package repositorios.reposEnMemoria;
 import domain.heladera.Heladera.Heladera;
-import domain.incidentes.Incidente;
-import repositorios.interfaces.IRepositorioHeladeras;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class RepositorioHeladeras implements IRepositorioHeladeras {
-    private List<Heladera> heladeras;
+public class RepositorioHeladeras implements WithSimplePersistenceUnit {
 
-    public RepositorioHeladeras() {
-        this.heladeras = new ArrayList<>();
+    public Heladera obtenerHeladeraPorID(String id){
+        return entityManager().find(Heladera.class, id);
     }
 
-    @Override
-    public Optional<Heladera> obtenerHeladeraPorID(Integer id) {
-        return this.heladeras.stream().filter(heladera -> heladera.getId().equals(id)).findFirst();
+    public void guardar(Heladera heladera) {
+        entityManager().persist(heladera);
     }
 
-    @Override
-    public void darDeAlta(Heladera heladera) {
-        heladeras.add(heladera);
+    public void eliminar(Heladera heladera) {
+        entityManager().remove(heladera);
     }
-    @Override
-    public void darDeBaja(Heladera heladera) {
-        heladeras.remove(heladera);
-    }
-    @Override
+
     public List<Heladera> obtenerTodasLasHeladeras() {
-        return heladeras;
+        return entityManager()
+                .createQuery("from " + Heladera.class.getName())
+                .getResultList();
     }
 
-    // TODO
-    @Override
-    public Heladera obtenerHeladeraPorNombre(String nombreIdentificador) {
-        return null;
-    }
 
 }

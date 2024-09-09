@@ -25,8 +25,9 @@ public class Test {
         SensorTemperatura sensorTemperatura;
         ModeloDeHeladera modeloHeladera;
         Ubicacion ubicacion;
-        IRepositorioHeladeras repositorioHeladeras;
+        RepositorioHeladeras repositorioHeladeras;
         Heladera heladera;
+
         //Configuración de repositorios,heladera, etc.
         repositorioHeladeras = new RepositorioHeladeras();
         modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
@@ -40,7 +41,7 @@ public class Test {
         sensorTemperatura = new SensorTemperatura(heladera);
         heladera.setSensorTemperatura(sensorTemperatura);
         //heladera.setId(10); //Seteo el id ya que la persistencia es en memoria.
-        repositorioHeladeras.darDeAlta(heladera);
+        repositorioHeladeras.guardar(heladera);
         //Configuración de conexión con el broker, topics.
         String topic1 = "dds2024/heladera/movimiento";
         String topic2 = "dds2024/heladera/temperatura";

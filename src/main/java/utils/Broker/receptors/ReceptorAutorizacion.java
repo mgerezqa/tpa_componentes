@@ -9,14 +9,16 @@ import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import repositorios.interfaces.IRepositorioColaboradores;
 import repositorios.interfaces.IRepositorioHeladeras;
+import repositorios.reposEnMemoria.RepositorioColaboradores;
+import repositorios.reposEnMemoria.RepositorioHeladeras;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class ReceptorAutorizacion implements IMqttMessageListener {
-    private IRepositorioHeladeras repositorioHeladeras;
-    private IRepositorioColaboradores repositorioColaboradores;
-    public ReceptorAutorizacion(IRepositorioHeladeras repositorioHeladeras, IRepositorioColaboradores repositorioColaboradores) {
+    private RepositorioHeladeras repositorioHeladeras;
+    private RepositorioColaboradores repositorioColaboradores;
+    public ReceptorAutorizacion(RepositorioHeladeras repositorioHeladeras, RepositorioColaboradores repositorioColaboradores) {
         this.repositorioHeladeras = repositorioHeladeras;
         this.repositorioColaboradores = repositorioColaboradores;
     }
@@ -27,13 +29,13 @@ public class ReceptorAutorizacion implements IMqttMessageListener {
         String jsonString = mqttMessage.toString();
         JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
         Integer idHeladera = Integer.parseInt(jsonObject.get("idH").getAsString());
-        Optional<Heladera> heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera);
+        Heladera heladera = repositorioHeladeras.obtenerHeladeraPorID(idHeladera.toString());
         Integer idColaborador = Integer.parseInt(jsonObject.get("idC").getAsString());
-        Colaborador colaborador = repositorioColaboradores.buscarColaborador(idColaborador);
-        if(heladera.isPresent()){
+        Colaborador colaborador = repositorioColaboradores.obtenerPorId(String.valueOf(idColaborador));
+        if(heladera != null){
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);
             SolicitudApertura solicitud = new SolicitudApertura(LocalDateTime.now(), "Solicitud apertura heladera.", colaborador);
-            heladera.get().registrarSolicitud(solicitud);
+            heladera.registrarSolicitud(solicitud);
         }
     }
 }

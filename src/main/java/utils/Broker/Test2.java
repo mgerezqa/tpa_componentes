@@ -9,18 +9,9 @@ import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.usuarios.ColaboradorFisico;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
-import repositorios.interfaces.IRepositorioColaboradores;
-import repositorios.interfaces.IRepositorioHeladeras;
 import repositorios.reposEnMemoria.RepositorioColaboradores;
 import repositorios.reposEnMemoria.RepositorioHeladeras;
 import utils.Broker.receptors.ReceptorAutorizacion;
-import utils.Broker.receptors.ReceptorMov;
-import utils.Broker.receptors.ReceptorTemp;
-
-import java.util.Locale;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class Test2 {
@@ -29,8 +20,8 @@ public class Test2 {
         SensorTemperatura sensorTemperatura;
         ModeloDeHeladera modeloHeladera;
         Ubicacion ubicacion;
-        IRepositorioHeladeras repositorioHeladeras;
-        IRepositorioColaboradores repositorioColaboradores;
+        RepositorioHeladeras repositorioHeladeras;
+        RepositorioColaboradores repositorioColaboradores;
         Heladera heladera;
         ColaboradorFisico colaborador;
         //Configuración de repositorios,heladera, etc.
@@ -46,11 +37,11 @@ public class Test2 {
         sensorTemperatura = new SensorTemperatura(heladera);
         heladera.setSensorTemperatura(sensorTemperatura);
         // heladera.setId(1); //Seteo el id ya que la persistencia es en memoria.
-        repositorioHeladeras.darDeAlta(heladera);
+        repositorioHeladeras.guardar(heladera);
         repositorioColaboradores = new RepositorioColaboradores();
         colaborador = new ColaboradorFisico("Lalo", "Menz");
         colaborador.setId("lalo");
-        repositorioColaboradores.alta(colaborador);
+        repositorioColaboradores.guardar(colaborador);
         //Configuración de conexión con el broker, topics.
         String topic = "dds2024/heladera/autorizacion";
         String broker = "tcp://freemqttbroker.sfodo.crystalmq.com:1883";
