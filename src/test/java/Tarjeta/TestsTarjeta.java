@@ -45,7 +45,8 @@ public class TestsTarjeta {
         diego.agregarMenorACargo(miguel);
         diego.agregarMenorACargo(juan);
         diego.agregarMenorACargo(ken);
-        tarjeta = new Tarjeta(diego);
+        tarjeta = new Tarjeta();
+        tarjeta.setVulnerable(diego);
         ubicacionDeHeladera = new Ubicacion(522.00f,242.00f,new Calle("medrano","254"));
         modeloHeladera = new ModeloDeHeladera("Modelo XG-295");
         modeloHeladera.setTemperaturaMinima(tempMin);
