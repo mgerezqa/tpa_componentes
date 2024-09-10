@@ -22,13 +22,16 @@ public class Tarjeta {
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.generadorUUID")
     private String codigoIdentificador;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_persona_vulnerable", referencedColumnName = "id")
     private PersonaVulnerable titular;
-    @Transient
+
     private static Integer cantidadDisponiblePorDefecto = 4;
+
     @Column(name = "cantidad_usada_dia")
     private Integer cantidadUsadaEnElDia;
+
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tarjeta")
     private List<RegistroDeUso> registros;

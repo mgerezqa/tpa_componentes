@@ -39,7 +39,9 @@ public class TarjetaPersonaVulnerableTest implements WithSimplePersistenceUnit {
             Documento documento = new Documento(TipoDocumento.DNI,"12345679");
             Tarjeta tarjeta1 = new Tarjeta(persona);
             Persona menor = new Persona("miguel",4);
+
             RegistroDeUso registroDeUso = new RegistroDeUso();
+
             tarjeta1.usoDeTarjeta(registroDeUso);
             ubicacion.setProvincia(provincia);
             ubicacion.setLocalidad(localidad);

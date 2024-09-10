@@ -50,7 +50,6 @@ public class Test2 implements WithSimplePersistenceUnit {
 
         String msg = "{'idH': 1, 'idC':1}";
         serviceBroker.publishMessage(topic, msg);
-
     }
 
 }
