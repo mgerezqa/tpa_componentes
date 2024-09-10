@@ -5,15 +5,30 @@ import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "Suscripciones")
 public class Suscripcion {
+    @Id
+    @GeneratedValue
+    private String id;
+
     @Setter @Getter
     private EventManager eventManager;
+
     @Setter @Getter
+    @ManyToOne
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
+
     @Setter @Getter
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private ColaboradorFisico colaboradorFisico;
     @Setter @Getter
+    @ManyToOne
+    @JoinColumn(name = "tipo_id", referencedColumnName = "id")
     private TipoDeSuscripcion tipoDeSuscripcion;
 
 
