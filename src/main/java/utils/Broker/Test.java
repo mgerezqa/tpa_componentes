@@ -5,8 +5,6 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
-import domain.heladera.Sensores.SensorMovimiento;
-import domain.heladera.Sensores.SensorTemperatura;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
@@ -22,8 +20,6 @@ import java.util.TimerTask;
 
 
 public class Test implements WithSimplePersistenceUnit {
-    SensorMovimiento sensorMovimiento;
-    SensorTemperatura sensorTemperatura;
     ModeloDeHeladera modeloHeladera;
     Ubicacion ubicacion;
     IRepositorioHeladeras repositorioHeladeras;
@@ -44,10 +40,6 @@ public class Test implements WithSimplePersistenceUnit {
         heladera.darDeAltaHeladera();
         modeloHeladera.setTemperaturaMaxima(60.4f);
         modeloHeladera.setTemperaturaMinima(80.4f);
-        sensorMovimiento = new SensorMovimiento(heladera);
-        heladera.setSensorMovimiento(sensorMovimiento);
-        sensorTemperatura = new SensorTemperatura(heladera);
-        heladera.setSensorTemperatura(sensorTemperatura);
 
         withTransaction(() -> {
             repositorio.guardar(heladera);

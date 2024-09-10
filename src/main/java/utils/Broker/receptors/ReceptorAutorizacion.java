@@ -1,11 +1,9 @@
 package utils.Broker.receptors;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.SolicitudApertura;
 import domain.usuarios.Colaborador;
-import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import repositorios.interfaces.IRepositorioColaboradores;
 import repositorios.interfaces.IRepositorioHeladeras;
