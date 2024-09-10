@@ -1,12 +1,19 @@
-package utils.temperatura;
-import lombok.Getter;
-import lombok.Setter;
+package domain.temperatura;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Setter @Getter
+@NoArgsConstructor
+@Data
+@Embeddable
 public class Temperatura {
 
+    @Column(name = "temperatura")
     private Float temperatura;
+
+    @Column(name = "fechaYHora", columnDefinition = "DATE")
     private LocalDateTime fechaYhora;
 
     // ============================================================ //

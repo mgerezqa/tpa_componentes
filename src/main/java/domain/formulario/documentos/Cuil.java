@@ -1,10 +1,26 @@
 package domain.formulario.documentos;
 
 import domain.excepciones.CuilInvalidoException;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@NoArgsConstructor
+@Entity
+@Table(name = "cuils")
 public class Cuil {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "prefijo")
     private String prefijo;
+
+    @Column(name = "dni")
     private String dni;
+
+    @Column(name = "verificador")
     private String verificador;
 
     public Cuil(String prefijo, String dni, String verificador) {

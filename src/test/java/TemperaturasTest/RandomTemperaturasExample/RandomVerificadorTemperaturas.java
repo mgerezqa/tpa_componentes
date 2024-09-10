@@ -7,7 +7,7 @@ import domain.heladera.Heladera.ModeloDeHeladera;
 import repositorios.reposEnMemoria.RepositorioHeladeras;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.Incidente;
-import utils.temperatura.VerificadorTemperaturas;
+import domain.temperatura.VerificadorTemperaturas;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

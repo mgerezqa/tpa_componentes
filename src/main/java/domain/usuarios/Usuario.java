@@ -1,10 +1,24 @@
 package domain.usuarios;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
+@NoArgsConstructor
+@Entity
+@Table(name = "usuario")
 public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "nombreUsuario")
     private String nombreUsuario;
-    private String contrasenia;
+
+    @Column(name = "contrasenia")
+    private String contrasenia; //Se debe encriptar para más adelante
 
     public Usuario(String nombreUsuario, String contrasenia) {
         this.nombreUsuario = nombreUsuario;

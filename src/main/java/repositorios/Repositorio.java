@@ -10,7 +10,9 @@ public class Repositorio implements WithSimplePersistenceUnit {
     public void guardar(Object data) {
         entityManager().persist(data);
     }
-
+    public void actualizar(Object data){
+        entityManager().merge(data);
+    }
     public List<Object> buscarTodos(Class clase) {
         return entityManager()
                 .createQuery("from " + clase.getName())

@@ -6,7 +6,7 @@ import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorTemperatura;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import utils.temperatura.VerificadorTemperaturas;
+import domain.temperatura.VerificadorTemperaturas;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

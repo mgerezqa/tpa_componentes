@@ -19,9 +19,10 @@ public class OfertasTest implements WithSimplePersistenceUnit {
         OfertasTest instance = new OfertasTest();
         instance.repositorio = new Repositorio();
 
-        instance.guardarOfertas();
+        //instance.guardarOfertas();
         //instance.recuperarOfertas();
-        instance.recuperarOfertaPorId(2L);
+        //instance.recuperarOfertaPorId(2L);
+        instance.actualizarOferta(2L);
     }
 
     private void guardarOfertas() {
@@ -42,6 +43,19 @@ public class OfertasTest implements WithSimplePersistenceUnit {
         Optional<Object> ofertaGuardada = repositorio.buscarPorID(Oferta.class,id);
         if(ofertaGuardada.isPresent()){
             Oferta ofertaEncontrada = (Oferta)  ofertaGuardada.get();
+            System.out.println(ofertaEncontrada);
+        }else{
+            System.out.println("No se encontro la persona con id:"+id);
+        }
+    }
+    private void actualizarOferta(Long id){
+        Optional<Object> ofertaGuardada = repositorio.buscarPorID(Oferta.class,id);
+        if(ofertaGuardada.isPresent()){
+            Oferta ofertaEncontrada = (Oferta)  ofertaGuardada.get();
+            ofertaEncontrada.setCostoPuntos(3000);
+            withTransaction(()->{
+                repositorio.actualizar(ofertaEncontrada);
+            });
             System.out.println(ofertaEncontrada);
         }else{
             System.out.println("No se encontro la persona con id:"+id);

@@ -49,6 +49,7 @@ public class ServiceBroker implements IServiceBroker {
     @Override
     public void publishMessage(String topic, String message){
         try {
+            System.out.println("Enviando mensaje");
             sampleClient.publish(topic, message.getBytes(), qos, retain);
         } catch(MqttException me) {
             System.out.println("reason " + me.getReasonCode());

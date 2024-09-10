@@ -7,19 +7,31 @@ import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
 //import utils.calculadorDistancia.ICalculadorDistanciaKM;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@NoArgsConstructor
 @Data
+@Embeddable
 public class AreaDeCobertura {
 
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
     private Ubicacion ubicacionPrincipal;
+
+    @Enumerated(EnumType.STRING)
     private TamanioArea tamanioArea;
 
-
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "id_provincia", referencedColumnName = "id", nullable = true)
     private Provincia provincia;
+
+    @Transient
     private Set<Localidad> localidades = new HashSet<>();
+    @Transient
     private Set<Barrio> barrios = new HashSet<>();
 
     public AreaDeCobertura(Ubicacion ubicacionPrincipal, TamanioArea tamanioArea) {

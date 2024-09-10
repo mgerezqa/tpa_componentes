@@ -45,8 +45,8 @@ public class Test2 {
         heladera.setSensorMovimiento(sensorMovimiento);
         sensorTemperatura = new SensorTemperatura(heladera);
         heladera.setSensorTemperatura(sensorTemperatura);
-        heladera.setId(1); //Seteo el id ya que la persistencia es en memoria.
-        repositorioHeladeras.darDeAlta(heladera);
+        //heladera.setId(1); //Seteo el id ya que la persistencia es en memoria.
+        //repositorioHeladeras.darDeAlta(heladera);
         repositorioColaboradores = new RepositorioColaboradores();
         colaborador = new ColaboradorFisico("Lalo", "Menz");
         colaborador.setId(1L);

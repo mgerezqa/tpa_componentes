@@ -1,5 +1,5 @@
 package TemperaturasTest;
-import utils.temperatura.VerificadorTemperaturas;
+import domain.temperatura.VerificadorTemperaturas;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;

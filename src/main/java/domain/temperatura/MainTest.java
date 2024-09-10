@@ -1,4 +1,4 @@
-package utils.temperatura;
+package domain.temperatura;
 
 import domain.heladera.Heladera.Heladera;
 import repositorios.interfaces.IRepositorioHeladeras;

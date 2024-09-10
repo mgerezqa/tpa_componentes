@@ -1,4 +1,4 @@
-package utils.temperatura;
+package domain.temperatura;
 import domain.Config;
 import domain.heladera.Heladera.Heladera;
 import domain.incidentes.IncidenteFactory;

@@ -1,57 +1,73 @@
 package domain.heladera.Heladera;
-import domain.geografia.Calle;
-import domain.donaciones.Vianda;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
 import domain.suscripciones.EventManager;
-import utils.temperatura.Temperatura;
-import lombok.Getter;
-import lombok.Setter;
+import domain.temperatura.Temperatura;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "heladeras")
 public class Heladera {
 
-    @Getter @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Transient
     private EventManager eventManager;
 
-
-    @Setter @Getter
+    //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //@JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
+    @Embedded
     private Ubicacion ubicacion;
-    @Setter @Getter
+
+    @Column(name = "nombre", nullable = false)
     private String nombreIdentificador;
-    @Setter @Getter
-    private Integer id;
-    @Setter @Getter
+
+    @Column(name = "capacidadMax")
     private Integer capacidadMax; // (se mide en numero de viandas)
-    @Setter @Getter
+
+    @Column(name = "capacidadActual")
     private Integer capacidadActual;
-    @Setter @Getter // ojo con el setter, creo q no va
+
+    @Column(name = "fechaInicioFunc", columnDefinition = "DATE")
     private LocalDate fechaInicioFuncionamiento;
-    @Getter @Setter
+
+    @Enumerated(EnumType.STRING)
     private EstadoHeladera estadoHeladera;
 
-    @Getter
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "modeloDeHeladera_id", referencedColumnName = "id", nullable = false)
     private ModeloDeHeladera modelo;
 
-    @Getter @Setter
+    @Transient
     private SensorMovimiento sensorMovimiento;
-    @Getter @Setter
+
+    @Transient
     private SensorTemperatura sensorTemperatura;
 
-    @Getter @Setter
+    @Transient
     private List<String> historialDeEstados;
+
+    @Embedded
     public Temperatura ultimaTemperaturaRegistrada;
-    @Setter @Getter
+
+    @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     public List<Incidente> incidentes;
 
-    @Getter @Setter
+    @Transient
     private List<SolicitudApertura> solicitudesPendientes;
 
     // ============================================================ //
@@ -178,4 +194,3 @@ public class Heladera {
 
 
 }
-

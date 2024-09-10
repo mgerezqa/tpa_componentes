@@ -37,9 +37,5 @@ public class RepositorioIncidentes implements IRepositorioIncidentes {
         return null;
     }
 
-    @Override
-    public void setId(Incidente incidente) {
-        incidente.setId(String.valueOf(obtenerTodasLosIncidentes().size() +1));
-    }
 
 }

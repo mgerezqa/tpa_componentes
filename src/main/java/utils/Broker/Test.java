@@ -7,7 +7,15 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.puntos.CategoriaOferta;
+import domain.puntos.Oferta;
+import domain.usuarios.ColaboradorJuridico;
+import domain.usuarios.Rubro;
+import domain.usuarios.TipoRazonSocial;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import main.OfertasTest;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
+import repositorios.Repositorio;
 import repositorios.interfaces.IRepositorioHeladeras;
 import repositorios.reposEnMemoria.RepositorioHeladeras;
 import utils.Broker.receptors.ReceptorMov;
@@ -19,19 +27,26 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class Test {
+public class Test implements WithSimplePersistenceUnit {
+    SensorMovimiento sensorMovimiento;
+    SensorTemperatura sensorTemperatura;
+    ModeloDeHeladera modeloHeladera;
+    Ubicacion ubicacion;
+    IRepositorioHeladeras repositorioHeladeras;
+    Repositorio repositorio;
+    Heladera heladera;
     public static void main(String[] args) {
-        SensorMovimiento sensorMovimiento;
-        SensorTemperatura sensorTemperatura;
-        ModeloDeHeladera modeloHeladera;
-        Ubicacion ubicacion;
-        IRepositorioHeladeras repositorioHeladeras;
-        Heladera heladera;
+        Test instance = new Test();
         //Configuración de repositorios,heladera, etc.
-        repositorioHeladeras = new RepositorioHeladeras();
+        instance.repositorioHeladeras = new RepositorioHeladeras();
+        instance.repositorio = new Repositorio();
+        instance.init();
+    }
+    void init(){
         modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
         ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
         heladera = new Heladera(modeloHeladera,"Medrano",ubicacion);
+
         heladera.darDeAltaHeladera();
         modeloHeladera.setTemperaturaMaxima(60.4f);
         modeloHeladera.setTemperaturaMinima(80.4f);
@@ -39,14 +54,18 @@ public class Test {
         heladera.setSensorMovimiento(sensorMovimiento);
         sensorTemperatura = new SensorTemperatura(heladera);
         heladera.setSensorTemperatura(sensorTemperatura);
-        heladera.setId(10); //Seteo el id ya que la persistencia es en memoria.
-        repositorioHeladeras.darDeAlta(heladera);
+        //heladera.setId(10); //Seteo el id ya que la persistencia es en memoria.
+        //repositorioHeladeras.darDeAlta(heladera);
+        withTransaction(() -> {
+            repositorio.guardar(heladera);
+        });
+        repositorio.guardar(heladera);
         //Configuración de conexión con el broker, topics.
-        String topic1 = "dds2024/heladera/movimiento";
+        //String topic1 = "dds2024/heladera/movimiento";
         String topic2 = "dds2024/heladera/temperatura";
         String broker = "tcp://freemqttbroker.sfodo.crystalmq.com:1883";
-        IMqttMessageListener receptor1 = new ReceptorMov(repositorioHeladeras);
-        IMqttMessageListener receptor2 = new ReceptorTemp(repositorioHeladeras);
+        //IMqttMessageListener receptor1 = new ReceptorMov(repositorioHeladeras);
+        IMqttMessageListener receptor2 = new ReceptorTemp(repositorio);
 
         //Acceso al config para traer las credentials, martin realizo algo, ver.
 
@@ -58,7 +77,7 @@ public class Test {
 
         serviceBroker.init();
 
-        serviceBroker.suscribe(topic1, receptor1);
+        //serviceBroker.suscribe(topic1, receptor1);
         serviceBroker.suscribe(topic2, receptor2);
 
 
@@ -72,13 +91,13 @@ public class Test {
                 float max = 90f;
                 Random random = new Random();
                 float temperature = min + (max - min) * random.nextFloat();
-                String msg2 = String.format(Locale.US,"{'id':10,'temp':%.2f}",temperature);
+                String msg2 = String.format(Locale.US,"{'id':1,'temp':%.2f}",temperature);
                 serviceBroker.publishMessage(topic2, msg2);
-                serviceBroker.publishMessage(topic1, msg1);
-                System.out.println(heladera.getIncidentes());
-                System.out.println(heladera.getUltimaTemperaturaRegistrada());
+                //serviceBroker.publishMessage(topic1, msg1);
+
             }
         };
         timer.scheduleAtFixedRate(task, delay, intervalPeriod);
     }
+
 }
