@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class FallaTecnica extends Incidente {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario reportadoPor;
 
     @Column(name = "descripcion")

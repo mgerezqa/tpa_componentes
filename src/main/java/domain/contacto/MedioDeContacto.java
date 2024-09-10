@@ -9,10 +9,12 @@ import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Getter @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -21,7 +23,7 @@ import javax.persistence.*;
 public abstract class MedioDeContacto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Transient

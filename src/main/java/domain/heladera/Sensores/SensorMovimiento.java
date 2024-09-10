@@ -2,12 +2,24 @@ package domain.heladera.Sensores;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.incidentes.IncidenteFactory;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter @Getter
+import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "sensorMovimiento")
 public class SensorMovimiento {
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne(mappedBy = "sensorMovimiento", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Heladera heladera;
 
     public SensorMovimiento(Heladera heladera) {

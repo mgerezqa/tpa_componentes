@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ModeloDeHeladera {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "nombre")

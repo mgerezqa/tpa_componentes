@@ -20,11 +20,11 @@ public class Visita {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tecnico_id", nullable = false)
     private Tecnico tecnico;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id", nullable = false)
     private Heladera heladera;
 
@@ -33,10 +33,10 @@ public class Visita {
 
     @Column(name = "comentario")
     private String comentario;
+
     @Column(name = "foto")
     private String foto;
 
-    @Column(name = "incidenteResuelto")
     public void incidenteResuelto(Boolean resuelto){
         if(resuelto) {
             heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
