@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo")
+@DiscriminatorColumn(name = "tipo_incidente")
 public abstract class Incidente {
 
     @Id
