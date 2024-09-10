@@ -17,10 +17,10 @@ public class Ubicacion {
     private Float longitud;
     @Embedded
     private Calle calle;
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_provincia", referencedColumnName = "id")
     private Provincia provincia;
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_localidad", referencedColumnName = "id")
     private Localidad localidad;
     @Embedded
