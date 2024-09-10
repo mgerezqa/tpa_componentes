@@ -94,7 +94,6 @@ public class Test implements WithSimplePersistenceUnit {
                 String msg2 = String.format(Locale.US,"{'id':1,'temp':%.2f}",temperature);
                 serviceBroker.publishMessage(topic2, msg2);
                 //serviceBroker.publishMessage(topic1, msg1);
-
             }
         };
         timer.scheduleAtFixedRate(task, delay, intervalPeriod);
