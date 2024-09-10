@@ -8,6 +8,15 @@ import java.util.List;
 
 public class RepositorioUbicaciones implements WithSimplePersistenceUnit {
 
+
+    public void guardar(Ubicacion ubi){
+        if (entityManager().contains(ubi)) {
+            entityManager().merge(ubi);
+        } else {
+            entityManager().persist(ubi);
+        }
+    }
+
     void eliminarPorId(Long id){
         Ubicacion ubi = entityManager().find(Ubicacion.class,id);
         entityManager().remove(ubi);

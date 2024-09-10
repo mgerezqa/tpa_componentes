@@ -22,17 +22,17 @@ public class Ubicacion {
     @Column(name = "longitud", nullable = false)
     private Float longitud;
 
-    @Transient
+    @Embedded
     private Calle calle;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
-    @Transient
+    @Embedded
     private Localidad localidad;
 
-    @Transient
+    @Embedded
     private Barrio barrio;
 
     public Ubicacion(Float latitud, Float longitud, Calle calle) {

@@ -10,17 +10,18 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("suscripcion_cantidad_viandas_max")
 public class SuscripcionPorCantidadDeViandasHastaAlcMax extends TipoDeSuscripcion {
 
-    @Getter @Setter
+
     @Column(name = "cantidad_viandas_hasta_max")
     private int cantidadDeViandasHastaAlcMax;
 
-    @Getter
+
     @Column(name = "descripcion")
     public final String descripcion = " tiene " + cantidadDeViandasHastaAlcMax + " viandas hasta alcanzar el máximo.";
 

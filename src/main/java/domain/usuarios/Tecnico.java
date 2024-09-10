@@ -20,7 +20,7 @@ import java.util.List;
 public class Tecnico {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "nombre", nullable = false)
@@ -28,20 +28,18 @@ public class Tecnico {
     @Column(name = "apellido", nullable = false)
     private String apellido;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "documento_id", referencedColumnName = "id")
+    @Embedded
     private Documento documento;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "cuil_id", referencedColumnName = "id")
+    @Embedded
     private Cuil cuil;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tecnico_id", referencedColumnName = "id")
     private List<MedioDeContacto> mediosDeContacto;
 
-    @Embedded
-    @Transient // problema para persistir las ubicaciones, revisar!
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "area_de_cobertura_id")
     private AreaDeCobertura area;
 
     @Column(name = "activo")

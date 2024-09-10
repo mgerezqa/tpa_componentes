@@ -10,10 +10,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.HashSet;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "colaboradoresJuridicos")
+@Table(name = "colaboradores_juridicos")
 public class ColaboradorJuridico extends Colaborador{
     @Column(name = "razonSocial")
     private String razonSocial;

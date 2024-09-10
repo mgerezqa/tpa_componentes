@@ -8,10 +8,13 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class GeneradorUUID implements IdentifierGenerator {
+
     @Override
-    public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
+    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+        // Generar un UUID alfanumérico de 11 caracteres
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString().replace("-", "");
-        return uuidString.substring(0, 11);
+        return uuidString.substring(0, 11);  // Retornar solo los primeros 11 caracteres
     }
 }
+

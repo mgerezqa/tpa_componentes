@@ -16,23 +16,23 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table (name = "tarjeta")
+@Table (name = "tarjetas")
 @NoArgsConstructor
 public class Tarjeta {
     @Id
     @GeneratedValue(generator = "uuid-generator")
-    @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.generadorUUID")
+    @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.GeneradorUUID")
+    @Column(name = "codigo_identificador", unique = true, nullable = false, length = 11)
     private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
 
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona_vulnerable", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_persona_vulnerable")
     private PersonaVulnerable vulnerable;
 
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "colaborador_id")
     private ColaboradorFisico colaborador;
 
-    @Transient
     private static Integer cantidadDisponiblePorDefecto = 4;
 
     @Column(name = "cantidad_usada_dia")

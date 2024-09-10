@@ -12,6 +12,9 @@ import java.time.LocalDate;
 
 
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "donaciones_distribuir")
 public class Distribuir {
@@ -28,8 +31,6 @@ public class Distribuir {
     @JoinColumn(name = "heladera_destino_id", nullable = false)
     private Heladera heladeraDestino;
 
-    @Getter
-    @Setter
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
 
@@ -37,14 +38,11 @@ public class Distribuir {
     @Column(name = "motivo", nullable = false)
     private Motivo motivo;
 
-    @Getter
-    @Setter
     @Column(name = "fecha_donacion", nullable = false)
     private LocalDate fechaDeDonacion;
 
     @ManyToOne
     @JoinColumn(name = "colaborador_id", nullable = false)
-    @Getter
     private ColaboradorFisico colaboradorQueLaDono;
 
     public Distribuir(Long id, Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, LocalDate fechaDeDonacion, Motivo motivo, ColaboradorFisico colaboradorQueLaDono) {

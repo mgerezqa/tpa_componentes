@@ -11,21 +11,12 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@Entity
-@Table(name = "sensorTemperatura")
 public class SensorTemperatura {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @OneToOne(mappedBy = "sensorTemperatura", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Heladera heladera;
 
-    @Column(name = "tempMax")
     private Float temperaturaMax;
 
-    @Column(name = "tempMin")
     private Float temperaturaMin;
 
     public SensorTemperatura(Heladera heladera) {

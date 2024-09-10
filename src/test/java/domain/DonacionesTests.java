@@ -122,7 +122,10 @@ public class DonacionesTests {
     @Test
     @DisplayName("El sistema admite las donaciones del tipo registrar personas vulnerables solo por parte de los colaboradores fisicos")
     public void donarRegistrarPersonasVulnerables(){
-        RegistroDePersonaVulnerable registrarPersonasVulnerables = new RegistroDePersonaVulnerable (lalo,tarjeta);
+        RegistroDePersonaVulnerable registrarPersonasVulnerables = new RegistroDePersonaVulnerable ();
+        registrarPersonasVulnerables.setId(23423245L);
+        registrarPersonasVulnerables.setTarjeta(tarjeta);
+        registrarPersonasVulnerables.setColaborador(lalo);
         assertEquals(registrarPersonasVulnerables.getColaborador(),lalo);
     }
 

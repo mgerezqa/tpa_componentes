@@ -18,8 +18,8 @@ import javax.persistence.*;
 @Getter @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "medioDeContacto")
-@DiscriminatorColumn(name = "tipo")
+@Table(name = "medios_de_contacto")
+@DiscriminatorColumn(name = "tipo_de_medio")
 public abstract class MedioDeContacto {
 
     @Id

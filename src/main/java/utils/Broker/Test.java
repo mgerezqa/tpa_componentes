@@ -75,7 +75,7 @@ public class Test {
                 String msg2 = String.format(Locale.US,"{'id':10,'temp':%.2f}",temperature);
                 serviceBroker.publishMessage(topic2, msg2);
                 serviceBroker.publishMessage(topic1, msg1);
-                System.out.println(heladera.getIncidentes());
+                //System.out.println(heladera.getIncidentes());
                 System.out.println(heladera.getUltimaTemperaturaRegistrada());
             }
         };

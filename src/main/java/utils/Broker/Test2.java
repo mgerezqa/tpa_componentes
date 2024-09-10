@@ -40,7 +40,6 @@ public class Test2 {
         repositorioHeladeras.guardar(heladera);
         repositorioColaboradores = new RepositorioColaboradores();
         colaborador = new ColaboradorFisico("Lalo", "Menz");
-        colaborador.setId("lalo");
         repositorioColaboradores.guardar(colaborador);
         //Configuración de conexión con el broker, topics.
         String topic = "dds2024/heladera/autorizacion";

@@ -86,12 +86,15 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
             tecnico1.agregarMedioDeContacto(email1);
             tecnico1.agregarMedioDeContacto(telegram1);
             tecnico1.setAreaDeCobertura(area1);
+            repositorioTecnicos.guardar(tecnico1);
+
 
             Tecnico tecnico2 = new Tecnico("Roberto", "Perez", docTecnico2, cuilTecnico2);
             tecnico2.agregarMedioDeContacto(whatsapp2);
             tecnico2.agregarMedioDeContacto(email2);
             tecnico2.agregarMedioDeContacto(telegram2);
             tecnico2.setAreaDeCobertura(area2);
+            repositorioTecnicos.guardar(tecnico2);
 
             // HELADERAS:
 
@@ -112,10 +115,13 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
 
             SensorTemperatura sensorTemperaturaA = new SensorTemperatura(heladeraA);
             heladeraA.setSensorTemperatura(sensorTemperaturaA);
+            repositorioHeladeras.guardar(heladeraA);
             SensorTemperatura sensorTemperaturaB = new SensorTemperatura(heladeraB);
             heladeraB.setSensorTemperatura(sensorTemperaturaB);
+            repositorioHeladeras.guardar(heladeraB);
             SensorTemperatura sensorTemperaturaC = new SensorTemperatura(heladeraC);
             heladeraC.setSensorTemperatura(sensorTemperaturaC);
+            repositorioHeladeras.guardar(heladeraC);
 
             // INCIDENTES:
 
@@ -125,9 +131,11 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
 
             Incidente incidenteA = IncidenteFactory.crearAlerta(heladeraA, "falla_temperatura");
             incidenteA.setTecnicoAsignado(tecnico1);
+            repositorioIncidentes.guardar(incidenteA);
 
             Incidente incidenteB = IncidenteFactory.crearAlerta(heladeraC, "falla_fraude");
             incidenteB.setTecnicoAsignado(tecnico2);
+            repositorioIncidentes.guardar(incidenteB);
 
             FallaTecnicaDTO dto = new FallaTecnicaDTO();
             dto.setDescripcion("cuando fui a la heladera me encontre con esta falla . . .");
@@ -135,6 +143,7 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
 
             Incidente incidenteC = IncidenteFactory.crearFallaTecnica(dto, heladeraB, userA);
             incidenteC.setTecnicoAsignado(tecnico2);
+            repositorioIncidentes.guardar(incidenteC);
 
            // VISITA TECNICA
 
@@ -144,16 +153,9 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
             visita.setHeladera(heladeraA);
             visita.setFoto("https//:imagen.png");
             visita.setComentario("solucione el tema");
-
             repositorioVisitasTecnicas.guardar(visita);
-            repositorioTecnicos.guardar(tecnico1);
-            repositorioTecnicos.guardar(tecnico2);
-            repositorioHeladeras.guardar(heladeraA);
-            repositorioHeladeras.guardar(heladeraB);
-            repositorioHeladeras.guardar(heladeraC);
-            repositorioIncidentes.guardar(incidenteA);
-            repositorioIncidentes.guardar(incidenteB);
-            repositorioIncidentes.guardar(incidenteC);
+
+
 
         });
     }

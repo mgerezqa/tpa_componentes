@@ -9,30 +9,29 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "viandas")
+@Table(name = "donaciones_viandas")
 public class Vianda  {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@Column(name = "fechaYHora", columnDefinition = "DATE")
-    @Transient
+    @Column(name = "fecha_vencimiento", columnDefinition = "DATE")
     private LocalDate fechaVencimiento;
 
-    //@Column(name = "fechaYHora", columnDefinition = "DATE")
-    @Transient
+    @Column(name = "fecha_donacion", columnDefinition = "DATE")
     private LocalDate fechaDonacion;
 
     @ManyToOne
-    @JoinColumn(name = "colaboradorFisico_id", referencedColumnName = "id")
+    @JoinColumn(name = "colaborador_id")
     private ColaboradorFisico colaboradorQueLaDono;
 
     @ManyToOne
-    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
+    @JoinColumn(name = "heladera_id")
     private Heladera heladeraActual;
 
     // ============================================================ //

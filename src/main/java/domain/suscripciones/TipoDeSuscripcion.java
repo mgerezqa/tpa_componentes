@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @DiscriminatorColumn(name = "tipo_suscripcion")
 public abstract class TipoDeSuscripcion {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Getter

@@ -24,7 +24,7 @@ import java.util.List;
 public class Heladera {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Transient
@@ -32,7 +32,6 @@ public class Heladera {
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
-    @Transient
     private Ubicacion ubicacion;
 
     @Column(name = "nombre", nullable = false)
@@ -51,18 +50,18 @@ public class Heladera {
     private EstadoHeladera estadoHeladera;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "modeloDeHeladera_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "modeloDeHeladera_id", nullable = false)
     private ModeloDeHeladera modelo;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "sensorMovimiento_id")
+    @Transient
     private SensorMovimiento sensorMovimiento;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "sensorTemperatura_id")
+    @Transient
     private SensorTemperatura sensorTemperatura;
 
-    @Transient
+    @ElementCollection
+    @CollectionTable(name = "historial_estados_heladeras", joinColumns = @JoinColumn(name = "heladera_id"))
+    @Column(name = "historial_heladera")
     private List<String> historialDeEstados;
 
     @Embedded
@@ -71,8 +70,8 @@ public class Heladera {
     @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public List<Incidente> incidentes;
 
-    // revisar!
-    @Transient
+    @OneToMany
+    @JoinColumn(name = "solicitud_id")
     private List<SolicitudApertura> solicitudesPendientes;
 
     // ============================================================ //

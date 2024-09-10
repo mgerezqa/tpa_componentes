@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Entity
-@DiscriminatorValue("FALLA-TECNICA")
+@DiscriminatorValue("falla_tecnica")
 public class FallaTecnica extends Incidente {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

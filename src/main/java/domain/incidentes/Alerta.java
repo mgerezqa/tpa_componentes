@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Entity
-@DiscriminatorValue("ALERTA")
+@DiscriminatorValue("alerta")
 public class Alerta extends Incidente {
 
     @Column(name = "tipoAlerta")

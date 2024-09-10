@@ -6,16 +6,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter @Getter
+@Setter
+@Getter
 @NoArgsConstructor
-
-@Entity
-@Table(name = "documentos")
+@Embeddable
 public class Documento {
-
-    @Id
-    @GeneratedValue
-    private Long id;
 
     @Column(name = "numero_documento", nullable = false)
     private String numeroDeDocumento;

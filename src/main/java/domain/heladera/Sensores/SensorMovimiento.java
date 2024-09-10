@@ -11,15 +11,8 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@Entity
-@Table(name = "sensorMovimiento")
 public class SensorMovimiento {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @OneToOne(mappedBy = "sensorMovimiento", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Heladera heladera;
 
     public SensorMovimiento(Heladera heladera) {

@@ -4,17 +4,37 @@ import domain.Config;
 import domain.excepciones.ExcepcionSolicitudExpirada;
 import domain.usuarios.Colaborador;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "solicitudes_apertura")
 public class SolicitudApertura {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "fecha_inicio", columnDefinition = "DATE")
     private LocalDateTime fechaHoraInicio;
+
+    @Column(name = "detalle")
     private String detalle;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "colaborador_id")
     private Colaborador colaborador;
-    @Getter @Setter
+
+    @Column(name = "fecha_concrecion")
     private LocalDateTime fechaHoraConcretado;
+
+    @Transient
     private Config config;
 
     public SolicitudApertura(LocalDateTime fechaHora, String detalle, Colaborador colaborador) {

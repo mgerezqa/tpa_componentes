@@ -3,16 +3,19 @@ package domain.usuarios;
 import domain.donaciones.Vianda;
 import domain.geografia.area.AreaDeCobertura;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "colaboradoresFisicos")
+@Table(name = "colaboradores_fisicos")
 public class ColaboradorFisico extends Colaborador {
 
     @Column(name = "nombre", nullable = false)
@@ -27,7 +30,8 @@ public class ColaboradorFisico extends Colaborador {
     @Transient
     private boolean notificacionRecibida;
 
-    @Embedded
+    @ManyToOne
+    @JoinColumn(name = "area_id")
     private AreaDeCobertura zona;
 
     public ColaboradorFisico(String nombre, String apellido){

@@ -1,13 +1,21 @@
 package domain.geografia;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@Embeddable
 public class Calle {
-
+    @Column
     private String nombre;
+    @Column
     private String altura;
 
     public Calle(String calle, String altura) {

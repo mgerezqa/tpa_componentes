@@ -10,9 +10,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "donaciones_mantener_heladera")
-@NoArgsConstructor // Constructor sin argumentos requerido por JPA
 public class MantenerHeladera {
 
     @Id
@@ -28,11 +30,8 @@ public class MantenerHeladera {
 
     @ManyToOne
     @JoinColumn(name = "colaborador_id", nullable = false)
-    @Getter
     private ColaboradorJuridico colaboradorQueLaDono;
 
-    @Getter
-    @Setter
     @Column(name = "meses_puntarizados", nullable = false)
     private Integer mesesPuntarizados = 0;
 
