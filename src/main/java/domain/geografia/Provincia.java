@@ -11,7 +11,7 @@ public class Provincia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "provincia", nullable = false)
+    @Column(name = "provincia")
     private String provincia;
     public Provincia(String provincia) {
         this.provincia = provincia;

@@ -11,7 +11,7 @@ public class Localidad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "localidad",nullable = false)
+    @Column(name = "localidad")
     private String localidad;
 
     public Localidad(String localidad) {
