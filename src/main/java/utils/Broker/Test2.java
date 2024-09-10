@@ -20,7 +20,6 @@ public class Test2 implements WithSimplePersistenceUnit {
 
     public static void main(String[] args) {
         Test2 instance = new Test2();
-        //Configuración de repositorios,heladera, etc.
         instance.repositorio = new Repositorio();
         instance.init();
     }

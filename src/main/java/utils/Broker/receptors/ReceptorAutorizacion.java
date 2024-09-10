@@ -24,15 +24,13 @@ public class ReceptorAutorizacion extends Receptor implements WithSimplePersiste
         Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
         Long idColaborador = Long.parseLong(jsonObject.get("idC").getAsString());
         Optional<Object> colaborador = repositorio.buscarPorID(ColaboradorFisico.class,idColaborador);
-        System.out.println(heladera);
-        System.out.println(colaborador);
+
         if(heladera.isPresent() && colaborador.isPresent()){
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);
             Heladera heladeraEncontrada = (Heladera) heladera.get();
             ColaboradorFisico colaboradorEncontrado = (ColaboradorFisico) colaborador.get();
             SolicitudApertura solicitud = new SolicitudApertura(LocalDateTime.now(), "Solicitud apertura heladera.", colaboradorEncontrado);
             heladeraEncontrada.registrarSolicitud(solicitud);
-            System.out.println(heladeraEncontrada);
             withTransaction(() -> {
                 repositorio.actualizar(heladeraEncontrada);
             });
