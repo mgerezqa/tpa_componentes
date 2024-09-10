@@ -67,7 +67,8 @@ public class Heladera {
     @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     public List<Incidente> incidentes;
 
-    @Transient
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_heladera")
     private List<SolicitudApertura> solicitudesPendientes;
 
     // ============================================================ //

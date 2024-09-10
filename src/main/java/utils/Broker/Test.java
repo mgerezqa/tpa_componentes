@@ -8,8 +8,6 @@ import domain.heladera.Heladera.ModeloDeHeladera;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
-import repositorios.interfaces.IRepositorioHeladeras;
-import repositorios.reposEnMemoria.RepositorioHeladeras;
 import utils.Broker.receptors.ReceptorMov;
 import utils.Broker.receptors.ReceptorTemp;
 
@@ -22,13 +20,11 @@ import java.util.TimerTask;
 public class Test implements WithSimplePersistenceUnit {
     ModeloDeHeladera modeloHeladera;
     Ubicacion ubicacion;
-    IRepositorioHeladeras repositorioHeladeras;
     Repositorio repositorio;
     Heladera heladera;
     public static void main(String[] args) {
         Test instance = new Test();
         //Configuración de repositorios,heladera, etc.
-        instance.repositorioHeladeras = new RepositorioHeladeras();
         instance.repositorio = new Repositorio();
         instance.init();
     }

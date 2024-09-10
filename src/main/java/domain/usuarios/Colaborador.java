@@ -9,7 +9,6 @@ import java.util.Set;
 // USE ESTA STRATEGY Y NO MAPPED SUPERCLASS, SOLO POR SI ES NECESARIO "RECUPERAR" A TODOS LOS COLABORADORES!
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Colaborador {
-
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     protected Long id;

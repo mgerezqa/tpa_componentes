@@ -3,18 +3,32 @@ package domain.heladera.Heladera;
 import domain.Config;
 import domain.excepciones.ExcepcionSolicitudExpirada;
 import domain.usuarios.Colaborador;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+@Data
+@Entity
+@Table(name = "solicitud_apertura")
+@NoArgsConstructor
 public class SolicitudApertura {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "fecha_hora_inicio",columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraInicio;
+    @Column(name = "detalle")
     private String detalle;
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_colaborador")
     private Colaborador colaborador;
-    @Getter @Setter
+    @Column(name = "fecha_hora_concretado",columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraConcretado;
+    @Transient
     private Config config;
 
     public SolicitudApertura(LocalDateTime fechaHora, String detalle, Colaborador colaborador) {

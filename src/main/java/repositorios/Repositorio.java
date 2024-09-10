@@ -1,6 +1,5 @@
 package repositorios;
 
-import domain.persona.Persona;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.util.List;
