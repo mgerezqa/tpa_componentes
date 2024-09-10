@@ -6,6 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
+
 public class RepositorioColaboradores implements WithSimplePersistenceUnit {
 
     public void guardar(Colaborador colaborador){

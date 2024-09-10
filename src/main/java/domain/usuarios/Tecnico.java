@@ -20,7 +20,7 @@ import java.util.List;
 public class Tecnico {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "nombre", nullable = false)
@@ -41,7 +41,7 @@ public class Tecnico {
     private List<MedioDeContacto> mediosDeContacto;
 
     @Embedded
-    @Transient
+    @Transient // problema para persistir las ubicaciones, revisar!
     private AreaDeCobertura area;
 
     @Column(name = "activo")

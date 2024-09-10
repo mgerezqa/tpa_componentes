@@ -24,14 +24,14 @@ import java.util.List;
 public class Heladera {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Transient
     private EventManager eventManager;
 
-    //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    //@JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
     @Transient
     private Ubicacion ubicacion;
 
@@ -54,10 +54,12 @@ public class Heladera {
     @JoinColumn(name = "modeloDeHeladera_id", referencedColumnName = "id", nullable = false)
     private ModeloDeHeladera modelo;
 
-    @Transient
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "sensorMovimiento_id")
     private SensorMovimiento sensorMovimiento;
 
-    @Transient
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "sensorTemperatura_id")
     private SensorTemperatura sensorTemperatura;
 
     @Transient
@@ -69,6 +71,7 @@ public class Heladera {
     @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public List<Incidente> incidentes;
 
+    // revisar!
     @Transient
     private List<SolicitudApertura> solicitudesPendientes;
 

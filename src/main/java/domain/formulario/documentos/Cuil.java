@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Cuil {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(name = "prefijo")

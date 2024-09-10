@@ -129,7 +129,7 @@ public class NotificadorTests {
 
         //Alerta
         alertaTemperatura = IncidenteFactory.crearAlerta(heladera,"falla_temperatura");
-        alertaTemperatura.setId("02");
+        alertaTemperatura.setId(02l);
 
         //Usuario
         usuario = mock(Usuario.class);
@@ -140,7 +140,7 @@ public class NotificadorTests {
         dtoFallaTecnica.setNombreUsuario("Homer");
         fallaTecnica = IncidenteFactory.crearFallaTecnica(dtoFallaTecnica,heladera,usuario);
         fallaTecnica.setFechaYHora(LocalDateTime.now());
-        fallaTecnica.setId("01");
+        fallaTecnica.setId(01l);
 
     }
 

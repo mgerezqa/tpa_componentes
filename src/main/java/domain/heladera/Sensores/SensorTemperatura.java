@@ -1,16 +1,31 @@
 package domain.heladera.Sensores;
 import domain.heladera.Heladera.Heladera;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Setter @Getter
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "sensorTemperatura")
 public class SensorTemperatura {
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToOne(mappedBy = "sensorTemperatura", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Heladera heladera;
+
+    @Column(name = "tempMax")
     private Float temperaturaMax;
+
+    @Column(name = "tempMin")
     private Float temperaturaMin;
 
     public SensorTemperatura(Heladera heladera) {
