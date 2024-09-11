@@ -17,7 +17,6 @@ import java.util.List;
 @Getter
 @Entity
 @Table (name = "tarjetas")
-@NoArgsConstructor
 public class Tarjeta {
     @Id
     @GeneratedValue(generator = "uuid-generator")
@@ -45,12 +44,11 @@ public class Tarjeta {
     @Column(name = "fecha_inicio_funcionamiento",columnDefinition = "DATETIME")
     private LocalDateTime fechaInicioDeFuncionamiento;
 
-    /*    public Tarjeta(PersonaVulnerable titular){
-        this.titular = titular;
+    public Tarjeta(){
         this.cantidadUsadaEnElDia = 0;
         this.registros = new ArrayList<>();
         this.fechaInicioDeFuncionamiento = LocalDateTime.now();
-    }*/
+    }
     public int cantidadDisponiblePorMenores(){
         return 2*this.getVulnerable().cantidadDeMenoresACargo();
     }

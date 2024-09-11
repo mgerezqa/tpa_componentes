@@ -30,7 +30,7 @@ public class Heladera {
     @Transient
     private EventManager eventManager;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
     private Ubicacion ubicacion;
 

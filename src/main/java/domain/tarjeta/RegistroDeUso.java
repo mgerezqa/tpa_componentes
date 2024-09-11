@@ -22,16 +22,16 @@ public class RegistroDeUso {
     @Column(name = "fecha_uso", nullable = false)
     private LocalDateTime fechaDeUso;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_heladera", nullable = false)
     private Heladera heladera; // La heladera donde se usó la tarjeta
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tarjeta", nullable = false)
     private Tarjeta tarjeta;  // Relación con la Tarjeta
 
-    public RegistroDeUso(LocalDateTime fechaDeUso, Heladera heladera, Tarjeta tarjeta) {
-        this.fechaDeUso = fechaDeUso;
+    public RegistroDeUso(Heladera heladera, Tarjeta tarjeta) {
+        this.fechaDeUso = LocalDateTime.now();
         this.heladera = heladera;
         this.tarjeta = tarjeta;
     }

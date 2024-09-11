@@ -19,10 +19,10 @@ public class OfertasTest implements WithSimplePersistenceUnit {
         OfertasTest instance = new OfertasTest();
         instance.repositorio = new Repositorio();
 
-        //instance.guardarOfertas();
+        instance.guardarOfertas();
         //instance.recuperarOfertas();
         //instance.recuperarOfertaPorId(2L);
-        instance.actualizarOferta(2L);
+        //instance.actualizarOferta(2L);
     }
 
     private void guardarOfertas() {

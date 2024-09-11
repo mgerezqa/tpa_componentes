@@ -23,8 +23,10 @@ public class ReceptorMov extends Receptor implements WithSimplePersistenceUnit {
         if(heladera.isPresent()){
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);
             Heladera heladeraEncontrada = (Heladera) heladera.get();
+            System.out.println(heladeraEncontrada);
             SensorMovimiento sensorMovimiento = new SensorMovimiento(heladeraEncontrada);
             sensorMovimiento.recibirMovimientoDetectado();
+            System.out.println(heladeraEncontrada);
             withTransaction(() -> {
                 repositorioHeladeras.actualizar(heladeraEncontrada);
             });

@@ -13,7 +13,7 @@ public class Temperatura {
     @Column(name = "temperatura")
     private Float temperatura;
 
-    @Column(name = "fechaYHora", columnDefinition = "DATE")
+    @Column(name = "fechaYHora", columnDefinition = "DATETIME")
     private LocalDateTime fechaYhora;
 
     // ============================================================ //

@@ -6,6 +6,8 @@ import domain.geografia.Calle;
 import domain.geografia.Localidad;
 import domain.geografia.Provincia;
 import domain.geografia.Ubicacion;
+import domain.heladera.Heladera.Heladera;
+import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
 import domain.tarjeta.RegistroDeUso;
@@ -14,6 +16,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,16 +40,25 @@ public class TarjetaPersonaVulnerableTest implements WithSimplePersistenceUnit {
             Localidad localidad = new Localidad("Andresito");
             Ubicacion ubicacion = new Ubicacion(15f,20f,calle);
             Documento documento = new Documento(TipoDocumento.DNI,"12345679");
-            Tarjeta tarjeta1 = new Tarjeta(persona);
+            List<Ubicacion> ubicaciones = new ArrayList<>();
+            ModeloDeHeladera modelo = new ModeloDeHeladera("XSS-283");
+            modelo.setTemperaturaMaxima(22f);
+            modelo.setTemperaturaMinima(-12f);
+            Heladera heladeraA = new Heladera(modelo, "medrano", ubicacion);
+
+            ubicaciones.add(ubicacion);
+            Tarjeta tarjeta1 = new Tarjeta();
+            tarjeta1.setVulnerable(persona);
+
             Persona menor = new Persona("miguel",4);
 
-            RegistroDeUso registroDeUso = new RegistroDeUso();
+            RegistroDeUso registroDeUso = new RegistroDeUso(heladeraA,tarjeta1);
 
             tarjeta1.usoDeTarjeta(registroDeUso);
             ubicacion.setProvincia(provincia);
             ubicacion.setLocalidad(localidad);
             persona.agregarMenorACargo(menor);
-            persona.setDomicilio(ubicacion);
+            persona.setDomicilios(ubicaciones);
             persona.setDocumento(documento);
 
             repositorio.guardar(tarjeta1);
