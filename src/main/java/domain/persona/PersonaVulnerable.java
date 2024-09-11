@@ -29,7 +29,7 @@ public class PersonaVulnerable {
     @Column(name = "fecha_registro", columnDefinition = "DATE")
     private LocalDate fechaRegitrado;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "domicilio_id")
     private List<Ubicacion> domicilios;
 

@@ -21,15 +21,15 @@ public class Suscripcion {
     @Transient
     private EventManager eventManager;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private ColaboradorFisico colaboradorFisico;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tipo_id", referencedColumnName = "id")
     private TipoDeSuscripcion tipoDeSuscripcion;
 

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,14 +24,13 @@ public class ColaboradorFisico extends Colaborador {
     @Column(name = "apellido", nullable = false)
     private String apellido;
 
-    @OneToMany
-    @JoinColumn(name = "vianda_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "colaboradorQueLaDono", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Vianda> viandasDonadas;
 
     @Transient
     private boolean notificacionRecibida;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "area_id")
     private AreaDeCobertura zona;
 
