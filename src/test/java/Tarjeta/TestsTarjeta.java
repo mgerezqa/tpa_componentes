@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TestsTarjeta {
     Tarjeta tarjeta;
@@ -45,7 +46,8 @@ public class TestsTarjeta {
         diego.agregarMenorACargo(miguel);
         diego.agregarMenorACargo(juan);
         diego.agregarMenorACargo(ken);
-        tarjeta = new Tarjeta(diego);
+        tarjeta = new Tarjeta();
+        tarjeta.setVulnerable(diego);
         ubicacionDeHeladera = new Ubicacion(522.00f,242.00f,new Calle("medrano","254"));
         modeloHeladera = new ModeloDeHeladera("Modelo XG-295");
         modeloHeladera.setTemperaturaMinima(tempMin);
@@ -73,8 +75,7 @@ public class TestsTarjeta {
     @Test
     @DisplayName("Se registra un nuevo registro al usar la tarjeta")
     void validarQueRegistroFueAgregadoAlUsarTarjeta() throws Exception{
-        RegistroDeUso nuevoRegistro = new RegistroDeUso();
-        nuevoRegistro.setHeladera(heladeraDeMedrano);
+        RegistroDeUso nuevoRegistro = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
         tarjeta.usoDeTarjeta(nuevoRegistro);
         Assertions.assertEquals(heladeraDeMedrano, tarjeta.getRegistros().get(0).getHeladera());
         Assertions.assertEquals(RegistroDeUso.class, tarjeta.getRegistros().get(0).getClass());
@@ -82,16 +83,14 @@ public class TestsTarjeta {
     @Test
     @DisplayName("Se aumenta la cantidadUsadaEnElDia porque se registro un nuevo uso de la tarjeta")
     void validarCantidadDisponibleSiSeUsoLaTarjeta() throws Exception{
-        RegistroDeUso nuevoRegistro = new RegistroDeUso();
-        nuevoRegistro.setHeladera(heladeraDeMedrano);
+        RegistroDeUso nuevoRegistro = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
         tarjeta.usoDeTarjeta(nuevoRegistro);
         Assertions.assertEquals(1,tarjeta.getCantidadUsadaEnElDia());
     }
     @Test
     @DisplayName("No se realizo correctamente el uso de la tarjeta, por falta de cantidad disponible")
     void validarExceptionPorNoDisponibilidadDeTarjeta(){
-        RegistroDeUso nuevoRegistro = new RegistroDeUso();
-        nuevoRegistro.setHeladera(heladeraDeMedrano);
+        RegistroDeUso nuevoRegistro = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
         tarjeta.setCantidadUsadaEnElDia(tarjeta.cantidadLimiteDisponiblePorDia());
         Exception exception = Assertions.assertThrows(Exception.class,()->{
             tarjeta.usoDeTarjeta(nuevoRegistro);
@@ -104,12 +103,9 @@ public class TestsTarjeta {
     @Test
     @DisplayName("Se valida que la cantidadUsadaEnElDia sea acorde con el numero de uso de la tarjeta")
     void validarCantidaUsadaEnElDiaConNumeroDeUsoDeTarjeta() throws Exception{
-        RegistroDeUso registro1 = new RegistroDeUso();
-        RegistroDeUso registro2 = new RegistroDeUso();
+        RegistroDeUso registro1 = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
+        RegistroDeUso registro2 = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
         RegistroDeUso registro3 = new RegistroDeUso();
-        registro1.setHeladera(heladeraDeMedrano);
-        registro2.setHeladera(heladeraDeMedrano);
-        registro3.setHeladera(heladeraDeMedrano);
         tarjeta.usoDeTarjeta(registro1);
         tarjeta.usoDeTarjeta(registro2);
         tarjeta.usoDeTarjeta(registro3);
@@ -118,12 +114,9 @@ public class TestsTarjeta {
     @Test
     @DisplayName("Se realizo correctamente el reseteo de la cantidadUsadaEnElDia a 0")
     void validarElResetDeLaCantidadUsadaEnElDia() throws Exception{
-        RegistroDeUso registro1 = new RegistroDeUso();
-        RegistroDeUso registro2 = new RegistroDeUso();
-        RegistroDeUso registro3 = new RegistroDeUso();
-        registro1.setHeladera(heladeraDeMedrano);
-        registro2.setHeladera(heladeraDeMedrano);
-        registro3.setHeladera(heladeraDeMedrano);
+        RegistroDeUso registro1 = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
+        RegistroDeUso registro2 = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
+        RegistroDeUso registro3 = new RegistroDeUso(LocalDateTime.now(), heladeraDeMedrano, tarjeta);
         tarjeta.usoDeTarjeta(registro1);
         tarjeta.usoDeTarjeta(registro2);
         tarjeta.usoDeTarjeta(registro3);

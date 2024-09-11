@@ -4,9 +4,11 @@ import domain.formulario.documentos.Cuil;
 import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.AreaDeCobertura;
+import domain.geografia.area.TamanioArea;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "tecnico")
+@Table(name = "tecnicos")
 public class Tecnico {
 
     @Id
@@ -26,23 +28,18 @@ public class Tecnico {
     @Column(name = "apellido", nullable = false)
     private String apellido;
 
-    @Transient
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "documento_id", referencedColumnName = "id")
+    @Embedded
     private Documento documento;
 
-    @Transient
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "cuil_id", referencedColumnName = "id")
+    @Embedded
     private Cuil cuil;
 
-    @Transient
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tecnico_id", referencedColumnName = "id")
     private List<MedioDeContacto> mediosDeContacto;
 
-    @Embedded
-    @Transient
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "area_de_cobertura_id")
     private AreaDeCobertura area;
 
     @Column(name = "activo")

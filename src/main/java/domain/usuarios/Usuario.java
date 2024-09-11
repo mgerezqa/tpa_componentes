@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
@@ -18,7 +18,7 @@ public class Usuario {
     private String nombreUsuario;
 
     @Column(name = "contrasenia")
-    private String contrasenia; //Se debe encriptar para más adelante
+    private String contrasenia;
 
     public Usuario(String nombreUsuario, String contrasenia) {
         this.nombreUsuario = nombreUsuario;

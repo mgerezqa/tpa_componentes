@@ -1,33 +1,36 @@
 package domain.formulario.documentos;
-
 import domain.excepciones.NumeroDeDocumentoInvalidoException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
-@Setter @Getter
-@Embeddable
+@Setter
+@Getter
 @NoArgsConstructor
+@Embeddable
 public class Documento {
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_documento")
-    private TipoDocumento tipo;
-    @Column(name = "numero_documento")
+
+    @Column(name = "numero_documento", nullable = false)
     private String numeroDeDocumento;
+
+    @Enumerated(EnumType.STRING)
+    private TipoDocumento tipo;
 
     public Documento(TipoDocumento tipo, String numeroDeDocumento) {
 
+        setNumeroDeDocumento(numeroDeDocumento);
+        this.tipo = tipo;
+    }
+
+    public void setNumeroDeDocumento(String numeroDeDocumento) {
         if (numeroDeDocumento.length() < 7 || numeroDeDocumento.length() > 9) {
             throw new NumeroDeDocumentoInvalidoException("El número de documento debe tener entre 7 y 9 caracteres.");
         }
-
-        this.tipo = tipo;
         this.numeroDeDocumento = numeroDeDocumento;
     }
 
 }
+
+

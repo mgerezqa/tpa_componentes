@@ -1,19 +1,19 @@
 package domain.geografia;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "localidad")
+@Getter
+@Setter
 @NoArgsConstructor
+@Embeddable
 public class Localidad {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = "localidad")
     private String localidad;
-
     public Localidad(String localidad) {
         this.localidad = localidad;
     }

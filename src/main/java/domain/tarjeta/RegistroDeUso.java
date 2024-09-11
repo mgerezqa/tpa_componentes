@@ -11,17 +11,28 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
-@Table(name = "registro_uso_tarjeta")
-public class RegistroDeUso { //Cuándo la usó, y en cuál heladera.
+@NoArgsConstructor
+@Table(name = "registro_de_uso")
+public class RegistroDeUso {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "registro_fecha_uso")
-    private LocalDateTime datetime;
-    @Transient
-    private Heladera heladera;
 
-    public RegistroDeUso(){
-        this.datetime = LocalDateTime.now();
+    @Column(name = "fecha_uso", nullable = false)
+    private LocalDateTime fechaDeUso;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_heladera", nullable = false)
+    private Heladera heladera; // La heladera donde se usó la tarjeta
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_tarjeta", nullable = false)
+    private Tarjeta tarjeta;  // Relación con la Tarjeta
+
+    public RegistroDeUso(LocalDateTime fechaDeUso, Heladera heladera, Tarjeta tarjeta) {
+        this.fechaDeUso = fechaDeUso;
+        this.heladera = heladera;
+        this.tarjeta = tarjeta;
     }
 }

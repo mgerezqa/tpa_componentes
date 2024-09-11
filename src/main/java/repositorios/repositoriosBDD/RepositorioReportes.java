@@ -1,4 +1,4 @@
-package repositorios.reposEnMemoria;
+package repositorios.repositoriosBDD;
 
 import domain.reportes.Reporte;
 import repositorios.interfaces.IRepositorioReportes;

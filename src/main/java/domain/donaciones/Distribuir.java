@@ -2,30 +2,56 @@ package domain.donaciones;
 
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-public class Distribuir  {
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "donaciones_distribuir")
+public class Distribuir {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "heladera_origen_id", nullable = false)
     private Heladera heladeraOrigen;
+
+    @ManyToOne
+    @JoinColumn(name = "heladera_destino_id", nullable = false)
     private Heladera heladeraDestino;
-    @Getter private Integer cantidad;
+
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "motivo", nullable = false)
     private Motivo motivo;
+
+    @Column(name = "fecha_donacion", nullable = false)
     private LocalDate fechaDeDonacion;
-    @Getter ColaboradorFisico colaboradorQueLaDono;
 
+    @ManyToOne
+    @JoinColumn(name = "colaborador_id", nullable = false)
+    private ColaboradorFisico colaboradorQueLaDono;
 
-
-    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, Motivo motivo, LocalDate fechaDeDonacion, ColaboradorFisico colaboradorQuelaDono){
+    public Distribuir(Long id, Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, LocalDate fechaDeDonacion, Motivo motivo, ColaboradorFisico colaboradorQueLaDono) {
+        this.id = id;
         this.heladeraOrigen = heladeraOrigen;
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
-        this.motivo = motivo;
         this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQuelaDono;
-
-
+        this.motivo = motivo;
+        this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
-
-
 }

@@ -1,4 +1,4 @@
-package utils.zCronjobVerificadorTemperaturas;
+package main_tests.cron_verificador_temperaturas;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
@@ -90,6 +90,5 @@ public class TemperaturasSetUp {
             e.printStackTrace();
         }
     }
-
 
 }

@@ -2,6 +2,7 @@ package domain.tarjeta;
 
 import domain.excepciones.CantidadDisponibleLimitePorDiaException;
 import domain.persona.PersonaVulnerable;
+import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,17 +16,22 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table (name = "tarjeta_persona_vulnerable")
+@Table (name = "tarjetas")
 @NoArgsConstructor
 public class Tarjeta {
     @Id
     @GeneratedValue(generator = "uuid-generator")
-    @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.generadorUUID")
+    @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.GeneradorUUID")
+    @Column(name = "codigo_identificador", unique = true, nullable = false, length = 11)
     private String codigoIdentificador;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona_vulnerable", referencedColumnName = "id")
-    private PersonaVulnerable titular;
+    @JoinColumn(name = "id_persona_vulnerable")
+    private PersonaVulnerable vulnerable;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "colaborador_id")
+    private ColaboradorFisico colaborador;
 
     private static Integer cantidadDisponiblePorDefecto = 4;
 
@@ -35,37 +41,43 @@ public class Tarjeta {
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tarjeta")
     private List<RegistroDeUso> registros;
-    @Column(name = "fecha_inicio_funcionamiento")
+
+    @Column(name = "fecha_inicio_funcionamiento",columnDefinition = "DATETIME")
     private LocalDateTime fechaInicioDeFuncionamiento;
 
-    public Tarjeta(PersonaVulnerable titular){
+    /*    public Tarjeta(PersonaVulnerable titular){
         this.titular = titular;
         this.cantidadUsadaEnElDia = 0;
         this.registros = new ArrayList<>();
         this.fechaInicioDeFuncionamiento = LocalDateTime.now();
-    }
+    }*/
     public int cantidadDisponiblePorMenores(){
-        return 2*this.getTitular().cantidadDeMenoresACargo();
+        return 2*this.getVulnerable().cantidadDeMenoresACargo();
     }
+
     public int cantidadLimiteDisponiblePorDia(){
         return cantidadDisponiblePorDefecto + this.cantidadDisponiblePorMenores();
     }
+
     public boolean tieneCantidadDisponible(){
-           return this.getCantidadUsadaEnElDia() < this.cantidadLimiteDisponiblePorDia();
+        return this.getCantidadUsadaEnElDia() < this.cantidadLimiteDisponiblePorDia();
     }
+
     public void agregarRegistroDeUso(RegistroDeUso nuevoRegistro){
         this.getRegistros().add(nuevoRegistro);
     }
+
     public void aumentarCantidadDeUsoEnElDia() {
         this.setCantidadUsadaEnElDia(this.getCantidadUsadaEnElDia() + 1);
     }
+
     public void usoDeTarjeta(RegistroDeUso nuevoRegistro){
-            if(this.tieneCantidadDisponible()){
-                this.aumentarCantidadDeUsoEnElDia();
-                this.agregarRegistroDeUso(nuevoRegistro);
-            }else{
-                throw new CantidadDisponibleLimitePorDiaException("No hay más cantidad disponible por hoy!");
-            }
+        if(this.tieneCantidadDisponible()){
+            this.aumentarCantidadDeUsoEnElDia();
+            this.agregarRegistroDeUso(nuevoRegistro);
+        }else{
+            throw new CantidadDisponibleLimitePorDiaException("No hay más cantidad disponible por hoy!");
+        }
     }
     public void resetCantidadUsadaEnElDia(){
         this.setCantidadUsadaEnElDia(0);

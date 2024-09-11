@@ -3,7 +3,7 @@ package utils.reportador;
 import domain.heladera.Heladera.Heladera;
 import domain.reportes.Reporte;
 import domain.usuarios.ColaboradorFisico;
-import repositorios.reposEnMemoria.RepositorioReportes;
+import repositorios.repositoriosBDD.RepositorioReportes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,9 +50,9 @@ public class Reportador {
         return reporteViandas;
     }
 
-    public Map<Long, Integer> generarReporteViandasPorColaborador(ColaboradorFisico colaborador){
-        Map<Long, Integer> reporteViandasColaboradas = new HashMap<>();
-        reporteViandasColaboradas.put(colaborador.getId(), colaborador.getViandasDonadas().size());
+    public Map<String, Integer> generarReporteViandasPorColaborador(ColaboradorFisico colaborador){
+        Map<String, Integer> reporteViandasColaboradas = new HashMap<>();
+        reporteViandasColaboradas.put(String.valueOf(colaborador.getId()), colaborador.getViandasDonadas().size());
         return reporteViandasColaboradas;
     }
 }

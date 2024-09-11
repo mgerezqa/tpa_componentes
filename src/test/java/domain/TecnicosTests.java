@@ -40,7 +40,7 @@ public class TecnicosTests {
 
     @Test
     public void modificarTecnico(){
-        Whatsapp whatsapp = new Whatsapp("+541161964087");
+        Whatsapp whatsapp = new Whatsapp("+5491161964086");
         tecnico.agregarMedioDeContacto(whatsapp);
         Assertions.assertEquals(1,(tecnico.getMediosDeContacto().size()));
 

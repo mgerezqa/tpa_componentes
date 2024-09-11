@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class PuntosTests {
-
+    private Long id;
     private CalculadoraPuntos calculadoraPuntos;
     private ColaboradorFisico lalo;
     private ColaboradorJuridico restaurant;
@@ -52,6 +52,8 @@ public class PuntosTests {
         this.laloEmail = mock(Email.class);
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
         this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
+
+        this.id = 564564L;
 
         this.ubicacion = new Ubicacion(-54F, -48F, new Calle("Av. Rivadavia", "1234"));
         this.modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
@@ -92,7 +94,7 @@ public class PuntosTests {
     @DisplayName("Controlar puntos que se otorgan")
     public void controlCalculosPuntos() {
         Dinero donacion = new Dinero(4000, FrecuenciaDeDonacion.FRECUENCIA_ANUAL, LocalDate.now(), lalo);
-        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10, Motivo.FALTA_DE_VIANDAS, LocalDate.now(),lalo);
+        Distribuir distribucionViandas = new Distribuir(id, heladeraMedrano, heladeraPalermo,10,LocalDate.now(),Motivo.FALTA_DE_VIANDAS,lalo);
         MantenerHeladera mantenerHeladera = new MantenerHeladera(heladeraMedrano, LocalDate.now().minusMonths(3), restaurant);
 
         assertEquals(2000, calculadoraPuntos.puntosPesosDonados(donacion));
@@ -122,7 +124,7 @@ public class PuntosTests {
     @Test
     @DisplayName("Se otorga puntos por viandas distribuidas")
     public void puntosDistribuirViandas() {
-        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10, Motivo.FALTA_DE_VIANDAS, LocalDate.now(),lalo);
+        Distribuir distribucionViandas = new Distribuir(id, heladeraMedrano, heladeraPalermo,10,LocalDate.now(),Motivo.FALTA_DE_VIANDAS, lalo);
         int puntos = calculadoraPuntos.puntosViandasDistribuidas(distribucionViandas);
         lalo.sumarPuntos(puntos);
 
@@ -144,8 +146,8 @@ public class PuntosTests {
     @DisplayName("Se otorga puntos por tarjetas repartidas")
     public void donacionTarjetas() {
 
-        Tarjeta tarjetaPablo = new Tarjeta(new PersonaVulnerable("Pablo", LocalDate.parse("2023-01-01")));
-        Tarjeta tarjetaMarcos = new Tarjeta(new PersonaVulnerable("Marcos", LocalDate.parse("2024-01-01")));
+        Tarjeta tarjetaPablo = new Tarjeta();
+        Tarjeta tarjetaMarcos = new Tarjeta();
         RegistroDePersonaVulnerable entregaTarjetaPablo = new RegistroDePersonaVulnerable(lalo, tarjetaPablo);
         RegistroDePersonaVulnerable entregaTarjetaMarcos = new RegistroDePersonaVulnerable(lalo, tarjetaMarcos);
 

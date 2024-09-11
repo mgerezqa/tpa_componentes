@@ -3,7 +3,9 @@ import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Tecnico;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +14,8 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo")
+@DiscriminatorColumn(name = "tipo_incidente")
+@Table(name = "incidentes")
 public abstract class Incidente {
 
     @Id
@@ -27,7 +30,7 @@ public abstract class Incidente {
     private LocalDateTime fechaYHora;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_tecnicoAsig", referencedColumnName = "id")
+    @JoinColumn(name = "tecnicoAsig_id", referencedColumnName = "id", nullable = false)
     private Tecnico tecnicoAsignado;
 
     public Incidente(Heladera heladera) {

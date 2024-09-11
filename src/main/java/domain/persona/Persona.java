@@ -9,15 +9,17 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "persona")
+@Table(name = "personas")
 @NoArgsConstructor
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nombre", nullable = false)
+
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name = "edad", nullable = false)
+
+    @Column(name = "edad")
     private Integer edad;
     public Persona(String nombre, Integer edad){
         this.nombre = nombre;

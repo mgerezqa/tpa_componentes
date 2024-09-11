@@ -3,15 +3,22 @@ package domain.contacto;
 import domain.heladera.Heladera.Heladera;
 import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@NoArgsConstructor
+@Getter
+@Entity
+@DiscriminatorValue("whatsapp")
 public class Whatsapp extends Telefono{
 
     public Whatsapp(String numero){
         this.setNumero(numero);
         validarNumero(numero);
     }
-
-
 
     private void validarNumero(String numero) {
         if (numero == null) {
@@ -26,7 +33,6 @@ public class Whatsapp extends Telefono{
             throw new IllegalArgumentException("El número debe tener entre 13 y 14 caracteres");
         }
     }
-
 
     @Override
     public String tipoMedioDeContacto() {

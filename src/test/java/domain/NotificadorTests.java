@@ -86,10 +86,10 @@ public class NotificadorTests {
 
         this.tecnico = new Tecnico("Juan", "Perez", mock(Documento.class), mock(Cuil.class));
         //Medios de contacto
-        //this.laloEmail =  new Email("mingerez@gmail.com");
+        this.laloEmail =  new Email("NOT@gmail.com");
 //        this.laloTelegram = new Telegram("melli11ok");
-        //this.laloTelegram = new Telegram("MgerezUserTest1108");
-        //this.laloWhatsapp = new Whatsapp("+549116574460");
+        this.laloTelegram = new Telegram("NOT");
+        this.laloWhatsapp = new Whatsapp("+5491161964086");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
 
         this.lalo.agregarMedioDeContacto(laloEmail);
@@ -129,7 +129,7 @@ public class NotificadorTests {
 
         //Alerta
         alertaTemperatura = IncidenteFactory.crearAlerta(heladera,"falla_temperatura");
-        alertaTemperatura.setId("02");
+        alertaTemperatura.setId(02l);
 
         //Usuario
         usuario = mock(Usuario.class);
@@ -140,7 +140,7 @@ public class NotificadorTests {
         dtoFallaTecnica.setNombreUsuario("Homer");
         fallaTecnica = IncidenteFactory.crearFallaTecnica(dtoFallaTecnica,heladera,usuario);
         fallaTecnica.setFechaYHora(LocalDateTime.now());
-        fallaTecnica.setId("01");
+        fallaTecnica.setId(01l);
 
     }
 

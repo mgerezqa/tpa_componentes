@@ -5,24 +5,33 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Setter
 @Getter
-@Embeddable
-@NoArgsConstructor
+@Entity
+@Table(name = "ubicaciones")
 public class Ubicacion {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "latitud", nullable = false)
     private Float latitud;
 
     @Column(name = "longitud", nullable = false)
     private Float longitud;
+
     @Embedded
     private Calle calle;
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_provincia", referencedColumnName = "id")
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "provincia_id")
     private Provincia provincia;
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_localidad", referencedColumnName = "id")
+
+    @Embedded
     private Localidad localidad;
+
     @Embedded
     private Barrio barrio;
 
@@ -68,7 +77,4 @@ public class Ubicacion {
         this.localidad = localidad;
         this.barrio = barrio;
     }
-
-
-
 }

@@ -1,19 +1,29 @@
 package domain.usuarios;
+
 import domain.contacto.MedioDeContacto;
+import domain.formulario.Formulario;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.swing.border.EmptyBorder;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 // USE ESTA STRATEGY Y NO MAPPED SUPERCLASS, SOLO POR SI ES NECESARIO "RECUPERAR" A TODOS LOS COLABORADORES!
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Colaborador {
+public abstract class  Colaborador {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
-    @Transient
-    @JoinColumn(name = "medioDeContacto_id", referencedColumnName = "id")
+
+    @OneToMany
+    @JoinColumn(name = "medioDeContacto_id")
     protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
 
     @Column(name = "activo")

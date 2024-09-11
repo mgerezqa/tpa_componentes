@@ -6,15 +6,16 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 
 @Setter
 @Getter
-@Embeddable
 @NoArgsConstructor
+@Embeddable
 public class Calle {
-    @Column(name = "nombre_calle")
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name = "altura_calle")
+    @Column(name = "altura")
     private String altura;
 
     public Calle(String calle, String altura) {

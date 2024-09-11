@@ -12,23 +12,30 @@ import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
-@Entity
-@Table (name = "persona_vulnerable")
 @NoArgsConstructor
+@Entity
+@Table (name = "personas_vulnerables")
 public class PersonaVulnerable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "nombre")
     private String nombre;
+
     @Column(name = "fecha_nacimiento",columnDefinition = "DATE")
     private LocalDate fechaNacimiento;
+
     @Column(name = "fecha_registro", columnDefinition = "DATE")
     private LocalDate fechaRegitrado;
-    @Embedded
-    private Ubicacion domicilio;
+
+    @OneToMany
+    @JoinColumn(name = "domicilio_id")
+    private List<Ubicacion> domicilios;
+
     @Embedded
     private Documento documento;
+
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_persona_vulnerable")
     private List<Persona> menoresACargo;

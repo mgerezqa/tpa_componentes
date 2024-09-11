@@ -1,6 +1,5 @@
-package repositorios.reposEnMemoria;
+package repositorios.repositoriosBDD;
 
-import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.SolicitudApertura;
 import repositorios.interfaces.IRepositorioSolicitudApertura;
 

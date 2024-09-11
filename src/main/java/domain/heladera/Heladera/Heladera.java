@@ -7,7 +7,9 @@ import domain.incidentes.Incidente;
 import domain.suscripciones.EventManager;
 import domain.temperatura.Temperatura;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,9 +30,8 @@ public class Heladera {
     @Transient
     private EventManager eventManager;
 
-    //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    //@JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
-    @Embedded
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
     private Ubicacion ubicacion;
 
     @Column(name = "nombre", nullable = false)
@@ -58,13 +59,15 @@ public class Heladera {
     @Transient
     private SensorTemperatura sensorTemperatura;
 
-    @Transient
+    @ElementCollection
+    @CollectionTable(name = "historial_estados_heladeras", joinColumns = @JoinColumn(name = "heladera_id"))
+    @Column(name = "historial_heladera")
     private List<String> historialDeEstados;
 
     @Embedded
     public Temperatura ultimaTemperaturaRegistrada;
 
-    @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public List<Incidente> incidentes;
 
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
@@ -195,3 +198,4 @@ public class Heladera {
 
 
 }
+

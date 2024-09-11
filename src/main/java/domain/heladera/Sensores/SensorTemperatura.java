@@ -1,16 +1,22 @@
 package domain.heladera.Sensores;
 import domain.heladera.Heladera.Heladera;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Setter @Getter
+@Data
+@NoArgsConstructor
 public class SensorTemperatura {
 
     private Heladera heladera;
+
     private Float temperaturaMax;
+
     private Float temperaturaMin;
 
     public SensorTemperatura(Heladera heladera) {

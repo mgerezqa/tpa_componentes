@@ -15,23 +15,30 @@ import java.util.Set;
 
 @NoArgsConstructor
 @Data
-@Embeddable
+@Entity
+@Table(name = "areas_de_cobertura")
 public class AreaDeCobertura {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ubicacion_id")
     private Ubicacion ubicacionPrincipal;
 
     @Enumerated(EnumType.STRING)
     private TamanioArea tamanioArea;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "id_provincia", referencedColumnName = "id", nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
-    @Transient
+    @ElementCollection
+    @CollectionTable(name = "area_localidades", joinColumns = @JoinColumn(name = "area_de_cobertura_id"))
     private Set<Localidad> localidades = new HashSet<>();
-    @Transient
+
+    @ElementCollection
+    @CollectionTable(name = "area_barrios", joinColumns = @JoinColumn(name = "area_de_cobertura_id"))
     private Set<Barrio> barrios = new HashSet<>();
 
     public AreaDeCobertura(Ubicacion ubicacionPrincipal, TamanioArea tamanioArea) {

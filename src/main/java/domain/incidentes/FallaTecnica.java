@@ -1,20 +1,19 @@
 package domain.incidentes;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Usuario;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @Entity
-@DiscriminatorValue("FALLA-TECNICA")
+@DiscriminatorValue("falla_tecnica")
 public class FallaTecnica extends Incidente {
 
-    @Transient
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario reportadoPor;
 
     @Column(name = "descripcion")
