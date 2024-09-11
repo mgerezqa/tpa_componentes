@@ -13,11 +13,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @Entity
 @Table (name = "tarjetas")
-@NoArgsConstructor
 public class Tarjeta {
     @Id
     @GeneratedValue(generator = "uuid-generator")
@@ -40,10 +39,15 @@ public class Tarjeta {
 
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tarjeta")
-    private List<RegistroDeUso> registros; //Debe quedar registrado, cuándo la usó, y en cuál heladera.
+    private List<RegistroDeUso> registros;//Debe quedar registrado, cuándo la usó, y en cuál heladera.
 
     @Column(name = "fecha_inicio_funcionamiento")
     private LocalDateTime fechaInicioDeFuncionamiento;
+
+    public Tarjeta() {
+        this.cantidadUsadaEnElDia = 0;
+        this.registros = new ArrayList<>();
+    }
 
     public int cantidadDisponiblePorMenores(){
         return 2*this.getVulnerable().cantidadDeMenoresACargo();
@@ -76,4 +80,5 @@ public class Tarjeta {
     public void resetCantidadUsadaEnElDia(){
         this.setCantidadUsadaEnElDia(0);
     }
+
 }

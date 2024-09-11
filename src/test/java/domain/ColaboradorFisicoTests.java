@@ -27,7 +27,7 @@ public class ColaboradorFisicoTests {
     public void setUp() {
         //Medios de contacto
         this.laloEmail = new Email("NOT@gmail.com");
-        this.laloTelefono = new Telegram("NOT");
+        this.laloTelefono = new Telegram("NOTAR");
         this.laloWhatsapp = new Whatsapp("+5491161964086");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
         this.formulario = new FormularioColaboradorFisico("Lalo", "Menz");
@@ -55,46 +55,46 @@ public class ColaboradorFisicoTests {
         }
 
 
-    @Test
-    @DisplayName("Tiene un nombre,apellido y al menos un medio de contacto ")
-    public  void testCrearColaborador(){
-        assertEquals("Lalo",lalo.getNombre());
-        assertEquals("Menz",lalo.getApellido());
-        lalo.agregarMedioDeContacto(laloTelefono);
-        assertEquals(1,lalo.getMediosDeContacto().size());
+        @Test
+        @DisplayName("Tiene un nombre,apellido y al menos un medio de contacto ")
+        public  void testCrearColaborador(){
+            assertEquals("Lalo",lalo.getNombre());
+            assertEquals("Menz",lalo.getApellido());
+            lalo.agregarMedioDeContacto(laloTelefono);
+            assertEquals(1,lalo.getMediosDeContacto().size());
 
-    }
+        }
 
-    @Test
-    @DisplayName("Puede ser dado de baja ")
-    public  void testBajaColaborador(){
-        lalo.darDeBaja();
-        assertEquals(false,lalo.getActivo());
-    }
+        @Test
+        @DisplayName("Puede ser dado de baja ")
+        public  void testBajaColaborador(){
+            lalo.darDeBaja();
+            assertEquals(false,lalo.getActivo());
+        }
 
-    @Test
-    @DisplayName("Puede ser dado de alta ")
-    public  void testAltaColaborador(){
+        @Test
+        @DisplayName("Puede ser dado de alta ")
+        public  void testAltaColaborador(){
         assertEquals(true,lalo.getActivo());
-    }
+        }
 
-    @Test
-    @DisplayName("Puede ser dado de baja y luego de alta ")
-    public  void testBajaYAltaColaborador(){
-        lalo.darDeBaja();
-        assertEquals(false,lalo.getActivo());
-        lalo.darDeAlta();
-        assertEquals(true,lalo.getActivo());
-    }
+        @Test
+        @DisplayName("Puede ser dado de baja y luego de alta ")
+        public  void testBajaYAltaColaborador(){
+            lalo.darDeBaja();
+            assertEquals(false,lalo.getActivo());
+            lalo.darDeAlta();
+            assertEquals(true,lalo.getActivo());
+        }
 
 
-    @Test
-    @DisplayName("Puede modificarse su informacion")
-    public void modificarColaborador(){
-        lalo.setNombre("Lalo Modificado");
-        lalo.setApellido("Menz Modificado");
-        assertEquals("Lalo Modificado",lalo.getNombre());
-        assertEquals("Menz Modificado",lalo.getApellido());
-    }
+        @Test
+        @DisplayName("Puede modificarse su informacion")
+        public void modificarColaborador(){
+            lalo.setNombre("Lalo Modificado");
+            lalo.setApellido("Menz Modificado");
+            assertEquals("Lalo Modificado",lalo.getNombre());
+            assertEquals("Menz Modificado",lalo.getApellido());
+        }
 
 }

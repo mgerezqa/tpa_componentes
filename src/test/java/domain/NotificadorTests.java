@@ -88,7 +88,7 @@ public class NotificadorTests {
         //Medios de contacto
         this.laloEmail =  new Email("NOT@gmail.com");
 //        this.laloTelegram = new Telegram("melli11ok");
-        this.laloTelegram = new Telegram("NOT");
+        this.laloTelegram = new Telegram("NOTAR");
         this.laloWhatsapp = new Whatsapp("+5491161964086");
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
 

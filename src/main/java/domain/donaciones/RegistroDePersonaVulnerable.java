@@ -29,4 +29,8 @@ public class RegistroDePersonaVulnerable {
     @JoinColumn(name = "tarjeta_uuid")
     private Tarjeta tarjeta;
 
+    public RegistroDePersonaVulnerable(ColaboradorFisico colaborador, Tarjeta tarjeta) {
+        this.colaborador = colaborador;
+        this.tarjeta = tarjeta;
+    }
 }
