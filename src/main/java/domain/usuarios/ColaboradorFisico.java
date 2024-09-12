@@ -34,7 +34,9 @@ public class ColaboradorFisico extends Colaborador {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "area_id")
     private AreaDeCobertura zona;
-
+    // ============================================================ //
+    // Constructor //
+    // ============================================================ //
     public ColaboradorFisico(String nombre, String apellido){
         this.notificacionRecibida = false;
         this.nombre = nombre;

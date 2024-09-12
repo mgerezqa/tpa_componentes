@@ -21,17 +21,17 @@ public class SolicitudApertura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fecha_inicio", columnDefinition = "DATE")
+    @Column(name = "fecha_inicio", columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraInicio;
 
     @Column(name = "detalle")
     private String detalle;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "colaborador_id")
     private Colaborador colaborador;
 
-    @Column(name = "fecha_concrecion")
+    @Column(name = "fecha_concrecion",columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraConcretado;
 
     @Transient

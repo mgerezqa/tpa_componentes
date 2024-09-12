@@ -1,8 +1,6 @@
 package domain.temperatura;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +13,7 @@ public class Temperatura {
     @Column(name = "temperatura")
     private Float temperatura;
 
-    @Column(name = "fechaYHora", columnDefinition = "DATE")
+    @Column(name = "fechaYHora", columnDefinition = "DATETIME")
     private LocalDateTime fechaYhora;
 
     // ============================================================ //

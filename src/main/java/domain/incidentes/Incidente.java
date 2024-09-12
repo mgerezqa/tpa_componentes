@@ -22,15 +22,15 @@ public abstract class Incidente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "heladera_id", referencedColumnName = "id", nullable = false)
     private Heladera heladera;
 
-    @Column(name = "fechaYHora", columnDefinition = "DATE")
+    @Column(name = "fechaYHora", columnDefinition = "DATETIME")
     private LocalDateTime fechaYHora;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "tecnicoAsig_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "tecnicoAsig_id", referencedColumnName = "id")
     private Tecnico tecnicoAsignado;
 
     public Incidente(Heladera heladera) {

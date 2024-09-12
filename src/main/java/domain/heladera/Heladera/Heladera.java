@@ -30,7 +30,7 @@ public class Heladera {
     @Transient
     private EventManager eventManager;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "ubicacion_id", referencedColumnName = "id", nullable = false)
     private Ubicacion ubicacion;
 
@@ -49,8 +49,8 @@ public class Heladera {
     @Enumerated(EnumType.STRING)
     private EstadoHeladera estadoHeladera;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "modeloDeHeladera_id", nullable = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "modeloDeHeladera_id", referencedColumnName = "id", nullable = false)
     private ModeloDeHeladera modelo;
 
     @Transient
@@ -70,8 +70,8 @@ public class Heladera {
     @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public List<Incidente> incidentes;
 
-    @OneToMany
-    @JoinColumn(name = "solicitud_id")
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_heladera")
     private List<SolicitudApertura> solicitudesPendientes;
 
     // ============================================================ //

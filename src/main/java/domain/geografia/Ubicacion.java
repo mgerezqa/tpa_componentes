@@ -25,7 +25,7 @@ public class Ubicacion {
     @Embedded
     private Calle calle;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 

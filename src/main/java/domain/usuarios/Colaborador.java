@@ -1,4 +1,5 @@
 package domain.usuarios;
+
 import domain.contacto.MedioDeContacto;
 import domain.formulario.Formulario;
 import lombok.Data;

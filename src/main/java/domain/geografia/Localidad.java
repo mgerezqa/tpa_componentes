@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Embeddable
 public class Localidad {
-    @Column
+    @Column(name = "localidad")
     private String localidad;
     public Localidad(String localidad) {
         this.localidad = localidad;

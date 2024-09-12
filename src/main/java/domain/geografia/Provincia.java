@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "provincias")
 public class Provincia {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

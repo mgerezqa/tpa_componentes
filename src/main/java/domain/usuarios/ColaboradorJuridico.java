@@ -1,8 +1,4 @@
 package domain.usuarios;
-import domain.contacto.MedioDeContacto;
-import domain.formulario.Campo;
-import domain.formulario.eTipoCampo;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,6 +39,6 @@ public class ColaboradorJuridico extends Colaborador{
 
     }
 
-    }
+}
 
 

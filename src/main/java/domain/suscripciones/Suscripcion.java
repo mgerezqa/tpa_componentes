@@ -45,8 +45,4 @@ public class Suscripcion {
         this.eventManager = heladera.getEventManager();
         this.eventManager.suscribe(this);
     }
-
-
-
-
 }

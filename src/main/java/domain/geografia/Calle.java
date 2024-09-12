@@ -13,9 +13,9 @@ import javax.persistence.Embedded;
 @NoArgsConstructor
 @Embeddable
 public class Calle {
-    @Column
+    @Column(name = "nombre")
     private String nombre;
-    @Column
+    @Column(name = "altura")
     private String altura;
 
     public Calle(String calle, String altura) {

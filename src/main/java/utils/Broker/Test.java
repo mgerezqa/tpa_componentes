@@ -5,10 +5,9 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
-import domain.heladera.Sensores.SensorMovimiento;
-import domain.heladera.Sensores.SensorTemperatura;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
-import repositorios.repositoriosBDD.RepositorioHeladeras;
+import repositorios.Repositorio;
 import utils.Broker.receptors.ReceptorMov;
 import utils.Broker.receptors.ReceptorTemp;
 
@@ -18,43 +17,40 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class Test {
+public class Test implements WithSimplePersistenceUnit {
+    ModeloDeHeladera modeloHeladera;
+    Ubicacion ubicacion;
+    Repositorio repositorio;
+    Heladera heladera;
     public static void main(String[] args) {
-        SensorMovimiento sensorMovimiento;
-        SensorTemperatura sensorTemperatura;
-        ModeloDeHeladera modeloHeladera;
-        Ubicacion ubicacion;
-        RepositorioHeladeras repositorioHeladeras;
-        Heladera heladera;
-
+        Test instance = new Test();
         //Configuración de repositorios,heladera, etc.
-        repositorioHeladeras = new RepositorioHeladeras();
+        instance.repositorio = new Repositorio();
+        instance.init();
+    }
+    void init(){
         modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
         ubicacion = new Ubicacion(-34.5986317f,-58.4212435f,new Calle("Av Medrano", "951"));
         heladera = new Heladera(modeloHeladera,"Medrano",ubicacion);
+
         heladera.darDeAltaHeladera();
         modeloHeladera.setTemperaturaMaxima(60.4f);
         modeloHeladera.setTemperaturaMinima(80.4f);
-        sensorMovimiento = new SensorMovimiento(heladera);
-        heladera.setSensorMovimiento(sensorMovimiento);
-        sensorTemperatura = new SensorTemperatura(heladera);
-        heladera.setSensorTemperatura(sensorTemperatura);
-        //heladera.setId(10); //Seteo el id ya que la persistencia es en memoria.
-        repositorioHeladeras.guardar(heladera);
+
+        withTransaction(() -> {
+            repositorio.guardar(heladera);
+        });
+
         //Configuración de conexión con el broker, topics.
         String topic1 = "dds2024/heladera/movimiento";
         String topic2 = "dds2024/heladera/temperatura";
         String broker = "tcp://freemqttbroker.sfodo.crystalmq.com:1883";
-        IMqttMessageListener receptor1 = new ReceptorMov(repositorioHeladeras);
-        IMqttMessageListener receptor2 = new ReceptorTemp(repositorioHeladeras);
-
-        //Acceso al config para traer las credentials, martin realizo algo, ver.
+        IMqttMessageListener receptor1 = new ReceptorMov(repositorio);
+        IMqttMessageListener receptor2 = new ReceptorTemp(repositorio);
 
         Config config = Config.getInstance();
         ClientCredentials credentials = new ClientCredentials(config.getProperty("broker.clientID"),config.getProperty("broker.clientUsername"),config.getProperty("broker.clientPassword"));
         IServiceBroker serviceBroker = new ServiceBroker(broker,credentials);
-
-        String msg1 = "{'id': 10}";
 
         serviceBroker.init();
 
@@ -72,13 +68,13 @@ public class Test {
                 float max = 90f;
                 Random random = new Random();
                 float temperature = min + (max - min) * random.nextFloat();
-                String msg2 = String.format(Locale.US,"{'id':10,'temp':%.2f}",temperature);
-                serviceBroker.publishMessage(topic2, msg2);
+                String msg1 = "{'id': 1}";
+                String msg2 = String.format(Locale.US,"{'id':1,'temp':%.2f}",temperature);
                 serviceBroker.publishMessage(topic1, msg1);
-                //System.out.println(heladera.getIncidentes());
-                System.out.println(heladera.getUltimaTemperaturaRegistrada());
+                serviceBroker.publishMessage(topic2, msg2);
             }
         };
         timer.scheduleAtFixedRate(task, delay, intervalPeriod);
     }
+
 }

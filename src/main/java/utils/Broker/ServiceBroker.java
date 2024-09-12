@@ -5,19 +5,18 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import utils.Broker.receptors.ReceptorTemp;
 
 public class ServiceBroker implements IServiceBroker {
-    String broker;
-    String clientId;
-    Integer qos = 1;
-    Boolean retain = false;
-    MemoryPersistence persistence;
-    MqttClient sampleClient;
-    MqttConnectOptions connOpts;
-    Boolean AUTH = true;
-    String username;
-    String password;
+    private String broker;
+    private String clientId;
+    private Integer qos = 1;
+    private Boolean retain = false;
+    private MemoryPersistence persistence;
+    private MqttClient sampleClient;
+    private MqttConnectOptions connOpts;
+    private Boolean AUTH = true;
+    private String username;
+    private String password;
 
 
     public ServiceBroker(String broker, ClientCredentials credentials) {
