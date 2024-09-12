@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @Entity
 @Table (name = "tarjetas")
 public class Tarjeta {
@@ -22,7 +22,7 @@ public class Tarjeta {
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.GeneradorUUID")
     @Column(name = "codigo_identificador", unique = true, nullable = false, length = 11)
-    private String codigoIdentificador;
+    private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_persona_vulnerable")
@@ -39,16 +39,16 @@ public class Tarjeta {
 
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tarjeta")
-    private List<RegistroDeUso> registros;
+    private List<RegistroDeUso> registros;//Debe quedar registrado, cuándo la usó, y en cuál heladera.
 
-    @Column(name = "fecha_inicio_funcionamiento",columnDefinition = "DATETIME")
+    @Column(name = "fecha_inicio_funcionamiento")
     private LocalDateTime fechaInicioDeFuncionamiento;
 
-    public Tarjeta(){
+    public Tarjeta() {
         this.cantidadUsadaEnElDia = 0;
         this.registros = new ArrayList<>();
-        this.fechaInicioDeFuncionamiento = LocalDateTime.now();
     }
+
     public int cantidadDisponiblePorMenores(){
         return 2*this.getVulnerable().cantidadDeMenoresACargo();
     }
@@ -80,4 +80,5 @@ public class Tarjeta {
     public void resetCantidadUsadaEnElDia(){
         this.setCantidadUsadaEnElDia(0);
     }
+
 }
