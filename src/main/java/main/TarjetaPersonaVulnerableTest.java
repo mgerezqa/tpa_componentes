@@ -16,6 +16,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class TarjetaPersonaVulnerableTest implements WithSimplePersistenceUnit {
 
             Persona menor = new Persona("miguel",4);
 
-            RegistroDeUso registroDeUso = new RegistroDeUso(heladeraA,tarjeta1);
+            RegistroDeUso registroDeUso = new RegistroDeUso(LocalDateTime.now(),heladeraA,tarjeta1);
 
             tarjeta1.usoDeTarjeta(registroDeUso);
             ubicacion.setProvincia(provincia);

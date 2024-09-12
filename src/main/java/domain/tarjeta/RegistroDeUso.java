@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -30,8 +31,8 @@ public class RegistroDeUso {
     @JoinColumn(name = "id_tarjeta", nullable = false)
     private Tarjeta tarjeta;  // Relación con la Tarjeta
 
-    public RegistroDeUso(Heladera heladera, Tarjeta tarjeta) {
-        this.fechaDeUso = LocalDateTime.now();
+    public RegistroDeUso(LocalDateTime fechaDeUso, Heladera heladera, Tarjeta tarjeta) {
+        this.fechaDeUso = fechaDeUso;
         this.heladera = heladera;
         this.tarjeta = tarjeta;
     }
