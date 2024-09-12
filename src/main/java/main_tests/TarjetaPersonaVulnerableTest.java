@@ -1,4 +1,4 @@
-package main;
+package main_tests;
 
 import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;

@@ -1,6 +1,5 @@
-package main;
+package main_tests;
 
-import domain.persona.Persona;
 import domain.puntos.CategoriaOferta;
 import domain.puntos.Oferta;
 import domain.usuarios.ColaboradorJuridico;
