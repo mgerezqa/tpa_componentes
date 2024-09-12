@@ -41,11 +41,16 @@ public class PuntosTests {
     private Heladera heladeraPalermo;
     private Heladera heladeraMedrano;
     private Config config;
+    private PersonaVulnerable carlos;
+    private PersonaVulnerable marcos;
 
     @BeforeEach
     public void setUp() throws IOException {
 
         config = Config.getInstance();
+
+        this.carlos = new PersonaVulnerable("Carlos", LocalDate.of(1960, 5, 12));
+        this.marcos = new PersonaVulnerable("Marcos", LocalDate.of(1976, 6, 3));
 
         this.calculadoraPuntos = new CalculadoraPuntos();
 
@@ -94,7 +99,7 @@ public class PuntosTests {
     @DisplayName("Controlar puntos que se otorgan")
     public void controlCalculosPuntos() {
         Dinero donacion = new Dinero(4000, FrecuenciaDeDonacion.FRECUENCIA_ANUAL, LocalDate.now(), lalo);
-        Distribuir distribucionViandas = new Distribuir(id, heladeraMedrano, heladeraPalermo,10,LocalDate.now(),Motivo.FALTA_DE_VIANDAS,lalo);
+        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10,LocalDate.now(),lalo);
         MantenerHeladera mantenerHeladera = new MantenerHeladera(heladeraMedrano, LocalDate.now().minusMonths(3), restaurant);
 
         assertEquals(2000, calculadoraPuntos.puntosPesosDonados(donacion));
@@ -124,7 +129,7 @@ public class PuntosTests {
     @Test
     @DisplayName("Se otorga puntos por viandas distribuidas")
     public void puntosDistribuirViandas() {
-        Distribuir distribucionViandas = new Distribuir(id, heladeraMedrano, heladeraPalermo,10,LocalDate.now(),Motivo.FALTA_DE_VIANDAS, lalo);
+        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10,LocalDate.now(), lalo);
         int puntos = calculadoraPuntos.puntosViandasDistribuidas(distribucionViandas);
         lalo.sumarPuntos(puntos);
 
@@ -146,10 +151,10 @@ public class PuntosTests {
     @DisplayName("Se otorga puntos por tarjetas repartidas")
     public void donacionTarjetas() {
 
-        Tarjeta tarjetaPablo = new Tarjeta();
+        Tarjeta tarjetaCarlos = new Tarjeta();
         Tarjeta tarjetaMarcos = new Tarjeta();
-        RegistroDePersonaVulnerable entregaTarjetaPablo = new RegistroDePersonaVulnerable(lalo, tarjetaPablo);
-        RegistroDePersonaVulnerable entregaTarjetaMarcos = new RegistroDePersonaVulnerable(lalo, tarjetaMarcos);
+        RegistroDePersonaVulnerable entregaTarjetaPablo = new RegistroDePersonaVulnerable(lalo, tarjetaCarlos, carlos, LocalDate.now());
+        RegistroDePersonaVulnerable entregaTarjetaMarcos = new RegistroDePersonaVulnerable(lalo, tarjetaMarcos, marcos, LocalDate.now());
 
         int puntos = calculadoraPuntos.puntosTarjetasRepatidas(2);
         lalo.sumarPuntos(puntos);

@@ -1,6 +1,7 @@
 package domain.donaciones;
 
 
+import domain.persona.PersonaVulnerable;
 import domain.tarjeta.Tarjeta;
 import domain.usuarios.ColaboradorFisico;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,16 +23,28 @@ public class RegistroDePersonaVulnerable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id")
     private ColaboradorFisico colaborador;
 
-    @OneToOne
+    @Column(name = "fecha_del_registro")
+    private LocalDate fechaRegistro;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tarjeta_uuid")
     private Tarjeta tarjeta;
 
-    public RegistroDePersonaVulnerable(ColaboradorFisico colaborador, Tarjeta tarjeta) {
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "vulnerable_id")
+    private PersonaVulnerable personaVulnerable;
+
+    public RegistroDePersonaVulnerable(ColaboradorFisico colaborador, Tarjeta tarjeta, PersonaVulnerable vulnerable, LocalDate fechaRegistro) {
         this.colaborador = colaborador;
         this.tarjeta = tarjeta;
+        this.personaVulnerable = vulnerable;
+        this.fechaRegistro = fechaRegistro;
+        tarjeta.setVulnerable(vulnerable);
+        vulnerable.setFechaRegitrado(fechaRegistro);
+        tarjeta.setFechaInicioDeFuncionamiento(fechaRegistro);
     }
 }

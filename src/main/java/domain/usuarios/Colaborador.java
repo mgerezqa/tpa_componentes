@@ -21,8 +21,8 @@ public abstract class  Colaborador {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
-    @OneToMany
-    @JoinColumn(name = "medioDeContacto_id")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "colaborador_id")
     protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
 
     @Column(name = "activo")

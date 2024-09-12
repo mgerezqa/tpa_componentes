@@ -107,7 +107,7 @@ public class DonacionesTests {
     @DisplayName("El sistema solo admite las donaciones de tipo distribución de viandas por parte de los colaboradores fisicos")
     public void donarDistribucionDeViandas(){
 
-        Distribuir distribucionDeViandas = new Distribuir(id, heladera, heladera1,10, fechaDeDonacion, motivo, lalo);
+        Distribuir distribucionDeViandas = new Distribuir(heladera, heladera1,10, fechaDeDonacion, lalo);
         assertEquals(distribucionDeViandas.getColaboradorQueLaDono(),lalo);
 
     }

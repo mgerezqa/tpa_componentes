@@ -31,7 +31,7 @@ public class Dinero {
     @Column(name = "fecha_donacion", nullable = false)
     private LocalDate fechaDeDonacion;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id", nullable = false)
     private Colaborador colaboradorQueLaDono;
 

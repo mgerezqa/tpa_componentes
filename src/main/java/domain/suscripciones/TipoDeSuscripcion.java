@@ -10,19 +10,20 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo_suscripcion")
+@Table(name = "tipos_de_suscripcion")
+@DiscriminatorColumn(name = "tipo")
 public abstract class TipoDeSuscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
-    @Getter
     @Column(name = "descripcion")
     private String descripcion;
-    @Setter @Getter
+
     @Column(name = "fecha")
     private LocalDateTime fecha;
 

@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class Tarjeta {
     private List<RegistroDeUso> registros;//Debe quedar registrado, cuándo la usó, y en cuál heladera.
 
     @Column(name = "fecha_inicio_funcionamiento")
-    private LocalDateTime fechaInicioDeFuncionamiento;
+    private LocalDate fechaInicioDeFuncionamiento;
 
     public Tarjeta() {
         this.cantidadUsadaEnElDia = 0;

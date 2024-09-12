@@ -21,14 +21,14 @@ public class MantenerHeladera {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id", nullable = false)
     private Heladera heladera;
 
-    @Column(name = "fecha_donacion", nullable = false)
+    @Column(name = "fecha_comienzo", nullable = false)
     private LocalDate fechaDeDonacion;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id", nullable = false)
     private ColaboradorJuridico colaboradorQueLaDono;
 

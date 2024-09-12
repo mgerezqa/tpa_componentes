@@ -26,11 +26,11 @@ public class Vianda  {
     @Column(name = "fecha_donacion", columnDefinition = "DATE")
     private LocalDate fechaDonacion;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id")
     private ColaboradorFisico colaboradorQueLaDono;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id")
     private Heladera heladeraActual;
 

@@ -4,18 +4,20 @@ import domain.heladera.Heladera.Heladera;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("suscripcion_desperfecto_heladera")
 public class SuscripcionPorDesperfectoH extends TipoDeSuscripcion {
 
-    @Getter
+
     @Column(name = "descripcion")
     public final String descripcion = " tiene un desperfecto.";
 

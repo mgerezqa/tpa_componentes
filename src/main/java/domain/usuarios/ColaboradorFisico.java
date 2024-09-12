@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -40,6 +41,11 @@ public class ColaboradorFisico extends Colaborador {
         this.apellido = apellido;
         this.activo = true;
         this.mediosDeContacto = new HashSet<>();
+        this.viandasDonadas = new ArrayList<>();
+    }
+
+    public void agregarVianda(Vianda vianda){
+        this.getViandasDonadas().add(vianda);
     }
 
 

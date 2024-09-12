@@ -23,11 +23,11 @@ public class Distribuir {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_origen_id", nullable = false)
     private Heladera heladeraOrigen;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_destino_id", nullable = false)
     private Heladera heladeraDestino;
 
@@ -35,7 +35,7 @@ public class Distribuir {
     private Integer cantidad;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "motivo", nullable = false)
+    @Column(name = "motivo")
     private Motivo motivo;
 
     @Column(name = "fecha_donacion", nullable = false)
@@ -45,13 +45,11 @@ public class Distribuir {
     @JoinColumn(name = "colaborador_id", nullable = false)
     private ColaboradorFisico colaboradorQueLaDono;
 
-    public Distribuir(Long id, Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, LocalDate fechaDeDonacion, Motivo motivo, ColaboradorFisico colaboradorQueLaDono) {
-        this.id = id;
+    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, LocalDate fechaDeDonacion, ColaboradorFisico colaboradorQueLaDono) {
         this.heladeraOrigen = heladeraOrigen;
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
         this.fechaDeDonacion = fechaDeDonacion;
-        this.motivo = motivo;
         this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
 }
