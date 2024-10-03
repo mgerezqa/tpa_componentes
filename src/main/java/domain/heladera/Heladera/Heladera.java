@@ -6,10 +6,7 @@ import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
 import domain.suscripciones.EventManager;
 import domain.temperatura.Temperatura;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
