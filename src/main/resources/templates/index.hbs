@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hope ONG</title>
+    <!-- <Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <div class="container-fluid d-flex justify-content-center align-items-center ">
+        <!-- Navbar -->
+        <div class ="container">
+            <div id="navbar-placeholder">
+                <nav class="navbar navbar-expand-sm fw-semibold justify-content-center " >
+                    <!-- <a class="navbar-brand" href="#">
+                      Insertar logo</a> -->
+                    <button class="navbar-toggler mb-3 text-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon "></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse text-center " id="navbarNavDropdown">
+                        <ul class="navbar-nav ">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#about-placeholder">Nosotros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#info-refrigerators-placeholder">Nuestras heladeras</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#identify-to-colaborate-placeholder">Quiero colaborar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#stations-map-placeholder">Estaciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#faq-placeholder">Preguntas frecuentes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#contact-placeholder">Contacto</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Login  -->
+        <div id="login-placeholder" >
+            <div class="nav-item-login">
+                <button id="nav-link-login" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            </div>
+        </div>
+        <!-- Modal Login  -->
+        <div id = "modal-login-placeholder">
+            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-5 ">
+                        <div class="modal-body rounded-5 ">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="myform bg-dark rounded-5 ">
+                                <h1 class="text-center">Iniciar Sesión</h1>
+                                <form>
+                                    <div class="mb-3 mt-4">
+                                        <label for="exampleInputEmail1" class="form-label">Email </label>
+                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                    </div>
+                                    <button type="submit" id="btn-modal">LOGIN</button>
+                                    <!-- cerrar el modal luego de redirigir -->
+                                    <p>No estás registrado?
+                                        <a href="#identify-to-colaborate-placeholder" id="register-link" >Registrate ahora</a>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- Main Content -->
+<main >
+    <!-------------------- Presentation-------------------->
+
+    <section class="presentation">
+        <div class="container">
+            <div id = "presentation-info">
+                <!-- About Section -->
+                <div id="about-placeholder">
+                    <!-- Dividimos en 2 filas, donde el título ocupa el 20% de la altura -->
+                    <div class="row mb-3" style="height: 20%;">
+                        <div class="col-12 d-flex align-items-center justify-content-center">
+                            <div class="title font-weight-bold text-center mt-4 mb-4">
+                                Conocé nuestra propuesta <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3 flex">
+                        <div class="col-12 col-md-6 text-center my-auto"> <!-- centrado verticalmente -->
+                            <h1 class="fw-bold"><i class="bi bi-people-fill"></i> Sobre Hope ONG  </h1>
+                            <p> Somos Hope ONG , una organización joven , comprometida con la
+                                lucha contra la vulnerabilidad alimentaria en nuestra comunidad.
+                                En un mundo donde el acceso a alimentos nutritivos es un
+                                derecho fundamental, nos dedicamos a garantizar que nadie
+                                tenga que pasar hambre. </p>
+                        </div>
+                        <div class="col-12 col-md-6 text-center img-thumbnail my-auto p-3 rounded mb-3">
+                            <img src="img/assets/business.jpg" class ="img-fluid rounded" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- Purpose Section -->
+                <div id="purpose-placeholder">
+                    <div class="row mb-3 flex-row-reverse">
+                        <div class="col-12 col-md-6 text-center my-auto"> <!-- centrado verticalmente -->
+                            <h1 class="fw-bold"><i class="bi bi-bullseye"></i> Proposito </h1>
+                            <p> Nuestro propósito es claro: creemos en un futuro donde todas
+                                las personas, sin importar su situación económica o social,
+                                puedan acceder a alimentos frescos y saludables. Trabajamos
+                                incansablemente para hacer realidad esta visión,
+                                implementando soluciones innovadoras y sostenibles que
+                                marquen una diferencia real en la vida de quienes más lo
+                                necesitan.
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-6 text-center img-thumbnail my-auto p-3 rounded">
+                            <img src="img/assets/people-volunteering.jpg" class ="img-fluid rounded" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- How We Do It Section -->
+                <div id="how-placeholder">
+                    <div class="row mb-3 flex">
+                        <div class="col-12 col-md-6 text-center my-auto"> <!-- centrado verticalmente -->
+                            <h1 class="fw-bold"><i class="bi bi-gear-fill"></i> Como lo hacemos </h1>
+                            <p> Contamos con una red de heladeras comunitarias
+                                estratégicamente ubicadas en restaurantes, estaciones de
+                                transporte público y otros lugares de fácil acceso, facilitamos el
+                                intercambio de alimentos entre aquellos que desean donar y
+                                aquellos que necesitan ayuda. Nuestra plataforma web no solo
+                                coordina estas donaciones de manera eficiente, sino que
+                                también monitorea el estado de las heladeras y detecta
+                                cualquier problema técnico para garantizar su funcionamiento
+                                óptimo. </p>
+                        </div>
+                        <div class="col-12 col-md-6 text-center img-thumbnail my-auto p-3 rounded">
+                            <img src="img/assets/net.jpg" class ="img-fluid rounded" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- Call to Action Button Colaborate -->
+                <div id="cta-placeholder">
+                    <!-- Centrar el botón -->
+                    <div class="d-flex justify-content-center mb-5">
+                        <!-- Al presionar el botón se dirige a otra sección -->
+                        <a href="#identify-to-colaborate-placeholder" class="btn btn-primary position-relative center">Quiero ayudar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--------------------- Refrigeration-Stations-Info -------------------->
+    <section class = "refrigeration-info">
+        <div class="container">
+            <div id="info-refrigerators-placeholder">
+                <!-- Dividimos en 2 filas, donde el título ocupa el 20% de la altura -->
+                <div class="row" style="height: 20%;">
+                    <div class="col d-flex align-items-center justify-content-center">
+                        <div class="title font-weight-bold text-center">
+                            Nuestras heladeras <br>
+                        </div>
+                    </div>
+                </div>
+                <!-- El carrusel ocupa el 80% restante -->
+                <div class="row" style="height: 80%;">
+                    <div class="col">
+                        <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="img/assets/heladera_1.jpg" class="d-block w-100" alt="...">
+                                    <div class="carousel-caption d-block ">
+                                        <h5>Estacion Medrano</h5>
+                                        <p class="d-none d-md-block">Some representative placeholder content for the first slide.</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="img/assets/heladera_2.jpg" class="d-block w-100" alt="...">
+                                    <div class="carousel-caption d-block">
+                                        <h5>Estacion Campus</h5>
+                                        <p class="d-none d-md-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, corrupti cumque? Dolor quam, illo distinctio eaque saepe dicta ullam dolorem expedita molestiae possimus? Provident quidem facere perspiciatis ducimus odit. Saepe.</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="img/assets/heladera_3.jpg" class="d-block w-100" alt="...">
+                                    <div class="carousel-caption d-block">
+                                        <h5>Estacion Nuñez</h5>
+                                        <p class="d-none d-md-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias temporibus ipsum asperiores neque sequi molestiae, facere vero explicabo illo cupiditate beatae id ullam nihil minima tempora velit doloremque tempore animi.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--------------------- Colaborate -------------------->
+    <section class= "i-want-to-colaborate">
+        <div class = "container">
+            <div id="identify-to-colaborate-placeholder">
+                <!-- Título -->
+                <div class="row mb-5 text-center mt-4">
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                        <h1 class="fw-bold">Contame sobre vos...<br> ¿Quién sos?</h1>
+                    </div>
+                </div>
+                <!-- Opciones de selección con cards -->
+                <div class="container">
+                    <div class="row mb-5">
+                        <!-- Columna para pantallas grandes y medianas -->
+                        <div class="col-12 col-sm-12 col-lg-6 d-flex justify-content-center mb-3">
+                            <div class="card shadow-none">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <button class="circle-button" id="personaBtn" data-type="persona">
+                                        <i class="bi bi-person"></i>
+                                        <h2 class="circle-text">Soy una persona</h2>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Columna para pantallas grandes y medianas -->
+                        <div class="col-12 col-sm-12 col-lg-6 d-flex justify-content-center mb-3">
+                            <div class="card shadow-none">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <button class="circle-button" id="personaJuridicaBtn" data-type="juridica">
+                                        <i class="bi bi-building"></i>
+                                        <h2 class="circle-text">Soy una persona jurídica</h2>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tooltips -->
+                <div class="row mb-5">
+                    <div class="col-12 d-flex justify-content-center text-center mb-1">
+                        <div id="personaTooltip" class="tooltip-text tooltip-container" style="display: none;">
+                            <h2 class = "semibold mb-3 p-3 "><i class="bi bi-exclamation-circle"></i> Como persona <br>  podrás ayudar </h2>
+                            <ul >
+                                <li> <h3 class = "fw-lighter"><i class="bi bi-cash-coin "></i>  Donando dinero</h3></li>
+                                <li> <h3 class = "fw-lighter"><i class="bi bi-cart2"></i>    Donando viandas</h3></li>
+                                <li> <h3 class ="fw-lighter"><i class="bi bi-truck"></i>    Distribuyendo alimentos</h3></li>
+                                <li> <h3 class ="fw-lighter"><i class="bi bi-person-badge"></i> Contribuir como administrativo</h3></li>
+                            </ul>
+                        </div>
+                        <div id="juridicaTooltip" class="tooltip-text tooltip-container" style="display: none;">
+                            <h2 class = "semibold mb-3 p-3 "><i class="bi bi-exclamation-circle"></i> Como persona juridica <br> podrás ayudar </h2>
+                            <ul>
+                                <li> <h3 class = "fw-lighter"> <i class="bi bi-cash-coin"></i> Donando dinero</h3></li>
+                                <li><h3 class = "fw-lighter"><i class="bi bi-shield-check"></i> Manteniendo heladeras</h3></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Botón de registro -->
+                <div class="d-flex justify-content-center mt-5">
+                    <button type="button" class="btn position-relative center" id="continuarBtn" disabled>Quiero registrarme</button>
+                </div>
+                <!-- Modal (formularios) -->
+                <div class="modal fade" id="formularioModal" tabindex="-1" aria-labelledby="formularioModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="formularioModalLabel">Completar formulario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Formulario para Persona Física -->
+                                <form id="formularioPersona" style="display: none;">
+                                    <!-- Apartado Datos Personales -->
+                                    <h3>Datos Personales</h3>
+                                    <div class="mb-3">
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="apellido" class="form-label">Apellido</label>
+                                        <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                    </div>
+                                    <!-- Medio de Contacto -->
+                                    <label class="form-label mt-1 mb-3">Medios de Contacto</label>
+                                    <div class="mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="whatsapp" name="contactoWhatsapp">
+                                            <label class="form-check-label" for="whatsapp">WhatsApp</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="telegram" name="contactoTelegram">
+                                            <label class="form-check-label" for="telegram">Telegram</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="email" name="contactoEmail">
+                                            <label class="form-check-label" for="email">Correo Electrónico</label>
+                                        </div>
+                                    </div>
+                                    <!-- Campos dinámicos para los medios de contacto -->
+                                    <div class="mb-3" id="whatsappContainer" style="display: none;">
+                                        <label for="whatsappInput" class="form-label">Número de WhatsApp</label>
+                                        <input type="tel" class="form-control" id="whatsappInput" placeholder="Ingresar número de teléfono">
+                                    </div>
+                                    <div class="mb-3" id="telegramContainer" style="display: none;">
+                                        <label for="telegramInput" class="form-label">Usuario de Telegram</label>
+                                        <input type="text" class="form-control" id="telegramInput" placeholder="Ingresar nombre de usuario">
+                                    </div>
+                                    <div class="mb-3" id="emailContainer" style="display: none;">
+                                        <label for="emailInput" class="form-label">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="emailInput" placeholder="Ingresar correo electrónico">
+                                    </div>
+
+                                    <!-- Opcional -->
+                                    <div class="mb-3">
+                                        <label for="domicilio" class="form-label">Domicilio (Opcional)</label>
+                                        <input type="text" class="form-control" id="domicilio" name="domicilio">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento (Opcional)</label>
+                                        <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento">
+                                    </div>
+                                    <!-- Apartado Datos de Usuario -->
+                                    <h3>Datos de Usuario</h3>
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" id="registrarConMail">
+                                        <label class="form-check-label" for="registrarConMail">¿Desea registrarse con el mismo correo?</label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="emailUsuario" class="form-label">Correo Electrónico para Registro</label>
+                                        <input type="email" class="form-control" id="emailUsuario" name="emailUsuario" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="repeatPassword" class="form-label">Repetir Contraseña</label>
+                                        <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" required>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between align-items-center">
+                                        <button type="button" class="btn-modal btn-modal-cancel" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn-modal btn-modal-clear" id="resetBtn">Borrar datos</button>
+                                        <button type="submit" class="btn-modal btn-modal-confirm">Enviar</button>
+                                    </div>
+                                </form>
+                                <!-- Formulario para Persona Jurídica -->
+                                <form id="formularioPersonaJuridica" style="display: none;">
+                                    <h3>Datos </h3>
+                                    <div class="mb-3">
+                                        <label for="razonSocial" class="form-label">Razón Social</label>
+                                        <input type="text" class="form-control" id="razonSocial" name="razonSocial" required>
+                                    </div>
+                                    <!-- Dropdown -->
+                                    <div class="mb-3">
+                                        <label for="tipoOrganizacion" class="form-label">Tipo de Organización</label>
+                                        <select class="form-select" id="tipoOrganizacion" name="tipoOrganizacion" required>
+                                            <option value="" selected>Seleccionar...</option>
+                                            <option value="1">Gubernamental</option>
+                                            <option value="2">ONG</option>
+                                            <option value="3">Empresa</option>
+                                            <option value="4">Institución</option>
+                                            <option value="5">Otro</option>
+                                        </select>
+                                        <!-- Medio de Contacto -->
+                                        <label class="form-label mt-3 mb-3">Medios de Contacto</label>
+                                        <div class="mb-3">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="whatsapp" name="contactoWhatsapp">
+                                                <label class="form-check-label" for="whatsapp">WhatsApp</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="telegram" name="contactoTelegram">
+                                                <label class="form-check-label" for="telegram">Telegram</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="email" name="contactoEmail">
+                                                <label class="form-check-label" for="email">Correo Electrónico</label>
+                                            </div>
+                                        </div>
+                                        <!-- Campos dinámicos para los medios de contacto -->
+                                        <div class="mb-3" id="whatsappContainer" style="display: none;">
+                                            <label for="whatsappInput" class="form-label">Número de WhatsApp</label>
+                                            <input type="tel" class="form-control" id="whatsappInput" placeholder="Ingresar número de teléfono">
+                                        </div>
+                                        <div class="mb-3" id="telegramContainer" style="display: none;">
+                                            <label for="telegramInput" class="form-label">Usuario de Telegram</label>
+                                            <input type="text" class="form-control" id="telegramInput" placeholder="Ingresar nombre de usuario">
+                                        </div>
+                                        <div class="mb-3" id="emailContainer" style="display: none;">
+                                            <label for="emailInput" class="form-label">Correo Electrónico</label>
+                                            <input type="email" class="form-control" id="emailInput" placeholder="Ingresar correo electrónico">
+                                        </div>
+                                        <!-- Opcional -->
+                                        <div class="mb-3">
+                                            <label for="domicilio" class="form-label">Domicilio (Opcional)</label>
+                                            <input type="text" class="form-control" id="domicilio" name="domicilio">
+                                        </div>
+                                        <!-- Apartado Datos de Usuario -->
+                                        <h3>Datos de Usuario</h3>
+                                        <div class="form-check mb-3">
+                                            <input type="checkbox" class="form-check-input" id="registrarConMail">
+                                            <label class="form-check-label" for="registrarConMail">¿Desea registrarse con el mismo correo?</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="emailUsuario" class="form-label">Correo Electrónico para Registro</label>
+                                            <input type="email" class="form-control" id="emailUsuario" name="emailUsuario" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Contraseña</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="repeatPassword" class="form-label">Repetir Contraseña</label>
+                                            <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" required>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-between align-items-center">
+                                            <button type="button" class="btn-modal btn-modal-cancel" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn-modal btn-modal-clear" id="resetBtn">Borrar datos</button>
+                                            <button type="submit" class="btn-modal btn-modal-confirm">Enviar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!--------------------- Stations Map --------------------->
+    <section class = "stations-map">
+        <div class = "container">
+            <div id="stations-map-placeholder">
+                <div class="row p-5 ">
+                    <!-- Columna del mapa -->
+                    <div class="col-lg-8 mb-4 p-0">
+                        <div class="p-lg-3 p-0 m-0">
+                            <h2 class="text-center mb-4">Estaciones</h2>
+                            <div id="map" class="w-100">
+                                <img src="https://img.freepik.com/vector-gratis/callejero-marcadores-sector-restauracion_23-2147618798.jpg?t=st=1724802085~exp=1724805685~hmac=5570f4e9c09a7566d2af8edd304b45d89118b146f989592dc46cb4ef3b108841&w=740"
+                                     class="img-thumbnail img-fluid rounded-5 m-0 p-0 w-100 " alt="mapa">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Columna de la barra de búsqueda e información -->
+                    <div class="col-lg-4">
+                        <div class="rounded pt-1 mt-3 px-3">
+                            <!-- Barra de búsqueda -->
+                            <h2 class="text-center mb-4">Buscar </h2>
+                            <div id="search-bar">
+                                <input type="text" class="form-control " placeholder="Buscar estación..." >
+                            </div>
+
+                            <!-- Información de la heladera -->
+                            <div id="container-information-refrigerator" class="mt-5 px-3 rounded-5 pb-4">
+                                <h2 class="text-center mb-5 pt-3">Información</h2>
+                                <div id="information-refrigerators">
+                                    <div class="d-flex mb-3">
+                                        <label class="form-label w-50" for="estado"> <i class="bi bi-clipboard2-pulse"></i> Estado: </label>
+                                        <input placeholder="Activa/NO" class="form-control form-control-sm w-50" name="estado" type="text" id="estado" disabled>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <label class="form-label w-50" for="estacion"><i class="bi bi-bookmark"></i> Estación: </label>
+                                        <input placeholder="Nombre de estación" class="form-control form-control-sm w-50" name="estacion" type="text" id="estacion-name" disabled>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <label class="form-label w-50" for="direccion"><i class="bi bi-geo-alt"></i> Dirección: </label>
+                                        <input placeholder="Dirección" class="form-control form-control-sm w-50" name="direccion" type="text" id="direccion" disabled>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <label class="form-label w-50" for="temperatura"><i class="bi bi-thermometer"></i> Temperatura: </label>
+                                        <input placeholder="Temperatura" class="form-control form-control-sm w-50" name="temperatura" type="text" id="temperatura" disabled>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <label class="form-label w-50" for="capacidad-total"><i class="bi bi-box-seam"></i> Capacidad : </label>
+                                        <input placeholder="Capacidad Total" class="form-control form-control-sm w-50" name="capacidad-total" type="text" id="capacidad-total" disabled>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <label class="form-label w-50" for="viandas-disponibles"><i class="bi bi-basket2"></i> Viandas Disponibles: </label>
+                                        <input placeholder="Viandas Disponibles" class="form-control form-control-sm w-50" name="viandas-disponibles" type="text" id="viandas-disponibles" disabled>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <label class="form-label w-50" for="inicio-operacion"><i class="bi bi-calendar"></i> Inicio de Operación: </label>
+                                        <input placeholder="Fecha de Inicio" class="form-control form-control-sm w-50" name="inicio-operacion" type="text" id="inicio-operacion" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!----------------------- FAQ -------------------------->
+    <section class = "faq">
+        <div class = "container">
+            <div id="faq-placeholder">
+                <div class = "mb-3 ">
+                    <div class="title">
+                        <h1>Preguntas frecuentes</h1>
+                    </div>
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header ">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    <h5 class="fw-bolder ">1) Soy una persona ¿Cómo hago para donar?</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <p>Para donar, simplemente acercate a la heladera más cercana y depositá tu vianda en la misma. Si querés saber más sobre cómo donar, podés visitar la sección de <a href="#select-how-to-colaborate-person-placeholder">Cómo donar</a> para conocer las  maneras que tenés de colaborar y luego podrás completar un formulario con tus datos.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    <h5 class="fw-bolder">2) Soy una empresa ¿Cómo hago para donar?</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <p>Si querés saber más sobre cómo donar, podés visitar la sección de <a href="#select-how-to-colaborate-company-placeholder">Cómo donar</a> para conocer las  maneras que tenés de colaborar y luego podrás completar un formulario con tus datos.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                    <h5 class="fw-bolder">3) ¿Cómo me anoto para ser voluntario? </h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <p>Para ser voluntario, simplemente acercate a la heladera más cercana y ofrecé tu ayuda. Si querés saber más sobre cómo ser voluntario, podés visitar la sección de <a href="#identify-to-colaborate-placeholder">Cómo ser voluntario</a> en la página principal.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                    <h5 class="fw-bolder"> 4) ¿Se rompió la heladera de mi barrio, que hago?</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <p>Si la heladera de tu barrio se rompió, podés enviarnos un correo en la sección de contacto <a href="#faq-placeholder">contacto</a> y contarnos el problema que viste.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!----------------------- Contact----------------------->
+    <section class = "contact">
+        <div class = "container">
+            <div id="contact-placeholder">
+                <h1 class="text-center mb-4 mt-4">Contáctanos</h1>
+                <form class="needs-validation" novalidate>
+                    <!-- Nombre -->
+                    <div class="mb-3 mx-5 ">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa tu nombre.
+                        </div>
+                    </div>
+                    <!-- Correo Electrónico -->
+                    <div class="mb-3 mx-5">
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="email" placeholder="nombre@ejemplo.com" required>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa un correo electrónico válido.
+                        </div>
+                    </div>
+                    <!-- Motivo -->
+                    <div class="mb-3 mx-5">
+                        <label for="motivo" class="form-label">Motivo de Contacto</label>
+                        <select class="form-select" id="motivo" required>
+                            <option value="" selected disabled>Selecciona un motivo</option>
+                            <option value="Consulta">Consulta</option>
+                            <option value="Soporte">Soporte</option>
+                            <option value="Feedback">Feedback</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecciona un motivo de contacto.
+                        </div>
+                    </div>
+                    <!-- Mensaje -->
+                    <div class="mb-3 mx-5">
+                        <label for="mensaje" class="form-label">Mensaje</label>
+                        <textarea class="form-control" id="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa tu mensaje.
+                        </div>
+                    </div>
+                    <!-- Botón de Envío -->
+                    <div class="d-flex justify-content-center mb-5" >
+                        <button type="submit" class="btn position-relative center"  > Enviar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<div id="footer-placeholder">
+    <footer class="text-light pt-5">
+        <div class="container px-5">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <h3 class="fw-bold">Hope ONG</h3>
+                    <p class="pt-2">321, Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="mb-2">Contacto : 0987654321</p>
+                    <p>g17sysvulnerabilidadsocial@gmail.com</p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h4>Menu</h4>
+                    <ul class="list-unstyled pt-2">
+                        <li class="py-1"><a href="#about-placeholder" class ="text-light text-decoration-none"> Nosotros</a></li>
+                        <li class="py-1 "><a href="#info-refrigerators-placeholder" class ="text-light text-decoration-none">Nuestras heladeras</a></li>
+                        <li class="py-1"><a href="#identify-to-colaborate-placeholder" class ="text-light text-decoration-none">Quiero colaborar</a> </li>
+                        <li class="py-1"><a href="#stations-map-placeholder" class ="text-light text-decoration-none">Estaciones</a></li>
+                        <li class="py-1"><a href="#faq-placeholder" class ="text-light text-decoration-none">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h4>Nuestras redes</h4>
+                    <div class="social-media pt-2">
+                        <a href="#" class="text-light fs-2 me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-light fs-2 me-3"><i class="bi bi-pinterest"></i></a>
+                        <a href="#" class="text-light fs-2 me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-light fs-2"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="d-sm-flex justify-content-between py-1">
+                <p>2024 © HopeONG. All Rights Reserved. </p>
+                <p>
+                    <a href="#" class="text-light text-decoration-none pe-4">Terms of use</a>
+                    <a href="#" class="text-light text-decoration-none"> Privacy policy</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src = "/js/identifyToColaborate.js"></script>
+<script src= "/js/form.js"> </script>
+<script src = "/js/login.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
+</body>
+</html>

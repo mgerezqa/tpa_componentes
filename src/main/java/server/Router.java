@@ -8,7 +8,9 @@ public class Router {
 
     public static void init(Javalin app) {
         //EJEMPLOS
-        app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
+        app.get("/",(ctx)->{
+            ctx.render("/index.hbs");
+        });
 
         //Query Params
         app.get("/saludo", ctx -> {
