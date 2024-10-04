@@ -1,25 +1,19 @@
 package server;
 
 import config.ServiceLocator;
+import controladores.ControladorColaboradorFisico;
 import controladores.ControladorHeladeras;
 import io.javalin.Javalin;
 
 public class Router {
-
     public static void init(Javalin app) {
-        //EJEMPLOS
         app.get("/",(ctx)->{
-            ctx.render("/index.hbs");
+            ctx.render("/index.hbs"); //Render la pagina principal
         });
-
-        //Query Params
-        app.get("/saludo", ctx -> {
-            ctx.result("Hola " + ctx.queryParam("nombre") + " " + ctx.queryParam("apellido"));
-        });
-
-        //Route params | Path params
-        app.get("/saludo-para/{nombre}", ctx -> ctx.result("Hola " + ctx.pathParam("nombre")));
-
         app.get("/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index);
+
+        //Endpoints de colaborador fisico
+        app.post("/colaborador-fisico",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::save);
+
     }
 }

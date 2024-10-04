@@ -299,7 +299,7 @@
                             </div>
                             <div class="modal-body">
                                 <!-- Formulario para Persona Física -->
-                                <form id="formularioPersona" style="display: none;">
+                                <form action="/colaborador-fisico" method="POST" id="formularioPersona" style="display: none;">
                                     <!-- Apartado Datos Personales -->
                                     <h3>Datos Personales</h3>
                                     <div class="mb-3">
@@ -329,7 +329,7 @@
                                     <!-- Campos dinámicos para los medios de contacto -->
                                     <div class="mb-3" id="whatsappContainer" style="display: none;">
                                         <label for="whatsappInput" class="form-label">Número de WhatsApp</label>
-                                        <input type="tel" class="form-control" id="whatsappInput" placeholder="Ingresar número de teléfono">
+                                        <input type="tel" class="form-control" id="whatsappInput" name="nro_whatsapp" placeholder="Ingresar número de teléfono">
                                     </div>
                                     <div class="mb-3" id="telegramContainer" style="display: none;">
                                         <label for="telegramInput" class="form-label">Usuario de Telegram</label>

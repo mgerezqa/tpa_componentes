@@ -1,7 +1,9 @@
 package config;
 
 
+import controladores.ControladorColaboradorFisico;
 import controladores.ControladorHeladeras;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 
 import java.util.HashMap;
@@ -22,6 +24,14 @@ public class ServiceLocator {
             }
             else if (componentName.equals(RepositorioHeladeras.class.getName())) {
                 RepositorioHeladeras instance = new RepositorioHeladeras();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ControladorColaboradorFisico.class.getName())) {
+                ControladorColaboradorFisico instance = new ControladorColaboradorFisico(instanceOf(RepositorioColaboradores.class));
+                instances.put(componentName, instance);
+            }
+            else if (componentName.equals(RepositorioColaboradores.class.getName())) {
+                RepositorioColaboradores instance = new RepositorioColaboradores();
                 instances.put(componentName, instance);
             }
         }
