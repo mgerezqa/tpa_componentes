@@ -10,10 +10,12 @@ public class Router {
         app.get("/",(ctx)->{
             ctx.render("/index.hbs"); //Render la pagina principal
         });
-        app.get("/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index);
-
-        //Endpoints de colaborador fisico
+        app.get("/dashboard",(ctx) ->{
+            ctx.render("/dashboard.hbs");
+        });
+        app.get("/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index); //Ejemplo ruta con las heladeras de la base de datos
+        //Endpoints de colaborador fisico, ejemplos
         app.post("/colaborador-fisico",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::save);
-
+        app.get("/colaborador-fisico",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::save);
     }
 }

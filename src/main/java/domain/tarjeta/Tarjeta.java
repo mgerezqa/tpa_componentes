@@ -19,6 +19,7 @@ import java.util.List;
 @Entity
 @Table (name = "tarjetas")
 public class Tarjeta {
+
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.GeneradorUUID")

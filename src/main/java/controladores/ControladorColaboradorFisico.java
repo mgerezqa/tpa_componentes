@@ -16,14 +16,14 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler {
         //TODO metodo para renderizar todos los colaboradores
     }
     @Override
+    public void create(Context context) {
+
+    }
+    @Override
     public void save(Context context){
     }
     @Override
     public void show(Context context) {
-    }
-    @Override
-    public void create(Context context) {
-
     }
 
     @Override
