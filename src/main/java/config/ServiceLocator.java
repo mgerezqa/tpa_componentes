@@ -2,6 +2,7 @@ package config;
 
 
 import controladores.ControladorColaboradorFisico;
+import controladores.ControladorColaboradorJuridico;
 import controladores.ControladorHeladeras;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
@@ -41,6 +42,9 @@ public class ServiceLocator {
             }else if(componentName.equals(Repositorio.class.getName())){
                 Repositorio instance = new Repositorio();
                 instances.put(componentName,instance);
+            }else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
+                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class));
+                instances.put(componentName, instance);
             }
         }
 

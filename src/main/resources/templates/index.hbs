@@ -374,7 +374,7 @@
                                     </div>
                                 </form>
                                 <!-- Formulario para Persona Jurídica -->
-                                <form id="formularioPersonaJuridica" style="display: none;">
+                                <form action="/colaborador-juridico" method="POST" id="formularioPersonaJuridica" style="display: none;">
                                     <h3>Datos </h3>
                                     <div class="mb-3">
                                         <label for="razonSocial" class="form-label">Razón Social</label>
@@ -385,11 +385,25 @@
                                         <label for="tipoOrganizacion" class="form-label">Tipo de Organización</label>
                                         <select class="form-select" id="tipoOrganizacion" name="tipoOrganizacion" required>
                                             <option value="" selected>Seleccionar...</option>
-                                            <option value="1">Gubernamental</option>
-                                            <option value="2">ONG</option>
-                                            <option value="3">Empresa</option>
-                                            <option value="4">Institución</option>
-                                            <option value="5">Otro</option>
+                                            <option value="Gubernamental">Gubernamental</option>
+                                            <option value="ONG">ONG</option>
+                                            <option value="Empresa">Empresa</option>
+                                            <option value="Institución">Institución</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                        <label for="tipoRubro" class="form-label">Tipo de rubro</label>
+                                        <select class="form-select" id="tipoRubro" name="tipoRubro" required>
+                                            <option value="" selected>Seleccionar...</option>
+                                            <option value="EDUCACION">EDUCACION</option>
+                                            <option value="SALUD">SALUD</option>
+                                            <option value="TECNOLOGIA">TECNOLOGIA</option>
+                                            <option value="ENERGIA">ENERGIA</option>
+                                            <option value="PRODUCCION">PRODUCCION</option>
+                                            <option value="FINANZAS">FINANZAS</option>
+                                            <option value="COMERCIO">COMERCIO</option>
+                                            <option value="SERVICIOS">SERVICIOS</option>
+                                            <option value="CONSTRUCCION">CONSTRUCCION</option>
+                                            <option value="OTRO">Otro</option>
                                         </select>
                                         <!-- Medio de Contacto -->
                                         <label class="form-label mt-3 mb-3">Medios de Contacto</label>
