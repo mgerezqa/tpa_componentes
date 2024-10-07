@@ -22,6 +22,7 @@ public class ControladorHeladeras {
         List<HeladeraDTO> heladerasDTO = new ArrayList<>();
         for (Heladera heladera : heladeras) {
             HeladeraDTO heladeraDTO = new HeladeraDTO();
+            heladeraDTO.setId(heladera.getId());
             heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
             heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera());
             heladeraDTO.setCapacidadMax(heladera.getCapacidadMax());
@@ -31,6 +32,6 @@ public class ControladorHeladeras {
         }
         Map<String, Object> model = new HashMap<>();
         model.put("heladeras", heladerasDTO);
-        context.render("heladeras/heladeras.hbs", model);
+        context.render("dashboard/heladeras.hbs", model);
     }
 }

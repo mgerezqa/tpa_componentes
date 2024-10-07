@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class HeladeraDTO {
+    private Long id;
     private String nombreIdentificador;
     private Integer capacidadMax;
     private Integer capacidadActual;

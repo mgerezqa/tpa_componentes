@@ -1,0 +1,213 @@
+<!-- Seccion Heladeras -->
+{{#partial "contenido"}}
+    <section id="listado-heladeras">
+        <p class="lead">Listado de heladeras</p>
+        <hr>
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearHeladera">Crear Heladera</button>
+
+            <!-- Tabla de heladeras -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Modelo </th>
+                    <th>Ubicacion</th>
+                    <th>Capacidad actual</th>
+                    <th>Capacidad máxima </th>
+                    <th>Fecha inicio funcionamiento</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de heladeras  -->
+                {{#each heladeras}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.estadoHeladera}}</td>
+                        <td>{{this.nombreIdentificador}}</td>
+                        <td>Samsung S7</td>
+                        <td>Almagro</td>
+                        <td>{{this.capacidadActual}}</td>
+                        <td>{{this.capacidadMax}}</td>
+                        <td>{{this.fechaInicioFuncionamiento}}</td>
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarHeladera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <!-- Botón para baja lógica  -->
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarHeladera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
+
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarHeladera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+                <!-- Modal de edición para una heladera -->
+                <div class="modal fade" id="modalEditarHeladera" tabindex="-1" aria-labelledby="modalEditarHeladera" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning text-dark">
+                                <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Heladera</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="nombreHeladeraEdit" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="nombreHeladeraEdit" placeholder="Ingrese Nombre" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="modeloHeladeraEdit" class="form-label">Modelo</label>
+                                        <input type="text" class="form-control" id="modeloHeladeraEdit" placeholder="Ingrese Modelo" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="ubicacionHeladeraEdit" class="form-label">Ubicación</label>
+                                        <input type="text" class="form-control" id="ubicacionHeladeraEdit" placeholder="Ingrese Ubicación" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="capacidadActualEdit" class="form-label">Capacidad Actual (litros)</label>
+                                        <input type="number" class="form-control" id="capacidadActualEdit" placeholder="Ingrese Capacidad Actual" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="capacidadMaximaEdit" class="form-label">Capacidad Máxima (litros)</label>
+                                        <input type="number" class="form-control" id="capacidadMaximaEdit" placeholder="Ingrese Capacidad Máxima" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="fechaInicioFuncionamientoEdit" class="form-label">Fecha de Inicio Funcionamiento</label>
+                                        <input type="date" class="form-control" id="fechaInicioFuncionamientoEdit" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Estado</label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="editarEstadoHeladera" checked>
+                                            <label class="form-check-label" for="editarEstadoHeladera">Activo</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de eliminación  -->
+                <div class="modal fade" id="modalEliminarHeladera" tabindex="-1" aria-labelledby="modalEliminarHeladera" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eliminar Heladera</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar esta heladera?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de deshabilitación  -->
+                <div class="modal fade" id="modalDeshabilitarHeladera" tabindex="-1" aria-labelledby="modalDeshabilitarHeladera" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Desactivar Heladera</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas dar de baja a esta heladera?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal de creación -->
+        <div class="modal fade" id="modalCrearHeladera" tabindex="-1" aria-labelledby="modalCrearHeladera" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear Heladera</h5>
+                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="nombreHeladera" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombreHeladera" placeholder="Ingrese Nombre" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="modeloHeladera" class="form-label">Modelo</label>
+                                <input type="text" class="form-control" id="modeloHeladera" placeholder="Ingrese Modelo" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ubicacionHeladera" class="form-label">Ubicación</label>
+                                <input type="text" class="form-control" id="ubicacionHeladera" placeholder="Ingrese Ubicación" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="capacidadActual" class="form-label">Capacidad Actual (litros)</label>
+                                <input type="number" class="form-control" id="capacidadActual" placeholder="Ingrese Capacidad Actual" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="capacidadMaxima" class="form-label">Capacidad Máxima (litros)</label>
+                                <input type="number" class="form-control" id="capacidadMaxima" placeholder="Ingrese Capacidad Máxima" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="fechaInicioFuncionamiento" class="form-label">Fecha de Inicio Funcionamiento</label>
+                                <input type="date" class="form-control" id="fechaInicioFuncionamiento" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="estadoHeladeraToggle" checked>
+                                    <label class="form-check-label inline" for="estadoHeladeraToggle">Activo</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                        <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}
