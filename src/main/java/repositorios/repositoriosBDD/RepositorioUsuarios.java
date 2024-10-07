@@ -2,13 +2,18 @@ package repositorios.repositoriosBDD;
 import domain.usuarios.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Data;
-import repositorios.interfaces.IRepositorioUsuarios;
+import repositorios.Repositorio;
+import java.util.List;
 
 @Data
-public class RepositorioUsuarios implements WithSimplePersistenceUnit {
+public class RepositorioUsuarios extends Repositorio implements WithSimplePersistenceUnit {
 
-    public void agregar(Usuario usuario){
-        entityManager().persist(usuario);
+    @SuppressWarnings("unchecked")
+    public List<Usuario> buscarPorNombre(String nombre) {
+        return entityManager()
+                .createQuery("from "+ Usuario.class.getName()+" where nombreUsuario =:name")
+                .setParameter("name", nombre)
+                .getResultList();
     }
 
 }
