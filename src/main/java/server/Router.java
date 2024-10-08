@@ -22,7 +22,11 @@ public class Router {
             ctx.render("/dashboard.hbs");
         });
         app.get("/dashboard/fisicos",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::index);
-        app.get("/dashboard/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index); //Ejemplo ruta con las heladeras de la base de datos
+
+
+        //dashboard/heladeras
+        app.get("/dashboard/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index);
+        app.post("/dashboard/heladeras",ServiceLocator.instanceOf(ControladorHeladeras.class)::create);
 
     }
 }

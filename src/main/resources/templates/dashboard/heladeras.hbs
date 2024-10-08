@@ -161,50 +161,51 @@
                         <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form action="/dashboard/heladeras" method="POST">
                             <div class="mb-3">
                                 <label for="nombreHeladera" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombreHeladera" placeholder="Ingrese Nombre" required>
+                                <input type="text" class="form-control" name="nombreHeladera" id="nombreHeladera" placeholder="Ingrese Nombre" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="modeloHeladera" class="form-label">Modelo</label>
-                                <input type="text" class="form-control" id="modeloHeladera" placeholder="Ingrese Modelo" required>
+                                <input type="text" class="form-control" name="modeloHeladera" id="modeloHeladera" placeholder="Ingrese Modelo" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="ubicacionHeladera" class="form-label">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacionHeladera" placeholder="Ingrese Ubicación" required>
+                                <input type="text" class="form-control" name="ubicacionHeladera" id="ubicacionHeladera" placeholder="Ingrese Ubicación" >
                             </div>
 
                             <div class="mb-3">
                                 <label for="capacidadActual" class="form-label">Capacidad Actual (litros)</label>
-                                <input type="number" class="form-control" id="capacidadActual" placeholder="Ingrese Capacidad Actual" required>
+                                <input type="number" class="form-control" name="capacidadActual" id="capacidadActual" placeholder="Ingrese Capacidad Actual" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="capacidadMaxima" class="form-label">Capacidad Máxima (litros)</label>
-                                <input type="number" class="form-control" id="capacidadMaxima" placeholder="Ingrese Capacidad Máxima" required>
+                                <input type="number" class="form-control" name="capacidadMaxima" id="capacidadMaxima" placeholder="Ingrese Capacidad Máxima" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="fechaInicioFuncionamiento" class="form-label">Fecha de Inicio Funcionamiento</label>
-                                <input type="date" class="form-control" id="fechaInicioFuncionamiento" required>
+                                <input type="date" class="form-control" name="fechaInicioFuncionamiento" id="fechaInicioFuncionamiento" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Estado</label>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="estadoHeladeraToggle" checked>
+                                    <input class="form-check-input" type="checkbox" name="estadoHeladera" value="ACTIVA" id="estadoHeladeraToggle">
                                     <label class="form-check-label inline" for="estadoHeladeraToggle">Activo</label>
                                 </div>
                             </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                            </div>
                         </form>
                     </div>
-                    <div class="modal-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                        <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                    </div>
+
                 </div>
             </div>
         </div>
