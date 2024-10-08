@@ -99,7 +99,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
 
     @Override
     public void edit(Context context) {
-
+        context.render("/dashboard/forms/heladera.hbs");
     }
 
     @Override
@@ -131,7 +131,6 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             context.redirect("/dashboard/heladeras"); //TODO pantalla de exito al actualizar!
         }else{
             context.status(HttpStatus.NOT_FOUND);
-            return;
         }
     }
 
