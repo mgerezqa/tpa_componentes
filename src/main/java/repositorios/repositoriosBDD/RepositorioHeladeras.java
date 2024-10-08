@@ -2,10 +2,11 @@ package repositorios.repositoriosBDD;
 
 import domain.heladera.Heladera.Heladera;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
 
 import java.util.List;
 
-public class RepositorioHeladeras implements WithSimplePersistenceUnit {
+public class RepositorioHeladeras extends Repositorio implements WithSimplePersistenceUnit {
 
     public Heladera obtenerHeladeraPorID(String id) {
         return entityManager().find(Heladera.class, id);

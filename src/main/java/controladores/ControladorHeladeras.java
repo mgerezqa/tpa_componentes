@@ -9,6 +9,7 @@ import domain.heladera.Heladera.ModeloDeHeladera;
 import dtos.HeladeraDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
@@ -16,10 +17,7 @@ import utils.ICrudViewsHandler;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersistenceUnit {
     RepositorioHeladeras repositorioHeladeras;
@@ -106,7 +104,35 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
 
     @Override
     public void update(Context context) {
-
+        //Validaciones
+        Validator<Integer> capacidadMax = context.formParamAsClass("capacidadMaxima", Integer.class)
+                .check(value -> value > 0, "La capacidad maxima debe ser mayor a 0");
+        Validator<Integer> capacidadActual = context.formParamAsClass("capacidadActual", Integer.class)
+                .check(value -> value >= 0, "La capacidad actual no puede ser negativa");
+        Validator<String> nombreHeladera = context.formParamAsClass("nombreHeladera", String.class)
+                .check(value -> value != null, "El nombre de la heladera es obligatorio");
+        String estadoHeladera = context.formParam("estadoHeladera");
+        //
+        Optional<Object> posibleHeladeraEncontrada = this.repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
+        if(posibleHeladeraEncontrada.isPresent()){
+            Heladera heladera = (Heladera) posibleHeladeraEncontrada.get();
+            heladera.setNombreIdentificador(nombreHeladera.get());
+            if(estadoHeladera != null){
+                heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
+            }else{
+                heladera.setEstadoHeladera(EstadoHeladera.INACTIVA);
+            }
+            heladera.setCapacidadActual(capacidadActual.get());
+            heladera.setCapacidadMax(capacidadMax.get());
+            heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));
+            withTransaction(()->{
+                repositorioHeladeras.actualizar(heladera);
+            });
+            context.redirect("/dashboard/heladeras"); //TODO pantalla de exito al actualizar!
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+            return;
+        }
     }
 
     @Override
