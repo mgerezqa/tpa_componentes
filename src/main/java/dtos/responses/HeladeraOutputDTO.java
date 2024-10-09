@@ -1,14 +1,10 @@
-package dtos;
+package dtos.responses;
 
 import domain.heladera.Heladera.EstadoHeladera;
-import domain.heladera.Heladera.ModeloDeHeladera;
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Data
-public class HeladeraDTO {
+public class HeladeraOutputDTO {
     private Long id;
     private String nombreIdentificador;
     private Integer capacidadMax;
@@ -16,5 +12,4 @@ public class HeladeraDTO {
     private String fechaInicioFuncionamiento;
     private EstadoHeladera estadoHeladera;
     private Float temperatura;
-    private ModeloDeHeladera modeloDeHeladera;
 }

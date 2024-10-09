@@ -8,6 +8,8 @@ import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
+import services.implem.ServiceHeladera;
+import services.interfaces.IServiceHeladera;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +24,7 @@ public class ServiceLocator {
 
         if (!instances.containsKey(componentName)) {
             if(componentName.equals(ControladorHeladeras.class.getName())) {
-                ControladorHeladeras instance = new ControladorHeladeras(instanceOf(RepositorioHeladeras.class));
+                ControladorHeladeras instance = new ControladorHeladeras(instanceOf(IServiceHeladera.class),instanceOf(RepositorioHeladeras.class));
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(RepositorioHeladeras.class.getName())) {
@@ -44,6 +46,9 @@ public class ServiceLocator {
                 instances.put(componentName,instance);
             }else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
                 ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class));
+                instances.put(componentName, instance);
+            }else if(componentName.equals(IServiceHeladera.class.getName())){
+                IServiceHeladera instance = new ServiceHeladera(instanceOf(RepositorioHeladeras.class));
                 instances.put(componentName, instance);
             }
         }

@@ -6,44 +6,35 @@ import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
-import dtos.HeladeraDTO;
+import dtos.requests.HeladeraInputDTO;
+import dtos.responses.HeladeraOutputDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
-import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
+import services.interfaces.IServiceHeladera;
 import utils.ICrudViewsHandler;
 
 import java.time.LocalDate;
 import java.util.*;
 
-public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersistenceUnit {
-    RepositorioHeladeras repositorioHeladeras;
-
-    public ControladorHeladeras(RepositorioHeladeras repositorioHeladeras) {
+public class ControladorHeladeras implements ICrudViewsHandler,WithSimplePersistenceUnit {
+    private IServiceHeladera serviceHeladera;
+    private RepositorioHeladeras repositorioHeladeras;
+    public ControladorHeladeras(IServiceHeladera serviceHeladera,RepositorioHeladeras repositorioHeladeras) {
+        this.serviceHeladera = serviceHeladera;
         this.repositorioHeladeras = repositorioHeladeras;
+
     }
+
     @Override
     public void index(Context context) {
-        List<Heladera> heladeras = repositorioHeladeras.obtenerTodasLasHeladeras();
-        List<HeladeraDTO> heladerasDTO = new ArrayList<>();
-        for (Heladera heladera : heladeras) {
-            HeladeraDTO heladeraDTO = new HeladeraDTO();
-            heladeraDTO.setId(heladera.getId());
-            heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
-            heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera());
-            heladeraDTO.setCapacidadMax(heladera.getCapacidadMax());
-            heladeraDTO.setCapacidadActual(heladera.getCapacidadActual());
-            if(heladera.getFechaInicioFuncionamiento()!=null){
-                heladeraDTO.setFechaInicioFuncionamiento(heladera.getFechaInicioFuncionamiento().toString());
-            }
-            heladerasDTO.add(heladeraDTO);
-        }
+        List<HeladeraOutputDTO> heladeras = serviceHeladera.obtenerTodos();
         Map<String, Object> model = new HashMap<>();
-        model.put("heladeras", heladerasDTO);
+        model.put("heladeras", heladeras);
         context.render("dashboard/heladeras.hbs", model);
     }
 
@@ -105,7 +96,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         if(posibleHeladera.isPresent()){
             Heladera heladera = (Heladera) posibleHeladera.get();
             System.out.println(heladera);
-            HeladeraDTO heladeraDTO = new HeladeraDTO();
+            HeladeraInputDTO heladeraDTO = new HeladeraInputDTO();
             heladeraDTO.setId(heladera.getId());
             heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
             heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera());
