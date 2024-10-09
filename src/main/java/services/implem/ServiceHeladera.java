@@ -1,12 +1,18 @@
 package services.implem;
 
+import domain.geografia.Calle;
+import domain.geografia.Provincia;
+import domain.geografia.Ubicacion;
+import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
+import domain.heladera.Heladera.ModeloDeHeladera;
 import dtos.requests.HeladeraInputDTO;
 import dtos.responses.HeladeraOutputDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import services.interfaces.IServiceHeladera;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +48,17 @@ public class ServiceHeladera implements IServiceHeladera, WithSimplePersistenceU
     }
 
     @Override
-    public void crear(HeladeraInputDTO heladera) {
+    public void crear(HeladeraInputDTO heladeraInputDTO) {
 
+        Heladera heladera = new Heladera(heladeraInputDTO.getModeloDeHeladera(),heladeraInputDTO.getNombreIdentificador(),heladeraInputDTO.getUbicacion());
+        heladera.setEstadoHeladera(heladeraInputDTO.getEstadoHeladera());
+        heladera.setCapacidadActual(heladeraInputDTO.getCapacidadActual());
+        heladera.setCapacidadMax(heladeraInputDTO.getCapacidadMax());
+        heladera.setFechaInicioFuncionamiento(LocalDate.parse(heladeraInputDTO.getFechaInicioFuncionamiento()));
+
+        withTransaction(()->{
+            repositorioHeladeras.guardar(heladera);
+        });
     }
 
     @Override

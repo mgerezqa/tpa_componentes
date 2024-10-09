@@ -60,7 +60,9 @@ public class ControladorHeladeras implements ICrudViewsHandler,WithSimplePersist
             context.redirect("/dashboard/heladeras"); // TODO -> Pantalla del form pero mencionando los errores al usuario
             return;
         }
+
         //Exito
+        //Hardcoadeado
         ModeloDeHeladera modelo = new ModeloDeHeladera(context.formParam("modeloHeladera").toUpperCase());
         modelo.setTemperaturaMaxima(22f);
         modelo.setTemperaturaMinima(-12f);
@@ -68,19 +70,20 @@ public class ControladorHeladeras implements ICrudViewsHandler,WithSimplePersist
         Ubicacion ubicacionA = new Ubicacion(11234f, 6456f, new Calle("Av. Medrano", "6742"));
         ubicacionA.setProvincia(provincia1);
 
-        Heladera heladera = new Heladera(modelo,nombreHeladera.get(),ubicacionA);
+        HeladeraInputDTO heladeraInputDTO = new HeladeraInputDTO();
+        heladeraInputDTO.setModeloDeHeladera(modelo);
+        heladeraInputDTO.setNombreIdentificador(nombreHeladera.get());
+        heladeraInputDTO.setUbicacion(ubicacionA);
         if(estadoHeladera != null){
-            heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
+            heladeraInputDTO.setEstadoHeladera(EstadoHeladera.ACTIVA);
         }else{
-            heladera.setEstadoHeladera(EstadoHeladera.INACTIVA);
+            heladeraInputDTO.setEstadoHeladera(EstadoHeladera.INACTIVA);
         }
-        heladera.setCapacidadMax(capacidadMax.get());
-        heladera.setCapacidadActual(capacidadActual.get());
-        heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));
+        heladeraInputDTO.setCapacidadMax(capacidadMax.get());
+        heladeraInputDTO.setCapacidadActual(capacidadActual.get());
+        heladeraInputDTO.setFechaInicioFuncionamiento(context.formParam("fechaInicioFuncionamiento"));
 
-        withTransaction(()->{
-            repositorioHeladeras.guardar(heladera);
-        });
+        serviceHeladera.crear(heladeraInputDTO);
 
         context.redirect("/dashboard/heladeras");
     }

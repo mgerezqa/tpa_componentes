@@ -1,8 +1,11 @@
 package dtos.requests;
 
+import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import lombok.Data;
+
+import java.time.LocalDate;
 
 @Data
 public class HeladeraInputDTO {
@@ -14,4 +17,6 @@ public class HeladeraInputDTO {
     private EstadoHeladera estadoHeladera;
     private Float temperatura;
     private ModeloDeHeladera modeloDeHeladera;
+    private Ubicacion ubicacion;
+
 }
