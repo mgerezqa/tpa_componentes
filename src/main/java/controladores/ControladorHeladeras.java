@@ -8,8 +8,10 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import dtos.HeladeraDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
@@ -59,7 +61,8 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
                 .check(value -> value != null, "El nombre de la heladera es obligatorio");
         String estadoHeladera = context.formParam("estadoHeladera");
 
-        Map<String, List<ValidationError<Integer>>> errors = capacidadMax.errors();
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(capacidadActual,capacidadMax,nombreHeladera);
+
         //Errores
         if(!errors.isEmpty()){
             System.out.println(errors);
@@ -101,6 +104,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         Optional<Object> posibleHeladera = repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
         if(posibleHeladera.isPresent()){
             Heladera heladera = (Heladera) posibleHeladera.get();
+            System.out.println(heladera);
             HeladeraDTO heladeraDTO = new HeladeraDTO();
             heladeraDTO.setId(heladera.getId());
             heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
@@ -131,6 +135,14 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
                 .check(value -> value != null, "El nombre de la heladera es obligatorio");
         String estadoHeladera = context.formParam("estadoHeladera");
         //
+        //Errores
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(capacidadActual,capacidadMax,nombreHeladera);
+
+        if(!errors.isEmpty()){
+            System.out.println(errors);
+            context.redirect("/dashboard/heladeras"); // TODO -> Pantalla del form pero mencionando los errores al usuario
+            return;
+        }
         Optional<Object> posibleHeladeraEncontrada = this.repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
         if(posibleHeladeraEncontrada.isPresent()){
             Heladera heladera = (Heladera) posibleHeladeraEncontrada.get();
@@ -144,7 +156,6 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             heladera.setCapacidadMax(capacidadMax.get());
             heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));
             withTransaction(()->{
-                System.out.println(heladera);
                 repositorioHeladeras.actualizar(heladera);
             });
             context.redirect("/dashboard/heladeras"); //TODO pantalla de exito al actualizar!
