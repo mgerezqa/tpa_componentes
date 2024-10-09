@@ -4,6 +4,7 @@ import config.ServiceLocator;
 import controladores.ControladorColaboradorFisico;
 import controladores.ControladorColaboradorJuridico;
 import controladores.ControladorHeladeras;
+import controladores.ControladorTecnicos;
 import io.javalin.Javalin;
 
 public class Router {
@@ -28,6 +29,9 @@ public class Router {
         app.get("/dashboard/heladeras/{id}/edit",ServiceLocator.instanceOf(ControladorHeladeras.class)::edit);
         app.post("/dashboard/heladeras/{id}/edit",ServiceLocator.instanceOf(ControladorHeladeras.class)::update);
         app.post("/dashboard/heladeras/{id}/delete",ServiceLocator.instanceOf(ControladorHeladeras.class)::delete);
+
+        //dashboard/tecnicos
+        app.get("/dashboard/tecnicos", ServiceLocator.instanceOf(ControladorTecnicos.class)::index);
 
 
     }

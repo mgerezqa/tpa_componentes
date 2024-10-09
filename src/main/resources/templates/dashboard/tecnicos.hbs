@@ -1,217 +1,221 @@
 <!-- Seccion Técnicos -->
-<section id="listado-tecnicos" class="d-none">
-    <p class="lead">Listado de técnicos</p>
-    <hr>
+{{#partial "contenido"}}
+    <section id="listado-tecnicos" >
+        <p class="lead">Listado de técnicos</p>
+        <hr>
 
-    <div class="container">
-        <!-- Botón para abrir el modal de crear -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearTecnico">Crear Técnico</button>
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearTecnico">Crear Técnico</button>
 
-        <!-- Tabla de tecnicos -->
-        <table class="table mt-3">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Estado</th>
-                <th>Nombre</th>
-                <th>Apellido </th>
-                <th>Tipo Documento</th>
-                <th>Nro Documento</th>
-                <th>Area de Cobertura </th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Listado de heladeras  -->
-            <tr>
-                <td>1</td>
-                <td>Activo</td>
-                <td>Roberto</td>
-                <td>Gomez</td>
-                <td>DNI</td>
-                <td>45323320</td>
-                <td>Zona Norte</td>
-                <td>
-                    <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
+            <!-- Tabla de tecnicos -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Apellido </th>
+                    <th>Tipo Documento</th>
+                    <th>Nro Documento</th>
+                    <th>Area de Cobertura </th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de heladeras  -->
+                {{#each tecnicos}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.activo}}</td>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.apellido}}</td>
+                        <td>{{this.tipoDocumento}}</td>
+                        <td>{{this.nroDocumento}}</td>
+                        <td>Zona Norte</td>
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
 
-                    <!-- Botón para baja lógica  -->
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
-                        <i class="bi bi-arrow-down-circle"></i>
-                    </button>
+                            <!-- Botón para baja lógica  -->
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
 
-                    <!-- Botón para abrir el modal de eliminación -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-
-
-            </tr>
-
-            <!-- Modal de edición para un tecnico -->
-            <div class="modal fade" id="modalEditarTecnico" tabindex="-1" aria-labelledby="modalEditarTecnico" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-warning text-dark">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Tecnico</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-
-                                <div class="mb-3">
-                                    <label for="editarNombreTecnico" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="editarNombreTecnico" placeholder="Ingrese Nombre" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarApellidoTecnico" class="form-label">Apellido</label>
-                                    <input type="text" class="form-control" id="editarApellidoTecnico" placeholder="Ingrese Apellido" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editarTipoDocumento" class="form-label">Tipo de Documento</label>
-                                    <select class="form-select" id="editarTipoDocumento" required>
-                                        <option value="" disabled>Seleccionar tipo...</option>
-                                        <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
-                                        <option value="2">LC</option>
-                                        <option value="3">LE</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarNroDocumento" class="form-label">NroDocumento</label>
-                                    <input type="text" class="form-control" id="editarNroDocumento" placeholder="Ingrese NroDoc" required>
-                                </div>
-
-                                <!-- Buscar Zona -->
-                                <div class="mb-3">
-                                    <label for="editarZonaDeCobertura" class="form-label">Area de Cobertura</label>
-                                    <select class="form-select" id="editarZonaDeCobertura" required>
-                                        <option value="" disabled>Seleccionar tipo...</option>
-                                        <option value="1" selected>Zona Norte</option> <!-- Opción seleccionada -->
-                                        <option value="2">Zona Sur</option>
-                                        <option value="3">CABA</option>
-                                    </select>
-                                </div>
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
 
 
-                                <div class="mb-3">
-                                    <label class="form-label">Estado</label>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="editarEstadoTecnico" checked>
-                                        <label class="form-check-label" for="editarEstadoTecnico">Activo</label>
+                <!-- Modal de edición para un tecnico -->
+                <div class="modal fade" id="modalEditarTecnico" tabindex="-1" aria-labelledby="modalEditarTecnico" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning text-dark">
+                                <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Tecnico</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+
+                                    <div class="mb-3">
+                                        <label for="editarNombreTecnico" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="editarNombreTecnico" placeholder="Ingrese Nombre" required>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Modal de eliminación  -->
-            <div class="modal fade" id="modalEliminarTecnico" tabindex="-1" aria-labelledby="modalEliminarTecnico" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Eliminar Tecnico</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas eliminar este usuario?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <div class="mb-3">
+                                        <label for="editarApellidoTecnico" class="form-label">Apellido</label>
+                                        <input type="text" class="form-control" id="editarApellidoTecnico" placeholder="Ingrese Apellido" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editarTipoDocumento" class="form-label">Tipo de Documento</label>
+                                        <select class="form-select" id="editarTipoDocumento" required>
+                                            <option value="" disabled>Seleccionar tipo...</option>
+                                            <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
+                                            <option value="2">LC</option>
+                                            <option value="3">LE</option>
+                                        </select>
+                                    </div>
 
-            <!-- Modal de deshabilitación  -->
-            <div class="modal fade" id="modalDeshabilitarTecnico" tabindex="-1" aria-labelledby="modalDeshabilitarTecnico" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Desactivar Técnico</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <div class="mb-3">
+                                        <label for="editarNroDocumento" class="form-label">NroDocumento</label>
+                                        <input type="text" class="form-control" id="editarNroDocumento" placeholder="Ingrese NroDoc" required>
+                                    </div>
 
-            </tbody>
-        </table>
-    </div>
+                                    <!-- Buscar Zona -->
+                                    <div class="mb-3">
+                                        <label for="editarZonaDeCobertura" class="form-label">Area de Cobertura</label>
+                                        <select class="form-select" id="editarZonaDeCobertura" required>
+                                            <option value="" disabled>Seleccionar tipo...</option>
+                                            <option value="1" selected>Zona Norte</option> <!-- Opción seleccionada -->
+                                            <option value="2">Zona Sur</option>
+                                            <option value="3">CABA</option>
+                                        </select>
+                                    </div>
 
-    <!-- Modal de creación -->
-    <div class="modal fade" id="modalCrearTecnico" tabindex="-1" aria-labelledby="modalCrearTecnico" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear Técnico</h5>
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
 
-                        <div class="mb-3">
-                            <label for="nombreTecnico" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombreTecnico" placeholder="Ingrese Nombre" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="apellidoTecnico" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="nombreTecnico" placeholder="Ingrese Apellido" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
-                            <select class="form-select" id="tipoDocumento" required>
-                                <option value="" disabled>Seleccionar tipo...</option>
-                                <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
-                                <option value="2">LC</option>
-                                <option value="3">LE</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="areaDeCobertura" class="form-label">Area de cobertura</label>
-                            <input type="text" class="form-control" id="areaDeCobertura" placeholder="Ingrese area de cobertura" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Estado</label>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="estadoTecnico" checked>
-                                <label class="form-check-label" for="estadoTecnico">Activo</label>
+                                    <div class="mb-3">
+                                        <label class="form-label">Estado</label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="editarEstadoTecnico" checked>
+                                            <label class="form-check-label" for="editarEstadoTecnico">Activo</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
                             </div>
                         </div>
-
-
-                    </form>
+                    </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+
+                <!-- Modal de eliminación  -->
+                <div class="modal fade" id="modalEliminarTecnico" tabindex="-1" aria-labelledby="modalEliminarTecnico" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eliminar Tecnico</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de deshabilitación  -->
+                <div class="modal fade" id="modalDeshabilitarTecnico" tabindex="-1" aria-labelledby="modalDeshabilitarTecnico" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Desactivar Técnico</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal de creación -->
+        <div class="modal fade" id="modalCrearTecnico" tabindex="-1" aria-labelledby="modalCrearTecnico" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear Técnico</h5>
+                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+
+                            <div class="mb-3">
+                                <label for="nombreTecnico" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombreTecnico" placeholder="Ingrese Nombre" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellidoTecnico" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="nombreTecnico" placeholder="Ingrese Apellido" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+                                <select class="form-select" id="tipoDocumento" required>
+                                    <option value="" disabled>Seleccionar tipo...</option>
+                                    <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
+                                    <option value="2">LC</option>
+                                    <option value="3">LE</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="areaDeCobertura" class="form-label">Area de cobertura</label>
+                                <input type="text" class="form-control" id="areaDeCobertura" placeholder="Ingrese area de cobertura" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="estadoTecnico" checked>
+                                    <label class="form-check-label" for="estadoTecnico">Activo</label>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                        <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}

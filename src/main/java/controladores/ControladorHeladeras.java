@@ -8,7 +8,6 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import dtos.HeladeraDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
-import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;

@@ -2,10 +2,11 @@ package repositorios.repositoriosBDD;
 
 import domain.usuarios.Tecnico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
 
 import java.util.List;
 
-public class RepositorioTecnicos implements WithSimplePersistenceUnit {
+public class RepositorioTecnicos extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(Tecnico tecnico) {
         if (entityManager().contains(tecnico)) {
@@ -36,6 +37,12 @@ public class RepositorioTecnicos implements WithSimplePersistenceUnit {
                 .createQuery("FROM Tecnico tec WHERE tec.activo = true", Tecnico.class)
                 .getResultList();
     }
+    public List<Tecnico> buscarTodosTecnicos() {
+        return entityManager()
+                .createQuery("FROM Tecnico", Tecnico.class)
+                .getResultList();
+    }
+
 
     public void eliminarTodos() {
         List<Tecnico> tecnicos = entityManager()

@@ -4,9 +4,11 @@ package config;
 import controladores.ControladorColaboradorFisico;
 import controladores.ControladorColaboradorJuridico;
 import controladores.ControladorHeladeras;
+import controladores.ControladorTecnicos;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
+import repositorios.repositoriosBDD.RepositorioTecnicos;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 
 import java.util.HashMap;
@@ -45,6 +47,12 @@ public class ServiceLocator {
             }else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
                 ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class));
                 instances.put(componentName, instance);
+            }else if(componentName.equals(ControladorTecnicos.class.getName())){
+                ControladorTecnicos instance = new ControladorTecnicos(instanceOf(RepositorioTecnicos.class));
+                instances.put(componentName, instance);
+            }else if(componentName.equals(RepositorioTecnicos.class.getName())){
+                RepositorioTecnicos instance = new RepositorioTecnicos();
+                instances.put(componentName,instance);
             }
         }
 
