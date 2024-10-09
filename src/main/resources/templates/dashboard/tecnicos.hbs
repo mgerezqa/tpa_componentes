@@ -18,7 +18,9 @@
                     <th>Apellido </th>
                     <th>Tipo Documento</th>
                     <th>Nro Documento</th>
-                    <th>Area de Cobertura </th>
+                    <th>Calle</th>
+                    <th>Altura</th>
+                    <th>Tamaño de area</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
@@ -32,10 +34,20 @@
                         <td>{{this.apellido}}</td>
                         <td>{{this.tipoDocumento}}</td>
                         <td>{{this.nroDocumento}}</td>
-                        <td>Zona Norte</td>
+                        <td>{{this.calle}}</td>
+                        <td>{{this.altura}}</td>
+                        <td>{{this.tamanioArea}}</td>
                         <td>
                             <!-- Botón para abrir el modal de edición -->
-                            <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                            <button class="btn btn-warning"
+                                    hx-get='/dashboard/tecnicos/{{this.id}}/edit'
+                                    hx-target="#modalEditarTecnico"
+                                    hx-trigger="click"
+                                    data-toggle="modal"
+                                    data-bs-target="#modalEditarTecnico"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Editar">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
 

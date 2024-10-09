@@ -32,6 +32,9 @@ public class ControladorTecnicos implements ICrudViewsHandler {
             tecnicoDTO.setApellido(tecnico.getApellido());
             tecnicoDTO.setNroDocumento(tecnico.getDocumento().getNumeroDeDocumento());
             tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
+            tecnicoDTO.setTamanioArea(tecnico.getArea().getTamanioArea().toString());
+            tecnicoDTO.setCalle(tecnico.getArea().getUbicacionPrincipal().getCalle().getNombre());
+            tecnicoDTO.setAltura(tecnico.getArea().getUbicacionPrincipal().getCalle().getAltura());
             tecnicosDTO.add(tecnicoDTO);
         }
         Map<String,List<TecnicoDTO>> model = new HashMap<>();

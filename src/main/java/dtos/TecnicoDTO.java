@@ -11,4 +11,7 @@ public class TecnicoDTO {
     private String tipoDocumento;
     private String nroDocumento;
     private Boolean activo;
+    private String calle;
+    private String altura;
+    private String tamanioArea;
 }
