@@ -16,7 +16,6 @@ import repositorios.repositoriosBDD.RepositorioHeladeras;
 import utils.ICrudViewsHandler;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersistenceUnit {
@@ -99,7 +98,26 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
 
     @Override
     public void edit(Context context) {
-        context.render("/dashboard/forms/heladera.hbs");
+        Optional<Object> posibleHeladera = repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
+        if(posibleHeladera.isPresent()){
+            Heladera heladera = (Heladera) posibleHeladera.get();
+            HeladeraDTO heladeraDTO = new HeladeraDTO();
+            heladeraDTO.setId(heladera.getId());
+            heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
+            heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera());
+            heladeraDTO.setCapacidadMax(heladera.getCapacidadMax());
+            heladeraDTO.setCapacidadActual(heladera.getCapacidadActual());
+            if(heladera.getFechaInicioFuncionamiento()!=null){
+                heladeraDTO.setFechaInicioFuncionamiento(heladera.getFechaInicioFuncionamiento().toString());
+            }
+            Map<String, Object> model = new HashMap<>();
+            System.out.println("Heladera DTO: " + heladeraDTO);
+            model.put("heladera", heladeraDTO);
+            model.put("action","/dashboard/heladeras/"+heladeraDTO.getId()+"/edit");
+            context.render("/dashboard/forms/heladera.hbs",model);
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
@@ -126,6 +144,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             heladera.setCapacidadMax(capacidadMax.get());
             heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));
             withTransaction(()->{
+                System.out.println(heladera);
                 repositorioHeladeras.actualizar(heladera);
             });
             context.redirect("/dashboard/heladeras"); //TODO pantalla de exito al actualizar!
