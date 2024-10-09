@@ -27,7 +27,6 @@
       <property name="use_sql_comments" value="true"/>
         <property name="hibernate.hbm2ddl.auto" value="none"/>
 
-
     </properties>
 
   </persistence-unit>
