@@ -47,7 +47,7 @@
                                     hx-get='/dashboard/tecnicos/{{this.id}}/edit'
                                     hx-target="#modalEditarTecnico"
                                     hx-trigger="click"
-                                    data--bs-toggle="modal"
+                                    data-bs-toggle="modal"
                                     data-bs-target="#modalEditarTecnico"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="bottom"
@@ -73,62 +73,7 @@
                 <div class="modal fade" id="modalEditarTecnico" tabindex="-1" aria-labelledby="modalEditarTecnico" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header bg-warning text-dark">
-                                <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Tecnico</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
 
-                                    <div class="mb-3">
-                                        <label for="editarNombreTecnico" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="editarNombreTecnico" placeholder="Ingrese Nombre" required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editarApellidoTecnico" class="form-label">Apellido</label>
-                                        <input type="text" class="form-control" id="editarApellidoTecnico" placeholder="Ingrese Apellido" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editarTipoDocumento" class="form-label">Tipo de Documento</label>
-                                        <select class="form-select" id="editarTipoDocumento" required>
-                                            <option value="" disabled>Seleccionar tipo...</option>
-                                            <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
-                                            <option value="2">LC</option>
-                                            <option value="3">LE</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editarNroDocumento" class="form-label">NroDocumento</label>
-                                        <input type="text" class="form-control" id="editarNroDocumento" placeholder="Ingrese NroDoc" required>
-                                    </div>
-
-                                    <!-- Buscar Zona -->
-                                    <div class="mb-3">
-                                        <label for="editarZonaDeCobertura" class="form-label">Area de Cobertura</label>
-                                        <select class="form-select" id="editarZonaDeCobertura" required>
-                                            <option value="" disabled>Seleccionar tipo...</option>
-                                            <option value="1" selected>Zona Norte</option> <!-- Opción seleccionada -->
-                                            <option value="2">Zona Sur</option>
-                                            <option value="3">CABA</option>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="mb-3">
-                                        <label class="form-label">Estado</label>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="editarEstadoTecnico" checked>
-                                            <label class="form-check-label" for="editarEstadoTecnico">Activo</label>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer d-flex justify-content-between">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                                <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                            </div>
                         </div>
                     </div>
                 </div>

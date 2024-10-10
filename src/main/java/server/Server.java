@@ -1,6 +1,8 @@
 package server;
 
 import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
 import domain.Config;
 import domain.formulario.documentos.TipoDocumento;
@@ -45,6 +47,15 @@ public class Server {
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 Handlebars handlebars = new Handlebars();
+                handlebars.registerHelper("eq", new Helper<Object>() {
+                    @Override
+                    public Object apply(Object context, Options options) {
+                        if (context == null || options.param(0) == null) {
+                            return false; // Manejo de nulos
+                        }
+                        return context.equals(options.param(0));
+                    }
+                });
                 Template template = null;
                 try {
                     template = handlebars.compile(

@@ -1,5 +1,6 @@
 package controladores;
 
+import com.sun.mail.imap.protocol.BODY;
 import domain.formulario.documentos.Cuil;
 import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;
@@ -7,16 +8,14 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
-import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Tecnico;
-import dtos.HeladeraDTO;
 import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
-import kotlin.UByte;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
 import utils.ICrudViewsHandler;
 
@@ -119,7 +118,37 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void edit(Context context) {
+        String idParam =context.pathParam("id");
+        Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class,Long.parseLong(idParam));
+        if(posibleTecnico.isPresent()){
+            Tecnico tecnico = (Tecnico) posibleTecnico.get();
 
+            TecnicoDTO tecnicoDTO = new TecnicoDTO();
+            tecnicoDTO.setId(tecnico.getId());
+            tecnicoDTO.setActivo(tecnico.getActivo());
+            tecnicoDTO.setNombre(tecnico.getNombre());
+            tecnicoDTO.setApellido(tecnico.getApellido());
+            tecnicoDTO.setNroDocumento(tecnico.getDocumento().getNumeroDeDocumento());
+            tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
+            tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
+                    ? tecnico.getArea().getTamanioArea().toString()
+                    : "");
+            if(tecnico.getArea()!= null && tecnico.getArea().getUbicacionPrincipal()!=null && tecnico.getArea().getUbicacionPrincipal().getCalle()!= null){
+                tecnicoDTO.setCalle(tecnico.getArea().getUbicacionPrincipal().getCalle().getNombre());
+                tecnicoDTO.setAltura(tecnico.getArea().getUbicacionPrincipal().getCalle().getAltura());
+            }else{
+                tecnicoDTO.setCalle("");
+                tecnicoDTO.setAltura("");
+            }
+
+            Map<String, Object> model = new HashMap<>();
+            model.put("tecnico",tecnicoDTO);
+            model.put("edit",true);
+            model.put("action","/dashboard/tecnicos/"+idParam+"/edit");
+            context.render("/dashboard/forms/tecnico.hbs",model);
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
