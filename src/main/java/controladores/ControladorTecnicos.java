@@ -41,15 +41,10 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
                 tecnicoDTO.setNombre(tecnico.getNombre());
                 tecnicoDTO.setApellido(tecnico.getApellido());
                 tecnicoDTO.setNroDocumento(tecnico.getDocumento().getNumeroDeDocumento());
-                    tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
-                    tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
-                            ? tecnico.getArea().getTamanioArea().toString()
-                            : "");
-                if(tecnico.getArea()!= null && tecnico.getArea().getUbicacionPrincipal()!=null && tecnico.getArea().getUbicacionPrincipal().getCalle()!= null){
-                    tecnicoDTO.setCalle(tecnico.getArea().getUbicacionPrincipal().getCalle().getNombre());
-                }else{
-                    tecnicoDTO.setCalle("");
-                }
+                tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
+                tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
+                        ? tecnico.getArea().getTamanioArea().toString()
+                        : "");
                 if(tecnico.getArea()!= null && tecnico.getArea().getUbicacionPrincipal()!=null && tecnico.getArea().getUbicacionPrincipal().getCalle()!= null){
                     tecnicoDTO.setCalle(tecnico.getArea().getUbicacionPrincipal().getCalle().getNombre());
                     tecnicoDTO.setAltura(tecnico.getArea().getUbicacionPrincipal().getCalle().getAltura());
