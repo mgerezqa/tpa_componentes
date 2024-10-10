@@ -173,4 +173,8 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
     public void delete(Context context) {
 
     }
+    @Override
+    public void remove(Context context) {
+
+    }
 }

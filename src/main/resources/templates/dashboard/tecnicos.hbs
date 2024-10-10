@@ -56,7 +56,15 @@
                             </button>
 
                             <!-- Botón para baja lógica  -->
-                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                            <button class="btn btn-outline-danger"
+                                    hx-get='/dashboard/tecnicos/{{this.id}}/delete'
+                                    hx-target="#modalDeshabilitarTecnico"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalDeshabilitarTecnico"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Deshabilitar">
                                 <i class="bi bi-arrow-down-circle"></i>
                             </button>
 
@@ -102,18 +110,7 @@
                 <div class="modal fade" id="modalDeshabilitarTecnico" tabindex="-1" aria-labelledby="modalDeshabilitarTecnico" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Desactivar Técnico</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>

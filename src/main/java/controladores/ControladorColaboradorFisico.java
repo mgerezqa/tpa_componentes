@@ -65,4 +65,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     public void delete(Context context) {
 
     }
+    @Override
+    public void remove(Context context) {
+
+    }
 }

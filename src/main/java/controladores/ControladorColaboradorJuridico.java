@@ -68,4 +68,9 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     public void delete(Context context) {
 
     }
+
+    @Override
+    public void remove(Context context) {
+
+    }
 }

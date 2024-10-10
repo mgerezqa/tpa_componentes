@@ -211,5 +211,25 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void delete(Context context) {
+        String idParam = context.pathParam("id");
+        Map<String, Object> model = new HashMap<>();
+        model.put("action","/dashboard/tecnicos/"+idParam+"/delete");
+        context.render("/dashboard/delete/tecnico.hbs",model);
     }
+    @Override
+    public void remove(Context context) {
+        String idParam =context.pathParam("id");
+        Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class,Long.parseLong(idParam));
+        if(posibleTecnico.isPresent()){
+            withTransaction(()->{
+                Tecnico tecnico = (Tecnico) posibleTecnico.get();
+                tecnico.setActivo(false);
+                repositorioTecnicos.actualizar(tecnico);
+            });
+            context.redirect("/dashboard/tecnicos"); //TODO realizar pantalla de exito de la creacion de tecnico
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
