@@ -183,16 +183,20 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class,Long.parseLong(idParam));
         if(posibleTecnico.isPresent()){
             withTransaction(()->{
-                Documento documento = new Documento(tipoDocumento.get(),nroDocumento.get());
-                //Harcodeo la lat y long, pero no deberia ser obligatorio asi que se debe sacar como nullable=false
-                Ubicacion ubicacion = new Ubicacion(1f,2f,new Calle(calle.get(),altura.get()));
-                AreaDeCobertura areaDeCobertura = new AreaDeCobertura(ubicacion,tamanioArea.get());
-                //Hardcodeo el cuil ya que aun no se define el como lo obtenemos desde el usuario
-                Cuil cuil = new Cuil("25",documento.getNumeroDeDocumento(),"9");
+                Tecnico tecnico = (Tecnico) posibleTecnico.get();
 
-                Tecnico tecnico = new Tecnico(nombreTecnico.get(),apellidoTecnico.get(),documento,cuil);
-                tecnico.setId(Long.parseLong(idParam));
-                tecnico.setAreaDeCobertura(areaDeCobertura);
+                Documento documento = tecnico.getDocumento();
+                Ubicacion ubicacion = tecnico.getArea().getUbicacionPrincipal();
+                Calle calleObtenida = ubicacion.getCalle();
+                AreaDeCobertura areaDeCobertura = tecnico.getArea();
+                //Seteo
+                tecnico.setNombre(nombreTecnico.get());
+                tecnico.setApellido(apellidoTecnico.get());
+                documento.setTipo(tipoDocumento.get());
+                documento.setNumeroDeDocumento(nroDocumento.get());
+                calleObtenida.setNombre(calle.get());
+                calleObtenida.setAltura(altura.get());
+                areaDeCobertura.setTamanioArea(tamanioArea.get());
 
                 repositorioTecnicos.actualizar(tecnico);
             });
