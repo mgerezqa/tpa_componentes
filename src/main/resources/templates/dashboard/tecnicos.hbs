@@ -6,7 +6,11 @@
 
         <div class="container">
             <!-- Botón para abrir el modal de crear -->
-            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearTecnico">Crear Técnico</button>
+            <button
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#modalCrearTecnico">Crear Técnico
+            </button>
 
             <!-- Tabla de tecnicos -->
             <table class="table mt-3">
@@ -43,7 +47,7 @@
                                     hx-get='/dashboard/tecnicos/{{this.id}}/edit'
                                     hx-target="#modalEditarTecnico"
                                     hx-trigger="click"
-                                    data-bs-toggle="modal"
+                                    data--bs-toggle="modal"
                                     data-bs-target="#modalEditarTecnico"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="bottom"
@@ -182,48 +186,57 @@
                         <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
-
+                        <form action="/dashboard/tecnicos" method="POST">
                             <div class="mb-3">
                                 <label for="nombreTecnico" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombreTecnico" placeholder="Ingrese Nombre" required>
+                                <input type="text" class="form-control" id="nombreTecnico" name="nombreTecnico" placeholder="Ingrese Nombre" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="apellidoTecnico" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="nombreTecnico" placeholder="Ingrese Apellido" required>
+                                <input type="text" class="form-control" id="apellidoTecnico" name="apellidoTecnico" placeholder="Ingrese Apellido" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
-                                <select class="form-select" id="tipoDocumento" required>
+                                <select class="form-select" id="tipoDocumento" name="tipoDocumento" required>
                                     <option value="" disabled>Seleccionar tipo...</option>
-                                    <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
-                                    <option value="2">LC</option>
-                                    <option value="3">LE</option>
+                                    <option value="DNI" selected>DNI</option> <!-- Opción seleccionada -->
+                                    <option value="LC">LC</option>
+                                    <option value="LE">LE</option>
                                 </select>
                             </div>
-
                             <div class="mb-3">
-                                <label for="areaDeCobertura" class="form-label">Area de cobertura</label>
-                                <input type="text" class="form-control" id="areaDeCobertura" placeholder="Ingrese area de cobertura" required>
+                                <label for="nroDocumento" class="form-label">Area de cobertura</label>
+                                <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" placeholder="Ingrese numero de documento" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="calle" class="form-label">Area de cobertura</label>
+                                <input type="text" class="form-control" id="calle" name="calle" placeholder="Ingrese calle" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="altura" class="form-label">Area de cobertura</label>
+                                <input type="text" class="form-control" id="altura" name="altura" placeholder="Ingrese altura" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tamanioArea" class="form-label">Area de cobertura</label>
+                                <input type="text" class="form-control" id="tamanioArea" name="tamanioArea" placeholder="Ingrese tamanio de area" required>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Estado</label>
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="estadoTecnico" checked>
+                                    <input class="form-check-input" type="checkbox" id="estadoTecnico" name="estadoTecnico" checked>
                                     <label class="form-check-label" for="estadoTecnico">Activo</label>
                                 </div>
                             </div>
-
-
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                            </div>
                         </form>
                     </div>
-                    <div class="modal-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                        <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                    </div>
+
                 </div>
             </div>
         </div>

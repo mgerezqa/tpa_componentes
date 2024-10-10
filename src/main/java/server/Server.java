@@ -3,6 +3,8 @@ package server;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import domain.Config;
+import domain.formulario.documentos.TipoDocumento;
+import domain.geografia.area.TamanioArea;
 import utils.Initializer;
 import utils.JavalinRenderer;
 import io.javalin.Javalin;
@@ -54,6 +56,8 @@ public class Server {
                     return "No se encuentra la página indicada...";
                 }
             }));
+            config.validation.register(TipoDocumento.class,  v->  TipoDocumento.valueOf(v.toUpperCase()));
+            config.validation.register(TamanioArea.class, v->  TamanioArea.valueOf(v.toUpperCase()));
         };
     }
 }
