@@ -28,6 +28,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
     @Override
     public void index(Context context) {
         List<Heladera> heladeras = repositorioHeladeras.obtenerTodasLasHeladeras();
+        System.out.println(heladeras.get(0).getNombreIdentificador());
         List<HeladeraDTO> heladerasDTO = new ArrayList<>();
         for (Heladera heladera : heladeras) {
             HeladeraDTO heladeraDTO = new HeladeraDTO();
@@ -103,6 +104,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         Optional<Object> posibleHeladera = repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
         if(posibleHeladera.isPresent()){
             Heladera heladera = (Heladera) posibleHeladera.get();
+
             System.out.println(heladera);
             HeladeraDTO heladeraDTO = new HeladeraDTO();
             heladeraDTO.setId(heladera.getId());
@@ -144,7 +146,10 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         }
         Optional<Object> posibleHeladeraEncontrada = this.repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
         if(posibleHeladeraEncontrada.isPresent()){
+            System.out.println("------------------UPDATE----");
             Heladera heladera = (Heladera) posibleHeladeraEncontrada.get();
+            System.out.println("En base: "+heladera.getNombreIdentificador());
+            System.out.println("En el param: "+nombreHeladera.get());
             heladera.setNombreIdentificador(nombreHeladera.get());
             if(estadoHeladera != null){
                 heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
@@ -156,6 +161,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));
             withTransaction(()->{
                 repositorioHeladeras.actualizar(heladera);
+                System.out.println("Post merge: "+heladera.getNombreIdentificador());
             });
             context.redirect("/dashboard/heladeras"); //TODO pantalla de exito al actualizar!
         }else{

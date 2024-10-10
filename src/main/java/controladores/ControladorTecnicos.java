@@ -19,6 +19,7 @@ import io.javalin.validation.Validator;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
 import utils.ICrudViewsHandler;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.*;
 
 public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersistenceUnit {
@@ -90,6 +91,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
                 .check(Objects::nonNull, "La altura es obligatorio"); //Deberia ser integer la altura,tener en cuenta
         Validator<TamanioArea> tamanioArea = context.formParamAsClass("tamanioArea", TamanioArea.class)
                 .check(Objects::nonNull, "El tamaño es obligatorio");
+        boolean activo = context.formParam("estadoTecnico")!= null;
 
         //Errores
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,calle,altura,tamanioArea);
@@ -107,10 +109,9 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             AreaDeCobertura areaDeCobertura = new AreaDeCobertura(ubicacion,tamanioArea.get());
             //Hardcodeo el cuil ya que aun no se define el como lo obtenemos desde el usuario
             Cuil cuil = new Cuil("25",documento.getNumeroDeDocumento(),"9");
-
             Tecnico tecnico = new Tecnico(nombreTecnico.get(),apellidoTecnico.get(),documento,cuil);
             tecnico.setAreaDeCobertura(areaDeCobertura);
-
+            tecnico.setActivo(activo);
             repositorioTecnicos.guardar(tecnico);
         });
         context.redirect("/dashboard/tecnicos"); //TODO realizar pantalla de exito de la creacion de tecnico
@@ -170,6 +171,8 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
                 .check(Objects::nonNull, "La altura es obligatorio"); //Deberia ser integer la altura,tener en cuenta
         Validator<TamanioArea> tamanioArea = context.formParamAsClass("tamanioArea", TamanioArea.class)
                 .check(Objects::nonNull, "El tamaño es obligatorio");
+        boolean activo = context.formParam("estadoTecnico")!= null;
+
         //Errores
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,calle,altura,tamanioArea);
 
@@ -197,18 +200,16 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
                 calleObtenida.setNombre(calle.get());
                 calleObtenida.setAltura(altura.get());
                 areaDeCobertura.setTamanioArea(tamanioArea.get());
-
+                tecnico.setActivo(activo);
                 repositorioTecnicos.actualizar(tecnico);
             });
             context.redirect("/dashboard/tecnicos"); //TODO realizar pantalla de exito de la creacion de tecnico
         }else{
             context.status(HttpStatus.NOT_FOUND);
         }
-
     }
 
     @Override
     public void delete(Context context) {
-
     }
 }
