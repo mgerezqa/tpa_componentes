@@ -37,20 +37,20 @@
                             <i class="bi bi-tools"></i> <span class="ms-2">Donaciones</span>
                         </a>
                         <ul class="dropdown-menu text-small shadow " aria-labelledby="dropdown">
-                            <li><a class="dropdown-item" href="/dashboard/donaciones/dinero" data-section="listado-de-donaciones-dinero">Dinero</a></li>
-                            <li><a class="dropdown-item" href="/dashboard/donaciones/viandas" data-section="listado-de-donaciones-viandas">Viandas</a></li>
-                            <li><a class="dropdown-item" href="/dashboard/donaciones/repartos" data-section="listado-de-donaciones-repartos">Repartos</a></li>
-                            <li><a class="dropdown-item" href="/dashboard/donaciones/mantenimientos" data-section="listado-de-donaciones-mantenimientos">Mantenimiento</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/dinero" >Dinero</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/viandas" >Viandas</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/repartos" >Repartos</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/mantenimientos" >Mantenimiento</a></li>
                         </ul>
                     </div>
 
-                    <a href="#" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="suscripciones" data-bs-parent="#sidebar" data-section="listado-suscripciones">
+                    <a href="/dashboard/suscripciones" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="suscripciones" data-bs-parent="#sidebar" >
                         <i class="bi bi-bell-fill"></i> <span>Suscripciones</span>
                     </a>
-                    <a href="#" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="beneficiarios" data-bs-parent="#sidebar" data-section="listado-beneficiarios">
+                    <a href="/dashboard/beneficiarios" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="beneficiarios" data-bs-parent="#sidebar" >
                         <i class="bi bi-person-badge-fill"></i> <span>Beneficiarios</span>
                     </a>
-                    <a href="#" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="tarjetas-beneficiarios" data-bs-parent="#sidebar" data-section="listado-tarjetas-beneficiarios">
+                    <a href="/dashboard/tarjetas/beneficiarios" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="tarjetas-beneficiarios" data-bs-parent="#sidebar" >
                         <i class="bi bi-credit-card-2-back-fill"></i> <span>Tarjetas Beneficiarios</span>
                     </a>
 
@@ -60,7 +60,7 @@
                             <span class="d-block">Perfil </span>
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-                            <li><a class="dropdown-item" href="#" data-section="ajustes-de-usuario">Ajustes</a></li>
+                            <li><a class="dropdown-item" href="#" >Ajustes</a></li>
                             <li><a class="dropdown-item" href="/">Cerrar Sesión</a></li>
                         </ul>
                     </div>
@@ -83,9 +83,6 @@
     </div>
 </div>
 
-
-
-
 <!-- Incluir jQuery, Popper.js y Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -95,28 +92,6 @@
 <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
 
 
-<!-- Ocultar secciones -->
-<script>
-    // Función para cambiar de sección
-    document.querySelectorAll('[data-section]').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            // Obtener la sección que debe mostrarse
-            const targetSection = this.getAttribute('data-section');
-
-            // Ocultar todas las secciones
-            document.querySelectorAll('section').forEach(function(section) {
-                section.classList.add('d-none');
-                section.classList.remove('d-block');
-            });
-
-            // Mostrar la sección seleccionada
-            document.getElementById(targetSection).classList.add('d-block');
-            document.getElementById(targetSection).classList.remove('d-none');
-        });
-    });
-</script>
 
 <!-- Inicializar y habilitar tooltips -->
 <script>
