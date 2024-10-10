@@ -153,6 +153,53 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void update(Context context) {
+        //Validaciones
+        Validator<String> nombreTecnico = context.formParamAsClass("nombreTecnico", String.class)
+                .check(Objects::nonNull, "El nombre no puede estar nulo")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No puede haber numeros en el nombre");
+        Validator<String> apellidoTecnico = context.formParamAsClass("apellidoTecnico", String.class)
+                .check(Objects::nonNull, "El apellido no puede estar nulo")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No puede haber numeros en el apellido");
+        Validator<TipoDocumento> tipoDocumento = context.formParamAsClass("tipoDocumento", TipoDocumento.class)
+                .check(Objects::nonNull , "El tipo de documento es  obligatorio");
+        Validator<String> nroDocumento = context.formParamAsClass("nroDocumento", String.class)
+                .check(Objects::nonNull , "El nro de documento  es obligatorio");
+        Validator<String> calle = context.formParamAsClass("calle", String.class)
+                .check(Objects::nonNull, "La calle de la heladera es obligatorio");
+        Validator<String> altura = context.formParamAsClass("altura", String.class)
+                .check(Objects::nonNull, "La altura es obligatorio"); //Deberia ser integer la altura,tener en cuenta
+        Validator<TamanioArea> tamanioArea = context.formParamAsClass("tamanioArea", TamanioArea.class)
+                .check(Objects::nonNull, "El tamaño es obligatorio");
+        //Errores
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,calle,altura,tamanioArea);
+
+        if(!errors.isEmpty()){
+            System.out.println(errors);
+            context.redirect("/dashboard/tecnicos"); // TODO -> Pantalla del form pero mencionando los errores al usuario
+            return;
+        }
+        //EXITO
+        String idParam =context.pathParam("id");
+        Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class,Long.parseLong(idParam));
+        if(posibleTecnico.isPresent()){
+            withTransaction(()->{
+                Documento documento = new Documento(tipoDocumento.get(),nroDocumento.get());
+                //Harcodeo la lat y long, pero no deberia ser obligatorio asi que se debe sacar como nullable=false
+                Ubicacion ubicacion = new Ubicacion(1f,2f,new Calle(calle.get(),altura.get()));
+                AreaDeCobertura areaDeCobertura = new AreaDeCobertura(ubicacion,tamanioArea.get());
+                //Hardcodeo el cuil ya que aun no se define el como lo obtenemos desde el usuario
+                Cuil cuil = new Cuil("25",documento.getNumeroDeDocumento(),"9");
+
+                Tecnico tecnico = new Tecnico(nombreTecnico.get(),apellidoTecnico.get(),documento,cuil);
+                tecnico.setId(Long.parseLong(idParam));
+                tecnico.setAreaDeCobertura(areaDeCobertura);
+
+                repositorioTecnicos.actualizar(tecnico);
+            });
+            context.redirect("/dashboard/tecnicos"); //TODO realizar pantalla de exito de la creacion de tecnico
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
 
     }
 

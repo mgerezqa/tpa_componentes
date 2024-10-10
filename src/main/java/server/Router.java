@@ -34,5 +34,7 @@ public class Router {
         app.get("/dashboard/tecnicos", ServiceLocator.instanceOf(ControladorTecnicos.class)::index);
         app.post("/dashboard/tecnicos", ServiceLocator.instanceOf(ControladorTecnicos.class)::save);
         app.get("/dashboard/tecnicos/{id}/edit", ServiceLocator.instanceOf(ControladorTecnicos.class)::edit);
+        app.post("/dashboard/tecnicos/{id}/edit", ServiceLocator.instanceOf(ControladorTecnicos.class)::update);
+
     }
 }
