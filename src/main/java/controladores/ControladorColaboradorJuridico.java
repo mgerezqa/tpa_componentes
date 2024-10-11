@@ -30,24 +30,26 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         this.repositorioUsuarios = repositorioUsuarios;
     }
 
-    @Override
+    @Override //LISTO
     public void index(Context context){
         List<ColaboradorJuridicoOutputDTO> colaboradoresJuridicos = serviceColaboradorJuridico.obtenerTodos();
         Map<String, Object> model = new HashMap<>();
         model.put("colaboradoresJuridicos", colaboradoresJuridicos);
-        context.render("/dashboard/juridicos", model);
+        context.render("/dashboard/juridicos.hbs", model);
     }
 
-    @Override
+    @Override //LISTO
     public void create(Context context) {
-        Validator<String> nombre = context.formParamAsClass("nombre", String.class)
-                .check(Objects::nonNull, "El nombre del colaborador es obligatorio");
+        Validator<String> tipoRazonSocial = context.formParamAsClass("tipoRazonSocial", String.class)
+                .check(Objects::nonNull, "El tipo razon social del colaborador es obligatorio");
         Validator<String> razonSocial = context.formParamAsClass("razonSocial", String.class)
                 .check(Objects::nonNull, "La razon social del colaborador es obligatorio");
         Validator<String> email = context.formParamAsClass("email", String.class)
                 .check(Objects::nonNull, "El email del colaborador es obligatorio");
+        Validator<String> rubro = context.formParamAsClass("rubro", String.class)
+                .check(Objects::nonNull, "El rubro del colaborador es obligatorio");
 
-        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre,razonSocial,email);
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(tipoRazonSocial,razonSocial,email,rubro);
 
         if(!errors.isEmpty()){
             System.out.println(errors);
@@ -58,7 +60,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         ColaboradorJuridicoInputDTO colaboradorJuridicoInputDTO = new ColaboradorJuridicoInputDTO();
         colaboradorJuridicoInputDTO.setRazonSocial(context.formParam("razonSocial"));
         colaboradorJuridicoInputDTO.setRubro(context.formParam("rubro"));
-        colaboradorJuridicoInputDTO.setNombre(context.formParam("nombre"));
+        colaboradorJuridicoInputDTO.setTipoRazonSocial(context.formParam("tipoRazonSocial"));
         colaboradorJuridicoInputDTO.setActivo(Boolean.valueOf(context.formParam("activo")));
         colaboradorJuridicoInputDTO.setEmail(context.formParam("email"));
 
@@ -66,7 +68,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         context.redirect("/dashboard/juridicos");
     }
 
-    @Override
+    @Override //no funciona el "guardar cambios" ...
     public void edit(Context context) {
         Optional<Object> posibleColaborador =
                 this.repositorioColaboradores.buscarPorID(ColaboradorJuridico.class, Long.valueOf(context.pathParam("id")));
@@ -79,7 +81,9 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         ColaboradorJuridico colaboradorJuridico = (ColaboradorJuridico) posibleColaborador.get();
 
         ColaboradorJuridicoInputDTO colaboradorJuridicoInputDTO = new ColaboradorJuridicoInputDTO();
+
         colaboradorJuridicoInputDTO.setId(colaboradorJuridico.getId());
+        colaboradorJuridicoInputDTO.setTipoRazonSocial(String.valueOf(colaboradorJuridico.getTipoRazonSocial()));
         colaboradorJuridicoInputDTO.setRazonSocial(colaboradorJuridico.getRazonSocial());
         colaboradorJuridicoInputDTO.setRubro(String.valueOf(colaboradorJuridico.getTipoDeRubro()));
         colaboradorJuridicoInputDTO.setActivo(colaboradorJuridico.getActivo());
@@ -92,12 +96,12 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         context.render("dashboard/forms/juridico.hbs", model);
     }
 
-    @Override
+    @Override //LISTO
     public void update(Context context) {
         Long colaboradorId = Long.valueOf(context.pathParam("id"));
 
-        Validator<String> nombre = context.formParamAsClass("nombre", String.class)
-                .check(Objects::nonNull, "El nombre del colaborador es obligatorio");
+        Validator<String> tipoRazonSocial = context.formParamAsClass("tipoRazonSocial", String.class)
+                .check(Objects::nonNull, "El tipo razon social del colaborador es obligatorio");
         Validator<String> razonSocial = context.formParamAsClass("razonSocial", String.class)
                 .check(Objects::nonNull, "La razon social del colaborador es obligatorio");
         Validator<String> email = context.formParamAsClass("email", String.class)
@@ -107,11 +111,13 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
         boolean estado = context.formParam("activo") != null;
 
-        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre,razonSocial,email,tipoDeRubro,razonSocial);
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(tipoRazonSocial,razonSocial,email,tipoDeRubro);
 
         if (!errors.isEmpty()) {
             context.sessionAttribute("errors", errors);
-            context.render("dashboard/forms/juridico.hbs");
+            Map<String, Object> model = new HashMap<>();
+            model.put("errors", errors);
+            context.render("/dashboard/forms/juridico.hbs", model);
             return;
         }
 
@@ -125,15 +131,16 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         }
 
         ColaboradorJuridico colaboradorJuridico = (ColaboradorJuridico) posibleColaborador.get();
+        colaboradorJuridico.setActivo(estado);
         colaboradorJuridico.setRazonSocial(razonSocial.get());
         colaboradorJuridico.setTipoDeRubro(Rubro.valueOf(tipoDeRubro.get()));
-        Set<MedioDeContacto> medioDeContactos = colaboradorJuridico.getMediosDeContacto();
+        colaboradorJuridico.setTipoRazonSocial(TipoRazonSocial.valueOf(tipoRazonSocial.get()));
 
+        Set<MedioDeContacto> medioDeContactos = colaboradorJuridico.getMediosDeContacto();
         Optional<Email> medioDeContacto = medioDeContactos.stream()
                 .filter(v -> v instanceof Email) // Verifica si es instancia de Email
                 .map(v -> (Email) v) // Cast a Email
                 .findFirst();
-
         if (medioDeContacto.isPresent()){
             medioDeContacto.get().setEmail(email.get());
         }
@@ -170,23 +177,23 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
     @Override
     public void save(Context context){
-        withTransaction(()->{
-            String razonSocial = context.formParam("razonSocial");
-            String tipoOrganizacion = context.formParam("tipoOrganizacion");
-            String rubro = context.formParam("tipoRubro");
-            String email = context.formParam("emailUsuario");
-            String contrasenia = context.formParam("password");
-
-            TipoRazonSocial tipoRazonSocial = TipoRazonSocial.valueOf(tipoOrganizacion.toUpperCase());
-            Rubro tipoRubro = Rubro.valueOf(rubro.toUpperCase());
-            ColaboradorJuridico colaborador = new ColaboradorJuridico(razonSocial,tipoRazonSocial,tipoRubro);
-            Usuario usuario = new Usuario(email,contrasenia);
-
-            //Guardado de datos
-            repositorioColaboradores.guardar(colaborador);
-            repositorioUsuarios.guardar(usuario);
-            context.redirect("/"); //Sugerencia -> Redirección a una pantalla de exito del registro.
-        });
+//        withTransaction(()->{
+//            String razonSocial = context.formParam("razonSocial");
+//            String tipoOrganizacion = context.formParam("tipoOrganizacion");
+//            String rubro = context.formParam("tipoRubro");
+//            String email = context.formParam("emailUsuario");
+//            String contrasenia = context.formParam("password");
+//
+//            TipoRazonSocial tipoRazonSocial = TipoRazonSocial.valueOf(tipoOrganizacion.toUpperCase());
+//            Rubro tipoRubro = Rubro.valueOf(rubro.toUpperCase());
+//            ColaboradorJuridico colaborador = new ColaboradorJuridico(razonSocial,tipoRazonSocial,tipoRubro);
+//            Usuario usuario = new Usuario(email,contrasenia);
+//
+//            //Guardado de datos
+//            repositorioColaboradores.guardar(colaborador);
+//            repositorioUsuarios.guardar(usuario);
+//            context.redirect("/"); //Sugerencia -> Redirección a una pantalla de exito del registro.
+//        });
     }
 
     @Override

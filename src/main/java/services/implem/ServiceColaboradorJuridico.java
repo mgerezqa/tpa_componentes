@@ -4,6 +4,7 @@ import domain.contacto.Email;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.ColaboradorJuridico;
 import domain.usuarios.Rubro;
+import domain.usuarios.TipoRazonSocial;
 import dtos.requests.ColaboradorJuridicoInputDTO;
 import dtos.responses.ColaboradorFisicoOutputDTO;
 import dtos.responses.ColaboradorJuridicoOutputDTO;
@@ -39,8 +40,9 @@ public class ServiceColaboradorJuridico implements IServiceColaboradorJuridico, 
 
             colaboradorJuridicoOutputDTO.setId(colaborador.getId());
             colaboradorJuridicoOutputDTO.setActivo(colaborador.activo);
+            colaboradorJuridicoOutputDTO.setTipoRazonSocial(colaborador.getRazonSocial());
             colaboradorJuridicoOutputDTO.setRazonSocial(colaborador.getRazonSocial());
-            colaboradorJuridicoOutputDTO.setRubro(String.valueOf(colaborador.getTipoDeRubro()));
+            colaboradorJuridicoOutputDTO.setRubro(Rubro.valueOf(String.valueOf(colaborador.getTipoDeRubro())));
             colaboradorJuridicoOutputDTO.setPuntosAcumulados(colaborador.puntosAcumulados);
             colaboradorJuridicoOutputDTO.setEmail(colaborador.email());
 
@@ -56,6 +58,7 @@ public class ServiceColaboradorJuridico implements IServiceColaboradorJuridico, 
         colaboradorJuridico.setId(colaboradorJuridicoInputDTO.getId());
         colaboradorJuridico.setActivo(colaboradorJuridicoInputDTO.getActivo());
         colaboradorJuridico.setRazonSocial(colaboradorJuridicoInputDTO.getRazonSocial());
+        colaboradorJuridico.setTipoRazonSocial(TipoRazonSocial.valueOf(colaboradorJuridicoInputDTO.getTipoRazonSocial()));
         colaboradorJuridico.setTipoDeRubro(Rubro.valueOf(colaboradorJuridicoInputDTO.getRubro()));
 
         Email email = new Email(colaboradorJuridicoInputDTO.getEmail());

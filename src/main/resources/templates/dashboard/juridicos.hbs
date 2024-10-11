@@ -26,13 +26,14 @@
             </thead>
             <tbody>
 
+            <!-- ---------------------------------------------------------------------------------------------------- -->
             <!-- Listado de usuarios  -->
             {{#each colaboradoresJuridicos}}
             <tr>
                 <td>{{this.id}}</td>
                 <td>{{this.activo}}</td>
-                <td>{{this.nombre}}</td>
                 <td>{{this.razonSocial}}</td>
+                <td>{{this.tipoRazonSocial}}</td>
                 <td>{{this.rubro}}</td>
                 <td>{{this.email}}</td>
                 <td>{{this.puntosAcumulados}}</td>
@@ -43,7 +44,7 @@
                             hx-target="#modalEditarColaboradorJuridico .modal-content"
                             hx-trigger="click"
                             data-toggle="modal"
-                            data-target="#modalEditarColaboradorFisico"
+                            data-target="#modalEditarColaboradorJuridico"
                             title="Editar">
                         <i class="bi bi-pencil-square"></i>
                     </button>
@@ -127,52 +128,68 @@
                 <!-- Cabecera del modal -->
                 <div class="modal-header bg-primary text-white"> <!-- Fondo colorido para mayor contraste -->
                     <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Crear Usuario</h5> <!-- Icono añadido -->
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
                     <form id="formCrearColaboradorJuridico" action="/dashboard/juridicos" method="POST">
                         <div class="form-group">
-                            <label for="razonSocial" class="form-label">Razón Social</label> <!-- Cambio a form-label -->
-                            <input type="text" class="form-control" id="razonSocial" placeholder="Ingrese Razón Social" required> <!-- Añadido required -->
+                            <label for="razonSocial" class="form-label">Razón Social</label>
+                            <input type="text" class="form-control" id="razonSocial" name="razonSocial" placeholder="Ingrese Razón Social" required>
                         </div>
-                        <<div class="form-group">
+                        <div class="form-group">
                             <label for="rubro" class="form-label">Rubro</label>
-                            <input type="text" class="form-control" id="rubro" placeholder="Ingrese Rubro" required>
+                            <select class="form-select" id="rubro" name="rubro" required>
+                                <option value="" disabled selected>Seleccione un rubro</option>
+                                <option value="EDUCACION">Educación</option>
+                                <option value="SALUD">Salud</option>
+                                <option value="TECNOLOGIA">Tecnología</option>
+                                <option value="ENERGIA">Energía</option>
+                                <option value="PRODUCCION">Producción</option>
+                                <option value="FINANZAS">Finanzas</option>
+                                <option value="COMERCIO">Comercio</option>
+                                <option value="SERVICIOS">Servicios</option>
+                                <option value="CONSTRUCCION">Construcción</option>
+                                <option value="OTRO">Otro</option>
+                            </select>
                         </div>
+
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Ingrese email" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese email" required>
                         </div>
+
                         <div class="form-group">
-                            <label for="tipoDeRazonSocial" class="form-label">Tipo de Razón Social</label>
-                            <select class="form-select" id="tipoDeRazonSocial" required>
+                            <label for="tipoRazonSocial" class="form-label">Tipo de Razón Social</label>
+                            <select class="form-select" id="tipoRazonSocial" name="tipoRazonSocial" required>
                                 <option value="" disabled selected>Seleccionar tipo...</option>
-                                <option value="1">Gubernamental</option>
-                                <option value="2">ONG</option>
-                                <option value="3">Empresa</option>
-                                <option value="4">Institución</option>
+                                <option value="Gubernamental">Gubernamental</option>
+                                <option value="ONG">ONG</option>
+                                <option value="Empresa">Empresa</option>
+                                <option value="Institución">Institución</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="activo">Activo</label>
-                            <select class="form-control" id="activo" name="activo">
+                            <select class="form-control" id="activo" name="activo" required>
                                 <option value="true">Sí</option>
                                 <option value="false">No</option>
                             </select>
                         </div>
 
+                        <!-- Pie del modal -->
+                        <div class="modal-footer d-flex justify-content-between"> <!-- Distribuir botones a los lados -->
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                        </div>
                     </form>
                 </div>
 
-                <!-- Pie del modal -->
-                <div class="modal-footer d-flex justify-content-between"> <!-- Distribuir botones a los lados -->
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                </div>
             </div>
         </div>
     </div>
+
+
 </section>
 {{/partial}}
 {{> templates/dashboard}}

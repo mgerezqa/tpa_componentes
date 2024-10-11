@@ -12,6 +12,7 @@ import jakarta.mail.MessagingException;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -24,6 +25,7 @@ import javax.persistence.Transient;
 @DiscriminatorValue("email")
 public class Email extends MedioDeContacto {
 
+    @Setter
     @Column(name = "email")
     private String email;
     @Transient
@@ -122,7 +124,4 @@ public class Email extends MedioDeContacto {
         );
     }
 
-    public void setEmail(String nuevoEmail){
-        this.email =nuevoEmail;
-    }
 }

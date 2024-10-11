@@ -5,8 +5,8 @@ import lombok.Data;
 public class ColaboradorJuridicoInputDTO {
     private Long id;
     private Boolean activo;
-    private String nombre;
     private String razonSocial;
+    private String tipoRazonSocial;
     private String rubro;
     private String email;
 }

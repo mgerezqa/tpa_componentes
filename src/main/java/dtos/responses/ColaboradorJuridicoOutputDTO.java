@@ -1,4 +1,5 @@
 package dtos.responses;
+import domain.usuarios.Rubro;
 import lombok.Data;
 
 @Data
@@ -7,7 +8,8 @@ public class ColaboradorJuridicoOutputDTO {
     private Boolean activo;
     private String nombre;
     private String razonSocial;
-    private String rubro;
+    private String tipoRazonSocial;
+    private Rubro rubro;
     private String email;
     private Integer puntosAcumulados;
 }

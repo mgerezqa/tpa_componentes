@@ -11,12 +11,12 @@ import java.time.LocalDate;
 public class HeladeraInputDTO {
     private Long id;
     private String nombreIdentificador;
+    private ModeloDeHeladera modeloDeHeladera;
+    private Ubicacion ubicacion;
     private Integer capacidadMax;
     private Integer capacidadActual;
     private String fechaInicioFuncionamiento;
     private EstadoHeladera estadoHeladera;
     private Float temperatura;
-    private ModeloDeHeladera modeloDeHeladera;
-    private Ubicacion ubicacion;
 
 }

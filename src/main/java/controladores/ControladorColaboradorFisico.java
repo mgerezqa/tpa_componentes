@@ -1,5 +1,6 @@
 package controladores;
 import domain.contacto.Email;
+import domain.contacto.MedioDeContacto;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
 import dtos.requests.ColaboradorFisicoInputDTO;
@@ -105,6 +106,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         Validator<String> email = context.formParamAsClass("email", String.class)
                 .check(Objects::nonNull, "El email del colaborador es obligatorio");
 
+        boolean estado = context.formParam("activo") != null;
+
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre, apellido, email);
 
         if (!errors.isEmpty()) {
@@ -127,6 +130,16 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         ColaboradorFisico colaboradorFisico = (ColaboradorFisico) posibleColaborador.get();
         colaboradorFisico.setNombre(nombre.get());
         colaboradorFisico.setApellido(apellido.get());
+
+        colaboradorFisico.setActivo(estado);
+        Set<MedioDeContacto> medioDeContactos = colaboradorFisico.getMediosDeContacto();
+        Optional<Email> medioDeContacto = medioDeContactos.stream()
+                .filter(v -> v instanceof Email) // Verifica si es instancia de Email
+                .map(v -> (Email) v) // Cast a Email
+                .findFirst();
+        if (medioDeContacto.isPresent()){
+            medioDeContacto.get().setEmail(email.get());
+        }
 
         // Actualizar en transacción
         withTransaction(() -> {

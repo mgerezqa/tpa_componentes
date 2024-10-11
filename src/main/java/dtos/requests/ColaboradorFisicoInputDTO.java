@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class ColaboradorFisicoInputDTO {
     private Long id;
+    private Boolean activo;
     private String nombre;
     private String apellido;
     private String email;
-    private Boolean activo;
 }
