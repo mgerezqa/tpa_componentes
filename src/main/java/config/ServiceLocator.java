@@ -1,15 +1,9 @@
 package config;
 
 
-import controladores.ControladorColaboradorFisico;
-import controladores.ControladorColaboradorJuridico;
-import controladores.ControladorHeladeras;
-import controladores.ControladorTecnicos;
+import controladores.*;
 import repositorios.Repositorio;
-import repositorios.repositoriosBDD.RepositorioColaboradores;
-import repositorios.repositoriosBDD.RepositorioHeladeras;
-import repositorios.repositoriosBDD.RepositorioTecnicos;
-import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +47,11 @@ public class ServiceLocator {
             }else if(componentName.equals(RepositorioTecnicos.class.getName())){
                 RepositorioTecnicos instance = new RepositorioTecnicos();
                 instances.put(componentName,instance);
+            }else if(componentName.equals(ControladorSuscripciones.class.getName())){
+                ControladorSuscripciones instance = new ControladorSuscripciones(instanceOf(RepositorioSuscripciones.class));
+                instances.put(componentName, instance);
+            }else if(componentName.equals(RepositorioSuscripciones.class.getName())){
+                RepositorioSuscripciones instance = new RepositorioSuscripciones();
             }
         }
 

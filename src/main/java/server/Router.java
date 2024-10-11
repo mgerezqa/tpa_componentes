@@ -41,6 +41,14 @@ public class Router implements SimplePersistenceTest {
         app.get("/dashboard/tecnicos/{id}/delete", ServiceLocator.instanceOf(ControladorTecnicos.class)::delete);
         app.post("/dashboard/tecnicos/{id}/delete", ServiceLocator.instanceOf(ControladorTecnicos.class)::remove);
 
+        //dashboard/suscripciones
+
+        app.get("/dashboard/suscripciones", ServiceLocator.instanceOf(ControladorTecnicos.class)::index);
+        app.post("/dashboard/suscripciones", ServiceLocator.instanceOf(ControladorTecnicos.class)::save);
+        app.get("/dashboard/suscripciones/{id}/edit", ServiceLocator.instanceOf(ControladorTecnicos.class)::edit);
+        app.post("/dashboard/suscripciones/{id}/edit", ServiceLocator.instanceOf(ControladorTecnicos.class)::update);
+        app.get("/dashboard/suscripciones/{id}/delete", ServiceLocator.instanceOf(ControladorTecnicos.class)::delete);
+        app.post("/dashboard/suscripciones/{id}/delete", ServiceLocator.instanceOf(ControladorTecnicos.class)::remove);
     }
 
 }
