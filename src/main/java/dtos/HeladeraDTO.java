@@ -16,5 +16,5 @@ public class HeladeraDTO {
     private String fechaInicioFuncionamiento;
     private EstadoHeladera estadoHeladera;
     private Float temperatura;
-    private ModeloDeHeladera modeloDeHeladera;
+    private String modeloDeHeladera;
 }

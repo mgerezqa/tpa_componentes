@@ -28,7 +28,6 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
     @Override
     public void index(Context context) {
         List<Heladera> heladeras = repositorioHeladeras.obtenerTodasLasHeladeras();
-        System.out.println(heladeras.get(0).getNombreIdentificador());
         List<HeladeraDTO> heladerasDTO = new ArrayList<>();
         for (Heladera heladera : heladeras) {
             HeladeraDTO heladeraDTO = new HeladeraDTO();
@@ -40,6 +39,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             if(heladera.getFechaInicioFuncionamiento()!=null){
                 heladeraDTO.setFechaInicioFuncionamiento(heladera.getFechaInicioFuncionamiento().toString());
             }
+            heladeraDTO.setModeloDeHeladera(heladera.getModelo().getNombreModelo());
             heladerasDTO.add(heladeraDTO);
         }
         Map<String, Object> model = new HashMap<>();
@@ -58,7 +58,9 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         Validator<Integer> capacidadActual = context.formParamAsClass("capacidadActual", Integer.class)
                 .check(value -> value >= 0, "La capacidad actual no puede ser negativa");
         Validator<String> nombreHeladera = context.formParamAsClass("nombreHeladera", String.class)
-                .check(value -> value != null, "El nombre de la heladera es obligatorio");
+                .check(Objects::nonNull, "El nombre de la heladera es obligatorio");
+        Validator<String> modelo = context.formParamAsClass("modeloHeladera", String.class)
+                .check(Objects::nonNull, "El modelo de la heladera es obligatorio");
         String estadoHeladera = context.formParam("estadoHeladera");
 
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(capacidadActual,capacidadMax,nombreHeladera);
@@ -70,14 +72,16 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             return;
         }
         //Exito
-        ModeloDeHeladera modelo = new ModeloDeHeladera(context.formParam("modeloHeladera").toUpperCase());
-        modelo.setTemperaturaMaxima(22f);
-        modelo.setTemperaturaMinima(-12f);
+        ModeloDeHeladera modeloDeHeladera = new ModeloDeHeladera(modelo.get().toUpperCase());
+        //Harcodeo la temp max y min, tendria sentido agregarle al form creo
+        modeloDeHeladera.setTemperaturaMaxima(22f);
+        modeloDeHeladera.setTemperaturaMinima(-12f);
+
         Provincia provincia1 = new Provincia("Córdoba");
         Ubicacion ubicacionA = new Ubicacion(11234f, 6456f, new Calle("Av. Medrano", "6742"));
         ubicacionA.setProvincia(provincia1);
 
-        Heladera heladera = new Heladera(modelo,nombreHeladera.get(),ubicacionA);
+        Heladera heladera = new Heladera(modeloDeHeladera,nombreHeladera.get(),ubicacionA);
         if(estadoHeladera != null){
             heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
         }else{
