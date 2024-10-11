@@ -45,19 +45,19 @@
                         <i class="bi bi-pencil-square"></i>
                     </button>
 
-                    <!-- Botón para baja lógica  -->
+                    <!-- Botón para baja lógica -->
                     <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarColaboradorFisico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
                         <i class="bi bi-arrow-down-circle"></i>
                     </button>
 
                     <!-- Botón para abrir el modal de eliminación -->
-                    <form action="/dashboard/fisicos/{{this.id}}/delete" method="POST">
+                    <form action="/dashboard/fisicos/{{this.id}}/delete" method="POST" class="d-inline">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-trash"></i>
                         </button>
                     </form>
-
                 </td>
+
             </tr>
             {{/each}}
             <div class="modal fade" id="modalEditarColaboradorFisico" tabindex="-1" aria-labelledby="modalEditarColaboradorFisico" aria-hidden="true">
