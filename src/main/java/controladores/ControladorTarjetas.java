@@ -52,7 +52,10 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void create(Context context) {
-
+        Map<String,Object> modal = new HashMap<>();
+        modal.put("action","/dashboard/tarjetas");
+        modal.put("edit",false);
+        context.render("/dashboard/forms/tarjeta.hbs",modal);
     }
 
     @Override
@@ -62,7 +65,11 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void edit(Context context) {
-
+        String idParam = context.pathParam("id");
+        Map<String,Object> modal = new HashMap<>();
+        modal.put("action","/dashboard/tarjetas/"+idParam+"/edit");
+        modal.put("edit",true);
+        context.render("/dashboard/forms/tarjeta.hbs",modal);
     }
 
     @Override

@@ -1,0 +1,61 @@
+{{#partial "titulo"}}
+    {{#if edit}}
+        <i class="bi bi-pencil-square"></i> Editar Tarjeta
+    {{else}}
+        <i class="bi bi-plus-circle-fill"></i> Crear Tarjeta
+    {{/if}}
+{{/partial}}
+{{#partial "form"}}
+    <form {{action}} method="POST">
+        <div class="mb-3">
+            <label for="editarNombreBeneficiario" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="editarNombreTecnico"  placeholder="Ingrese Nombre" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="editarApellidoBeneficiario" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="editarApellidoTecnico" placeholder="Ingrese Apellido" required>
+        </div>
+        <div class="mb-3">
+            <label for="editarTipoDocumento" class="form-label">Tipo de Documento</label>
+            <select class="form-select" id="editarTipoDocumento" required>
+                <option value="" disabled>Seleccionar tipo...</option>
+                <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
+                <option value="2">LC</option>
+                <option value="3">LE</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="editarNroDocumento" class="form-label">NroDocumento</label>
+            <input type="text" class="form-control" id="editarNroDocumento" placeholder="Ingrese NroDoc" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="editarBeneficiarioFechaDeNacimiento" class="form-label">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" id="editarBeneficiarioFechaDeNacimiento" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="editarBeneficiarioFechaDeRegistro" class="form-label">Fecha de Registro</label>
+            <input type="date" class="form-control" id="editarBeneficiarioFechaDeRegistro" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="editarEstadoBeneficiario" checked>
+                <label class="form-check-label" for="editarEstadoBeneficiario">Activo</label>
+            </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+            {{#if edit}}
+                <button type="submit" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
+            {{else}}
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+            {{/if}}
+        </div>
+    </form>
+{{/partial}}
+{{> templates/dashboard/forms/base}}
