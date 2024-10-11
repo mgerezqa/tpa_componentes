@@ -1,75 +1,69 @@
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header {{#if edit}}bg-warning text-dark{{else}}bg-primary text-white{{/if}}">
-            <h5 class="modal-title">
-                {{#if edit}}
-                    <i class="bi bi-pencil-square"></i> Editar Técnico
-                {{else}}
-                    <i class="bi bi-plus-circle-fill"></i> Crear Técnico
-                {{/if}}
-            </h5>
-            <button type="button" class="btn-close {{#if edit}}btn-close-dark{{else}}btn-close-white{{/if}}" data-bs-dismiss="modal" aria-label="Close"></button>
+{{#partial "titulo"}}
+    {{#if edit}}
+        <i class="bi bi-pencil-square"></i> Editar Técnico
+    {{else}}
+        <i class="bi bi-plus-circle-fill"></i> Crear Técnico
+    {{/if}}
+{{/partial}}
+{{#partial "form"}}
+    <form action="{{action}}" method="POST">
+        <div class="mb-3">
+            <label for="nombreTecnico" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreTecnico" name="nombreTecnico" value="{{tecnico.nombre}}" placeholder="Ingrese Nombre" required>
         </div>
-        <div class="modal-body">
-            <form action="{{action}}" method="POST">
-                <div class="mb-3">
-                    <label for="nombreTecnico" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombreTecnico" name="nombreTecnico" value="{{tecnico.nombre}}" placeholder="Ingrese Nombre" required>
-                </div>
 
-                <div class="mb-3">
-                    <label for="apellidoTecnico" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellidoTecnico" name="apellidoTecnico" value="{{tecnico.apellido}}" placeholder="Ingrese Apellido" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
-                    <select class="form-select" id="tipoDocumento" name="tipoDocumento" required>
-                        <option value="" disabled>Seleccionar tipo...</option>
-                        <option value="DNI" {{#if (eq tecnico.tipoDocumento "DNI")}}selected{{/if}}>DNI</option>
-                        <option value="CEDULA_DE_IDENTIDAD" {{#if (eq tecnico.tipoDocumento "CEDULA_DE_IDENTIDAD")}}selected{{/if}}>LC</option>
-                        <option value="LIBRETA_DE_ENROLAMIENTO" {{#if (eq tecnico.tipoDocumento "LIBRETA_DE_ENROLAMIENTO")}}selected{{/if}}>LE</option>
-                        <option value="PASAPORTE" {{#if (eq tecnico.tipoDocumento "PASAPORTE")}}selected{{/if}}>PASAPORTE</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="nroDocumento" class="form-label">Nro Documento</label>
-                    <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" value="{{tecnico.nroDocumento}}" placeholder="Ingrese numero de documento" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="calle" class="form-label">Calle</label>
-                    <input type="text" class="form-control" id="calle" name="calle" value="{{tecnico.calle}}" placeholder="Ingrese calle" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="altura" class="form-label">Altura</label>
-                    <input type="text" class="form-control" id="altura" name="altura" value="{{tecnico.altura}}" placeholder="Ingrese altura" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="tamanioArea" class="form-label">Tamaño de Área</label>
-                    <input type="text" class="form-control" id="tamanioArea" name="tamanioArea" value="{{tecnico.tamanioArea}}" placeholder="Ingrese tamaño de área" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Estado</label>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="estadoTecnico" value="true" name="estadoTecnico"  {{#if tecnico.activo}}checked{{/if}}>
-                        <label class="form-check-label" for="estadoTecnico">Activo</label>
-                    </div>
-                </div>
-
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    {{#if edit}}
-                        <button type="submit" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                    {{else}}
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                    {{/if}}
-                </div>
-            </form>
+        <div class="mb-3">
+            <label for="apellidoTecnico" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellidoTecnico" name="apellidoTecnico" value="{{tecnico.apellido}}" placeholder="Ingrese Apellido" required>
         </div>
-    </div>
-</div>
+
+        <div class="mb-3">
+            <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
+            <select class="form-select" id="tipoDocumento" name="tipoDocumento" required>
+                <option value="" disabled>Seleccionar tipo...</option>
+                <option value="DNI" {{#if (eq tecnico.tipoDocumento "DNI")}}selected{{/if}}>DNI</option>
+                <option value="CEDULA_DE_IDENTIDAD" {{#if (eq tecnico.tipoDocumento "CEDULA_DE_IDENTIDAD")}}selected{{/if}}>LC</option>
+                <option value="LIBRETA_DE_ENROLAMIENTO" {{#if (eq tecnico.tipoDocumento "LIBRETA_DE_ENROLAMIENTO")}}selected{{/if}}>LE</option>
+                <option value="PASAPORTE" {{#if (eq tecnico.tipoDocumento "PASAPORTE")}}selected{{/if}}>PASAPORTE</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="nroDocumento" class="form-label">Nro Documento</label>
+            <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" value="{{tecnico.nroDocumento}}" placeholder="Ingrese numero de documento" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="calle" class="form-label">Calle</label>
+            <input type="text" class="form-control" id="calle" name="calle" value="{{tecnico.calle}}" placeholder="Ingrese calle" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="altura" class="form-label">Altura</label>
+            <input type="text" class="form-control" id="altura" name="altura" value="{{tecnico.altura}}" placeholder="Ingrese altura" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="tamanioArea" class="form-label">Tamaño de Área</label>
+            <input type="text" class="form-control" id="tamanioArea" name="tamanioArea" value="{{tecnico.tamanioArea}}" placeholder="Ingrese tamaño de área" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="estadoTecnico" value="true" name="estadoTecnico"  {{#if tecnico.activo}}checked{{/if}}>
+                <label class="form-check-label" for="estadoTecnico">Activo</label>
+            </div>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+            {{#if edit}}
+                <button type="submit" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
+            {{else}}
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+            {{/if}}
+        </div>
+    </form>
+{{/partial}}
+{{> templates/dashboard/forms/base}}
