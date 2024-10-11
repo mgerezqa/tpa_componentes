@@ -12,7 +12,7 @@
             <select class="form-select" id="suscripcionColaborador" name="colaborador" required>
                 <option value="" disabled>Seleccionar colaborador...</option>
                 {{#each colaboradores}}
-                    <option value="{{this.id}}" {{#if (eq this.id ../colaborador)}}selected{{/if}}>{{this.id}}</option>
+                    <option value="{{this}}">{{this}}</option>
                 {{/each}}
             </select>
         </div>
@@ -23,7 +23,7 @@
             <select class="form-select" id="suscripcionHeladera" name="heladera" required>
                 <option value="" disabled>Seleccionar heladera...</option>
                 {{#each heladeras}}
-                    <option value="{{this.id}}" {{#if (eq this.id ../heladera)}}selected{{/if}}>{{this.id}}</option>
+                    <option value="{{this}}" >{{this}}</option>
                 {{/each}}
             </select>
         </div>

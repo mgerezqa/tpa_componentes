@@ -31,9 +31,8 @@ public class RepositorioColaboradores implements WithSimplePersistenceUnit {
     @SuppressWarnings("unchecked")
     public List<Colaborador> colaboradoresActivos(){
         return entityManager()
-                .createQuery("FROM Colaborador c WHERE c.activo = true" + Colaborador.class)
+                .createQuery("FROM Colaborador c WHERE c.activo = true", Colaborador.class)
                 .getResultList();
     }
-
 
 }

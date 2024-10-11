@@ -48,7 +48,7 @@ public class ServiceLocator {
                 RepositorioTecnicos instance = new RepositorioTecnicos();
                 instances.put(componentName,instance);
             }else if(componentName.equals(ControladorSuscripciones.class.getName())){
-                ControladorSuscripciones instance = new ControladorSuscripciones(instanceOf(RepositorioSuscripciones.class));
+                ControladorSuscripciones instance = new ControladorSuscripciones(instanceOf(RepositorioSuscripciones.class),instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioHeladeras.class));
                 instances.put(componentName, instance);
             }else if(componentName.equals(RepositorioSuscripciones.class.getName())){
                 RepositorioSuscripciones instance = new RepositorioSuscripciones();
