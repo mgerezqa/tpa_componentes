@@ -53,6 +53,12 @@ public class ServiceLocator {
             }else if(componentName.equals(RepositorioSuscripciones.class.getName())){
                 RepositorioSuscripciones instance = new RepositorioSuscripciones();
                 instances.put(componentName,instance);
+            }else if(componentName.equals(ControladorTarjetas.class.getName())){
+                ControladorTarjetas instance = new ControladorTarjetas(instanceOf(RepositorioTarjetas.class));
+                instances.put(componentName, instance);
+            }else if(componentName.equals(RepositorioTarjetas.class.getName())){
+                RepositorioTarjetas instance = new RepositorioTarjetas();
+                instances.put(componentName,instance);
             }
         }
 

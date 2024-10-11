@@ -30,6 +30,9 @@ public class Tarjeta {
     @JoinColumn(name = "id_persona_vulnerable")
     private PersonaVulnerable vulnerable;
 
+    @Column(name = "estado")
+    private Boolean estado;
+
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "colaborador_id")
     private ColaboradorFisico colaborador;
@@ -49,6 +52,7 @@ public class Tarjeta {
     public Tarjeta() {
         this.cantidadUsadaEnElDia = 0;
         this.registros = new ArrayList<>();
+        this.estado = true;
     }
 
     public int cantidadDisponiblePorMenores(){

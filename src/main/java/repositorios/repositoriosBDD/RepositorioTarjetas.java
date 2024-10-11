@@ -2,9 +2,13 @@ package repositorios.repositoriosBDD;
 
 import domain.donaciones.Distribuir;
 import domain.tarjeta.Tarjeta;
+import domain.usuarios.Tecnico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
 
-public class RepositorioTarjetas implements WithSimplePersistenceUnit {
+import java.util.List;
+
+public class RepositorioTarjetas extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(Tarjeta tarjeta){
         entityManager().persist(tarjeta);
@@ -15,6 +19,11 @@ public class RepositorioTarjetas implements WithSimplePersistenceUnit {
         if(tarjeta != null){
             entityManager().remove(tarjeta);
         }
+    }
+    public List<Tarjeta> buscarTarjetas() {
+        return entityManager()
+                .createQuery("FROM Tarjeta", Tarjeta.class)
+                .getResultList();
     }
 
     public Tarjeta obtenerPorId(String uuid){
