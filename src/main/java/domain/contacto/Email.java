@@ -9,6 +9,7 @@ import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -69,7 +70,7 @@ public class Email extends MedioDeContacto {
     @Override
     public void enviarMensaje(ColaboradorFisico colaboradorFisico, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) throws MessagingException {
         String mensaje = String.format(
-                        "Hola %s!\n\n" +
+                "Hola %s!\n\n" +
                         "🧊 Heladera: %s\n" +
                         "🔔 Tipo de suscripción: %s\n\n" +
                         "¡Gracias por colaborar! 📬",
@@ -83,7 +84,7 @@ public class Email extends MedioDeContacto {
 
     public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {
         String mensaje = String.format(
-                        "Hola %s %s!\n\n" +
+                "Hola %s %s!\n\n" +
                         "🚨 Alerta: #%s\n" +
                         "📝 Tipo de Alerta: %s\n" +
                         "🧊 Heladera: %s\n" +
@@ -100,7 +101,7 @@ public class Email extends MedioDeContacto {
 
     public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) throws MessagingException {
         String mensaje = String.format(
-                        "Hola %s %s!\n\n" +
+                "Hola %s %s!\n\n" +
                         "⚠️ Falla Técnica: #%s\n" +
                         "🔧 Descripción: %s\n" +
                         "🧊 Heladera: %s\n" +
@@ -121,5 +122,7 @@ public class Email extends MedioDeContacto {
         );
     }
 
-
+    public void setEmail(String nuevoEmail){
+        this.email =nuevoEmail;
+    }
 }

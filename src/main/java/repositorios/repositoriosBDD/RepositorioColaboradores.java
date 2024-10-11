@@ -58,7 +58,7 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
 
     public List<ColaboradorJuridico> obtenerColaboradoresJuridicosActivos() {
         return entityManager()
-                .createQuery("FROM ColaboradorJuridico cf WHERE cj.activo = true", ColaboradorJuridico.class)
+                .createQuery("FROM ColaboradorJuridico cj WHERE cj.activo = true", ColaboradorJuridico.class)
                 .getResultList();
     }
 

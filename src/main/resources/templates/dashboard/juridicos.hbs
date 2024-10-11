@@ -1,5 +1,6 @@
 <!-- Seccion Colaboradores Juridicos -->
-<section id="listado-colaboradores-juridicos" class="d-none">
+{{#partial "contenido"}}
+<section id="listado-colaboradores-juridicos" class="d-block">
     <p class="lead">Listado de colaboradores jurídicos</p>
     <hr>
 
@@ -24,113 +25,71 @@
             </tr>
             </thead>
             <tbody>
+
             <!-- Listado de usuarios  -->
+            {{#each colaboradoresJuridicos}}
             <tr>
-                <td>1</td>
-                <td>Activo</td>
-                <td>Sacoa</td>
-                <td>Empresa</td>
-                <td>Gaming</td>
-                <td>empresa@sacoa.com</td>
-                <td>250</td>
+                <td>{{this.id}}</td>
+                <td>{{this.activo}}</td>
+                <td>{{this.nombre}}</td>
+                <td>{{this.razonSocial}}</td>
+                <td>{{this.rubro}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.puntosAcumulados}}</td>
                 <td>
                     <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarColaboradorJuridico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                    <button class="btn btn-warning"
+                            hx-get="/dashboard/juridicos/{{this.id}}/edit"
+                            hx-target="#modalEditarColaboradorJuridico .modal-content"
+                            hx-trigger="click"
+                            data-toggle="modal"
+                            data-target="#modalEditarColaboradorFisico"
+                            title="Editar">
                         <i class="bi bi-pencil-square"></i>
                     </button>
 
                     <!-- Botón para baja lógica  -->
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarColaboradorJuridico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                    <button class="btn btn-outline-danger" data-toggle="modal"
+                            data-target="#modalDeshabilitarColaboradorJuridico"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Deshabilitar">
                         <i class="bi bi-arrow-down-circle"></i>
                     </button>
 
                     <!-- Botón para abrir el modal de eliminación -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarColaboradorJuridico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
-                        <i class="bi bi-trash"></i>
-                    </button>
+                    <form action="/dashboard/juridicos/{{this.id}}/delete" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+
                 </td>
 
-
             </tr>
+            {{/each}}
 
-            <!-- Modal de edición para el colaborador juridico -->
             <div class="modal fade" id="modalEditarColaboradorJuridico" tabindex="-1" aria-labelledby="modalEditarColaboradorJuridico" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <!-- Cabecera del modal -->
-                        <div class="modal-header bg-warning text-dark"> <!-- Color de fondo amarillo para editar -->
-                            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Usuario</h5> <!-- Icono de edición -->
-                            <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <!-- Cuerpo del modal -->
-                        <div class="modal-body">
-                            <form>
-                                <!-- Campo Razón Social -->
-                                <div class="mb-3">
-                                    <label for="editarRazonSocial" class="form-label">Razón Social</label>
-                                    <input type="text" class="form-control" id="editarRazonSocial" value="Nombre Actual de Razón Social" required> <!-- El value representa el dato actual -->
-                                </div>
-
-                                <!-- Campo Rubro -->
-                                <div class="mb-3">
-                                    <label for="editarRubro" class="form-label">Rubro</label>
-                                    <input type="text" class="form-control" id="editarRubro" value="Rubro Actual" required>
-                                </div>
-
-                                <!-- Campo Email -->
-                                <div class="mb-3">
-                                    <label for="editarEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="editarEmail" value="email@actual.com" required>
-                                </div>
-
-                                <!-- Select Tipo de Razón Social -->
-                                <div class="mb-3">
-                                    <label for="editarTipoDeRazonSocial" class="form-label">Tipo de Razón Social</label>
-                                    <select class="form-select" id="editarTipoDeRazonSocial" required>
-                                        <option value="" disabled>Seleccionar tipo...</option>
-                                        <option value="1" selected>Gubernamental</option> <!-- Opción seleccionada -->
-                                        <option value="2">ONG</option>
-                                        <option value="3">Empresa</option>
-                                        <option value="4">Institución</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Estado</label>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="editarEstadoColaboradorJuridico" checked>
-                                        <label class="form-check-label" for="editarEstadoColaboradorJuridico">Activo</label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Pie del modal -->
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-pencil"></i> Guardar Cambios</button> <!-- Cambiado a "Guardar Cambios" con color acorde -->
-                        </div>
-                    </div>
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content"></div> <!-- Aquí HTMX insertará el formulario de edición -->
                 </div>
             </div>
 
-
-            <!-- Modal de eliminación  -->
-            <div class="modal fade" id="modalEliminarColaboradorJuridico" tabindex="-1" aria-labelledby="modalEliminarColaboradorJuridico" aria-hidden="true">
+            <!-- Modal de eliminación para el usuario con ID -->
+            <div class="modal fade" id="modalEliminarColaboradorJuridico{{this.id}}" tabindex="-1" aria-labelledby="modalEliminarColaboradorJuridico" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Eliminar Usuario</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <p>¿Estás seguro de que deseas eliminar este usuario?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
+                            <form action="/dashboard/juridicos/{{this.id}}/delete" method="POST">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -156,10 +115,6 @@
                 </div>
             </div>
 
-
-
-
-
             </tbody>
         </table>
     </div>
@@ -168,6 +123,7 @@
     <div class="modal fade" id="modalCrearColaboradorJuridico" tabindex="-1" aria-labelledby="modalCrearColaboradorJuridico" aria-hidden="true">
         <div class="modal-dialog modal-lg"> <!-- modal-lg para hacerlo más amplio -->
             <div class="modal-content">
+
                 <!-- Cabecera del modal -->
                 <div class="modal-header bg-primary text-white"> <!-- Fondo colorido para mayor contraste -->
                     <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Crear Usuario</h5> <!-- Icono añadido -->
@@ -175,20 +131,20 @@
                 </div>
 
                 <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
+                    <form id="formCrearColaboradorJuridico" action="/dashboard/juridicos" method="POST">
+                        <div class="form-group">
                             <label for="razonSocial" class="form-label">Razón Social</label> <!-- Cambio a form-label -->
                             <input type="text" class="form-control" id="razonSocial" placeholder="Ingrese Razón Social" required> <!-- Añadido required -->
                         </div>
-                        <div class="mb-3">
+                        <<div class="form-group">
                             <label for="rubro" class="form-label">Rubro</label>
                             <input type="text" class="form-control" id="rubro" placeholder="Ingrese Rubro" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="Ingrese email" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="form-group">
                             <label for="tipoDeRazonSocial" class="form-label">Tipo de Razón Social</label>
                             <select class="form-select" id="tipoDeRazonSocial" required>
                                 <option value="" disabled selected>Seleccionar tipo...</option>
@@ -198,12 +154,12 @@
                                 <option value="4">Institución</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Estado</label>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="estadoHeladeraToggle" checked>
-                                <label class="form-check-label" for="estadoHeladeraToggle">Activo</label>
-                            </div>
+                        <div class="form-group">
+                            <label for="activo">Activo</label>
+                            <select class="form-control" id="activo" name="activo">
+                                <option value="true">Sí</option>
+                                <option value="false">No</option>
+                            </select>
                         </div>
 
                     </form>
@@ -212,10 +168,11 @@
                 <!-- Pie del modal -->
                 <div class="modal-footer d-flex justify-content-between"> <!-- Distribuir botones a los lados -->
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
+{{/partial}}
+{{> templates/dashboard}}
