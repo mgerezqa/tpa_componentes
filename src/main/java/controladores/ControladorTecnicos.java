@@ -69,7 +69,10 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void create(Context context) {
-
+        Map<String,Object> modal = new HashMap<>();
+        modal.put("action","/dashboard/tecnicos");
+        modal.put("edit",false);
+        context.render("/dashboard/forms/tecnico.hbs",modal);
     }
 
     @Override
