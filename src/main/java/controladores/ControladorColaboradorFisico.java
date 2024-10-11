@@ -13,6 +13,7 @@ import io.javalin.http.Context;
 public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioUsuarios repositorioUsuarios;
+
     public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;

@@ -28,7 +28,9 @@ public class ControladorSuscripciones implements ICrudViewsHandler {
             try {
                 SuscripcionDTO suscripcionDTO = new SuscripcionDTO();
                 suscripcionDTO.setId(suscripcion.getId());
-
+                suscripcionDTO.setTipoDeSuscripcion(suscripcion.getTipoDeSuscripcion().getDescripcion());
+                suscripcionDTO.setIdColaborador(suscripcion.getColaboradorFisico().getId());
+                suscripcionDTO.setIdHeladera(suscripcion.getHeladera().getId());
                 suscripcionesDTO.add(suscripcionDTO);
             }catch (Exception ex){
                 System.out.println(ex.getMessage());
