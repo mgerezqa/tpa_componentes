@@ -48,7 +48,10 @@ public class ControladorSuscripciones implements ICrudViewsHandler {
 
     @Override
     public void create(Context context) {
-
+        Map<String,Object> modal = new HashMap<>();
+        modal.put("action","/dashboard/suscripciones");
+        modal.put("edit",false);
+        context.render("/dashboard/forms/suscripcion.hbs",modal);
     }
 
     @Override
@@ -58,7 +61,11 @@ public class ControladorSuscripciones implements ICrudViewsHandler {
 
     @Override
     public void edit(Context context) {
-
+        String idParam = context.pathParam("id");
+        Map<String,Object> modal = new HashMap<>();
+        modal.put("action","/dashboard/suscripciones/"+idParam+"/edit");
+        modal.put("edit",true);
+        context.render("/dashboard/forms/suscripcion.hbs",modal);
     }
 
     @Override

@@ -1,0 +1,15 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header {{#if edit}}bg-warning text-dark{{else}}bg-primary text-white{{/if}}">
+            <h5 class="modal-title">
+                {{#block "titulo"}}
+                {{/block}}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {{#block "form"}}
+            {{/block}}
+        </div>
+    </div>
+</div>
