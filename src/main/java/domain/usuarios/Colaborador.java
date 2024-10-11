@@ -1,14 +1,13 @@
 package domain.usuarios;
 
+import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.formulario.Formulario;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.swing.border.EmptyBorder;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -24,7 +23,7 @@ public abstract class  Colaborador {
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id")
-    protected Set<MedioDeContacto> mediosDeContacto; //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
+    protected Set<MedioDeContacto> mediosDeContacto = new HashSet<>(); //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
 
     @Column(name = "activo")
     public Boolean activo; //protected para que las clases hijas puedan acceder a este atributo -> lo cambie a public x el repo...
@@ -48,5 +47,14 @@ public abstract class  Colaborador {
     }
     public void restarPuntos(int puntos) {
         this.puntosAcumulados -= puntos;
+    }
+
+    public String email() {
+        for (MedioDeContacto medio : this.getMediosDeContacto()) {
+            if (medio instanceof Email) {
+                return ((Email) medio).getEmail();
+            }
+        }
+        return null;
     }
 }

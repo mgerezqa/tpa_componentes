@@ -1,13 +1,16 @@
 package repositorios.repositoriosBDD;
 import domain.usuarios.Colaborador;
+import domain.usuarios.ColaboradorFisico;
+import domain.usuarios.ColaboradorJuridico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import lombok.Data;
+import repositorios.Repositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 @Data
-
-public class RepositorioColaboradores implements WithSimplePersistenceUnit {
+public class RepositorioColaboradores extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(Colaborador colaborador){
         entityManager().persist(colaborador);
@@ -24,7 +27,7 @@ public class RepositorioColaboradores implements WithSimplePersistenceUnit {
         entityManager().remove(colaborador);
     }
 
-    public Colaborador obtenerPorId(String id){
+    public Colaborador obtenerPorId(Long id){
         return entityManager().find(Colaborador.class, id);
     }
 
@@ -35,5 +38,28 @@ public class RepositorioColaboradores implements WithSimplePersistenceUnit {
                 .getResultList();
     }
 
+    public List<ColaboradorFisico> obtenerColaboradoresFisicos(){
+        return entityManager()
+                .createQuery("FROM ColaboradorFisico", ColaboradorFisico.class)
+                .getResultList();
+    }
+
+    public List<ColaboradorJuridico> obtenerColaboradoresJuridicos(){
+        return entityManager()
+                .createQuery("FROM ColaboradorJuridico ", ColaboradorJuridico.class)
+                .getResultList();
+    }
+
+    public List<ColaboradorFisico> obtenerColaboradoresFisicosActivos() {
+        return entityManager()
+                .createQuery("FROM ColaboradorFisico cf WHERE cf.activo = true", ColaboradorFisico.class)
+                .getResultList();
+    }
+
+    public List<ColaboradorJuridico> obtenerColaboradoresJuridicosActivos() {
+        return entityManager()
+                .createQuery("FROM ColaboradorJuridico cf WHERE cj.activo = true", ColaboradorJuridico.class)
+                .getResultList();
+    }
 
 }

@@ -26,7 +26,7 @@ public class Server {
             Integer port = Integer.parseInt(Config.getInstance().getProperty("server_port"));
             app = Javalin.create(config()).start(port);
 
-            Router.init(app);
+            new Router().init(app);
 
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
                 Initializer.init();

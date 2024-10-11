@@ -24,6 +24,7 @@ import java.util.*;
 public class ControladorHeladeras implements ICrudViewsHandler,WithSimplePersistenceUnit {
     private IServiceHeladera serviceHeladera;
     private RepositorioHeladeras repositorioHeladeras;
+
     public ControladorHeladeras(IServiceHeladera serviceHeladera,RepositorioHeladeras repositorioHeladeras) {
         this.serviceHeladera = serviceHeladera;
         this.repositorioHeladeras = repositorioHeladeras;
@@ -41,6 +42,7 @@ public class ControladorHeladeras implements ICrudViewsHandler,WithSimplePersist
     @Override
     public void show(Context context) {
     }
+
     @Override
     public void create(Context context) {
         //Validaciones
