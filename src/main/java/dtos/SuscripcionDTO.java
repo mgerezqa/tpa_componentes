@@ -8,4 +8,5 @@ public class SuscripcionDTO {
     private Long idColaborador;
     private Long idHeladera;
     private String tipoDeSuscripcion;
+    private Boolean estado;
 }

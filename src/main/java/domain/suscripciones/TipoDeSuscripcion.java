@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "tipos_de_suscripcion")
-@DiscriminatorColumn(name = "tipo")
+@DiscriminatorColumn(name = "tipo",columnDefinition = "VARCHAR(60)")
 public abstract class TipoDeSuscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

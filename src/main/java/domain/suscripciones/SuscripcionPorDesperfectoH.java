@@ -17,7 +17,6 @@ import javax.persistence.Entity;
 @DiscriminatorValue("suscripcion_desperfecto_heladera")
 public class SuscripcionPorDesperfectoH extends TipoDeSuscripcion {
 
-
     @Column(name = "descripcion")
     public final String descripcion = " tiene un desperfecto.";
 

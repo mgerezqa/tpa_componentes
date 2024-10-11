@@ -23,7 +23,6 @@ public class SuscripcionPorCantidadDeViandasDisponibles extends TipoDeSuscripcio
     @Column(name = "descripcion")
     public final String descripcion = " tiene " + cantidadDeViandasDisp + " viandas disponibles.";
 
-
     @Override
 
     public boolean cumpleCriterio(Heladera heladera) {
