@@ -58,7 +58,6 @@ public class Router implements SimplePersistenceTest {
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove);
 
-
     }
 
 }

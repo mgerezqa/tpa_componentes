@@ -7,6 +7,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RepositorioTarjetas extends Repositorio implements WithSimplePersistenceUnit {
 
@@ -28,5 +29,8 @@ public class RepositorioTarjetas extends Repositorio implements WithSimplePersis
 
     public Tarjeta obtenerPorId(String uuid){
         return entityManager().find(Tarjeta.class, uuid);
+    }
+    public Optional<Tarjeta> obtenerPorUUID(String uuid){
+        return Optional.ofNullable(entityManager().find(Tarjeta.class, uuid));
     }
 }

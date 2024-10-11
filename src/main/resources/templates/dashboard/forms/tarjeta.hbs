@@ -6,11 +6,7 @@
     {{/if}}
 {{/partial}}
 {{#partial "form"}}
-    <form {{action}} method="POST">
-        <div class="mb-3">
-            <label for="editarNombreBeneficiario" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="editarNombreTecnico"  placeholder="Ingrese Nombre" required>
-        </div>
+    <form action="{{action}}" method="POST">
 
         <div class="mb-3">
             <label for="editarApellidoBeneficiario" class="form-label">Apellido</label>
@@ -44,8 +40,8 @@
         <div class="mb-3">
             <label class="form-label">Estado</label>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="editarEstadoBeneficiario" checked>
-                <label class="form-check-label" for="editarEstadoBeneficiario">Activo</label>
+                <input class="form-check-input" type="checkbox" id="estadoTarjeta" name="estadoTarjeta" {{#if tarjeta.estado}}checked{{/if}}>
+                <label class="form-check-label" for="estadoTarjeta" >Activo</label>
             </div>
         </div>
         <div class="modal-footer d-flex justify-content-between">
