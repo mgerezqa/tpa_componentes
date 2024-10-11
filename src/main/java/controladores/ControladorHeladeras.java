@@ -109,7 +109,6 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         if(posibleHeladera.isPresent()){
             Heladera heladera = (Heladera) posibleHeladera.get();
 
-            System.out.println(heladera);
             HeladeraDTO heladeraDTO = new HeladeraDTO();
             heladeraDTO.setId(heladera.getId());
             heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
@@ -119,8 +118,8 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             if(heladera.getFechaInicioFuncionamiento()!=null){
                 heladeraDTO.setFechaInicioFuncionamiento(heladera.getFechaInicioFuncionamiento().toString());
             }
+            heladeraDTO.setModeloDeHeladera(heladera.getModelo().getNombreModelo());
             Map<String, Object> model = new HashMap<>();
-            System.out.println("Heladera DTO: " + heladeraDTO);
             model.put("heladera", heladeraDTO);
             model.put("action","/dashboard/heladeras/"+heladeraDTO.getId()+"/edit");
             context.render("/dashboard/forms/heladera.hbs",model);
@@ -138,6 +137,8 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
                 .check(value -> value >= 0, "La capacidad actual no puede ser negativa");
         Validator<String> nombreHeladera = context.formParamAsClass("nombreHeladera", String.class)
                 .check(value -> value != null, "El nombre de la heladera es obligatorio");
+        Validator<String> modelo = context.formParamAsClass("modeloHeladera", String.class)
+                .check(Objects::nonNull, "El modelo de la heladera es obligatorio");
         String estadoHeladera = context.formParam("estadoHeladera");
         //
         //Errores
@@ -150,10 +151,8 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         }
         Optional<Object> posibleHeladeraEncontrada = this.repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
         if(posibleHeladeraEncontrada.isPresent()){
-            System.out.println("------------------UPDATE----");
             Heladera heladera = (Heladera) posibleHeladeraEncontrada.get();
-            System.out.println("En base: "+heladera.getNombreIdentificador());
-            System.out.println("En el param: "+nombreHeladera.get());
+            ModeloDeHeladera modeloDeHeladera = new ModeloDeHeladera(modelo.get());
             heladera.setNombreIdentificador(nombreHeladera.get());
             if(estadoHeladera != null){
                 heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
@@ -163,9 +162,9 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             heladera.setCapacidadActual(capacidadActual.get());
             heladera.setCapacidadMax(capacidadMax.get());
             heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));
+            heladera.setModelo(modeloDeHeladera);
             withTransaction(()->{
                 repositorioHeladeras.actualizar(heladera);
-                System.out.println("Post merge: "+heladera.getNombreIdentificador());
             });
             context.redirect("/dashboard/heladeras"); //TODO pantalla de exito al actualizar!
         }else{
