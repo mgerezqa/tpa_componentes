@@ -9,6 +9,7 @@ import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -121,5 +122,7 @@ public class Email extends MedioDeContacto {
         );
     }
 
-
+    public void setEmail(String nuevoEmail){
+        this.email =nuevoEmail;
+    }
 }
