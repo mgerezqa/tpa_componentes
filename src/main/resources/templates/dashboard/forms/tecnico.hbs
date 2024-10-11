@@ -44,8 +44,13 @@
         </div>
 
         <div class="mb-3">
-            <label for="tamanioArea" class="form-label">Tamaño de Área</label>
-            <input type="text" class="form-control" id="tamanioArea" name="tamanioArea" value="{{tecnico.tamanioArea}}" placeholder="Ingrese tamaño de área" required>
+            <label for="tamanioArea" class="form-label">Tipo de Área</label>
+            <select class="form-select" id="tamanioArea" name="tamanioArea" required>
+                <option value="" disabled>Seleccionar tipo de tamanio...</option>
+                <option value="PEQUENA" {{#if (eq tecnico.tamanioArea "PEQUENA")}}selected{{/if}}>PEQUEÑA</option>
+                <option value="MEDIANA" {{#if (eq tecnico.tamanioArea "MEDIANA")}}selected{{/if}}>MEDIANA</option>
+                <option value="GRANDE" {{#if (eq tecnico.tamanioArea "GRANDE")}}selected{{/if}}>GRANDE</option>
+            </select>
         </div>
 
         <div class="mb-3">
