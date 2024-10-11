@@ -1,220 +1,230 @@
 <!-- Seccion Suscripciones -->
-<section id="listado-suscripciones" class="d-none">
-    <p class="lead">Listado de suscripciones</p>
-    <hr>
+{{#partial "contenido"}}
+    <section id="listado-suscripciones">
+        <p class="lead">Listado de suscripciones</p>
+        <hr>
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalCrearSuscripcion">Crear Suscripción
+            </button>
+            <!-- Tabla de suscripciones -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Id Colaborador </th>
+                    <th>Id Heladera</th>
+                    <th>Tipo de Suscripcion </th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de heladeras  -->
+                {{#each suscripciones}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>ACTIVO</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>Por cantidad de viandas</td>
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning"
+                                    data-toggle="modal"
+                                    data-target="#modalEditarSuscripcion"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
 
-    <div class="container">
-        <!-- Botón para abrir el modal de crear -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearSuscripcion">Crear Suscripción</button>
+                            <!-- Botón para baja lógica  -->
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarSuscripcion" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
 
-        <!-- Tabla de tecnicos -->
-        <table class="table mt-3">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Estado</th>
-                <th>Id Colaborador </th>
-                <th>Id Heladera</th>
-                <th>Tipo de Suscripcion </th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Listado de heladeras  -->
-            <tr>
-                <td>1</td>
-                <td>Activo</td>
-                <td>1</td>
-                <td>1</td>
-                <td>Por cantidad de viandas</td>
-                <td>
-                    <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarSuscripcion" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarSuscripcion" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
 
-                    <!-- Botón para baja lógica  -->
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarSuscripcion" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
-                        <i class="bi bi-arrow-down-circle"></i>
-                    </button>
+                <!-- Modal de edición para una suscripción -->
+                <div class="modal fade" id="modalEditarSuscripcion" tabindex="-1" aria-labelledby="modalEditarSuscripcion" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning text-dark">
+                                <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Suscripción</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
 
-                    <!-- Botón para abrir el modal de eliminación -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarSuscripcion" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-
-
-            </tr>
-
-            <!-- Modal de edición para una suscripción -->
-            <div class="modal fade" id="modalEditarSuscripcion" tabindex="-1" aria-labelledby="modalEditarSuscripcion" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-warning text-dark">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Suscripción</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-
-                                <!-- Buscar Id Colaborador -->
-                                <div class="mb-3">
-                                    <label for="editarSuscripcionColaborador" class="form-label">Colaborador</label>
-                                    <select class="form-select" id="editarSuscripcionColaborador" required>
-                                        <option value="" disabled>Seleccionar colaborador...</option>
-                                        <option value="1" selected>1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <!-- Buscar Id Heladera -->
-                                <div class="mb-3">
-                                    <label for="editarSuscripcionHeladera" class="form-label">Heladera</label>
-                                    <select class="form-select" id="editarSuscripcionHeladera" required>
-                                        <option value="" disabled>Seleccionar heladera...</option>
-                                        <option value="1" selected>1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <!-- Buscar Tipo de suscripción -->
-                                <div class="mb-3">
-                                    <label for="editarSuscripcionTipo" class="form-label">Tipo de suscripción</label>
-                                    <select class="form-select" id="editarSuscripcionTipo" required>
-                                        <option value="" disabled>Seleccionar tipo...</option>
-                                        <option value="1" selected>Por cantidad de viandas</option> <!-- Opción seleccionada -->
-                                        <option value="2">Faltan n para llegar al máximo</option>
-                                        <option value="3">Por desperfecto en heladera</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Estado</label>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="editarEstadoSuscripcion" checked>
-                                        <label class="form-check-label" for="editarEstadoSuscripcion">Activo</label>
+                                    <!-- Buscar Id Colaborador -->
+                                    <div class="mb-3">
+                                        <label for="editarSuscripcionColaborador" class="form-label">Colaborador</label>
+                                        <select class="form-select" id="editarSuscripcionColaborador" required>
+                                            <option value="" disabled>Seleccionar colaborador...</option>
+                                            <option value="1" selected>1</option> <!-- Opción seleccionada -->
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Modal de eliminación  -->
-            <div class="modal fade" id="modalEliminarSuscripcion" tabindex="-1" aria-labelledby="modalEliminarSuscripcion" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Eliminar Suscripcion</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas eliminar esta suscripción?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <!-- Buscar Id Heladera -->
+                                    <div class="mb-3">
+                                        <label for="editarSuscripcionHeladera" class="form-label">Heladera</label>
+                                        <select class="form-select" id="editarSuscripcionHeladera" required>
+                                            <option value="" disabled>Seleccionar heladera...</option>
+                                            <option value="1" selected>1</option> <!-- Opción seleccionada -->
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    </div>
 
-            <!-- Modal de deshabilitación  -->
-            <div class="modal fade" id="modalDeshabilitarSuscripcion" tabindex="-1" aria-labelledby="modalDeshabilitarSuscripcion" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Desactivar Suscripción</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas dar de baja a esta suscripción?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <!-- Buscar Tipo de suscripción -->
+                                    <div class="mb-3">
+                                        <label for="editarSuscripcionTipo" class="form-label">Tipo de suscripción</label>
+                                        <select class="form-select" id="editarSuscripcionTipo" required>
+                                            <option value="" disabled>Seleccionar tipo...</option>
+                                            <option value="1" selected>Por cantidad de viandas</option> <!-- Opción seleccionada -->
+                                            <option value="2">Faltan n para llegar al máximo</option>
+                                            <option value="3">Por desperfecto en heladera</option>
+                                        </select>
+                                    </div>
 
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal de creación -->
-    <div class="modal fade" id="modalCrearSuscripcion" tabindex="-1" aria-labelledby="modalCrearSuscripcion" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear Suscripción</h5>
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-
-
-                        <!-- Buscar Id Colaborador -->
-                        <div class="mb-3">
-                            <label for="editarSuscripcionColaborador" class="form-label">Colaborador</label>
-                            <select class="form-select" id="editarSuscripcionColaborador" required>
-                                <option value="" disabled>Seleccionar colaborador...</option>
-                                <option value="1" selected>1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <!-- Buscar Id Heladera -->
-                        <div class="mb-3">
-                            <label for="editarSuscripcionHeladera" class="form-label">Heladera</label>
-                            <select class="form-select" id="editarSuscripcionHeladera" required>
-                                <option value="" disabled>Seleccionar heladera...</option>
-                                <option value="1" selected>1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <!-- Buscar Tipo de suscripción -->
-                        <div class="mb-3">
-                            <label for="editarSuscripcionTipo" class="form-label">Tipo de suscripción</label>
-                            <select class="form-select" id="editarSuscripcionTipo" required>
-                                <option value="" disabled>Seleccionar tipo...</option>
-                                <option value="1" selected>Por cantidad de viandas</option> <!-- Opción seleccionada -->
-                                <option value="2">Faltan n para llegar al máximo</option>
-                                <option value="3">Por desperfecto en heladera</option>
-                            </select>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label class="form-label">Estado</label>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="estadoTecnico" checked>
-                                <label class="form-check-label" for="estadoTecnico">Activo</label>
+                                    <div class="mb-3">
+                                        <label class="form-label">Estado</label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="editarEstadoSuscripcion" checked>
+                                            <label class="form-check-label" for="editarEstadoSuscripcion">Activo</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
                             </div>
                         </div>
-
-
-                    </form>
+                    </div>
                 </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+
+                <!-- Modal de eliminación  -->
+                <div class="modal fade" id="modalEliminarSuscripcion" tabindex="-1" aria-labelledby="modalEliminarSuscripcion" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eliminar Suscripcion</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar esta suscripción?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de deshabilitación  -->
+                <div class="modal fade" id="modalDeshabilitarSuscripcion" tabindex="-1" aria-labelledby="modalDeshabilitarSuscripcion" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Desactivar Suscripción</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas dar de baja a esta suscripción?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal de creación -->
+        <div class="modal fade" id="modalCrearSuscripcion" tabindex="-1" aria-labelledby="modalCrearSuscripcion" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear Suscripción</h5>
+                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+
+
+                            <!-- Buscar Id Colaborador -->
+                            <div class="mb-3">
+                                <label for="editarSuscripcionColaborador" class="form-label">Colaborador</label>
+                                <select class="form-select" id="editarSuscripcionColaborador" required>
+                                    <option value="" disabled>Seleccionar colaborador...</option>
+                                    <option value="1" selected>1</option> <!-- Opción seleccionada -->
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+
+                            <!-- Buscar Id Heladera -->
+                            <div class="mb-3">
+                                <label for="editarSuscripcionHeladera" class="form-label">Heladera</label>
+                                <select class="form-select" id="editarSuscripcionHeladera" required>
+                                    <option value="" disabled>Seleccionar heladera...</option>
+                                    <option value="1" selected>1</option> <!-- Opción seleccionada -->
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+
+                            <!-- Buscar Tipo de suscripción -->
+                            <div class="mb-3">
+                                <label for="editarSuscripcionTipo" class="form-label">Tipo de suscripción</label>
+                                <select class="form-select" id="editarSuscripcionTipo" required>
+                                    <option value="" disabled>Seleccionar tipo...</option>
+                                    <option value="1" selected>Por cantidad de viandas</option> <!-- Opción seleccionada -->
+                                    <option value="2">Faltan n para llegar al máximo</option>
+                                    <option value="3">Por desperfecto en heladera</option>
+                                </select>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="estadoTecnico" checked>
+                                    <label class="form-check-label" for="estadoTecnico">Activo</label>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                        <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}

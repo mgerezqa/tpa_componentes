@@ -1,8 +1,17 @@
 package controladores;
 
+import domain.suscripciones.Suscripcion;
+import domain.usuarios.Tecnico;
+import dtos.SuscripcionDTO;
+import dtos.TecnicoDTO;
 import io.javalin.http.Context;
 import repositorios.repositoriosBDD.RepositorioSuscripciones;
 import utils.ICrudViewsHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ControladorSuscripciones implements ICrudViewsHandler {
     private RepositorioSuscripciones repositorioSuscripciones;
@@ -13,7 +22,21 @@ public class ControladorSuscripciones implements ICrudViewsHandler {
 
     @Override
     public void index(Context context) {
-        context.render("/dashboard/suscripciones");
+        List<Suscripcion> suscripciones = repositorioSuscripciones.buscarTodosSuscripciones();
+        List<SuscripcionDTO> suscripcionesDTO = new ArrayList<>();
+        for (Suscripcion suscripcion : suscripciones) {
+            try {
+                SuscripcionDTO suscripcionDTO = new SuscripcionDTO();
+                suscripcionDTO.setId(suscripcion.getId());
+
+                suscripcionesDTO.add(suscripcionDTO);
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        Map<String,List<SuscripcionDTO>> model = new HashMap<>();
+        model.put("suscripciones",suscripcionesDTO);
+        context.render("/dashboard/suscripciones.hbs",model);
     }
 
     @Override

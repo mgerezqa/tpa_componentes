@@ -52,6 +52,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }else if(componentName.equals(RepositorioSuscripciones.class.getName())){
                 RepositorioSuscripciones instance = new RepositorioSuscripciones();
+                instances.put(componentName,instance);
             }
         }
 
