@@ -33,7 +33,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             HeladeraDTO heladeraDTO = new HeladeraDTO();
             heladeraDTO.setId(heladera.getId());
             heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
-            heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera());
+            heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera().toString());
             heladeraDTO.setCapacidadMax(heladera.getCapacidadMax());
             heladeraDTO.setCapacidadActual(heladera.getCapacidadActual());
             if(heladera.getFechaInicioFuncionamiento()!=null){
@@ -52,6 +52,14 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
     }
     @Override
     public void create(Context context) {
+        Map<String,Object> modal = new HashMap<>();
+        modal.put("action","/dashboard/heladeras");
+        modal.put("edit",false);
+        context.render("/dashboard/forms/heladera.hbs",modal);
+    }
+
+    @Override
+    public void save(Context context) {
         //Validaciones
         Validator<Integer> capacidadMax = context.formParamAsClass("capacidadMaxima", Integer.class)
                 .check(value -> value > 0, "La capacidad maxima debe ser mayor a 0");
@@ -61,7 +69,8 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
                 .check(Objects::nonNull, "El nombre de la heladera es obligatorio");
         Validator<String> modelo = context.formParamAsClass("modeloHeladera", String.class)
                 .check(Objects::nonNull, "El modelo de la heladera es obligatorio");
-        String estadoHeladera = context.formParam("estadoHeladera");
+        Validator<EstadoHeladera> estadoHeladera = context.formParamAsClass("estadoHeladera", EstadoHeladera.class)
+                .check(Objects::nonNull, "El estado de la heladera es obligatorio");
 
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(capacidadActual,capacidadMax,nombreHeladera);
 
@@ -82,11 +91,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         ubicacionA.setProvincia(provincia1);
 
         Heladera heladera = new Heladera(modeloDeHeladera,nombreHeladera.get(),ubicacionA);
-        if(estadoHeladera != null){
-            heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
-        }else{
-            heladera.setEstadoHeladera(EstadoHeladera.INACTIVA);
-        }
+        heladera.setEstadoHeladera(estadoHeladera.get());
         heladera.setCapacidadMax(capacidadMax.get());
         heladera.setCapacidadActual(capacidadActual.get());
         heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));
@@ -99,11 +104,6 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
     }
 
     @Override
-    public void save(Context context) {
-
-    }
-
-    @Override
     public void edit(Context context) {
         Optional<Object> posibleHeladera = repositorioHeladeras.buscarPorID(Heladera.class,Long.valueOf(context.pathParam("id")));
         if(posibleHeladera.isPresent()){
@@ -112,7 +112,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             HeladeraDTO heladeraDTO = new HeladeraDTO();
             heladeraDTO.setId(heladera.getId());
             heladeraDTO.setNombreIdentificador(heladera.getNombreIdentificador());
-            heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera());
+            heladeraDTO.setEstadoHeladera(heladera.getEstadoHeladera().toString());
             heladeraDTO.setCapacidadMax(heladera.getCapacidadMax());
             heladeraDTO.setCapacidadActual(heladera.getCapacidadActual());
             if(heladera.getFechaInicioFuncionamiento()!=null){
@@ -121,6 +121,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             heladeraDTO.setModeloDeHeladera(heladera.getModelo().getNombreModelo());
             Map<String, Object> model = new HashMap<>();
             model.put("heladera", heladeraDTO);
+            model.put("edit",true);
             model.put("action","/dashboard/heladeras/"+heladeraDTO.getId()+"/edit");
             context.render("/dashboard/forms/heladera.hbs",model);
         }else{
@@ -139,7 +140,8 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
                 .check(value -> value != null, "El nombre de la heladera es obligatorio");
         Validator<String> modelo = context.formParamAsClass("modeloHeladera", String.class)
                 .check(Objects::nonNull, "El modelo de la heladera es obligatorio");
-        String estadoHeladera = context.formParam("estadoHeladera");
+        Validator<EstadoHeladera> estadoHeladera = context.formParamAsClass("estadoHeladera", EstadoHeladera.class)
+                .check(Objects::nonNull, "El estado de la heladera es obligatorio");
         //
         //Errores
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(capacidadActual,capacidadMax,nombreHeladera);
@@ -154,11 +156,7 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
             Heladera heladera = (Heladera) posibleHeladeraEncontrada.get();
             ModeloDeHeladera modeloDeHeladera = new ModeloDeHeladera(modelo.get());
             heladera.setNombreIdentificador(nombreHeladera.get());
-            if(estadoHeladera != null){
-                heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
-            }else{
-                heladera.setEstadoHeladera(EstadoHeladera.INACTIVA);
-            }
+            heladera.setEstadoHeladera(estadoHeladera.get());
             heladera.setCapacidadActual(capacidadActual.get());
             heladera.setCapacidadMax(capacidadMax.get());
             heladera.setFechaInicioFuncionamiento(LocalDate.parse(context.formParam("fechaInicioFuncionamiento")));

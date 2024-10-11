@@ -14,7 +14,7 @@ public class HeladeraDTO {
     private Integer capacidadMax;
     private Integer capacidadActual;
     private String fechaInicioFuncionamiento;
-    private EstadoHeladera estadoHeladera;
+    private String estadoHeladera;
     private Float temperatura;
     private String modeloDeHeladera;
 }

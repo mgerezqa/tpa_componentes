@@ -7,6 +7,7 @@ import com.github.jknack.handlebars.Template;
 import domain.Config;
 import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.TamanioArea;
+import domain.heladera.Heladera.EstadoHeladera;
 import utils.Initializer;
 import utils.JavalinRenderer;
 import io.javalin.Javalin;
@@ -69,6 +70,8 @@ public class Server {
             }));
             config.validation.register(TipoDocumento.class,  v->  TipoDocumento.valueOf(v.toUpperCase()));
             config.validation.register(TamanioArea.class, v->  TamanioArea.valueOf(v.toUpperCase()));
+            config.validation.register(EstadoHeladera.class, v->  EstadoHeladera.valueOf(v.toUpperCase()));
+
         };
     }
 }
