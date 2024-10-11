@@ -1,10 +1,7 @@
 package server;
 
 import config.ServiceLocator;
-import controladores.ControladorColaboradorFisico;
-import controladores.ControladorColaboradorJuridico;
-import controladores.ControladorHeladeras;
-import controladores.ControladorTecnicos;
+import controladores.*;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
 import io.javalin.Javalin;
 
@@ -43,12 +40,12 @@ public class Router implements SimplePersistenceTest {
 
         //dashboard/suscripciones
 
-        app.get("/dashboard/suscripciones", ServiceLocator.instanceOf(ControladorTecnicos.class)::index);
-        app.post("/dashboard/suscripciones", ServiceLocator.instanceOf(ControladorTecnicos.class)::save);
-        app.get("/dashboard/suscripciones/{id}/edit", ServiceLocator.instanceOf(ControladorTecnicos.class)::edit);
-        app.post("/dashboard/suscripciones/{id}/edit", ServiceLocator.instanceOf(ControladorTecnicos.class)::update);
-        app.get("/dashboard/suscripciones/{id}/delete", ServiceLocator.instanceOf(ControladorTecnicos.class)::delete);
-        app.post("/dashboard/suscripciones/{id}/delete", ServiceLocator.instanceOf(ControladorTecnicos.class)::remove);
+        app.get("/dashboard/suscripciones", ServiceLocator.instanceOf(ControladorSuscripciones.class)::index);
+        app.post("/dashboard/suscripciones", ServiceLocator.instanceOf(ControladorSuscripciones.class)::save);
+        app.get("/dashboard/suscripciones/{id}/edit", ServiceLocator.instanceOf(ControladorSuscripciones.class)::edit);
+        app.post("/dashboard/suscripciones/{id}/edit", ServiceLocator.instanceOf(ControladorSuscripciones.class)::update);
+        app.get("/dashboard/suscripciones/{id}/delete", ServiceLocator.instanceOf(ControladorSuscripciones.class)::delete);
+        app.post("/dashboard/suscripciones/{id}/delete", ServiceLocator.instanceOf(ControladorSuscripciones.class)::remove);
     }
 
 }

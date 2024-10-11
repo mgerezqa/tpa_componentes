@@ -13,7 +13,7 @@ public class ControladorSuscripciones implements ICrudViewsHandler {
 
     @Override
     public void index(Context context) {
-
+        context.render("/dashboard/suscripciones");
     }
 
     @Override
