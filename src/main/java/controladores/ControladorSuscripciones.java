@@ -8,9 +8,11 @@ import domain.usuarios.ColaboradorFisico;
 import dtos.SuscripcionDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
+import org.hibernate.dialect.SybaseAnywhereDialect;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import repositorios.repositoriosBDD.RepositorioSuscripciones;
@@ -122,14 +124,91 @@ public class ControladorSuscripciones implements ICrudViewsHandler, WithSimplePe
     @Override
     public void edit(Context context) {
         String idParam = context.pathParam("id");
-        Map<String,Object> modal = new HashMap<>();
-        modal.put("action","/dashboard/suscripciones/"+idParam+"/edit");
-        modal.put("edit",true);
-        context.render("/dashboard/forms/suscripcion.hbs",modal);
+        Long idSus = Long.valueOf(idParam);
+        List<Long> colaboradoresPosibles = repositorioColaboradores.colaboradoreFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
+        List<Long> heladerasPosibles = repositorioHeladeras.obtenerTodasLasHeladeras().stream().map(Heladera::getId).collect(Collectors.toList());
+        Optional<Object> posibleSuscripcion = repositorioSuscripciones.buscarPorID(Suscripcion.class,idSus);
+        if(posibleSuscripcion.isPresent()){
+            Suscripcion suscripcion = (Suscripcion) posibleSuscripcion.get();
+            SuscripcionDTO suscripcionDTO = new SuscripcionDTO();
+
+            suscripcionDTO.setIdColaborador(suscripcion.getColaboradorFisico().getId());
+            suscripcionDTO.setIdHeladera(suscripcion.getHeladera().getId());
+
+            if (suscripcion.getTipoDeSuscripcion().getClass() == SuscripcionPorCantidadDeViandasDisponibles.class){
+                suscripcionDTO.setTipo(TipoDeSuscripcionENUM.SUSCRIPCION_VIANDAS_DIS.toString());
+            }
+            if (suscripcion.getTipoDeSuscripcion().getClass() == SuscripcionPorCantidadDeViandasHastaAlcMax.class){
+                suscripcionDTO.setTipo(TipoDeSuscripcionENUM.SUSCRIPCION_CANTIDAD_VIANDAS_MAX.toString());
+            }
+            if (suscripcion.getTipoDeSuscripcion().getClass() == SuscripcionPorDesperfectoH.class){
+                suscripcionDTO.setTipo(TipoDeSuscripcionENUM.SUSCRIPCION_DESPERFECTO_HELADERA.toString());
+            }
+
+            Map<String,Object> modal = new HashMap<>();
+            modal.put("suscripcion",suscripcionDTO);
+            modal.put("action","/dashboard/suscripciones/"+idParam+"/edit");
+            modal.put("colaboradores",colaboradoresPosibles);
+            modal.put("heladeras",heladerasPosibles);
+            modal.put("edit",true);
+            context.render("/dashboard/forms/suscripcion.hbs",modal);
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @Override
     public void update(Context context) {
+        Long idColab = Long.valueOf(context.formParam("idColaborador"));
+        Long idHela = Long.valueOf(context.formParam("idHeladera"));
+        Long idSus = Long.valueOf(context.pathParam("id"));
+        Optional<Object> posibleColaborador = repositorioColaboradores.buscarPorID(Colaborador.class,idColab);
+        Optional<Object> posibleHeladera = repositorioHeladeras.buscarPorID(Heladera.class,idHela);
+        Optional<Object> posibleSuscripcion = repositorioSuscripciones.buscarPorID(Suscripcion.class,idSus);
+
+        Validator<TipoDeSuscripcionENUM> suscripcionTipo = context.formParamAsClass("suscripcionTipo", TipoDeSuscripcionENUM.class)
+                .check(Objects::nonNull , "El tipo de suscripcion es  obligatorio");
+
+        //Casos de error
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(suscripcionTipo);
+        if(posibleColaborador.isEmpty()|| posibleHeladera.isEmpty()){
+            System.out.println("NO existe la heladera o el colaborador!");
+            context.redirect("/dashboard/suscripciones"); //ERROR
+            return;
+        }
+        if(posibleSuscripcion.isEmpty()){
+            System.out.println("NO existe la suscripcion a cambiar!");
+            context.redirect("/dashboard/suscripciones"); //ERROR
+            return;
+        }
+        if(!errors.isEmpty()){
+            System.out.println(errors);
+            context.redirect("/dashboard/suscripciones"); // TODO -> Pantalla del form pero mencionando los errores al usuario
+            return;
+        }
+        //EXITO
+        withTransaction(()->{
+            TipoDeSuscripcion tipoDeSuscripcion = null;
+            if (suscripcionTipo.get() == TipoDeSuscripcionENUM.SUSCRIPCION_CANTIDAD_VIANDAS_MAX){
+                tipoDeSuscripcion = new SuscripcionPorCantidadDeViandasHastaAlcMax();
+            }
+            if (suscripcionTipo.get() == TipoDeSuscripcionENUM.SUSCRIPCION_VIANDAS_DIS){
+                tipoDeSuscripcion = new SuscripcionPorCantidadDeViandasDisponibles();
+            }
+            if (suscripcionTipo.get() == TipoDeSuscripcionENUM.SUSCRIPCION_DESPERFECTO_HELADERA){
+                tipoDeSuscripcion = new SuscripcionPorDesperfectoH();
+            }
+            if (tipoDeSuscripcion != null) {
+                Suscripcion suscripcion = (Suscripcion) posibleSuscripcion.get();
+                suscripcion.setHeladera((Heladera) posibleHeladera.get());
+                suscripcion.setColaboradorFisico((ColaboradorFisico) posibleColaborador.get());
+                suscripcion.setTipoDeSuscripcion(tipoDeSuscripcion);
+
+                repositorioSuscripciones.actualizar(suscripcion);
+            }
+        });
+        context.redirect("/dashboard/suscripciones"); //TODO realizar pantalla de exito de la creacion de suscripcion
 
     }
 

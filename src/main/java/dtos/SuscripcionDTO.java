@@ -9,4 +9,5 @@ public class SuscripcionDTO {
     private Long idHeladera;
     private String tipoDeSuscripcion;
     private Boolean estado;
+    private String tipo;
 }
