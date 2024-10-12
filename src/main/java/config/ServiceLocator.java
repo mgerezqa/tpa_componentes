@@ -59,7 +59,7 @@ public class ServiceLocator {
             }
 
             else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
-                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(IServiceColaboradorJuridico.class),instanceOf(RepositorioUsuarios.class));
+                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class));
                 instances.put(componentName, instance);
             }
 

@@ -1,23 +1,22 @@
-<!-- Modal de edición para el colaborador jurídico -->
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header bg-warning text-dark">
-            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Colaborador Jurídico</h5>
-            <!-- Botón de cerrar modal -->
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+<!-- Modal de edición para el colaborador juridico -->
+{{#partial "titulo"}}
+    {{#if edit}}
+        <i class="bi bi-pencil-square"></i> Editar colaborador jurídico
+    {{else}}
+        <i class="bi bi-plus-circle-fill"></i> Crear colaborador jurídico
+    {{/if}}
+{{/partial}}
 
+{{#partial "form"}}
+    <form action="{{action}}" method="POST">
         <!-- Cuerpo del modal -->
-        <div class="modal-body">
-            <!-- El formulario debe tener una acción válida, que redirija correctamente al guardar -->
-            <form action="{{action}}" method="POST">
 
-                <!-- Campo Razón Social -->
+        <!-- Campo Razón Social -->
                 <div class="mb-3">
                     <label for="editarRazonSocial" class="form-label">Razón Social</label>
                     <input type="text" class="form-control" id="editarRazonSocial"
                            name="razonSocial"
-                           value="{{colaboradoresJuridicos.razonSocial}}" required> <!-- Value ahora dentro de comillas -->
+                           value={{colaboradorJuridico.razonSocial}} required> <!-- El value representa el dato actual -->
                 </div>
 
                 <!-- Campo Rubro -->
@@ -25,7 +24,7 @@
                     <label for="editarRubro" class="form-label">Rubro</label>
                     <input type="text" class="form-control" id="editarRubro"
                            name="rubro"
-                           value="{{colaboradoresJuridicos.rubro}}" required>
+                           value={{colaboradorJuridico.rubro}} required>
                 </div>
 
                 <!-- Campo Email -->
@@ -33,44 +32,42 @@
                     <label for="editarEmail" class="form-label">Email</label>
                     <input type="email" class="form-control" id="editarEmail"
                            name="email"
-                           value="{{colaboradoresJuridicos.email}}" required>
+                           value={{colaboradorJuridico.email}} required>
                 </div>
 
                 <!-- Select Tipo de Razón Social -->
                 <div class="mb-3">
                     <label for="editarTipoDeRazonSocial" class="form-label">Tipo de Razón Social</label>
-                    <select class="form-select" id="editarTipoDeRazonSocial" name="tipoRazonSocial" required>
-                        <option value="" disabled {{#unless colaboradoresJuridicos.tipoRazonSocial}}selected{{/unless}}>Seleccionar tipo...</option>
-                        <option value="GUBERNAMENTAL" {{#if colaboradoresJuridicos.tipoRazonSocial "GUBERNAMENTAL"}}selected{{/if}}>Gubernamental</option>
-                        <option value="ONG" {{#if colaboradoresJuridicos.tipoRazonSocial "ONG"}}selected{{/if}}>ONG</option>
-                        <option value="EMPRESA" {{#if colaboradoresJuridicos.tipoRazonSocial "EMPRESA"}}selected{{/if}}>Empresa</option>
-                        <option value="INSTITUCION" {{#if colaboradoresJuridicos.tipoRazonSocial "INSTITUCION"}}selected{{/if}}>Institución</option>
+                    <select class="form-select" id="editarTipoDeRazonSocial" required>
+                        <option value="" disabled>Seleccionar tipo...</option>
+                        <option value="1" selected>Gubernamental</option> <!-- Opción seleccionada -->
+                        <option value="2">ONG</option>
+                        <option value="3">Empresa</option>
+                        <option value="4">Institución</option>
                     </select>
                 </div>
 
-                <!-- Estado -->
-                <div class="mb-3">
-                    <label class="form-label">Estado</label>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="estadoHeladeraToggle"
-                               name="activo" {{#if colaboradoresJuridicos.activo}}checked{{/if}}>
-                        <label class="form-check-label" for="estadoHeladeraToggle">Activo</label>
-                    </div>
-                </div>
-
-                <!-- Pie del modal -->
-                <div class="modal-footer d-flex justify-content-between">
-                    <!-- Botón Cancelar -->
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle"></i> Cancelar
-                    </button>
-
-                    <!-- Botón Guardar cambios -->
-                    <button type="submit" class="btn btn-warning">
-                        <i class="bi bi-pencil"></i> Guardar cambios
-                    </button>
-                </div>
-            </form>
+        <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="editarEstadoColaboradorJuridico"
+                       name="estadoColaboradorJuridico"
+                       value="true"
+                       {{#if colaboradorJuridico.activo}}checked{{/if}}>
+                <label class="form-check-label" for="editarEstadoColaboradorJuridico">Activo</label>
+            </div>
         </div>
-    </div>
-</div>
+
+
+        <!-- Pie del modal -->
+        <div class="modal-footer d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+            {{#if edit}}
+                <button type="submit" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
+            {{else}}
+                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+            {{/if}}
+        </div>
+</form>
+{{/partial}}
+{{> templates/dashboard/forms/base}}
