@@ -1,22 +1,22 @@
 <!-- Modal de edición para el colaborador juridico -->
-{{#partial "titulo"}}
-    {{#if edit}}
-        <i class="bi bi-pencil-square"></i> Editar colaborador jurídico
-    {{else}}
-        <i class="bi bi-plus-circle-fill"></i> Crear colaborador jurídico
-    {{/if}}
-{{/partial}}
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Colaborador jurídico</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
-{{#partial "form"}}
-    <form action="{{action}}" method="POST">
         <!-- Cuerpo del modal -->
+        <div class="modal-body">
+            <!-- Aquí asignamos el action para que apunte a la URL de actualización -->
+            <form action="{{action}}" method="POST">
 
-        <!-- Campo Razón Social -->
+                <!-- Campo Razón Social -->
                 <div class="mb-3">
                     <label for="editarRazonSocial" class="form-label">Razón Social</label>
                     <input type="text" class="form-control" id="editarRazonSocial"
                            name="razonSocial"
-                           value={{colaboradorJuridico.razonSocial}} required> <!-- El value representa el dato actual -->
+                           value={{colaboradoresJuridicos.razonSocial}} required> <!-- El value representa el dato actual -->
                 </div>
 
                 <!-- Campo Rubro -->
@@ -24,7 +24,7 @@
                     <label for="editarRubro" class="form-label">Rubro</label>
                     <input type="text" class="form-control" id="editarRubro"
                            name="rubro"
-                           value={{colaboradorJuridico.rubro}} required>
+                           value={{colaboradoresJuridicos.rubro}} required>
                 </div>
 
                 <!-- Campo Email -->
@@ -32,7 +32,7 @@
                     <label for="editarEmail" class="form-label">Email</label>
                     <input type="email" class="form-control" id="editarEmail"
                            name="email"
-                           value={{colaboradorJuridico.email}} required>
+                           value={{colaboradoresJuridicos.email}} required>
                 </div>
 
                 <!-- Select Tipo de Razón Social -->
@@ -47,27 +47,22 @@
                     </select>
                 </div>
 
-        <div class="mb-3">
-            <label class="form-label">Estado</label>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="editarEstadoColaboradorJuridico"
-                       name="estadoColaboradorJuridico"
-                       value="true"
-                       {{#if colaboradorJuridico.activo}}checked{{/if}}>
-                <label class="form-check-label" for="editarEstadoColaboradorJuridico">Activo</label>
-            </div>
-        </div>
+                <!-- Estado -->
+                <div class="mb-3">
+                    <label class="form-label">Estado</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="estadoHeladeraToggle"
+                               name="activo" {{#if colaboradoresJuridicos.activo}}checked{{/if}}>
+                        <label class="form-check-label" for="estadoHeladeraToggle">Activo</label>
+                    </div>
+                </div>
 
-
-        <!-- Pie del modal -->
-        <div class="modal-footer d-flex justify-content-between">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-            {{#if edit}}
-                <button type="submit" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-            {{else}}
-                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-            {{/if}}
+                <!-- Pie del modal -->
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-warning"><i class="bi bi-pencil"></i> Guardar cambios</button>
+                </div>
+            </form>
         </div>
-</form>
-{{/partial}}
-{{> templates/dashboard/forms/base}}
+    </div>
+</div>
