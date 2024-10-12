@@ -43,6 +43,9 @@ public class Server {
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 Handlebars handlebars = new Handlebars();
+
+                handlebars.registerHelper("eq", (val1, val2) -> val1.equals(val2));
+
                 Template template = null;
                 try {
                     template = handlebars.compile(

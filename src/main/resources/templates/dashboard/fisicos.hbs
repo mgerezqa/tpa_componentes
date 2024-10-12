@@ -27,7 +27,7 @@
             {{#each colaboradoresFisicos}}
             <tr>
                 <td>{{this.id}}</td>
-                <td>{{this.activo}}</td>
+                <td>{{#if this.activo}}Activo{{else}}Inactivo{{/if}}</td>
                 <td>{{this.nombre}}</td>
                 <td>{{this.apellido}}</td>
                 <td>{{this.email}}</td>

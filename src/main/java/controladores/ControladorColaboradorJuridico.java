@@ -123,15 +123,13 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
             Map<String, Object> model = new HashMap<>();
             model.put("colaboradoresJuridicos",colaboradorJuridicoDTO);
-            model.put("action","/dashboard/juridicos/"+colaboradorJuridicoDTO.getId()+"/edit");
+            model.put("action","/dashboard/juridicos/"+ colaboradorJuridicoDTO.getId()+ "/edit");
 
-            context.render("/dashboard/forms/juridico.hbs",model);
+            context.render("/dashboard/forms/juridico.hbs", model);
     }
 
     @Override //LISTO
     public void update(Context context) {
-        Long colaboradorId = Long.valueOf(context.pathParam("id"));
-
         Validator<String> tipoRazonSocial = context.formParamAsClass("tipoRazonSocial", String.class)
                 .check(Objects::nonNull, "El tipo de razon social del colaborador es obligatorio");
         Validator<String> razonSocial = context.formParamAsClass("razonSocial", String.class)
@@ -141,7 +139,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Validator<String> rubro = context.formParamAsClass("rubro", String.class)
                 .check(Objects::nonNull, "El rubro del colaborador es obligatorio");
 
-        boolean activo = context.formParam("estadoColaboradorJuridico")!= null;
+        boolean activo = context.formParam("activo")!= null;
 
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(tipoRazonSocial,razonSocial,email,rubro);
 
@@ -152,7 +150,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         }
 
         Optional<Object> posibleJuridico =
-                this.repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,colaboradorId);
+                this.repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,Long.valueOf(context.pathParam("id")));
 
         if (posibleJuridico.isEmpty()) {
             context.status(HttpStatus.NOT_FOUND);

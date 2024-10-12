@@ -19,13 +19,24 @@
                            value={{colaboradoresJuridicos.razonSocial}} required> <!-- El value representa el dato actual -->
                 </div>
 
-                <!-- Campo Rubro -->
+                <!-- Select Rubro -->
                 <div class="mb-3">
                     <label for="editarRubro" class="form-label">Rubro</label>
-                    <input type="text" class="form-control" id="editarRubro"
-                           name="rubro"
-                           value={{colaboradoresJuridicos.rubro}} required>
+                    <select class="form-select" id="editarRubro" name="rubro" required>
+                        <option value="" disabled>Seleccionar rubro...</option>
+                        <option value="EDUCACION" {{#if (eq colaboradoresJuridicos.rubro "EDUCACION")}}selected{{/if}}>Educación</option>
+                        <option value="SALUD" {{#if (eq colaboradoresJuridicos.rubro "SALUD")}}selected{{/if}}>Salud</option>
+                        <option value="TECNOLOGIA" {{#if (eq colaboradoresJuridicos.rubro "TECNOLOGIA")}}selected{{/if}}>Tecnología</option>
+                        <option value="ENERGIA" {{#if (eq colaboradoresJuridicos.rubro "ENERGIA")}}selected{{/if}}>Energía</option>
+                        <option value="PRODUCCION" {{#if (eq colaboradoresJuridicos.rubro "PRODUCCION")}}selected{{/if}}>Producción</option>
+                        <option value="FINANZAS" {{#if (eq colaboradoresJuridicos.rubro "FINANZAS")}}selected{{/if}}>Finanzas</option>
+                        <option value="COMERCIO" {{#if (eq colaboradoresJuridicos.rubro "COMERCIO")}}selected{{/if}}>Comercio</option>
+                        <option value="SERVICIOS" {{#if (eq colaboradoresJuridicos.rubro "SERVICIOS")}}selected{{/if}}>Servicios</option>
+                        <option value="CONSTRUCCION" {{#if (eq colaboradoresJuridicos.rubro "CONSTRUCCION")}}selected{{/if}}>Construcción</option>
+                        <option value="OTRO" {{#if (eq colaboradoresJuridicos.rubro "OTRO")}}selected{{/if}}>Otro</option>
+                    </select>
                 </div>
+
 
                 <!-- Campo Email -->
                 <div class="mb-3">
@@ -38,14 +49,15 @@
                 <!-- Select Tipo de Razón Social -->
                 <div class="mb-3">
                     <label for="editarTipoDeRazonSocial" class="form-label">Tipo de Razón Social</label>
-                    <select class="form-select" id="editarTipoDeRazonSocial" required>
+                    <select class="form-select" id="editarTipoDeRazonSocial" name="tipoRazonSocial" required>
                         <option value="" disabled>Seleccionar tipo...</option>
-                        <option value="1" selected>Gubernamental</option> <!-- Opción seleccionada -->
-                        <option value="2">ONG</option>
-                        <option value="3">Empresa</option>
-                        <option value="4">Institución</option>
+                        <option value="GUBERNAMENTAL" {{#if (eq colaboradoresJuridicos.tipoRazonSocial "GUBERNAMENTAL")}}selected{{/if}}>Gubernamental</option>
+                        <option value="ONG" {{#if (eq colaboradoresJuridicos.tipoRazonSocial "ONG")}}selected{{/if}}>ONG</option>
+                        <option value="EMPRESA" {{#if (eq colaboradoresJuridicos.tipoRazonSocial "EMPRESA")}}selected{{/if}}>Empresa</option>
+                        <option value="INSTITUCION" {{#if (eq colaboradoresJuridicos.tipoRazonSocial "INSTITUCION")}}selected{{/if}}>Institución</option>
                     </select>
                 </div>
+
 
                 <!-- Estado -->
                 <div class="mb-3">
@@ -62,6 +74,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
                     <button type="submit" class="btn btn-warning"><i class="bi bi-pencil"></i> Guardar cambios</button>
                 </div>
+
             </form>
         </div>
     </div>
