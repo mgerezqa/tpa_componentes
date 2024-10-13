@@ -1,6 +1,7 @@
 package config;
 
 
+import controladores.ControladorBeneficiarios;
 import controladores.ControladorColaboradorFisico;
 import controladores.ControladorColaboradorJuridico;
 import controladores.ControladorHeladeras;
@@ -8,11 +9,10 @@ import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.RepositorioVulnerables;
 import services.implem.ServiceColaboradorFisico;
-import services.implem.ServiceColaboradorJuridico;
 import services.implem.ServiceHeladera;
 import services.interfaces.IServiceColaboradorFisico;
-import services.interfaces.IServiceColaboradorJuridico;
 import services.interfaces.IServiceHeladera;
 
 import java.util.HashMap;
@@ -27,7 +27,6 @@ public class ServiceLocator {
         String componentName = componentClass.getName();
 
         if (!instances.containsKey(componentName)) {
-
             if(componentName.equals(ControladorHeladeras.class.getName())) {
                 ControladorHeladeras instance = new ControladorHeladeras(instanceOf(IServiceHeladera.class),instanceOf(RepositorioHeladeras.class));
                 instances.put(componentName, instance);
@@ -73,10 +72,16 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
 
-            else if(componentName.equals(IServiceColaboradorJuridico.class.getName())){
-                IServiceColaboradorJuridico instance = new ServiceColaboradorJuridico(instanceOf(RepositorioColaboradores.class));
+            else if (componentName.equals(RepositorioVulnerables.class.getName())){
+                RepositorioVulnerables instance = new RepositorioVulnerables();
                 instances.put(componentName, instance);
             }
+
+            else if(componentName.equals(ControladorBeneficiarios.class.getName())){
+                ControladorBeneficiarios instance = new ControladorBeneficiarios(instanceOf(RepositorioVulnerables.class));
+                instances.put(componentName, instance);
+            }
+
         }
 
         return (T) instances.get(componentName);

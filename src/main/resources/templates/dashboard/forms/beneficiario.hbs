@@ -1,0 +1,124 @@
+<!-- Modal de edición para un beneficiario -->
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar beneficiario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+            <div class="modal-body">
+                <form action="{{action}}" method="POST">
+
+                    <div class="mb-3">
+                        <label for="nombreBeneficiarioEdit" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreBeneficiarioEdit"
+                               name="nombreBeneficiario"
+                               placeholder="Ingrese Nombre"
+                               value={{beneficiarios.nombre}}
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="apellidoBeneficiarioEdit" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellidoBeneficiarioEdit"
+                               name="apellidoBeneficiario"
+                               value={{beneficiarios.apellido}}
+                               placeholder="Ingrese Apellido" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tipoDocumentoBeneficiarioEdit" class="form-label">Tipo de Documento</label>
+                        <select class="form-select" id="tipoDocumentoBeneficiarioEdit"
+                                name="tipoDocumentoBeneficiario"
+                                required>
+                            <option value="" disabled>Seleccionar tipo...</option>
+                            <option value="DNI" {{#if (eq beneficiarios.tipoDocumento "DNI")}}selected{{/if}}>DNI</option>
+                            <option value="LE" {{#if (eq beneficiarios.tipoDocumento "LE")}}selected{{/if}}>LE</option>
+                            <option value="PASAPORTE" {{#if (eq beneficiarios.tipoDocumento "PASAPORTE")}}selected{{/if}}>PASAPORTE</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="beneficiarioNroDocumentoEdit" class="form-label">Nro Documento</label>
+                        <input type="text" class="form-control" id="beneficiarioNroDocumentoEdit"
+                               name="numeroDocumentoBeneficiario"
+                               value={{beneficiarios.numeroDocumento}}
+                               placeholder="Ingrese NroDoc" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="beneficiarioFechaDeNacimientoEdit" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="beneficiarioFechaDeNacimientoEdit"
+                               name="fechaNacimientoBeneficiario"
+                               value={{beneficiarios.fechaNacimiento}}
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="beneficiarioFechaDeRegistroEdit" class="form-label">Fecha de Registro</label>
+                        <input type="date" class="form-control" id="beneficiarioFechaDeRegistroEdit"
+                               name="fechaRegistroBeneficiario"
+                               value={{beneficiarios.fechaRegistro}}
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="estadoBeneficiario"
+                                   name="estadoBeneficiario" {{#if beneficiarios.activo}}checked{{/if}}>
+                            <label class="form-check-label" for="estadoHeladeraToggle">Activo</label>
+                        </div>
+                    </div>
+
+                    <!-- Sección para editar datos de hijos -->
+                    <h5 class="mt-4">Editar Información de los Hijos</h5>
+                    <div id="hijosContainerEdit"></div>
+                    <button type="button" class="btn btn-success" id="agregarHijoEditBtn"><i class="bi bi-plus-circle"></i> Agregar Hijo</button>
+
+                    <!-- Pie del modal -->
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                        <button type="submit" class="btn btn-warning"><i class="bi bi-pencil"></i> Guardar cambios</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+</div>
+<script>
+
+    // Referencia al contenedor de los hijos en el modal de edición
+    const hijosContainerEdit = document.getElementById('hijosContainerEdit');
+    let hijoEditIndex = 0;
+
+    // Función para agregar un nuevo hijo en el modal de edición
+    document.getElementById('agregarHijoEditBtn').addEventListener('click', function () {
+        hijoEditIndex++; // Incrementar el índice de los hijos
+        const hijoHtml = `
+            <div class="mb-3 border p-3" id="hijo-edit-${hijoEditIndex}">
+                <h6>Hijo ${hijoEditIndex}</h6>
+                <div class="mb-3">
+                    <label for="nombreHijoEdit${hijoEditIndex}" class="form-label">Nombre del Hijo</label>
+                    <input type="text" class="form-control" id="nombreHijoEdit${hijoEditIndex}" placeholder="Ingrese Nombre del Hijo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="apellidoHijoEdit${hijoEditIndex}" class="form-label">Apellido del Hijo</label>
+                    <input type="text" class="form-control" id="apellidoHijoEdit${hijoEditIndex}" placeholder="Ingrese Apellido del Hijo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaNacimientoHijoEdit${hijoEditIndex}" class="form-label">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="fechaNacimientoHijoEdit${hijoEditIndex}" required>
+                </div>
+                <button type="button" class="btn btn-danger" onclick="eliminarHijoEdit(${hijoEditIndex})"><i class="bi bi-trash"></i> Eliminar Hijo</button>
+            </div>`;
+        hijosContainerEdit.insertAdjacentHTML('beforeend', hijoHtml);
+    });
+
+    // Función para eliminar un hijo en el modal de edición
+    function eliminarHijoEdit(index) {
+        const hijoElement = document.getElementById(`hijo-edit-${index}`);
+        hijoElement.remove();
+    }
+
+</script>

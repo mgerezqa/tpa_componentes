@@ -39,8 +39,8 @@
                             hx-get="/dashboard/fisicos/{{this.id}}/edit"
                             hx-target="#modalEditarColaboradorFisico .modal-content"
                             hx-trigger="click"
-                            data-toggle="modal"
-                            data-target="#modalEditarColaboradorFisico"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalEditarColaboradorFisico"
                             title="Editar">
                         <i class="bi bi-pencil-square"></i>
                     </button>
@@ -128,18 +128,22 @@
                 <div class="modal-body">
                     <!-- Formulario para crear colaborador físico -->
                     <form id="formCrearColaboradorFisico" action="/dashboard/fisicos" method="POST">
+
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" required>
                         </div>
+
                         <div class="form-group">
                             <label for="apellido">Apellido</label>
                             <input type="text" class="form-control" id="apellido" name="apellido" required>
                         </div>
+
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
+
                         <div class="form-group">
                             <label for="activo">Activo</label>
                             <select class="form-control" id="activo" name="activo">

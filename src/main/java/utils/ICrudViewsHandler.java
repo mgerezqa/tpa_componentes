@@ -10,4 +10,5 @@ public interface ICrudViewsHandler {
     void edit(Context context);
     void update(Context context);
     void delete(Context context);
+    void remove(Context context);
 }

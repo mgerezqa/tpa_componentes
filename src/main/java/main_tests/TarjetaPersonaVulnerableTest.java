@@ -51,7 +51,7 @@ public class TarjetaPersonaVulnerableTest implements WithSimplePersistenceUnit {
             Tarjeta tarjeta1 = new Tarjeta();
             tarjeta1.setVulnerable(persona);
 
-            Persona menor = new Persona("miguel",4);
+            Persona menor = new Persona("miguel","martinez",LocalDate.of(2023,05,27));
 
             RegistroDeUso registroDeUso = new RegistroDeUso(LocalDateTime.now(),heladeraA,tarjeta1);
 

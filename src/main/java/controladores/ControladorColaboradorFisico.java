@@ -171,6 +171,11 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
     }
 
+    @Override
+    public void remove(Context context) {
+
+    }
+
     @Override // . . .
     public void save(Context context){
         withTransaction(()->{

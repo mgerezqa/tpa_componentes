@@ -200,6 +200,11 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         context.redirect("/dashboard/juridicos");
     }
 
+    @Override
+    public void remove(Context context) {
+
+    }
+
     @Override //LISTO
     public void save(Context context){
 //        Validator<String> tipoRazonSocial = context.formParamAsClass("tipoRazonSocial", String.class)

@@ -21,8 +21,14 @@ public class PersonaVulnerable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "activo")
+    private Boolean activo;
+
     @Column(name = "nombre")
     private String nombre;
+
+    @Column(name = "apellido")
+    private String apellido;
 
     @Column(name = "fecha_nacimiento",columnDefinition = "DATE")
     private LocalDate fechaNacimiento;
@@ -33,6 +39,9 @@ public class PersonaVulnerable {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "domicilio_id")
     private List<Ubicacion> domicilios;
+
+    @Column(name = "cantidadMenoresACargo")
+    private Integer cantidadMenoresACargo;
 
     @Embedded
     private Documento documento;
@@ -50,6 +59,7 @@ public class PersonaVulnerable {
     public int cantidadDeMenoresACargo(){
         return this.getMenoresACargo().size();
     }
+
     public void agregarMenorACargo(Persona persona){
         menoresACargo.add(persona);
     }
