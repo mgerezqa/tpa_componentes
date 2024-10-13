@@ -1,6 +1,7 @@
 package controladores;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
+import domain.persona.PersonaVulnerable;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
 import dtos.requests.ColaboradorFisicoInputDTO;
@@ -9,14 +10,11 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
-import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
-import services.interfaces.IServiceColaboradorFisico;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
-import io.javalin.http.Context;
 
 import java.util.*;
 import java.util.Objects;
@@ -25,19 +23,34 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioUsuarios repositorioUsuarios;
-    private IServiceColaboradorFisico serviceColaboradorFisico;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, IServiceColaboradorFisico serviceColaboradorFisico, RepositorioUsuarios repositorioUsuarios) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios) {
         this.repositorioColaboradores = repositorioColaboradores;
-        this.serviceColaboradorFisico = serviceColaboradorFisico;
         this.repositorioUsuarios = repositorioUsuarios;
     }
 
-    @Override // no funciona correctamente
+    @Override // funciona correctamente
     public void index(Context context){
-        List<ColaboradorFisicoOutputDTO> colaboradoresFisicos = serviceColaboradorFisico.obtenerTodos();
+        List<ColaboradorFisico> colaboradores = repositorioColaboradores.obtenerColaboradoresFisicos();
+        List<ColaboradorFisicoOutputDTO> colaboradoresFisicosOutputDTO = new ArrayList<>();
+
+        for(ColaboradorFisico colaborador : colaboradores){
+
+            ColaboradorFisicoOutputDTO colaboradorFisicoOutputDTO = new ColaboradorFisicoOutputDTO();
+
+            colaboradorFisicoOutputDTO.setNombre(colaborador.getNombre());
+            colaboradorFisicoOutputDTO.setApellido(colaborador.getApellido());
+            colaboradorFisicoOutputDTO.setId(colaborador.getId());
+            colaboradorFisicoOutputDTO.setActivo(colaborador.activo);
+            colaboradorFisicoOutputDTO.setPuntosAcumulados(colaborador.puntosAcumulados);
+            colaboradorFisicoOutputDTO.setEmail(colaborador.email());
+
+            colaboradoresFisicosOutputDTO.add(colaboradorFisicoOutputDTO);
+        }
+
+
         Map<String, Object> model = new HashMap<>();
-        model.put("colaboradoresFisicos", colaboradoresFisicos);
+        model.put("colaboradoresFisicos", colaboradoresFisicosOutputDTO);
         context.render("dashboard/fisicos.hbs", model);
     }
 
@@ -64,7 +77,22 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         colaboradorFisicoInputDTO.setActivo(Boolean.valueOf(context.formParam("activo")));
         colaboradorFisicoInputDTO.setEmail(context.formParam("email"));
 
-        serviceColaboradorFisico.crear(colaboradorFisicoInputDTO);
+        ColaboradorFisico colaboradorFisico = new ColaboradorFisico();
+
+        colaboradorFisico.setNombre(colaboradorFisicoInputDTO.getNombre());
+        colaboradorFisico.setApellido(colaboradorFisicoInputDTO.getApellido());
+        colaboradorFisico.setId(colaboradorFisicoInputDTO.getId());
+        colaboradorFisico.setActivo(colaboradorFisicoInputDTO.getActivo());
+
+        Email email1 = new Email(colaboradorFisicoInputDTO.getEmail());
+        colaboradorFisico.agregarMedioDeContacto(email1);
+
+        colaboradorFisico.puntosAcumulados = 0;
+
+        withTransaction(()->{
+            repositorioColaboradores.guardar(colaboradorFisico);
+        });
+
         context.redirect("/dashboard/fisicos");
     }
 
@@ -173,7 +201,19 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
     @Override
     public void remove(Context context) {
+        Optional<Object> posibleFisico = repositorioColaboradores.buscarPorID(ColaboradorFisico.class, Long.valueOf(context.pathParam("id")));
 
+        if(posibleFisico.isPresent()){
+            withTransaction(()->{
+                ColaboradorFisico colaboradorFisico = (ColaboradorFisico) posibleFisico.get();
+                colaboradorFisico.setActivo(false);
+                repositorioColaboradores.actualizar(colaboradorFisico);
+            });
+
+            context.redirect("/dashboard/fisicos");
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override // . . .

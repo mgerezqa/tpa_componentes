@@ -202,7 +202,19 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
     @Override
     public void remove(Context context) {
+        Optional<Object> posibleJuridico = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class, Long.valueOf(context.pathParam("id")));
 
+        if(posibleJuridico.isPresent()){
+            withTransaction(()->{
+                ColaboradorJuridico colaboradorJuridico = (ColaboradorJuridico) posibleJuridico.get();
+                colaboradorJuridico.setActivo(false);
+                repositorioColaboradores.actualizar(colaboradorJuridico);
+            });
+
+            context.redirect("/dashboard/juridicos");
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override //LISTO

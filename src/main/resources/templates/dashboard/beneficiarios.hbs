@@ -57,24 +57,19 @@
                             </button>
 
                             <!-- Botón para baja lógica  -->
-                            <button class="btn btn-outline-danger"
-                                    hx-get='/dashboard/beneficiarios/{{this.id}}/logical-delete'
-                                    hx-target="#modalDeshabilitarBeneficiario"
-                                    hx-trigger="click"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalDeshabilitarBeneficiario"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom"
-                                    title="Deshabilitar">
-                                <i class="bi bi-arrow-down-circle"></i>
-                            </button>
+                            <form action="/dashboard/beneficiarios/{{this.id}}/delete" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="bi bi-arrow-down-circle"></i>
+                                </button>
+                            </form>
 
-                            <!-- Botón para abrir el modal de eliminación -->
+                            <!-- Botón para eliminación -->
                             <form action="/dashboard/beneficiarios/{{this.id}}/delete" method="GET" class="d-inline">
                                 <button type="submit" class="btn btn-danger">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>
+
                         </td>
                     </tr>
                 {{/each}}
@@ -86,26 +81,45 @@
                     </div>
                 </div>
 
-                <!-- Modal de eliminación para un beneficiario  -->
-                <div class="modal fade" id="modalEliminarBeneficiario{{this.id}}" tabindex="-1" aria-labelledby="modalEliminarBeneficiario" aria-hidden="true">
+                <!-- Modal de eliminación  NO ESTA CONECTADO
+                <div class="modal fade" id="modalEliminarBeneficiario" tabindex="-1" aria-labelledby="modalEliminarBeneficiario" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title">Eliminar beneficiario</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
                             </div>
                             <div class="modal-body">
-                                <p>¿Estás seguro de que deseas eliminar este beneficiario?</p>
+                                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
                             </div>
                             <div class="modal-footer">
-                                <form action="/dashboard/beneficiarios/{{this.id}}/delete" method="GET">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
-                                </form>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                 Modal de deshabilitar NO ESTA CONECTADO
+                <div class="modal fade" id="modalEliminarBeneficiario" tabindex="-1" aria-labelledby="modalEliminarBeneficiario" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Desactivar beneficiario</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas dar de baja a este beneficiario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-outline-danger">Deshabilitar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
                 </tbody>
             </table>
 

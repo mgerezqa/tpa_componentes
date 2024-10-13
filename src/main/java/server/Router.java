@@ -41,7 +41,7 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/fisicos/{id}/edit",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::edit);
         app.post("/dashboard/fisicos/{id}/edit",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::update);
         app.get("/dashboard/fisicos/{id}/delete",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::delete);
-        app.post("/dashboard/fisicos/{id}/logical-delete", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::remove); // baja logica
+        app.post("/dashboard/fisicos/{id}/delete", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::remove); // baja logica
 
         //dashboard/juridicos
         app.get("/dashboard/juridicos",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::index);
@@ -49,7 +49,7 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/juridicos/{id}/edit",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::edit);
         app.post("/dashboard/juridicos/{id}/edit",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::update);
         app.get("/dashboard/juridicos/{id}/delete",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::delete);
-        app.post("/dashboard/juridicos/{id}/logical-delete", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::remove); // baja logica
+        app.post("/dashboard/juridicos/{id}/delete", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::remove); // baja logica
 
         //dashboard/beneficiarios
         app.get("/dashboard/beneficiarios",ServiceLocator.instanceOf(ControladorBeneficiarios.class)::index);
@@ -57,7 +57,7 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/beneficiarios/{id}/edit",ServiceLocator.instanceOf(ControladorBeneficiarios.class)::edit);
         app.post("/dashboard/beneficiarios/{id}/edit",ServiceLocator.instanceOf(ControladorBeneficiarios.class)::update);
         app.get("/dashboard/beneficiarios/{id}/delete",ServiceLocator.instanceOf(ControladorBeneficiarios.class)::delete);
-        app.post("/dashboard/beneficiarios/{id}/logical-delete", ServiceLocator.instanceOf(ControladorBeneficiarios.class)::remove); // baja logica
+        app.post("/dashboard/beneficiarios/{id}/delete", ServiceLocator.instanceOf(ControladorBeneficiarios.class)::remove); // baja logica
 
     }
 }
