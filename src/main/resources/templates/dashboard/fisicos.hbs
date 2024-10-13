@@ -1,168 +1,168 @@
 <!-- Seccion Colaboradores Fisicos -->
 {{#partial "contenido"}}
-<section id="listado-colaboradores-fisicos" class="d-block">
-    <p class="lead">Listado de colaboradores físicos</p>
-    <hr>
+    <section id="listado-colaboradores-fisicos" class="d-block">
+        <p class="lead">Listado de colaboradores físicos</p>
+        <hr>
 
-    <div class="container">
+        <div class="container">
 
-        <!-- Botón para abrir el modal de crear -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearColaboradorFisico">Crear Colaborador Físico</button>
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearColaboradorFisico">Crear Colaborador Físico</button>
 
-        <!-- Tabla de usuarios -->
-        <table class="table mt-3">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Estado</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Puntos Acumulados</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Listado de usuarios  -->
-            {{#each colaboradoresFisicos}}
-            <tr>
-                <td>{{this.id}}</td>
-                <td>{{#if this.activo}}Activo{{else}}Inactivo{{/if}}</td>
-                <td>{{this.nombre}}</td>
-                <td>{{this.apellido}}</td>
-                <td>{{this.email}}</td>
-                <td>{{this.puntosAcumulados}}</td>
+            <!-- Tabla de usuarios -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Puntos Acumulados</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de usuarios  -->
+                {{#each colaboradoresFisicos}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{#if this.activo}}Activo{{else}}Inactivo{{/if}}</td>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.apellido}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.puntosAcumulados}}</td>
 
-                <td>
-                    <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning"
-                            hx-get="/dashboard/fisicos/{{this.id}}/edit"
-                            hx-target="#modalEditarColaboradorFisico .modal-content"
-                            hx-trigger="click"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalEditarColaboradorFisico"
-                            title="Editar">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-
-                    <!-- Botón para baja lógica  -->
-                    <form action="/dashboard/fisicos/{{this.id}}/delete" method="POST" class="d-inline">
-                        <button type="submit" class="btn btn-outline-danger">
-                            <i class="bi bi-arrow-down-circle"></i>
-                        </button>
-                    </form>
-
-                    <!-- Botón para abrir el modal de eliminación -->
-                    <form action="/dashboard/fisicos/{{this.id}}/delete" method="GET" class="d-inline">
-                        <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
-                </td>
-
-            </tr>
-            {{/each}}
-
-            <div class="modal fade" id="modalEditarColaboradorFisico" tabindex="-1" aria-labelledby="modalEditarColaboradorFisico" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content"></div> <!-- Aquí HTMX insertará el formulario de edición -->
-                </div>
-            </div>
-
-
-            <!-- Modal de eliminación para el usuario con ID
-            <div class="modal fade" id="modalEliminarColaboradorFisico" tabindex="-1" aria-labelledby="modalEliminarColaboradorFisico" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Eliminar Usuario</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas eliminar este usuario?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <form action="/dashboard/fisicos//delete" method="GET">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             Modal de deshabilitación para el usuario con ID 1
-            <div class="modal fade" id="modalDeshabilitarColaboradorFisico" tabindex="-1" aria-labelledby="modalDeshabilitarColaboradorFisico" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Desactivar Usuario</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning"
+                                    hx-get="/dashboard/fisicos/{{this.id}}/edit"
+                                    hx-target="#modalEditarColaboradorFisico .modal-content"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarColaboradorFisico"
+                                    title="Editar">
+                                <i class="bi bi-pencil-square"></i>
                             </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
+
+                            <!-- Botón para baja lógica  -->
+                            <form action="/dashboard/fisicos/{{this.id}}/delete" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="bi bi-arrow-down-circle"></i>
+                                </button>
+                            </form>
+
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <form action="/dashboard/fisicos/{{this.id}}/delete" method="GET" class="d-inline">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                {{/each}}
+
+                <div class="modal fade" id="modalEditarColaboradorFisico" tabindex="-1" aria-labelledby="modalEditarColaboradorFisico" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content"></div> <!-- Aquí HTMX insertará el formulario de edición -->
+                    </div>
+                </div>
+
+
+                <!-- Modal de eliminación para el usuario con ID
+                <div class="modal fade" id="modalEliminarColaboradorFisico" tabindex="-1" aria-labelledby="modalEliminarColaboradorFisico" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eliminar Usuario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="/dashboard/fisicos//delete" method="GET">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>-->
-            </tbody>
-        </table>
-    </div>
 
-    <!-- Modal de creación -->
-    <div class="modal fade" id="modalCrearColaboradorFisico" tabindex="-1" aria-labelledby="modalCrearColaboradorFisico" aria-hidden="true">
-        <div class="modal-dialog modal-lg"> <!-- modal-lg para hacerlo más amplio -->
-            <div class="modal-content">
-
-                <!-- Cabecera del modal -->
-                <div class="modal-header bg-primary text-white"> <!-- Fondo colorido para mayor contraste -->
-                    <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Crear Usuario</h5> <!-- Icono añadido -->
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <!-- Formulario para crear colaborador físico -->
-                    <form id="formCrearColaboradorFisico" action="/dashboard/fisicos" method="POST">
-
-                        <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                 Modal de deshabilitación para el usuario con ID 1
+                <div class="modal fade" id="modalDeshabilitarColaboradorFisico" tabindex="-1" aria-labelledby="modalDeshabilitarColaboradorFisico" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Desactivar Usuario</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
+                            </div>
                         </div>
+                    </div>
+                </div>-->
+                </tbody>
+            </table>
+        </div>
 
-                        <div class="form-group">
-                            <label for="apellido">Apellido</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido" required>
-                        </div>
+        <!-- Modal de creación -->
+        <div class="modal fade" id="modalCrearColaboradorFisico" tabindex="-1" aria-labelledby="modalCrearColaboradorFisico" aria-hidden="true">
+            <div class="modal-dialog modal-lg"> <!-- modal-lg para hacerlo más amplio -->
+                <div class="modal-content">
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
+                    <!-- Cabecera del modal -->
+                    <div class="modal-header bg-primary text-white"> <!-- Fondo colorido para mayor contraste -->
+                        <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Crear Usuario</h5> <!-- Icono añadido -->
+                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="activo">Activo</label>
-                            <select class="form-control" id="activo" name="activo">
-                                <option value="true">Sí</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
+                    <div class="modal-body">
+                        <!-- Formulario para crear colaborador físico -->
+                        <form id="formCrearColaboradorFisico" action="/dashboard/fisicos" method="POST">
 
-                        <!-- Pie del modal -->
-                        <div class="modal-footer d-flex justify-content-between"> <!-- Distribuir botones a los lados -->
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="apellido">Apellido</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="activo">Activo</label>
+                                <select class="form-control" id="activo" name="activo">
+                                    <option value="true">Sí</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+
+                            <!-- Pie del modal -->
+                            <div class="modal-footer d-flex justify-content-between"> <!-- Distribuir botones a los lados -->
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</section>
+    </section>
 {{/partial}}
 {{> templates/dashboard}}
