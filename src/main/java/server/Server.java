@@ -49,17 +49,13 @@ public class Server {
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 Handlebars handlebars = new Handlebars();
-                handlebars.registerHelper("eq", new Helper<Object>() {
-                    @Override
-                    public Object apply(Object context, Options options) {
-                        if (context == null || options.param(0) == null) {
-                            return false; // Manejo de nulos
-                        }
-                        return context.equals(options.param(0));
+                handlebars.registerHelper("eq", (context1, options) -> {
+                    if (context1 == null || options.param(0) == null) {
+                        return false;
                     }
+                    return context1.equals(options.param(0));
                 });
 
-                handlebars.registerHelper("eq", (val1, val2) -> val1.equals(val2));
 
                 Template template = null;
                 try {

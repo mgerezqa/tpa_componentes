@@ -64,6 +64,9 @@ public class ControladorSuscripciones implements ICrudViewsHandler, WithSimplePe
         Map<String,Object> modal = new HashMap<>();
         modal.put("colaboradores",colaboradoresPosibles);
         modal.put("heladeras",heladerasPosibles);
+        System.out.println(colaboradoresPosibles);
+        System.out.println(heladerasPosibles);
+
         modal.put("action","/dashboard/suscripciones");
         modal.put("edit",false);
         context.render("/dashboard/forms/suscripcion.hbs",modal);

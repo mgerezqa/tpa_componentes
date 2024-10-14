@@ -22,9 +22,7 @@ public class RecomedacionDeUbicaciones {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-
     // ---------------------------------------------------------------- //
-
     public static RecomedacionDeUbicaciones getInstance(){
         if(instancia == null){
             instancia = new RecomedacionDeUbicaciones();
@@ -42,14 +40,10 @@ public class RecomedacionDeUbicaciones {
     public ListadoDeComunidades listadoCumunidades(String token,Float latitud, Float longitud, Integer max, Float distanciaMax) throws IOException {
         IRecomendacionDeUbicaciones recomendacionDeUbicaciones =
                 this.retrofit.create(IRecomendacionDeUbicaciones.class);
-        System.out.println(token);
-        System.out.println(latitud);
-        System.out.println(max);
-        System.out.println(distanciaMax);
+
         Call<ListadoDeComunidades> request = recomendacionDeUbicaciones.comunidadesRecomendadas(token,latitud,longitud,max,distanciaMax);
         Response<ListadoDeComunidades> response = request.execute();
-        System.out.println(response);
-        System.out.println(response.headers());
+
         return response.body();
     } // Llama a la API e intenta 'matchear' con mi clase molde.
 }
