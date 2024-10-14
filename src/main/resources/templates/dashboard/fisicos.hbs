@@ -23,7 +23,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Listado de usuarios  -->
                 {{#each colaboradoresFisicos}}
                     <tr>
                         <td>{{this.id}}</td>
@@ -32,7 +31,6 @@
                         <td>{{this.apellido}}</td>
                         <td>{{this.email}}</td>
                         <td>{{this.puntosAcumulados}}</td>
-
                         <td>
                             <!-- Botón para abrir el modal de edición -->
                             <button class="btn btn-warning"
@@ -45,73 +43,74 @@
                                 <i class="bi bi-pencil-square"></i>
                             </button>
 
-                            <!-- Botón para baja lógica  -->
-                            <form action="/dashboard/fisicos/{{this.id}}/delete" method="POST" class="d-inline">
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="bi bi-arrow-down-circle"></i>
-                                </button>
-                            </form>
+                            <!-- Botón para baja lógica -->
+                            <button class="btn btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalDeshabilitarColaboradorFisico"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
 
                             <!-- Botón para abrir el modal de eliminación -->
-                            <form action="/dashboard/fisicos/{{this.id}}/delete" method="GET" class="d-inline">
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                            <button class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarColaboradorFisico"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
-
                     </tr>
                 {{/each}}
-
-                <div class="modal fade" id="modalEditarColaboradorFisico" tabindex="-1" aria-labelledby="modalEditarColaboradorFisico" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                        <div class="modal-content"></div> <!-- Aquí HTMX insertará el formulario de edición -->
-                    </div>
-                </div>
-
-
-                <!-- Modal de eliminación para el usuario con ID
-                <div class="modal fade" id="modalEliminarColaboradorFisico" tabindex="-1" aria-labelledby="modalEliminarColaboradorFisico" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Eliminar Usuario</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <form action="/dashboard/fisicos//delete" method="GET">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                 Modal de deshabilitación para el usuario con ID 1
-                <div class="modal fade" id="modalDeshabilitarColaboradorFisico" tabindex="-1" aria-labelledby="modalDeshabilitarColaboradorFisico" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Desactivar Usuario</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
                 </tbody>
             </table>
+
+            <!-- Modales -->
+
+            <div class="modal fade" id="modalEditarColaboradorFisico" tabindex="-1" aria-labelledby="modalEditarColaboradorFisico" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content"></div> <!-- Aquí HTMX insertará el formulario de edición -->
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalEliminarColaboradorFisico" tabindex="-1" aria-labelledby="modalEliminarColaboradorFisico" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form id="formEliminarUsuario" method="GET">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalDeshabilitarColaboradorFisico" tabindex="-1" aria-labelledby="modalDeshabilitarColaboradorFisico" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Desactivar Usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form id="formDeshabilitarUsuario" method="POST">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-outline-danger">Deshabilitar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Modal de creación -->
@@ -162,7 +161,22 @@
                 </div>
             </div>
         </div>
-
     </section>
 {{/partial}}
 {{> templates/dashboard}}
+
+<script>
+    document.querySelectorAll('[data-bs-target="#modalEliminarColaboradorFisico"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('formEliminarUsuario').action = `/dashboard/fisicos/${id}/delete`;
+        });
+    });
+
+    document.querySelectorAll('[data-bs-target="#modalDeshabilitarColaboradorFisico"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('formDeshabilitarUsuario').action = `/dashboard/fisicos/${id}/delete`;
+        });
+    });
+</script>
