@@ -11,5 +11,4 @@ import java.util.List;
 
 public interface IRecomendacionDeUbicacionesAdapter {
     List<Comunidad> comunidadesRecomendadas(String token, Float latitud, Float longitud,  Integer max, Float distanciaMax) throws IOException;
-
 }
