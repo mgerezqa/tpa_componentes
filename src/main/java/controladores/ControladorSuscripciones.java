@@ -59,7 +59,7 @@ public class ControladorSuscripciones implements ICrudViewsHandler, WithSimplePe
 
     @Override
     public void create(Context context) {
-        List<Long> colaboradoresPosibles = repositorioColaboradores.colaboradoreFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
+        List<Long> colaboradoresPosibles = repositorioColaboradores.obtenerColaboradoresFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
         List<Long> heladerasPosibles = repositorioHeladeras.obtenerTodasLasHeladeras().stream().map(Heladera::getId).collect(Collectors.toList());
         Map<String,Object> modal = new HashMap<>();
         modal.put("colaboradores",colaboradoresPosibles);
@@ -124,7 +124,7 @@ public class ControladorSuscripciones implements ICrudViewsHandler, WithSimplePe
     public void edit(Context context) {
         String idParam = context.pathParam("id");
         Long idSus = Long.valueOf(idParam);
-        List<Long> colaboradoresPosibles = repositorioColaboradores.colaboradoreFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
+        List<Long> colaboradoresPosibles = repositorioColaboradores.obtenerColaboradoresFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
         List<Long> heladerasPosibles = repositorioHeladeras.obtenerTodasLasHeladeras().stream().map(Heladera::getId).collect(Collectors.toList());
         Optional<Object> posibleSuscripcion = repositorioSuscripciones.buscarPorID(Suscripcion.class,idSus);
         if(posibleSuscripcion.isPresent()){

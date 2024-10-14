@@ -12,8 +12,6 @@ import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import repositorios.repositoriosBDD.RepositorioVulnerables;
-import services.implem.ServiceHeladera;
-import services.interfaces.IServiceHeladera;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,11 +75,6 @@ public class ServiceLocator {
                 instances.put(componentName,instance);
             }
 
-            else if(componentName.equals(IServiceHeladera.class.getName())){
-                IServiceHeladera instance = new ServiceHeladera(instanceOf(RepositorioHeladeras.class));
-                instances.put(componentName, instance);
-            }
-
             else if (componentName.equals(RepositorioVulnerables.class.getName())){
                 RepositorioVulnerables instance = new RepositorioVulnerables();
                 instances.put(componentName, instance);
@@ -91,9 +84,11 @@ public class ServiceLocator {
                 ControladorBeneficiarios instance = new ControladorBeneficiarios(instanceOf(RepositorioVulnerables.class));
                 instances.put(componentName, instance);
             }
-
+            else if(componentName.equals(ControladorUsuario.class.getName())){
+                ControladorUsuario instance = new ControladorUsuario(instanceOf(RepositorioUsuarios.class));
+                instances.put(componentName, instance);
+            }
         }
-
         return (T) instances.get(componentName);
     }
 }

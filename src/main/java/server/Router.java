@@ -23,6 +23,8 @@ public class Router implements SimplePersistenceTest{
             ctx.render("/dashboard.hbs");
         });
 
+        //dashboard/ajustes
+        app.get("/dashboard/ajustes",ServiceLocator.instanceOf(ControladorUsuario.class)::show);
 
         //dashboard/heladeras
         app.get("/dashboard/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index);

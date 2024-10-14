@@ -13,7 +13,6 @@ public class RecomendacionDePuntosAdapter implements RecomendacionDePuntosAdapte
     public RecomendacionDePuntosAdapter(){
         this.servicioRecomendacionDePuntos = ServicioRecomendacionDePuntos.getInstance();
     }
-
     @Override
     public List<Punto> obtenerPuntosRecomendados(Double latitud, Double longitud, Double radio) throws IOException{
         ListadoDePuntos listadoDePuntos = servicioRecomendacionDePuntos.listadoDePuntos(latitud, longitud, radio);
