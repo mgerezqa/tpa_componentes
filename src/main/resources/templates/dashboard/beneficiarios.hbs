@@ -201,38 +201,44 @@
 
         <!-- Incluir el script al final del body -->
         <script>
-            let hijoIndex = 1; // Índice para numerar los hijos
+            document.addEventListener("DOMContentLoaded", function() {
+                const agregarHijoBtn = document.getElementById("agregarHijoBtn");
+                const hijosContainer = document.getElementById("hijosContainer");
+                let index = 1; // Índice para los hijos
 
-            // Función para agregar un nuevo conjunto de campos para un hijo
-            document.getElementById('agregarHijoBtn').addEventListener('click', function () {
-                const container = document.getElementById('hijosContainer');
+                // Al hacer clic en el botón "Agregar Hijo"
+                agregarHijoBtn.addEventListener("click", function() {
+                    const hijoDiv = document.createElement("div");
+                    hijoDiv.classList.add("hijo");
+                    hijoDiv.setAttribute("id", `hijo${index}`);
 
-                // Crear el div que contendrá los datos del hijo
-                const hijoDiv = document.createElement('div');
-                hijoDiv.classList.add('hijo');
+                    hijoDiv.innerHTML = `
+                <div class="form-group mt-3">
+                    <label for="nombreHijo${index}">Nombre del Hijo ${index}</label>
+                    <input type="text" class="form-control" id="nombreHijo${index}" name="nombreHijo${index}" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="apellidoHijo${index}">Apellido del Hijo ${index}</label>
+                    <input type="text" class="form-control" id="apellidoHijo${index}" name="apellidoHijo${index}" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="fechaNacimientoHijo${index}">Fecha de Nacimiento del Hijo ${index}</label>
+                    <input type="date" class="form-control" id="fechaNacimientoHijo${index}" name="fechaNacimientoHijo${index}" required>
+                </div>
+                <button type="button" class="btn btn-danger btn-sm mt-2 eliminarHijoBtn">
+                    <i class="bi bi-trash"></i> Eliminar Hijo
+                </button>
+                <hr>
+            `;
 
-                // Agregar campos para el nombre, apellido y fecha de nacimiento
-                hijoDiv.innerHTML = `
-            <div class="form-group">
-                <label for="nombreHijo${hijoIndex}">Nombre del Hijo ${hijoIndex}</label>
-                <input type="text" class="form-control" id="nombreHijo${hijoIndex}" name="nombreHijo${hijoIndex}" placeholder="Nombre del hijo" required>
-            </div>
-            <div class="form-group">
-                <label for="apellidoHijo${hijoIndex}">Apellido del Hijo ${hijoIndex}</label>
-                <input type="text" class="form-control" id="apellidoHijo${hijoIndex}" name="apellidoHijo${hijoIndex}" placeholder="Apellido del hijo" required>
-            </div>
-            <div class="form-group">
-                <label for="fechaNacimientoHijo${hijoIndex}">Fecha de Nacimiento del Hijo ${hijoIndex}</label>
-                <input type="date" class="form-control" id="fechaNacimientoHijo${hijoIndex}" name="fechaNacimientoHijo${hijoIndex}" required>
-            </div>
-            <hr>
-        `;
+                    hijosContainer.appendChild(hijoDiv);
+                    index++; // Incrementamos el índice para el siguiente hijo
 
-                // Agregar el nuevo div al contenedor
-                container.appendChild(hijoDiv);
-
-                // Incrementar el índice para el próximo hijo
-                hijoIndex++;
+                    // Añadir funcionalidad para eliminar el hijo
+                    hijoDiv.querySelector('.eliminarHijoBtn').addEventListener('click', function() {
+                        hijoDiv.remove(); // Elimina este hijo específico
+                    });
+                });
             });
         </script>
     </section>

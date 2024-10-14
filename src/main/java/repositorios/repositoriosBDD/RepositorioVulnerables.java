@@ -1,6 +1,7 @@
 package repositorios.repositoriosBDD;
 
 import domain.donaciones.Distribuir;
+import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
@@ -35,5 +36,19 @@ public class RepositorioVulnerables extends Repositorio implements WithSimplePer
                 .createQuery("FROM PersonaVulnerable ", PersonaVulnerable.class)
                 .getResultList();
     }
+
+    public void eliminarTodosLosMenoresACargo(PersonaVulnerable vulnerable) {
+        if (vulnerable != null && !vulnerable.getMenoresACargo().isEmpty()) {
+            vulnerable.getMenoresACargo().forEach(persona -> {
+                Persona personaEnBase = entityManager().find(Persona.class, persona.getId());
+                if (personaEnBase != null) {
+                    entityManager().remove(personaEnBase);
+                }
+            });
+            vulnerable.getMenoresACargo().clear();  // Limpiamos la lista en memoria
+            entityManager().merge(vulnerable); // Actualizamos la persona vulnerable
+        }
+    }
+
 
 }

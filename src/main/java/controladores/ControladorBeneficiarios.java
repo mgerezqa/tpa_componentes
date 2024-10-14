@@ -184,10 +184,6 @@ public class ControladorBeneficiarios implements ICrudViewsHandler, WithSimplePe
         Validator<String> fechaRegistroBeneficiario = context.formParamAsClass("fechaRegistroBeneficiario", String.class)
                 .check(Objects::nonNull, "La fecha de registro es obligatoria");
 
-        // Manejo de hijos: Supongamos que se envían como un array
-        // List<String> hijosFechasNacimientos = context.formParams("hijos[].fechaNacimiento");
-        // int cantidadHijos = hijosFechasNacimientos.size(); // Obtén la cantidad de hijos
-
         boolean activo = context.formParam("estadoBeneficiario") != null;
 
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreBeneficiario, apellidoBeneficiario,
@@ -220,15 +216,26 @@ public class ControladorBeneficiarios implements ICrudViewsHandler, WithSimplePe
 
         personaVulnerable.setFechaNacimiento(LocalDate.parse(fechaNacimientoBeneficiario.get()));
         personaVulnerable.setFechaRegitrado(LocalDate.parse(fechaRegistroBeneficiario.get()));
-        // personaVulnerable.setCantidadMenoresACargo(cantidadHijos);
+
+        // Manejo de los hijos
+        List<String> nombresHijos = context.formParams("nombreHijo[]");
+        List<String> apellidosHijos = context.formParams("apellidoHijo[]");
+        List<String> fechasNacimientoHijos = context.formParams("fechaNacimientoHijo[]");
+
+        for (int i = 0; i < nombresHijos.size(); i++) {
+            Persona hijo = new Persona();
+            hijo.setNombre(nombresHijos.get(i));
+            hijo.setApellido(apellidosHijos.get(i));
+            hijo.setFechaNacimiento(LocalDate.parse(fechasNacimientoHijos.get(i)));
+            personaVulnerable.agregarMenorACargo(hijo);
+        }
+
 
         withTransaction(() -> {
             repositorioVulnerables.actualizar(personaVulnerable);
         });
 
         context.redirect("/dashboard/beneficiarios");
-
-
     }
 
     @Override // LISTO !!
@@ -275,6 +282,7 @@ public class ControladorBeneficiarios implements ICrudViewsHandler, WithSimplePe
         PersonaVulnerable personaVulnerable = (PersonaVulnerable) posibleVulnerable.get();
 
         withTransaction(() -> {
+            repositorioVulnerables.eliminarTodosLosMenoresACargo(personaVulnerable);
             repositorioVulnerables.eliminar(personaVulnerable);
             System.out.println("Colaborador eliminado: " + personaVulnerable.getId());
         });
