@@ -63,10 +63,10 @@
                             <!-- Botón para baja lógica  -->
                             <button class="btn btn-outline-danger"
                                     hx-get='/dashboard/tecnicos/{{this.id}}/delete'
-                                    hx-target="#modalDeshabilitarTecnico"
+                                    hx-target="#modalGeneral"
                                     hx-trigger="click"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#modalDeshabilitarTecnico"
+                                    data-bs-target="#modalGeneral"
                                     data-bs-toggle="tooltip"
                                     data-bs-placement="bottom"
                                     title="Deshabilitar">
@@ -108,76 +108,9 @@
                         </div>
                     </div>
                 </div>
-
                 </tbody>
             </table>
         </div>
-
-        <!-- Modal de creación -->
-        <div class="modal fade" id="modalCrearTecnico" tabindex="-1" aria-labelledby="modalCrearTecnico" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear Técnico</h5>
-                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/dashboard/tecnicos" method="POST">
-                            <div class="mb-3">
-                                <label for="nombreTecnico" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombreTecnico" name="nombreTecnico" placeholder="Ingrese Nombre" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="apellidoTecnico" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="apellidoTecnico" name="apellidoTecnico" placeholder="Ingrese Apellido" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="tipoDocumento" class="form-label">Tipo de Documento</label>
-                                <select class="form-select" id="tipoDocumento" name="tipoDocumento" required>
-                                    <option value="" disabled>Seleccionar tipo...</option>
-                                    <option value="DNI" selected>DNI</option> <!-- Opción seleccionada -->
-                                    <option value="CEDULA_DE_IDENTIDAD">LC</option>
-                                    <option value="LIBRETA_DE_ENROLAMIENTO">LE</option>
-                                    <option value="PASAPORTE">PASAPORTE</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nroDocumento" class="form-label">Area de cobertura</label>
-                                <input type="text" class="form-control" id="nroDocumento" name="nroDocumento" placeholder="Ingrese numero de documento" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="calle" class="form-label">Area de cobertura</label>
-                                <input type="text" class="form-control" id="calle" name="calle" placeholder="Ingrese calle" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="altura" class="form-label">Area de cobertura</label>
-                                <input type="text" class="form-control" id="altura" name="altura" placeholder="Ingrese altura" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="tamanioArea" class="form-label">Area de cobertura</label>
-                                <input type="text" class="form-control" id="tamanioArea" name="tamanioArea" placeholder="Ingrese tamanio de area" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Estado</label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="estadoTecnico" name="estadoTecnico" checked>
-                                    <label class="form-check-label" for="estadoTecnico">Activo</label>
-                                </div>
-                            </div>
-                            <div class="modal-footer d-flex justify-content-between">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
     </section>
 {{/partial}}
 {{> templates/dashboard}}

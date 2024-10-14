@@ -7,12 +7,17 @@ import io.javalin.Javalin;
 
 public class Router implements SimplePersistenceTest {
     public void init(Javalin app) {
-        app.get("/",(ctx)->{
-            ctx.render("/index.hbs"); //Render la pagina principal
-        });
+
         app.before(ctx -> {
             entityManager().clear();
         });
+
+        //Pantalla de inicio
+        app.get("/",(ctx)->{
+            ctx.render("/index.hbs"); //Render la pagina principal
+        });
+        //Pantalla de registro
+
         app.post("/colaborador-fisico",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::save);
         app.post("/colaborador-juridico",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::save);
 
@@ -20,6 +25,8 @@ public class Router implements SimplePersistenceTest {
         app.get("/dashboard",(ctx) ->{
             ctx.render("/dashboard.hbs");
         });
+
+
         app.get("/dashboard/fisicos",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::index);
 
 
