@@ -4,7 +4,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import utils.recomendacionDePuntos.Entidades.ListadoDePuntos;
 import utils.recomendacioneDeUbicaciones.entidades.ApiKey;
 import utils.recomendacioneDeUbicaciones.entidades.ListadoDeComunidades;
 
@@ -49,6 +48,8 @@ public class RecomedacionDeUbicaciones {
         System.out.println(distanciaMax);
         Call<ListadoDeComunidades> request = recomendacionDeUbicaciones.comunidadesRecomendadas(token,latitud,longitud,max,distanciaMax);
         Response<ListadoDeComunidades> response = request.execute();
+        System.out.println(response);
+        System.out.println(response.headers());
         return response.body();
     } // Llama a la API e intenta 'matchear' con mi clase molde.
 }
