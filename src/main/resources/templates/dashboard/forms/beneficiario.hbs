@@ -96,24 +96,25 @@
     document.getElementById('agregarHijoEditBtn').addEventListener('click', function () {
         hijoEditIndex++; // Incrementar el índice de los hijos
         const hijoHtml = `
-            <div class="mb-3 border p-3" id="hijo-edit-${hijoEditIndex}">
-                <h6>Hijo ${hijoEditIndex}</h6>
-                <div class="mb-3">
-                    <label for="nombreHijoEdit${hijoEditIndex}" class="form-label">Nombre del Hijo</label>
-                    <input type="text" class="form-control" id="nombreHijoEdit${hijoEditIndex}" placeholder="Ingrese Nombre del Hijo" required>
-                </div>
-                <div class="mb-3">
-                    <label for="apellidoHijoEdit${hijoEditIndex}" class="form-label">Apellido del Hijo</label>
-                    <input type="text" class="form-control" id="apellidoHijoEdit${hijoEditIndex}" placeholder="Ingrese Apellido del Hijo" required>
-                </div>
-                <div class="mb-3">
-                    <label for="fechaNacimientoHijoEdit${hijoEditIndex}" class="form-label">Fecha de Nacimiento</label>
-                    <input type="date" class="form-control" id="fechaNacimientoHijoEdit${hijoEditIndex}" required>
-                </div>
-                <button type="button" class="btn btn-danger" onclick="eliminarHijoEdit(${hijoEditIndex})"><i class="bi bi-trash"></i> Eliminar Hijo</button>
-            </div>`;
+        <div class="mb-3 border p-3" id="hijo-edit-${hijoEditIndex}">
+            <h6>Hijo ${hijoEditIndex}</h6>
+            <div class="mb-3">
+                <label for="nombreHijoEdit${hijoEditIndex}" class="form-label">Nombre del Hijo</label>
+                <input type="text" class="form-control" id="nombreHijoEdit${hijoEditIndex}" name="nombreHijo${hijoEditIndex}" placeholder="Ingrese Nombre del Hijo" required>
+            </div>
+            <div class="mb-3">
+                <label for="apellidoHijoEdit${hijoEditIndex}" class="form-label">Apellido del Hijo</label>
+                <input type="text" class="form-control" id="apellidoHijoEdit${hijoEditIndex}" name="apellidoHijo${hijoEditIndex}" placeholder="Ingrese Apellido del Hijo" required>
+            </div>
+            <div class="mb-3">
+                <label for="fechaNacimientoHijoEdit${hijoEditIndex}" class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" id="fechaNacimientoHijoEdit${hijoEditIndex}" name="fechaNacimientoHijo${hijoEditIndex}" required>
+            </div>
+            <button type="button" class="btn btn-danger" onclick="eliminarHijoEdit(${hijoEditIndex})"><i class="bi bi-trash"></i> Eliminar Hijo</button>
+        </div>`;
         hijosContainerEdit.insertAdjacentHTML('beforeend', hijoHtml);
     });
+
 
     // Función para eliminar un hijo en el modal de edición
     function eliminarHijoEdit(index) {

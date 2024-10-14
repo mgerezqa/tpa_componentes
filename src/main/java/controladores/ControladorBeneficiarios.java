@@ -111,30 +111,26 @@ public class ControladorBeneficiarios implements ICrudViewsHandler, WithSimplePe
         personaVulnerable.setFechaNacimiento(personaVulnerableDTO.getFechaNacimiento());
         personaVulnerable.setFechaRegitrado(personaVulnerableDTO.getFechaRegistro());
 
+        List<Persona> menoresACargo = new ArrayList<>();
+        personaVulnerable.setMenoresACargo(menoresACargo);
 
-//        List<Persona> hijos = new ArrayList<>();
-//        int index = 1;
-//
-//        // Continuar mientras haya un nombre de hijo en el formulario
-//        String nombreHijo;
-//        while ((nombreHijo = context.formParam("nombreHijo" + index)) != null) {
-//            String apellidoHijo = context.formParam("apellidoHijo" + index);
-//            LocalDate fechaNacimientoHijo = LocalDate.parse(context.formParam("fechaNacimientoHijo" + index));
-//
-//            // Crear un nuevo objeto hijo y establecer sus atributos
-//            Persona hijo = new Persona();
-//            hijo.setNombre(nombreHijo);
-//            hijo.setApellido(apellidoHijo);
-//            hijo.setFechaNacimiento(fechaNacimientoHijo);
-//
-//            // Agregar el hijo a la lista
-//            hijos.add(hijo);
-//            index++;
-//        }
-//
-//        for(Persona hijo : hijos){
-//            personaVulnerable.agregarMenorACargo(hijo);
-//        }
+        int index = 1;
+        // Continuar mientras haya un nombre de hijo en el formulario
+        String nombreHijo;
+        while ((nombreHijo = context.formParam("nombreHijo" + index)) != null) {
+            String apellidoHijo = context.formParam("apellidoHijo" + index);
+            LocalDate fechaNacimientoHijo = LocalDate.parse(Objects.requireNonNull(context.formParam("fechaNacimientoHijo" + index)));
+
+            // Crear un nuevo objeto hijo y establecer sus atributos
+            Persona hijo = new Persona();
+            hijo.setNombre(nombreHijo);
+            hijo.setApellido(apellidoHijo);
+            hijo.setFechaNacimiento(fechaNacimientoHijo);
+
+            // Agregar el hijo a la lista
+            personaVulnerable.agregarMenorACargo(hijo);
+            index++;
+        }
 
         withTransaction(() -> {
             repositorioVulnerables.guardar(personaVulnerable);

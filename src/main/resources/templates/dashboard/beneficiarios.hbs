@@ -184,7 +184,9 @@
                             <!-- Sección para ingresar datos de hijos -->
                             <h5 class="mt-4">Información de los Hijos</h5>
                             <div id="hijosContainer"></div>
-                            <button type="button" class="btn btn-success mt-2" id="agregarHijoBtn"><i class="bi bi-plus-circle"></i> Agregar Hijo</button>
+                            <button type="button" class="btn btn-success mt-2" id="agregarHijoBtn">
+                                <i class="bi bi-plus-circle"></i> Agregar Hijo
+                            </button>
 
                             <div class="modal-footer d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
@@ -199,50 +201,40 @@
 
         <!-- Incluir el script al final del body -->
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Referencia al contenedor de los hijos y al botón de agregar hijo
-                const hijosContainer = document.getElementById('hijosContainer');
-                const agregarHijoBtn = document.getElementById('agregarHijoBtn');
-                let hijoIndex = 0;
+            let hijoIndex = 1; // Índice para numerar los hijos
 
-                // Verifica si el botón existe antes de agregar el event listener
-                if (agregarHijoBtn) {
-                    agregarHijoBtn.addEventListener('click', function () {
-                        hijoIndex++; // Incrementar el índice de los hijos
-                        const hijoHtml = `
-                <div class="mb-3 border p-3" id="hijo-${hijoIndex}">
-                    <div class="mb-3">
-                        <label for="nombreHijo${hijoIndex}" class="form-label">Nombre del Hijo</label>
-                        <input type="text" class="form-control" id="nombreHijo${hijoIndex}" name="hijos[${hijoIndex}].nombre" placeholder="Ingrese Nombre del Hijo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellidoHijo${hijoIndex}" class="form-label">Apellido del Hijo</label>
-                        <input type="text" class="form-control" id="apellidoHijo${hijoIndex}" name="hijos[${hijoIndex}].apellido" placeholder="Ingrese Apellido del Hijo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="fechaNacimientoHijo${hijoIndex}" class="form-label">Fecha de Nacimiento</label>
-                        <input type="date" class="form-control" id="fechaNacimientoHijo${hijoIndex}" name="hijos[${hijoIndex}].fechaNacimiento" required>
-                    </div>
-                    <button type="button" class="btn btn-danger" onclick="eliminarHijo(${hijoIndex})"><i class="bi bi-trash"></i> Eliminar Hijo</button>
-                </div>`;
-                        hijosContainer.insertAdjacentHTML('beforeend', hijoHtml);
-                    });
-                }
+            // Función para agregar un nuevo conjunto de campos para un hijo
+            document.getElementById('agregarHijoBtn').addEventListener('click', function () {
+                const container = document.getElementById('hijosContainer');
 
-                // Función para eliminar un hijo específico
-                window.eliminarHijo = function(index) {
-                    const confirmacion = confirm("¿Estás seguro de que deseas eliminar a este hijo?");
-                    if (confirmacion) {
-                        const hijoElement = document.getElementById(`hijo-${index}`);
-                        if (hijoElement) {
-                            hijoElement.remove();
-                        }
-                    }
-                }
+                // Crear el div que contendrá los datos del hijo
+                const hijoDiv = document.createElement('div');
+                hijoDiv.classList.add('hijo');
+
+                // Agregar campos para el nombre, apellido y fecha de nacimiento
+                hijoDiv.innerHTML = `
+            <div class="form-group">
+                <label for="nombreHijo${hijoIndex}">Nombre del Hijo ${hijoIndex}</label>
+                <input type="text" class="form-control" id="nombreHijo${hijoIndex}" name="nombreHijo${hijoIndex}" placeholder="Nombre del hijo" required>
+            </div>
+            <div class="form-group">
+                <label for="apellidoHijo${hijoIndex}">Apellido del Hijo ${hijoIndex}</label>
+                <input type="text" class="form-control" id="apellidoHijo${hijoIndex}" name="apellidoHijo${hijoIndex}" placeholder="Apellido del hijo" required>
+            </div>
+            <div class="form-group">
+                <label for="fechaNacimientoHijo${hijoIndex}">Fecha de Nacimiento del Hijo ${hijoIndex}</label>
+                <input type="date" class="form-control" id="fechaNacimientoHijo${hijoIndex}" name="fechaNacimientoHijo${hijoIndex}" required>
+            </div>
+            <hr>
+        `;
+
+                // Agregar el nuevo div al contenedor
+                container.appendChild(hijoDiv);
+
+                // Incrementar el índice para el próximo hijo
+                hijoIndex++;
             });
         </script>
-
-
     </section>
 {{/partial}}
 {{> templates/dashboard}}
