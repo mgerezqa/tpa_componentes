@@ -31,6 +31,7 @@ public class Server {
         if (app == null) {
             Integer port = Integer.parseInt(Config.getInstance().getProperty("server_port"));
             app = Javalin.create(config()).start(port);
+
             new Router().init(app);
 
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
@@ -57,6 +58,9 @@ public class Server {
                         return context.equals(options.param(0));
                     }
                 });
+
+                handlebars.registerHelper("eq", (val1, val2) -> val1.equals(val2));
+
                 Template template = null;
                 try {
                     template = handlebars.compile(

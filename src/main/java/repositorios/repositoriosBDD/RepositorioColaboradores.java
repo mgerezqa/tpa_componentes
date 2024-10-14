@@ -7,9 +7,9 @@ import lombok.Data;
 import repositorios.Repositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 @Data
-
 public class RepositorioColaboradores extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(Colaborador colaborador){
@@ -27,19 +27,39 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
         entityManager().remove(colaborador);
     }
 
-    public Colaborador obtenerPorId(String id){
+    public Colaborador obtenerPorId(Long id){
         return entityManager().find(Colaborador.class, id);
     }
 
     @SuppressWarnings("unchecked")
     public List<Colaborador> colaboradoresActivos(){
         return entityManager()
-                .createQuery("FROM Colaborador c WHERE c.activo = true", Colaborador.class)
+                .createQuery("FROM Colaborador c WHERE c.activo = true" + Colaborador.class)
                 .getResultList();
     }
-    public List<ColaboradorFisico> colaboradoreFisicosActivos(){
+
+    public List<ColaboradorFisico> obtenerColaboradoresFisicos(){
         return entityManager()
-                .createQuery("FROM ColaboradorFisico c WHERE c.activo = true", ColaboradorFisico.class)
+                .createQuery("FROM ColaboradorFisico", ColaboradorFisico.class)
                 .getResultList();
     }
+
+    public List<ColaboradorJuridico> obtenerColaboradoresJuridicos(){
+        return entityManager()
+                .createQuery("FROM ColaboradorJuridico ", ColaboradorJuridico.class)
+                .getResultList();
+    }
+
+    public List<ColaboradorFisico> obtenerColaboradoresFisicosActivos() {
+        return entityManager()
+                .createQuery("FROM ColaboradorFisico cf WHERE cf.activo = true", ColaboradorFisico.class)
+                .getResultList();
+    }
+
+    public List<ColaboradorJuridico> obtenerColaboradoresJuridicosActivos() {
+        return entityManager()
+                .createQuery("FROM ColaboradorJuridico cj WHERE cj.activo = true", ColaboradorJuridico.class)
+                .getResultList();
+    }
+
 }

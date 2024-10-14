@@ -1,0 +1,19 @@
+<!-- modalDeshabilitarBeneficiario  -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Desactivar beneficiario</h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro de que deseas dar de baja a este beneficiario?</p>
+        </div>
+        <div class="modal-footer">
+            <form action="{{action}}" method="POST">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-outline-danger">Deshabilitar</button>
+            </form>
+        </div>
+    </div>
+</div>

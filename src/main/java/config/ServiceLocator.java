@@ -2,8 +2,18 @@ package config;
 
 
 import controladores.*;
+import controladores.ControladorBeneficiarios;
+import controladores.ControladorColaboradorFisico;
+import controladores.ControladorColaboradorJuridico;
+import controladores.ControladorHeladeras;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
+import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.RepositorioVulnerables;
+import services.implem.ServiceHeladera;
+import services.interfaces.IServiceHeladera;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,13 +42,19 @@ public class ServiceLocator {
             else if (componentName.equals(RepositorioColaboradores.class.getName())) {
                 RepositorioColaboradores instance = new RepositorioColaboradores();
                 instances.put(componentName, instance);
-            }else if(componentName.equals(RepositorioUsuarios.class.getName())){
+            }
+
+            else if(componentName.equals(RepositorioUsuarios.class.getName())){
                 RepositorioUsuarios instance = new RepositorioUsuarios();
                 instances.put(componentName,instance);
-            }else if(componentName.equals(Repositorio.class.getName())){
+            }
+
+            else if(componentName.equals(Repositorio.class.getName())){
                 Repositorio instance = new Repositorio();
                 instances.put(componentName,instance);
-            }else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
+            }
+
+            else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
                 ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class));
                 instances.put(componentName, instance);
             }else if(componentName.equals(ControladorTecnicos.class.getName())){
@@ -60,6 +76,22 @@ public class ServiceLocator {
                 RepositorioTarjetas instance = new RepositorioTarjetas();
                 instances.put(componentName,instance);
             }
+
+            else if(componentName.equals(IServiceHeladera.class.getName())){
+                IServiceHeladera instance = new ServiceHeladera(instanceOf(RepositorioHeladeras.class));
+                instances.put(componentName, instance);
+            }
+
+            else if (componentName.equals(RepositorioVulnerables.class.getName())){
+                RepositorioVulnerables instance = new RepositorioVulnerables();
+                instances.put(componentName, instance);
+            }
+
+            else if(componentName.equals(ControladorBeneficiarios.class.getName())){
+                ControladorBeneficiarios instance = new ControladorBeneficiarios(instanceOf(RepositorioVulnerables.class));
+                instances.put(componentName, instance);
+            }
+
         }
 
         return (T) instances.get(componentName);

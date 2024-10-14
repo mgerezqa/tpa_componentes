@@ -9,8 +9,10 @@ import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -23,6 +25,7 @@ import javax.persistence.Transient;
 @DiscriminatorValue("email")
 public class Email extends MedioDeContacto {
 
+    @Setter
     @Column(name = "email")
     private String email;
     @Transient
@@ -69,7 +72,7 @@ public class Email extends MedioDeContacto {
     @Override
     public void enviarMensaje(ColaboradorFisico colaboradorFisico, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) throws MessagingException {
         String mensaje = String.format(
-                        "Hola %s!\n\n" +
+                "Hola %s!\n\n" +
                         "🧊 Heladera: %s\n" +
                         "🔔 Tipo de suscripción: %s\n\n" +
                         "¡Gracias por colaborar! 📬",
@@ -83,7 +86,7 @@ public class Email extends MedioDeContacto {
 
     public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {
         String mensaje = String.format(
-                        "Hola %s %s!\n\n" +
+                "Hola %s %s!\n\n" +
                         "🚨 Alerta: #%s\n" +
                         "📝 Tipo de Alerta: %s\n" +
                         "🧊 Heladera: %s\n" +
@@ -100,7 +103,7 @@ public class Email extends MedioDeContacto {
 
     public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) throws MessagingException {
         String mensaje = String.format(
-                        "Hola %s %s!\n\n" +
+                "Hola %s %s!\n\n" +
                         "⚠️ Falla Técnica: #%s\n" +
                         "🔧 Descripción: %s\n" +
                         "🧊 Heladera: %s\n" +
@@ -120,6 +123,5 @@ public class Email extends MedioDeContacto {
                 getEmail()
         );
     }
-
 
 }

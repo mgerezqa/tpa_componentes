@@ -12,6 +12,7 @@ import java.util.HashSet;
 @Entity
 @Table(name = "colaboradores_juridicos")
 public class ColaboradorJuridico extends Colaborador{
+
     @Column(name = "razonSocial")
     private String razonSocial;
 
