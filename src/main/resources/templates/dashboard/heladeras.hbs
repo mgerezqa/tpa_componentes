@@ -57,9 +57,18 @@
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                             <!-- Botón para baja lógica  -->
-                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarHeladera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                            <button class="btn btn-outline-danger"
+                                    hx-get='/dashboard/heladeras/{{this.id}}/delete'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Deshabilitar">
                                 <i class="bi bi-arrow-down-circle"></i>
                             </button>
+
 
                             <!-- Botón para abrir el modal de eliminación -->
                             <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarHeladera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
@@ -96,25 +105,6 @@
                     </div>
                 </div>
 
-                <!-- Modal de deshabilitación  -->
-                <div class="modal fade" id="modalDeshabilitarHeladera" tabindex="-1" aria-labelledby="modalDeshabilitarHeladera" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Desactivar Heladera</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Estás seguro de que deseas dar de baja a esta heladera?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 </tbody>
             </table>
         </div>

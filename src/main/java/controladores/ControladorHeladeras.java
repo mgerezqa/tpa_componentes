@@ -6,6 +6,7 @@ import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.usuarios.Tecnico;
 import dtos.HeladeraDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -75,11 +76,13 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(capacidadActual,capacidadMax,nombreHeladera);
 
         //Errores
+
         if(!errors.isEmpty()){
             System.out.println(errors);
             context.redirect("/dashboard/heladeras"); // TODO -> Pantalla del form pero mencionando los errores al usuario
             return;
         }
+
         //Exito
         ModeloDeHeladera modeloDeHeladera = new ModeloDeHeladera(modelo.get().toUpperCase());
         //Harcodeo la temp max y min, tendria sentido agregarle al form creo
@@ -172,10 +175,24 @@ public class ControladorHeladeras implements ICrudViewsHandler, WithSimplePersis
 
     @Override
     public void delete(Context context) {
-
+        String idParam = context.pathParam("id");
+        Map<String, Object> model = new HashMap<>();
+        model.put("action","/dashboard/heladeras/"+idParam+"/delete");
+        context.render("/dashboard/delete/heladera.hbs",model);
     }
     @Override
     public void remove(Context context) {
-
+        String idParam = context.pathParam("id");
+        Optional<Object> posibleHeladera = repositorioHeladeras.buscarPorID(Heladera.class,Long.parseLong(idParam));
+        if(posibleHeladera.isPresent()){
+            withTransaction(()->{
+                Heladera heladera = (Heladera) posibleHeladera.get();
+                heladera.setEstadoHeladera(EstadoHeladera.INACTIVA);
+                repositorioHeladeras.actualizar(heladera);
+            });
+            context.redirect("/dashboard/heladeras"); //TODO realizar pantalla de exito de la creacion de tecnico
+        }else{
+            context.status(HttpStatus.NOT_FOUND);
+        }
     }
 }
