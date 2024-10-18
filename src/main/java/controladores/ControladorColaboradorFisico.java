@@ -1,7 +1,6 @@
 package controladores;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
-import domain.persona.PersonaVulnerable;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
 import dtos.requests.ColaboradorFisicoInputDTO;

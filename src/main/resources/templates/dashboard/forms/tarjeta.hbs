@@ -8,29 +8,22 @@
 {{#partial "form"}}
     <form action="{{action}}" method="POST">
 
-        <div class="mb-3">
-            <label for="tarjetaUsosPorDia" class="form-label">Usos por dia</label>
-            <input type="number" class="form-control" id="tarjetaUsosPorDia" name="tarjetaUsosPorDia" placeholder="Ingrese Cantidad de usos">
-        </div>
-
-
         <!-- Buscar colaborador -->
         <div class="mb-3">
             <label for="tarjetaDeBeneficiarioColaboradorId" class="form-label">Colaborador</label>
-            <select class="form-select" id="tarjetaDeBeneficiarioColaboradorId" required>
-                <option value="" disabled>Seleccionar colaborador id...</option>
+            <select class="form-select" id="tarjetaDeBeneficiarioColaboradorId" name="tarjetaDeBeneficiarioColaboradorId">
+                <option value="">Seleccionar colaborador id...</option>
                 {{#each colaboradores}}
                     <option value="{{this}}" {{#if (eq tarjeta.idColaborador this )}}selected{{/if}}>{{this}}</option>
                 {{/each}}
             </select>
         </div>
 
-
         <!-- Buscar beneficiario  -->
         <div class="mb-3">
             <label for="tarjetaDeColaboradorBeneficiarioId" class="form-label">Beneficiario</label>
-            <select class="form-select" id="tarjetaDeColaboradorBeneficiarioId" required>
-                <option value="" disabled>Seleccionar beneficiario id...</option>
+            <select class="form-select" id="tarjetaDeColaboradorBeneficiarioId" name="tarjetaDeColaboradorBeneficiarioId">
+                <option value="">Seleccionar beneficiario id...</option>
                 {{#each beneficiarios}}
                     <option value="{{this}}" {{#if (eq tarjeta.idColaborador this )}}selected{{/if}}>{{this}}</option>
                 {{/each}}

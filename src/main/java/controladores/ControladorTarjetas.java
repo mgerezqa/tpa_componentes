@@ -57,48 +57,43 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
     }
 
     @Override
-    public void show(Context context) {
-
-    }
-
-    @Override
     public void create(Context context) {
         List<Long> colaboradoresPosibles = repositorioColaboradores.obtenerColaboradoresFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
         List<Long> beneficiariosPosibles = repositorioVulnerables.obtenerPersonasVulnerables().stream().map(PersonaVulnerable::getId).collect(Collectors.toList());
-        System.out.println(colaboradoresPosibles);
-        System.out.println(beneficiariosPosibles);
+
         Map<String,Object> modal = new HashMap<>();
         modal.put("colaboradores",colaboradoresPosibles);
         modal.put("beneficiarios",beneficiariosPosibles);
         modal.put("action","/dashboard/tarjetas");
         modal.put("edit",false);
+
         context.render("/dashboard/forms/tarjeta.hbs",modal);
     }
 
     @Override
     public void save(Context context) {
-        Long idColab =null;
-        Long idBene = null;
-
-        if(context.formParam("idColaborador")!= null){
-            idColab = Long.valueOf(context.formParam("idColaborador"));
-        }
-        if(context.formParam("idBeneficiario")!=null){
-            idBene = Long.valueOf(context.formParam("idBeneficiario"));
-        }
-        Optional<Object> posibleColaborador = repositorioColaboradores.buscarPorID(Colaborador.class,idColab);
-        Optional<Object> posibleBeneficiario = repositorioVulnerables.buscarPorID(PersonaVulnerable.class,idBene);
-
         boolean activo = context.formParam("estadoBeneficiario")!= null;
         String fechaDeAlta = context.formParam("fechaDeAltaDeUsoTarjeta");
 
         withTransaction(()->{
             Tarjeta tarjeta = new Tarjeta();
-            posibleColaborador.ifPresent(o -> tarjeta.setColaborador((ColaboradorFisico) o));
-            posibleBeneficiario.ifPresent(o -> tarjeta.setVulnerable((PersonaVulnerable) o));
+
+            if(!context.formParam("tarjetaDeBeneficiarioColaboradorId").isEmpty()){
+                Long idColab = Long.valueOf(context.formParam("tarjetaDeBeneficiarioColaboradorId"));
+                Optional<Object> posibleColaborador = repositorioColaboradores.buscarPorID(Colaborador.class,idColab);
+                posibleColaborador.ifPresent(o -> tarjeta.setColaborador((ColaboradorFisico) o));
+
+            }
+            if(!context.formParam("tarjetaDeColaboradorBeneficiarioId").isEmpty()){
+                Long idBene = Long.valueOf(context.formParam("tarjetaDeColaboradorBeneficiarioId"));
+                Optional<Object> posibleBeneficiario = repositorioVulnerables.buscarPorID(PersonaVulnerable.class,idBene);
+                posibleBeneficiario.ifPresent(o -> tarjeta.setVulnerable((PersonaVulnerable) o));
+
+            }
             tarjeta.setFechaInicioDeFuncionamiento(LocalDate.parse(fechaDeAlta));
             repositorioTarjetas.guardar(tarjeta);
         });
+        context.redirect("/dashboard/tarjetas");
     }
 
     @Override
@@ -167,6 +162,10 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void remove(Context context) {
+
+    }
+    @Override
+    public void show(Context context) {
 
     }
 }
