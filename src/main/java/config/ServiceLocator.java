@@ -68,7 +68,7 @@ public class ServiceLocator {
                 RepositorioSuscripciones instance = new RepositorioSuscripciones();
                 instances.put(componentName,instance);
             }else if(componentName.equals(ControladorTarjetas.class.getName())){
-                ControladorTarjetas instance = new ControladorTarjetas(instanceOf(RepositorioTarjetas.class));
+                ControladorTarjetas instance = new ControladorTarjetas(instanceOf(RepositorioTarjetas.class),instanceOf(RepositorioVulnerables.class),instanceOf(RepositorioColaboradores.class));
                 instances.put(componentName, instance);
             }else if(componentName.equals(RepositorioTarjetas.class.getName())){
                 RepositorioTarjetas instance = new RepositorioTarjetas();

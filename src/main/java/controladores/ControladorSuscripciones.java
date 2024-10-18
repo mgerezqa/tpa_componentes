@@ -53,20 +53,12 @@ public class ControladorSuscripciones implements ICrudViewsHandler, WithSimplePe
     }
 
     @Override
-    public void show(Context context) {
-
-    }
-
-    @Override
     public void create(Context context) {
         List<Long> colaboradoresPosibles = repositorioColaboradores.obtenerColaboradoresFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
         List<Long> heladerasPosibles = repositorioHeladeras.obtenerTodasLasHeladeras().stream().map(Heladera::getId).collect(Collectors.toList());
         Map<String,Object> modal = new HashMap<>();
         modal.put("colaboradores",colaboradoresPosibles);
         modal.put("heladeras",heladerasPosibles);
-        System.out.println(colaboradoresPosibles);
-        System.out.println(heladerasPosibles);
-
         modal.put("action","/dashboard/suscripciones");
         modal.put("edit",false);
         context.render("/dashboard/forms/suscripcion.hbs",modal);
@@ -88,6 +80,7 @@ public class ControladorSuscripciones implements ICrudViewsHandler, WithSimplePe
         //        .check(v -> repositorioColaboradores.buscarPorID(Colaborador.class,v).isPresent(), "El id de este colaborador no existe o no esta activo!");
         //Validator<Long> idHeladera = context.formParamAsClass("idHeladera", Long.class)
         //        .check(v -> repositorioHeladeras.buscarPorID(Heladera.class,v).isPresent(), "El id de esta heladera no existe o no esta activo!");
+
         Validator<TipoDeSuscripcionENUM> suscripcionTipo = context.formParamAsClass("suscripcionTipo", TipoDeSuscripcionENUM.class)
                 .check(Objects::nonNull , "El tipo de documento es  obligatorio");
         boolean activo = context.formParam("estadoSuscripcion")!= null;
@@ -218,9 +211,12 @@ public class ControladorSuscripciones implements ICrudViewsHandler, WithSimplePe
     public void delete(Context context) {
 
     }
-
     @Override
     public void remove(Context context) {
 
     }
+    @Override
+    public void show(Context context) {
+    }
+
 }

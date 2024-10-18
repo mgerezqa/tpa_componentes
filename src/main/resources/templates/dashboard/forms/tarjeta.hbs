@@ -9,39 +9,46 @@
     <form action="{{action}}" method="POST">
 
         <div class="mb-3">
-            <label for="editarApellidoBeneficiario" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="editarApellidoTecnico" placeholder="Ingrese Apellido" required>
+            <label for="tarjetaUsosPorDia" class="form-label">Usos por dia</label>
+            <input type="number" class="form-control" id="tarjetaUsosPorDia" name="tarjetaUsosPorDia" placeholder="Ingrese Cantidad de usos">
         </div>
+
+
+        <!-- Buscar colaborador -->
         <div class="mb-3">
-            <label for="editarTipoDocumento" class="form-label">Tipo de Documento</label>
-            <select class="form-select" id="editarTipoDocumento" required>
-                <option value="" disabled>Seleccionar tipo...</option>
-                <option value="1" selected>DNI</option> <!-- Opción seleccionada -->
-                <option value="2">LC</option>
-                <option value="3">LE</option>
+            <label for="tarjetaDeBeneficiarioColaboradorId" class="form-label">Colaborador</label>
+            <select class="form-select" id="tarjetaDeBeneficiarioColaboradorId" required>
+                <option value="" disabled>Seleccionar colaborador id...</option>
+                {{#each colaboradores}}
+                    <option value="{{this}}" {{#if (eq tarjeta.idColaborador this )}}selected{{/if}}>{{this}}</option>
+                {{/each}}
             </select>
         </div>
 
+
+        <!-- Buscar beneficiario  -->
         <div class="mb-3">
-            <label for="editarNroDocumento" class="form-label">NroDocumento</label>
-            <input type="text" class="form-control" id="editarNroDocumento" placeholder="Ingrese NroDoc" required>
+            <label for="tarjetaDeColaboradorBeneficiarioId" class="form-label">Beneficiario</label>
+            <select class="form-select" id="tarjetaDeColaboradorBeneficiarioId" required>
+                <option value="" disabled>Seleccionar beneficiario id...</option>
+                {{#each beneficiarios}}
+                    <option value="{{this}}" {{#if (eq tarjeta.idColaborador this )}}selected{{/if}}>{{this}}</option>
+                {{/each}}
+            </select>
         </div>
 
-        <div class="mb-3">
-            <label for="editarBeneficiarioFechaDeNacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input type="date" class="form-control" id="editarBeneficiarioFechaDeNacimiento" required>
-        </div>
 
         <div class="mb-3">
-            <label for="editarBeneficiarioFechaDeRegistro" class="form-label">Fecha de Registro</label>
-            <input type="date" class="form-control" id="editarBeneficiarioFechaDeRegistro" required>
+            <label for="fechaDeAltaDeUsoTarjeta" class="form-label">Fecha de alta</label>
+            <input type="date" class="form-control" id="fechaDeAltaDeUsoTarjeta" name="fechaDeAltaDeUsoTarjeta" required>
         </div>
+
 
         <div class="mb-3">
             <label class="form-label">Estado</label>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="estadoTarjeta" name="estadoTarjeta" {{#if tarjeta.estado}}checked{{/if}}>
-                <label class="form-check-label" for="estadoTarjeta" >Activo</label>
+                <input class="form-check-input" type="checkbox" id="estadoBeneficiario" name="estadoBeneficiario" checked>
+                <label class="form-check-label" for="estadoBeneficiario">Activo</label>
             </div>
         </div>
         <div class="modal-footer d-flex justify-content-between">

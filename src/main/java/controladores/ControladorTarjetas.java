@@ -1,23 +1,35 @@
 package controladores;
 
+import domain.heladera.Heladera.Heladera;
+import domain.persona.PersonaVulnerable;
 import domain.tarjeta.Tarjeta;
 
+import domain.usuarios.Colaborador;
+import domain.usuarios.ColaboradorFisico;
 import dtos.TarjetaDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioTarjetas;
+import repositorios.repositoriosBDD.RepositorioVulnerables;
 import utils.ICrudViewsHandler;
 
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioTarjetas repositorioTarjetas;
+    private RepositorioVulnerables repositorioVulnerables;
+    private RepositorioColaboradores repositorioColaboradores;
 
-    public ControladorTarjetas(RepositorioTarjetas repositorioTarjetas) {
+    public ControladorTarjetas(RepositorioTarjetas repositorioTarjetas, RepositorioVulnerables repositorioVulnerables, RepositorioColaboradores repositorioColaboradores) {
         this.repositorioTarjetas = repositorioTarjetas;
+        this.repositorioVulnerables = repositorioVulnerables;
+        this.repositorioColaboradores = repositorioColaboradores;
     }
 
     @Override
@@ -51,7 +63,13 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void create(Context context) {
+        List<Long> colaboradoresPosibles = repositorioColaboradores.obtenerColaboradoresFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
+        List<Long> beneficiariosPosibles = repositorioVulnerables.obtenerPersonasVulnerables().stream().map(PersonaVulnerable::getId).collect(Collectors.toList());
+        System.out.println(colaboradoresPosibles);
+        System.out.println(beneficiariosPosibles);
         Map<String,Object> modal = new HashMap<>();
+        modal.put("colaboradores",colaboradoresPosibles);
+        modal.put("beneficiarios",beneficiariosPosibles);
         modal.put("action","/dashboard/tarjetas");
         modal.put("edit",false);
         context.render("/dashboard/forms/tarjeta.hbs",modal);
@@ -59,7 +77,28 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void save(Context context) {
+        Long idColab =null;
+        Long idBene = null;
 
+        if(context.formParam("idColaborador")!= null){
+            idColab = Long.valueOf(context.formParam("idColaborador"));
+        }
+        if(context.formParam("idBeneficiario")!=null){
+            idBene = Long.valueOf(context.formParam("idBeneficiario"));
+        }
+        Optional<Object> posibleColaborador = repositorioColaboradores.buscarPorID(Colaborador.class,idColab);
+        Optional<Object> posibleBeneficiario = repositorioVulnerables.buscarPorID(PersonaVulnerable.class,idBene);
+
+        boolean activo = context.formParam("estadoBeneficiario")!= null;
+        String fechaDeAlta = context.formParam("fechaDeAltaDeUsoTarjeta");
+
+        withTransaction(()->{
+            Tarjeta tarjeta = new Tarjeta();
+            posibleColaborador.ifPresent(o -> tarjeta.setColaborador((ColaboradorFisico) o));
+            posibleBeneficiario.ifPresent(o -> tarjeta.setVulnerable((PersonaVulnerable) o));
+            tarjeta.setFechaInicioDeFuncionamiento(LocalDate.parse(fechaDeAlta));
+            repositorioTarjetas.guardar(tarjeta);
+        });
     }
 
     @Override

@@ -13,13 +13,13 @@ public class EjemploMain {
 
         Float latitud = -34.f;
         Float longitud = -58.f;
-        Integer max = 2;
+        Integer max = 3;
         Float distanciaMax = 100f;
 
         ListadoDeComunidades listadoDeComunidades = servicioRecomendacionUbicaciones.listadoCumunidades("Uo0lhGZ_0baxg_miCp-rh6944wpHLJGJ",latitud, longitud,max,distanciaMax);
         System.out.println(listadoDeComunidades);
         for(Comunidad comunidadRecomendada : listadoDeComunidades.getComunidades()) {
-            System.out.println("Latitud: " + comunidadRecomendada.getLat() + ", Longitud: " + comunidadRecomendada.getLon());
+            System.out.println("Id: "+ comunidadRecomendada.getId()+ ", Comunidad: "+comunidadRecomendada.getNombre() +", Latitud: " + comunidadRecomendada.getLat() + ", Longitud: " + comunidadRecomendada.getLon());
         }
     }
 }
