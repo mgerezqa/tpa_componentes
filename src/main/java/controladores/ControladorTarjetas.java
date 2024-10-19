@@ -38,14 +38,8 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
         List<TarjetaDTO> tarjetasDTO = new ArrayList<>();
         for (Tarjeta tarjeta : tarjetas) {
             try {
-                TarjetaDTO tarjetaDTO = new TarjetaDTO();
-                tarjetaDTO.setCodigoIdentificador(tarjeta.getCodigoIdentificador());
-                tarjetaDTO.setEstado(tarjeta.getEstado());
-                tarjetaDTO.setCantidadMaxDeUso(tarjeta.cantidadLimiteDisponiblePorDia());
-                tarjetaDTO.setCantidadUsadaEnElDia(tarjeta.getCantidadUsadaEnElDia());
-                tarjetaDTO.setFechaInicioDeFuncionamiento(tarjeta.getFechaInicioDeFuncionamiento().toString());
-                tarjetaDTO.setIdColaborador(tarjeta.getColaborador()!=null?tarjeta.getColaborador().getId():null);
-                tarjetaDTO.setIdBeneficiario(tarjeta.getVulnerable()!=null?tarjeta.getVulnerable().getId():null);
+                TarjetaDTO tarjetaDTO = this.convertToDTO(tarjeta);
+
                 tarjetasDTO.add(tarjetaDTO);
             }catch (Exception ex){
                 System.out.println(ex.getMessage());
@@ -90,7 +84,9 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
                 posibleBeneficiario.ifPresent(o -> tarjeta.setVulnerable((PersonaVulnerable) o));
 
             }
+
             tarjeta.setFechaInicioDeFuncionamiento(LocalDate.parse(fechaDeAlta));
+            tarjeta.setEstado(activo);
             repositorioTarjetas.guardar(tarjeta);
         });
         context.redirect("/dashboard/tarjetas");
@@ -99,21 +95,17 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
     @Override
     public void edit(Context context) {
         String idParam = context.pathParam("id");
-
+        List<Long> colaboradoresPosibles = repositorioColaboradores.obtenerColaboradoresFisicosActivos().stream().map(Colaborador::getId).collect(Collectors.toList());
+        List<Long> beneficiariosPosibles = repositorioVulnerables.obtenerPersonasVulnerables().stream().map(PersonaVulnerable::getId).collect(Collectors.toList());
         Optional<Tarjeta> posibleTarjeta = repositorioTarjetas.obtenerPorUUID(idParam);
         if(posibleTarjeta.isPresent()){
             Tarjeta tarjeta = posibleTarjeta.get();
 
-            TarjetaDTO tarjetaDTO = new TarjetaDTO();
-            tarjetaDTO.setCodigoIdentificador(tarjeta.getCodigoIdentificador());
-            tarjetaDTO.setEstado(tarjeta.getEstado());
-            tarjetaDTO.setCantidadMaxDeUso(tarjeta.cantidadLimiteDisponiblePorDia());
-            tarjetaDTO.setCantidadUsadaEnElDia(tarjeta.getCantidadUsadaEnElDia());
-            tarjetaDTO.setFechaInicioDeFuncionamiento(tarjeta.getFechaInicioDeFuncionamiento().toString());
-            tarjetaDTO.setIdColaborador(tarjeta.getColaborador()!=null?tarjeta.getColaborador().getId():null);
-            tarjetaDTO.setIdBeneficiario(tarjeta.getVulnerable()!=null?tarjeta.getVulnerable().getId():null);
+            TarjetaDTO tarjetaDTO = this.convertToDTO(tarjeta);
 
             Map<String,Object> modal = new HashMap<>();
+            modal.put("colaboradores",colaboradoresPosibles);
+            modal.put("beneficiarios",beneficiariosPosibles);
             modal.put("action","/dashboard/tarjetas/"+idParam+"/edit");
             modal.put("tarjeta",tarjetaDTO);
             modal.put("edit",true);
@@ -122,29 +114,41 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
             context.status(HttpStatus.NOT_FOUND);
         }
     }
-
+    private TarjetaDTO convertToDTO(Tarjeta tarjeta){
+        TarjetaDTO tarjetaDTO = new TarjetaDTO();
+        tarjetaDTO.setCodigoIdentificador(tarjeta.getCodigoIdentificador());
+        tarjetaDTO.setEstado(tarjeta.getEstado());
+        tarjetaDTO.setCantidadMaxDeUso(tarjeta.cantidadLimiteDisponiblePorDia());
+        tarjetaDTO.setCantidadUsadaEnElDia(tarjeta.getCantidadUsadaEnElDia());
+        tarjetaDTO.setFechaInicioDeFuncionamiento(tarjeta.getFechaInicioDeFuncionamiento().toString());
+        tarjetaDTO.setIdColaborador(tarjeta.getColaborador()!=null?tarjeta.getColaborador().getId():null);
+        tarjetaDTO.setIdBeneficiario(tarjeta.getVulnerable()!=null?tarjeta.getVulnerable().getId():null);
+        return tarjetaDTO;
+    }
     @Override
     public void update(Context context) {
-        //Validaciones
-        boolean activo = context.formParam("estadoTarjeta")!= null;
+        boolean activo = context.formParam("estadoBeneficiario")!= null;
+        String fechaDeAlta = context.formParam("fechaDeAltaDeUsoTarjeta");
 
-        //Errores
-        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors();
-
-        if(!errors.isEmpty()){
-            System.out.println(errors);
-            context.redirect("/dashboard/tarjetas"); // TODO -> Pantalla del form pero mencionando los errores al usuario
-            return;
-        }
-
-        //EXITO
         String idParam = context.pathParam("id");
 
         Optional<Tarjeta> posibleTarjeta = repositorioTarjetas.obtenerPorUUID(idParam);
         if(posibleTarjeta.isPresent()){
             Tarjeta tarjeta = posibleTarjeta.get();
-            System.out.println("HOLA");
             withTransaction(()->{
+                if(!context.formParam("tarjetaDeBeneficiarioColaboradorId").isEmpty()){
+                    Long idColab = Long.valueOf(context.formParam("tarjetaDeBeneficiarioColaboradorId"));
+                    Optional<Object> posibleColaborador = repositorioColaboradores.buscarPorID(Colaborador.class,idColab);
+                    posibleColaborador.ifPresent(o -> tarjeta.setColaborador((ColaboradorFisico) o));
+                }
+                if(!context.formParam("tarjetaDeColaboradorBeneficiarioId").isEmpty()){
+                    Long idBene = Long.valueOf(context.formParam("tarjetaDeColaboradorBeneficiarioId"));
+                    Optional<Object> posibleBeneficiario = repositorioVulnerables.buscarPorID(PersonaVulnerable.class,idBene);
+                    posibleBeneficiario.ifPresent(o -> tarjeta.setVulnerable((PersonaVulnerable) o));
+                }
+
+                assert fechaDeAlta != null;
+                tarjeta.setFechaInicioDeFuncionamiento(LocalDate.parse(fechaDeAlta));
                 tarjeta.setEstado(activo);
                 repositorioTarjetas.actualizar(tarjeta);
             });

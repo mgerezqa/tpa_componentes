@@ -25,7 +25,7 @@
             <select class="form-select" id="tarjetaDeColaboradorBeneficiarioId" name="tarjetaDeColaboradorBeneficiarioId">
                 <option value="">Seleccionar beneficiario id...</option>
                 {{#each beneficiarios}}
-                    <option value="{{this}}" {{#if (eq tarjeta.idColaborador this )}}selected{{/if}}>{{this}}</option>
+                    <option value="{{this}}" {{#if (eq tarjeta.idBeneficiario this )}}selected{{/if}}>{{this}}</option>
                 {{/each}}
             </select>
         </div>
@@ -33,14 +33,14 @@
 
         <div class="mb-3">
             <label for="fechaDeAltaDeUsoTarjeta" class="form-label">Fecha de alta</label>
-            <input type="date" class="form-control" id="fechaDeAltaDeUsoTarjeta" name="fechaDeAltaDeUsoTarjeta" required>
+            <input type="date" class="form-control" id="fechaDeAltaDeUsoTarjeta" name="fechaDeAltaDeUsoTarjeta" value="{{tarjeta.fechaInicioDeFuncionamiento}}" required>
         </div>
 
 
         <div class="mb-3">
             <label class="form-label">Estado</label>
             <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="estadoBeneficiario" name="estadoBeneficiario" checked>
+                <input class="form-check-input" type="checkbox" id="estadoBeneficiario" name="estadoBeneficiario" value="true" {{#if tarjeta.estado}}checked{{/if}}>
                 <label class="form-check-label" for="estadoBeneficiario">Activo</label>
             </div>
         </div>
