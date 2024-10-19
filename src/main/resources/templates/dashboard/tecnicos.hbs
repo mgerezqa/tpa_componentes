@@ -38,7 +38,11 @@
                 {{#each tecnicos}}
                     <tr>
                         <td>{{this.id}}</td>
-                        <td>{{this.activo}}</td>
+                        <td>{{#if this.activo}}
+                            ACTIVO
+                        {{else}}
+                            INACTIVO
+                        {{/if}}</td>
                         <td>{{this.nombre}}</td>
                         <td>{{this.apellido}}</td>
                         <td>{{this.tipoDocumento}}</td>

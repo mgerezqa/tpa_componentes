@@ -1,6 +1,5 @@
 package controladores;
 
-import com.sun.mail.imap.protocol.BODY;
 import domain.formulario.documentos.Cuil;
 import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;
@@ -13,15 +12,12 @@ import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
-import server.exceptions.CustomEnumConversionException;
 import utils.ICrudViewsHandler;
 
-import javax.swing.text.StyledEditorKit;
 import java.util.*;
 
 public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersistenceUnit {
@@ -37,23 +33,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         List<TecnicoDTO> tecnicosDTO = new ArrayList<>();
         for (Tecnico tecnico : tecnicos) {
             try {
-                TecnicoDTO tecnicoDTO = new TecnicoDTO();
-                tecnicoDTO.setId(tecnico.getId());
-                tecnicoDTO.setActivo(tecnico.getActivo());
-                tecnicoDTO.setNombre(tecnico.getNombre());
-                tecnicoDTO.setApellido(tecnico.getApellido());
-                tecnicoDTO.setNroDocumento(tecnico.getDocumento().getNumeroDeDocumento());
-                tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
-                tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
-                        ? tecnico.getArea().getTamanioArea().toString()
-                        : "");
-                if(tecnico.getArea()!= null && tecnico.getArea().getUbicacionPrincipal()!=null && tecnico.getArea().getUbicacionPrincipal().getCalle()!= null){
-                    tecnicoDTO.setCalle(tecnico.getArea().getUbicacionPrincipal().getCalle().getNombre());
-                    tecnicoDTO.setAltura(tecnico.getArea().getUbicacionPrincipal().getCalle().getAltura());
-                }else{
-                    tecnicoDTO.setCalle("");
-                    tecnicoDTO.setAltura("");
-                }
+                TecnicoDTO tecnicoDTO = this.convertToDTO(tecnico);
                 tecnicosDTO.add(tecnicoDTO);
             }catch (Exception ex){
                 System.out.println(ex.getMessage());
@@ -104,8 +84,10 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             context.redirect("/dashboard/tecnicos"); // TODO -> Pantalla del form pero mencionando los errores al usuario
             return;
         }
+
         //EXITO
         withTransaction(()->{
+
             Documento documento = new Documento(tipoDocumento.get(),nroDocumento.get());
             //Harcodeo la lat y long, pero no deberia ser obligatorio asi que se debe sacar como nullable=false
             Ubicacion ubicacion = new Ubicacion(1f,2f,new Calle(calle.get(),altura.get()));
@@ -127,23 +109,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         if(posibleTecnico.isPresent()){
             Tecnico tecnico = (Tecnico) posibleTecnico.get();
 
-            TecnicoDTO tecnicoDTO = new TecnicoDTO();
-            tecnicoDTO.setId(tecnico.getId());
-            tecnicoDTO.setActivo(tecnico.getActivo());
-            tecnicoDTO.setNombre(tecnico.getNombre());
-            tecnicoDTO.setApellido(tecnico.getApellido());
-            tecnicoDTO.setNroDocumento(tecnico.getDocumento().getNumeroDeDocumento());
-            tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
-            tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
-                    ? tecnico.getArea().getTamanioArea().toString()
-                    : "");
-            if(tecnico.getArea()!= null && tecnico.getArea().getUbicacionPrincipal()!=null && tecnico.getArea().getUbicacionPrincipal().getCalle()!= null){
-                tecnicoDTO.setCalle(tecnico.getArea().getUbicacionPrincipal().getCalle().getNombre());
-                tecnicoDTO.setAltura(tecnico.getArea().getUbicacionPrincipal().getCalle().getAltura());
-            }else{
-                tecnicoDTO.setCalle("");
-                tecnicoDTO.setAltura("");
-            }
+            TecnicoDTO tecnicoDTO = this.convertToDTO(tecnico);
 
             Map<String, Object> model = new HashMap<>();
             model.put("tecnico",tecnicoDTO);
@@ -154,27 +120,24 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             context.status(HttpStatus.NOT_FOUND);
         }
     }
-
     @Override
     public void update(Context context) {
         //Validaciones
         Validator<String> nombreTecnico = context.formParamAsClass("nombreTecnico", String.class)
-                .check(Objects::nonNull, "El nombre no puede estar nulo")
-                .check(v -> v.chars().noneMatch(Character::isDigit),"No puede haber numeros en el nombre");
+                .check(v -> !v.isEmpty()  , "El nombre es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
         Validator<String> apellidoTecnico = context.formParamAsClass("apellidoTecnico", String.class)
-                .check(Objects::nonNull, "El apellido no puede estar nulo")
-                .check(v -> v.chars().noneMatch(Character::isDigit),"No puede haber numeros en el apellido");
-        Validator<TipoDocumento> tipoDocumento = context.formParamAsClass("tipoDocumento", TipoDocumento.class)
-                .check(Objects::nonNull , "El tipo de documento es  obligatorio");
+                .check(v -> !v.isEmpty()  , "El apellido es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el apellido");
+        Validator<TipoDocumento> tipoDocumento = context.formParamAsClass("tipoDocumento", TipoDocumento.class);
         Validator<String> nroDocumento = context.formParamAsClass("nroDocumento", String.class)
-                .check(Objects::nonNull , "El nro de documento  es obligatorio");
+                .check(v -> !v.isEmpty()  , "El nro de documento  es obligatorio");
         Validator<String> calle = context.formParamAsClass("calle", String.class)
-                .check(Objects::nonNull, "La calle de la heladera es obligatorio");
+                .check(v -> !v.isEmpty() , "La calle de la heladera es obligatorio");
         Validator<String> altura = context.formParamAsClass("altura", String.class)
-                .check(Objects::nonNull, "La altura es obligatorio"); //Deberia ser integer la altura,tener en cuenta
-        Validator<TamanioArea> tamanioArea = context.formParamAsClass("tamanioArea", TamanioArea.class)
-                .check(Objects::nonNull, "El tamaño es obligatorio");
-        boolean activo = context.formParam("estadoTecnico")!= null;
+                .check(v -> !v.isEmpty(), "La altura es obligatorio"); //Deberia ser integer la altura,tener en cuenta
+        Validator<TamanioArea> tamanioArea = context.formParamAsClass("tamanioArea", TamanioArea.class);
+        Boolean activo = context.formParam("estadoTecnico")!=null;
 
         //Errores
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,calle,altura,tamanioArea);
@@ -234,5 +197,24 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             context.status(HttpStatus.NOT_FOUND);
         }
     }
-
+    private TecnicoDTO convertToDTO(Tecnico tecnico){
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setId(tecnico.getId());
+        tecnicoDTO.setActivo(tecnico.getActivo());
+        tecnicoDTO.setNombre(tecnico.getNombre());
+        tecnicoDTO.setApellido(tecnico.getApellido());
+        tecnicoDTO.setNroDocumento(tecnico.getDocumento().getNumeroDeDocumento());
+        tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
+        tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
+                ? tecnico.getArea().getTamanioArea().toString()
+                : "");
+        if(tecnico.getArea()!= null && tecnico.getArea().getUbicacionPrincipal()!=null && tecnico.getArea().getUbicacionPrincipal().getCalle()!= null){
+            tecnicoDTO.setCalle(tecnico.getArea().getUbicacionPrincipal().getCalle().getNombre());
+            tecnicoDTO.setAltura(tecnico.getArea().getUbicacionPrincipal().getCalle().getAltura());
+        }else{
+            tecnicoDTO.setCalle("");
+            tecnicoDTO.setAltura("");
+        }
+        return tecnicoDTO;
+    }
 }
