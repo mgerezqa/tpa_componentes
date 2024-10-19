@@ -9,6 +9,7 @@ import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.suscripciones.TipoDeSuscripcionENUM;
+import server.exceptions.CustomEnumConversionException;
 import utils.Initializer;
 import utils.JavalinRenderer;
 import io.javalin.Javalin;
@@ -68,7 +69,13 @@ public class Server {
                     return "No se encuentra la página indicada...";
                 }
             }));
-            config.validation.register(TipoDocumento.class,  v->  TipoDocumento.valueOf(v.toUpperCase()));
+            config.validation.register(TipoDocumento.class,  v->  {
+                try {
+                    return TipoDocumento.valueOf(v.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    throw new CustomEnumConversionException("El valor introducido no es un valor valido!", e);
+                }
+            });
             config.validation.register(TamanioArea.class, v->  TamanioArea.valueOf(v.toUpperCase()));
             config.validation.register(EstadoHeladera.class, v->  EstadoHeladera.valueOf(v.toUpperCase()));
             config.validation.register(TipoDeSuscripcionENUM.class, v->  TipoDeSuscripcionENUM.valueOf(v.toUpperCase()));

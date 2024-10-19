@@ -13,10 +13,12 @@ import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
+import server.exceptions.CustomEnumConversionException;
 import utils.ICrudViewsHandler;
 
 import javax.swing.text.StyledEditorKit;
@@ -79,22 +81,20 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
     public void save(Context context) {
         //Validaciones
         Validator<String> nombreTecnico = context.formParamAsClass("nombreTecnico", String.class)
-                .check(Objects::nonNull, "El nombre no puede estar nulo")
-                .check(v -> v.chars().noneMatch(Character::isDigit),"No puede haber numeros en el nombre");
+                .check(v -> !v.isEmpty()  , "El nombre es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
         Validator<String> apellidoTecnico = context.formParamAsClass("apellidoTecnico", String.class)
-                .check(Objects::nonNull, "El apellido no puede estar nulo")
-                .check(v -> v.chars().noneMatch(Character::isDigit),"No puede haber numeros en el apellido");
-        Validator<TipoDocumento> tipoDocumento = context.formParamAsClass("tipoDocumento", TipoDocumento.class)
-                .check(Objects::nonNull , "El tipo de documento es  obligatorio");
+                .check(v -> !v.isEmpty()  , "El apellido es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el apellido");
+        Validator<TipoDocumento> tipoDocumento = context.formParamAsClass("tipoDocumento", TipoDocumento.class);
         Validator<String> nroDocumento = context.formParamAsClass("nroDocumento", String.class)
-                .check(Objects::nonNull , "El nro de documento  es obligatorio");
+                .check(v -> !v.isEmpty()  , "El nro de documento  es obligatorio");
         Validator<String> calle = context.formParamAsClass("calle", String.class)
-                .check(Objects::nonNull, "La calle de la heladera es obligatorio");
+                .check(v -> !v.isEmpty() , "La calle de la heladera es obligatorio");
         Validator<String> altura = context.formParamAsClass("altura", String.class)
-                .check(Objects::nonNull, "La altura es obligatorio"); //Deberia ser integer la altura,tener en cuenta
-        Validator<TamanioArea> tamanioArea = context.formParamAsClass("tamanioArea", TamanioArea.class)
-                .check(Objects::nonNull, "El tamaño es obligatorio");
-        boolean activo = context.formParam("estadoTecnico")!= null;
+                .check(v -> !v.isEmpty(), "La altura es obligatorio"); //Deberia ser integer la altura,tener en cuenta
+        Validator<TamanioArea> tamanioArea = context.formParamAsClass("tamanioArea", TamanioArea.class);
+        Boolean activo = context.formParam("estadoTecnico")!=null;
 
         //Errores
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,calle,altura,tamanioArea);

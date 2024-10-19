@@ -4,13 +4,11 @@ import domain.excepciones.CantidadDisponibleLimitePorDiaException;
 import domain.persona.PersonaVulnerable;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,6 @@ import java.util.List;
 @Entity
 @Table (name = "tarjetas")
 public class Tarjeta {
-
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.GeneradorUUID")
