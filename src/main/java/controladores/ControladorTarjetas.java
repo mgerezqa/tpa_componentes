@@ -34,21 +34,23 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
 
     @Override
     public void index(Context context) {
-        List<Tarjeta> tarjetas = repositorioTarjetas.buscarTarjetas();
-        List<TarjetaDTO> tarjetasDTO = new ArrayList<>();
-        for (Tarjeta tarjeta : tarjetas) {
-            try {
-                TarjetaDTO tarjetaDTO = this.convertToDTO(tarjeta);
+        try {
+            List<Tarjeta> tarjetas = repositorioTarjetas.buscarTarjetas();
+            List<TarjetaDTO> tarjetasDTO = tarjetas.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
 
-                tarjetasDTO.add(tarjetaDTO);
-            }catch (Exception ex){
-                System.out.println(ex.getMessage());
-            }
+            Map<String, List<TarjetaDTO>> model = Map.of("tarjetas", tarjetasDTO);
+            context.render("/dashboard/tarjetas.hbs", model);
+            
+        } catch (Exception e) {
+            context.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> error = Map.of("error", "Error al cargar las tarjetas: " + e.getMessage());
+            context.render("/dashboard/error.hbs", error);
+            e.printStackTrace(); // Reemplazar con un sistema de logging apropiado
         }
-        Map<String,List<TarjetaDTO>> model = new HashMap<>();
-        model.put("tarjetas",tarjetasDTO);
-        context.render("/dashboard/tarjetas.hbs",model);
     }
+    
 
     @Override
     public void create(Context context) {
@@ -71,17 +73,19 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
 
         withTransaction(()->{
             Tarjeta tarjeta = new Tarjeta();
-
+            
             if(!context.formParam("tarjetaDeBeneficiarioColaboradorId").isEmpty()){
                 Long idColab = Long.valueOf(context.formParam("tarjetaDeBeneficiarioColaboradorId"));
-                Optional<Object> posibleColaborador = repositorioColaboradores.buscarPorID(Colaborador.class,idColab);
-                posibleColaborador.ifPresent(o -> tarjeta.setColaborador((ColaboradorFisico) o));
+                Optional<ColaboradorFisico> posibleColaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class, idColab)
+                    .map(ColaboradorFisico.class::cast);
+                posibleColaborador.ifPresent(tarjeta::setColaborador);
 
             }
             if(!context.formParam("tarjetaDeColaboradorBeneficiarioId").isEmpty()){
                 Long idBene = Long.valueOf(context.formParam("tarjetaDeColaboradorBeneficiarioId"));
-                Optional<Object> posibleBeneficiario = repositorioVulnerables.buscarPorID(PersonaVulnerable.class,idBene);
-                posibleBeneficiario.ifPresent(o -> tarjeta.setVulnerable((PersonaVulnerable) o));
+                Optional<PersonaVulnerable> posibleBeneficiario = repositorioVulnerables.buscarPorID(PersonaVulnerable.class,idBene)
+                    .map(PersonaVulnerable.class::cast);
+                posibleBeneficiario.ifPresent(tarjeta::setVulnerable);
 
             }
 
@@ -135,11 +139,13 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
         Optional<Tarjeta> posibleTarjeta = repositorioTarjetas.obtenerPorUUID(idParam);
         if(posibleTarjeta.isPresent()){
             Tarjeta tarjeta = posibleTarjeta.get();
+            
             withTransaction(()->{
                 if(!context.formParam("tarjetaDeBeneficiarioColaboradorId").isEmpty()){
                     Long idColab = Long.valueOf(context.formParam("tarjetaDeBeneficiarioColaboradorId"));
-                    Optional<Object> posibleColaborador = repositorioColaboradores.buscarPorID(Colaborador.class,idColab);
-                    posibleColaborador.ifPresent(o -> tarjeta.setColaborador((ColaboradorFisico) o));
+                    Optional<ColaboradorFisico> posibleColaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class, idColab)
+                        .map(ColaboradorFisico.class::cast);
+                    posibleColaborador.ifPresent(tarjeta::setColaborador);
                 }
                 if(!context.formParam("tarjetaDeColaboradorBeneficiarioId").isEmpty()){
                     Long idBene = Long.valueOf(context.formParam("tarjetaDeColaboradorBeneficiarioId"));
@@ -158,10 +164,16 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
         }
 
     }
+    
 
     @Override
     public void delete(Context context) {
-
+        String idParam = context.pathParam("id");
+        
+        Map<String, Object> model = new HashMap<>();
+        model.put("action", "/dashboard/tarjetas/" + idParam + "/delete");
+        
+        context.render("/dashboard/delete/tarjeta.hbs", model);
     }
 
     @Override

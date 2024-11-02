@@ -57,7 +57,16 @@
                             </button>
 
                             <!-- Botón para baja lógica  -->
-                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarTarjetaBeneficiario" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                            <button
+                                    class="btn btn-outline-danger"
+                                    hx-get='/dashboard/tarjetas/{{this.codigoIdentificador}}/delete'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-placement="bottom"
+                                    title="Deshabilitar">
                                 <i class="bi bi-arrow-down-circle"></i>
                             </button>
 
@@ -98,25 +107,6 @@
                     </div>
                 </div>
 
-                <!-- Modal de deshabilitación  -->
-                <div class="modal fade" id="modalDeshabilitarTarjetaBeneficiario" tabindex="-1" aria-labelledby="modalDeshabilitarTarjetaBeneficiario" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Desactivar Beneficiario</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 </tbody>
             </table>
         </div>
