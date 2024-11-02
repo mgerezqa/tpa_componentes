@@ -15,26 +15,18 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table (name = "tarjetas")
-public class Tarjeta {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_tarjeta")
+@Table(name = "tarjetas")
+public abstract class Tarjeta {
     @Id
     @GeneratedValue(generator = "uuid-generator")
     @GenericGenerator(name = "uuid-generator", strategy = "domain.tarjeta.GeneradorUUID")
     @Column(name = "codigo_identificador", unique = true, nullable = false, length = 11)
     private String codigoIdentificador; //Leer commit donde se menciona la decisión del modelado del codigo de esta manera.
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona_vulnerable")
-    private PersonaVulnerable vulnerable;
-
     @Column(name = "estado")
     private Boolean estado;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
-    @JoinColumn(name = "colaborador_id")
-    private ColaboradorFisico colaborador;
-
-    private static Integer cantidadDisponiblePorDefecto = 4;
 
     @Column(name = "cantidad_usada_dia")
     private Integer cantidadUsadaEnElDia;
@@ -52,17 +44,6 @@ public class Tarjeta {
         this.estado = true;
     }
 
-    public int cantidadDisponiblePorMenores(){
-        return 2*this.getVulnerable().cantidadDeMenoresACargo();
-    }
-
-    public int cantidadLimiteDisponiblePorDia(){
-        return cantidadDisponiblePorDefecto + this.cantidadDisponiblePorMenores();
-    }
-
-    public boolean tieneCantidadDisponible(){
-        return this.getCantidadUsadaEnElDia() < this.cantidadLimiteDisponiblePorDia();
-    }
 
     public void agregarRegistroDeUso(RegistroDeUso nuevoRegistro){
         this.getRegistros().add(nuevoRegistro);
@@ -72,14 +53,7 @@ public class Tarjeta {
         this.setCantidadUsadaEnElDia(this.getCantidadUsadaEnElDia() + 1);
     }
 
-    public void usoDeTarjeta(RegistroDeUso nuevoRegistro){
-        if(this.tieneCantidadDisponible()){
-            this.aumentarCantidadDeUsoEnElDia();
-            this.agregarRegistroDeUso(nuevoRegistro);
-        }else{
-            throw new CantidadDisponibleLimitePorDiaException("No hay más cantidad disponible por hoy!");
-        }
-    }
+    public abstract void usoDeTarjeta(RegistroDeUso nuevoRegistro);
     public void resetCantidadUsadaEnElDia(){
         this.setCantidadUsadaEnElDia(0);
     }

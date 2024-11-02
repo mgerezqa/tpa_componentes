@@ -3,6 +3,7 @@ package domain.donaciones;
 
 import domain.persona.PersonaVulnerable;
 import domain.tarjeta.Tarjeta;
+import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.ColaboradorFisico;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,13 +33,13 @@ public class RegistroDePersonaVulnerable {
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tarjeta_uuid")
-    private Tarjeta tarjeta;
+    private TarjetaVulnerable tarjeta;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "vulnerable_id")
     private PersonaVulnerable personaVulnerable;
 
-    public RegistroDePersonaVulnerable(ColaboradorFisico colaborador, Tarjeta tarjeta, PersonaVulnerable vulnerable, LocalDate fechaRegistro) {
+    public RegistroDePersonaVulnerable(ColaboradorFisico colaborador, TarjetaVulnerable tarjeta, PersonaVulnerable vulnerable, LocalDate fechaRegistro) {
         this.colaborador = colaborador;
         this.tarjeta = tarjeta;
         this.personaVulnerable = vulnerable;

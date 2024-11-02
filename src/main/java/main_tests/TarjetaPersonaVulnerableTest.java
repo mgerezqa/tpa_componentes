@@ -12,6 +12,7 @@ import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
 import domain.tarjeta.RegistroDeUso;
 import domain.tarjeta.Tarjeta;
+import domain.tarjeta.TarjetaVulnerable;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
@@ -48,7 +49,7 @@ public class TarjetaPersonaVulnerableTest implements WithSimplePersistenceUnit {
             Heladera heladeraA = new Heladera(modelo, "medrano", ubicacion);
 
             ubicaciones.add(ubicacion);
-            Tarjeta tarjeta1 = new Tarjeta();
+            TarjetaVulnerable tarjeta1 = new TarjetaVulnerable();
             tarjeta1.setVulnerable(persona);
 
             Persona menor = new Persona("miguel","martinez",LocalDate.of(2023,05,27));

@@ -22,6 +22,7 @@ import domain.suscripciones.Suscripcion;
 import domain.suscripciones.SuscripcionPorCantidadDeViandasDisponibles;
 import domain.suscripciones.TipoDeSuscripcion;
 import domain.tarjeta.Tarjeta;
+import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.*;
 import domain.visitas.Visita;
 import dtos.FallaTecnicaDTO;
@@ -262,7 +263,7 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
         joaquin.setDocumento(new Documento(TipoDocumento.DNI, "27876543"));
         repositorioVulnerables.guardar(joaquin);
 
-        Tarjeta tarjeta = new Tarjeta();
+        TarjetaVulnerable tarjeta = new TarjetaVulnerable();
 
         RegistroDePersonaVulnerable registro = new RegistroDePersonaVulnerable(colaborador1, tarjeta, joaquin, LocalDate.now());
         repositorioRegistros.guardar(registro);
