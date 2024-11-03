@@ -21,8 +21,6 @@
                     </select>
                 </div>
             {{/if}}
-        {{/if}}
-        {{#if edit}}
             {{#if tarjeta.idBeneficiario}}
                 <div class="mb-3">
                     <label for="tarjetaDeColaboradorBeneficiarioId" class="form-label">Beneficiario</label>
@@ -34,6 +32,25 @@
                     </select>
                 </div>
             {{/if}}
+        {{else}}
+            <div class="mb-3">
+                <label for="tarjetaDeBeneficiarioColaboradorId" class="form-label">Colaborador</label>
+                <select class="form-select" id="tarjetaDeBeneficiarioColaboradorId" name="tarjetaDeBeneficiarioColaboradorId">
+                    <option value="">Seleccionar colaborador id...</option>
+                    {{#each colaboradores}}
+                        <option value="{{this}}" {{#if (eq tarjeta.idColaborador this )}}selected{{/if}}>{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="tarjetaDeColaboradorBeneficiarioId" class="form-label">Beneficiario</label>
+                <select class="form-select" id="tarjetaDeColaboradorBeneficiarioId" name="tarjetaDeColaboradorBeneficiarioId">
+                    <option value="">Seleccionar beneficiario id...</option>
+                    {{#each beneficiarios}}
+                        <option value="{{this}}" {{#if (eq tarjeta.idBeneficiario this )}}selected{{/if}}>{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
         {{/if}}
 
         <div class="mb-3">
