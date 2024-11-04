@@ -101,6 +101,12 @@ public class Router implements SimplePersistenceTest{
         // Login con usuario
         app.post("/login",ServiceLocator.instanceOf(ControladorUsuario.class)::login);
 
+        // Cerrar sesion
+        app.post("/logout", ctx ->{
+            ctx.req().getSession().invalidate();
+            ctx.redirect("/");
+        });
+
     }
 
 }

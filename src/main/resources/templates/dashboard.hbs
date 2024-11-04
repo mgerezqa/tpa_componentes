@@ -61,7 +61,11 @@
                         </a>
                         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
                             <li><a class="dropdown-item" href="/dashboard/ajustes" >Ajustes</a></li>
-                            <li><a class="dropdown-item" href="/">Cerrar Sesión</a></li>
+                            <li>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item" >Cerrar Sesión</button>
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </div>
