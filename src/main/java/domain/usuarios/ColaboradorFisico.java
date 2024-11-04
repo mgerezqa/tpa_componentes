@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,9 @@ public class ColaboradorFisico extends Colaborador {
     private String nombre;
     @Column(name = "apellido", nullable = false)
     private String apellido;
+
+    @Column(name = "nacimiento")
+    private LocalDate nacimiento;
 
     @OneToMany(mappedBy = "colaboradorQueLaDono", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Vianda> viandasDonadas;

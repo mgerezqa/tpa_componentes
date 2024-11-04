@@ -1,6 +1,10 @@
 package controladores;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
+import domain.contacto.Telegram;
+import domain.contacto.Whatsapp;
+import domain.geografia.Calle;
+import domain.geografia.Ubicacion;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
 import dtos.requests.ColaboradorFisicoInputDTO;
@@ -12,10 +16,12 @@ import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
+import retrofit2.Call;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.Objects;
 
@@ -261,15 +267,73 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         Validator<String> contrasenia = ctx.formParamAsClass("password", String.class)
                 .check(v -> !v.isEmpty()  , "La contraseña del colaborador es obligatorio");
         Validator<String> repContrasenia = ctx.formParamAsClass("repeatPassword", String.class)
-                .check(v -> !v.isEmpty()  , "La repetción de contraseña del colaborador es obligatorio");
+                .check(v -> !v.isEmpty()  , "La repetción de contraseña del colaborador es obligatorio")
+                .check(rp -> rp.equals(contrasenia.get()),"La contraseñas no son las mismas!");
 
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre,apellido,email,wsp,telegram,domicilio,nacimiento,usuario,contrasenia,repContrasenia);
 
         if(!errors.isEmpty()){
             System.out.println(errors);
-            ctx.redirect("/dashboard/fisicos");
+            ctx.redirect("/");
             return;
         }
+
+        //Creación de las instacias colaborador fisico y usuario correspondiente
+        ColaboradorFisico colaboradorFisico = new ColaboradorFisico();
+
+        colaboradorFisico.setNombre(nombre.get());
+        colaboradorFisico.setApellido(apellido.get());
+        colaboradorFisico.setActivo(true); //HARDCODEO EL ACTIVO a true ver?
+
+        if(email.get() != null && !email.get().trim().isEmpty()){
+            Email email1 = new Email(email.get());
+            colaboradorFisico.agregarMedioDeContacto(email1);
+        }
+        if(wsp.get() != null && !wsp.get().trim().isEmpty()){
+            Whatsapp whatsapp = new Whatsapp(wsp.get());
+            colaboradorFisico.agregarMedioDeContacto(whatsapp);
+        }
+        if(telegram.get() != null && !telegram.get().trim().isEmpty()){
+            Telegram userTelegram = new Telegram(telegram.get());
+            colaboradorFisico.agregarMedioDeContacto(userTelegram);
+        }
+        //FALTA agregar la validación de que almenos uno deba ser obligatorio, por ahora se permite la nada de los 3
+        if(domicilio.get() != null && !domicilio.get().trim().isEmpty()){
+            //Falta agregar a la interface que se particione el campo en 2 para separar el nombre y el numero
+            Calle calle = new Calle();
+            calle.setNombre(domicilio.get());
+            System.out.println(calle.getNombre());
+            Ubicacion ubicacion = new Ubicacion(calle);
+            colaboradorFisico.agregarDireccion(ubicacion);
+            System.out.println(colaboradorFisico);
+            Optional<Ubicacion> atacado = colaboradorFisico.getDirecciones().stream().findFirst();
+            System.out.println(atacado.get().getCalle());
+        }
+        if(nacimiento.get() != null && !nacimiento.get().isEmpty()){
+            LocalDate fechaNacimiento = LocalDate.parse(nacimiento.get());
+            colaboradorFisico.setNacimiento(fechaNacimiento);
+        }
+        Usuario nuevoUsuario = new Usuario(usuario.get(), contrasenia.get());
+        colaboradorFisico.setUsuario(nuevoUsuario);
+        colaboradorFisico.puntosAcumulados = 0;
+
+        withTransaction(()->{
+            repositorioColaboradores.guardar(colaboradorFisico);
+            System.out.println(colaboradorFisico.getDirecciones().get(0).getCalle());
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
         System.out.println(nombre.get());
         System.out.println(apellido.get());
         System.out.println(email.get());

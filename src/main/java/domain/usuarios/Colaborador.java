@@ -2,12 +2,12 @@ package domain.usuarios;
 
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
-import domain.formulario.Formulario;
 import domain.geografia.Ubicacion;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.swing.border.EmptyBorder;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,13 +23,17 @@ public abstract class Colaborador{
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
+    @JoinColumn(name = "usuario_id", nullable = false)
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private Usuario usuario;
+
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id")
     protected Set<MedioDeContacto> mediosDeContacto = new HashSet<>(); //Set para que no se repitan los medios de contacto este campo es comun en todos los colaboradores.
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "direccion_id")
-    private List<Ubicacion> direcciones;
+    @JoinColumn(name = "usuario_id")
+    private List<Ubicacion> direcciones = new ArrayList<>();
 
     @Column(name = "activo")
     public Boolean activo; //protected para que las clases hijas puedan acceder a este atributo -> lo cambie a public x el repo...
@@ -62,6 +66,10 @@ public abstract class Colaborador{
             }
         }
         return null;
+    }
+
+    public void agregarDireccion(Ubicacion direccion) {
+        this.direcciones.add(direccion);
     }
 
 }

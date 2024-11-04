@@ -1,13 +1,13 @@
 package domain.usuarios;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "usuarios")
 public class Usuario {

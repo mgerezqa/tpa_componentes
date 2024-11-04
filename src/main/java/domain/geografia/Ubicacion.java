@@ -40,8 +40,9 @@ public class Ubicacion {
         this.longitud = longitud;
         this.calle = calle;
     }
+
+
     public Ubicacion(Calle calle) {
-        this.calle = calle;
     }
 
     public double calcularDistanciaKmA(Ubicacion ubicacion1) {

@@ -11,7 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Embeddable
 public class Documento {
-
     @Column(name = "numero_documento", nullable = false)
     private String numeroDeDocumento;
 
@@ -19,7 +18,6 @@ public class Documento {
     private TipoDocumento tipo;
 
     public Documento(TipoDocumento tipo, String numeroDeDocumento) {
-
         setNumeroDeDocumento(numeroDeDocumento);
         this.tipo = tipo;
     }

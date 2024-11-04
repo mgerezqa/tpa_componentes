@@ -1,5 +1,6 @@
 package domain.geografia;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +11,11 @@ import javax.persistence.Embedded;
 
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @Embeddable
 public class Calle {
-    @Column(name = "nombre")
+    @Column(name = "calle")
     private String nombre;
     @Column(name = "altura")
     private String altura;
