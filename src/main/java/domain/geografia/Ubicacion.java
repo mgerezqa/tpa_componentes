@@ -16,10 +16,10 @@ public class Ubicacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "latitud", nullable = false)
+    @Column(name = "latitud")
     private Float latitud;
 
-    @Column(name = "longitud", nullable = false)
+    @Column(name = "longitud")
     private Float longitud;
 
     @Embedded
@@ -38,6 +38,9 @@ public class Ubicacion {
     public Ubicacion(Float latitud, Float longitud, Calle calle) {
         this.latitud = latitud;
         this.longitud = longitud;
+        this.calle = calle;
+    }
+    public Ubicacion(Calle calle) {
         this.calle = calle;
     }
 

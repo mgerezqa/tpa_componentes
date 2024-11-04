@@ -49,12 +49,10 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         context.render("/dashboard/forms/ajustes.hbs");
     }
 
-
     @Override
     public void index(Context context) {
 
     }
-
 
     //Ejemplo de creación de ADMIN
     @Override

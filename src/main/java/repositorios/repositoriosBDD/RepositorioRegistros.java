@@ -1,7 +1,6 @@
 package repositorios.repositoriosBDD;
 
 import domain.donaciones.RegistroDePersonaVulnerable;
-import domain.donaciones.Vianda;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 public class RepositorioRegistros implements WithSimplePersistenceUnit {

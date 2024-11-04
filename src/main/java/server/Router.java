@@ -51,7 +51,6 @@ public class Router implements SimplePersistenceTest{
         app.post("/dashboard/fisicos/{id}/edit",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::update,RoleENUM.ADMIN);
         app.get("/dashboard/fisicos/{id}/delete",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/fisicos/{id}/delete", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::remove,RoleENUM.ADMIN); // baja logica
-
         //dashboard/juridicos
         app.get("/dashboard/juridicos",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::index,RoleENUM.ADMIN);
         app.post("/dashboard/juridicos",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::create,RoleENUM.ADMIN);
@@ -95,8 +94,8 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove,RoleENUM.ADMIN);
 
-        // Creación de usuario ADMIN
-        app.get("/crear-admin", ServiceLocator.instanceOf(ControladorUsuario.class)::create);
+        //signup de colaborador fisico
+        app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);
 
         // Login con usuario
         app.post("/login",ServiceLocator.instanceOf(ControladorUsuario.class)::login);
@@ -106,6 +105,10 @@ public class Router implements SimplePersistenceTest{
             ctx.req().getSession().invalidate();
             ctx.redirect("/");
         });
+
+        // Creación de usuario ADMIN
+        app.get("/crear-admin", ServiceLocator.instanceOf(ControladorUsuario.class)::create);
+
 
     }
 

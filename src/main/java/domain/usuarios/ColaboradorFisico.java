@@ -1,6 +1,7 @@
 package domain.usuarios;
 
 import domain.donaciones.Vianda;
+import domain.geografia.Ubicacion;
 import domain.geografia.area.AreaDeCobertura;
 import lombok.*;
 import org.hibernate.engine.internal.Cascade;

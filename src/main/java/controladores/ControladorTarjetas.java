@@ -1,9 +1,7 @@
 package controladores;
 
-import domain.heladera.Heladera.Heladera;
 import domain.persona.PersonaVulnerable;
 import domain.tarjeta.Tarjeta;
-
 import domain.tarjeta.TarjetaColaborador;
 import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.Colaborador;
@@ -12,16 +10,12 @@ import dtos.TarjetaDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.validation.Validation;
-import io.javalin.validation.ValidationError;
 import org.apache.commons.lang3.StringUtils;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioTarjetas;
 import repositorios.repositoriosBDD.RepositorioVulnerables;
-import server.exceptions.AccessDeniedException;
 import server.exceptions.TarjetasException;
 import utils.ICrudViewsHandler;
-
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,7 +46,6 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
             throw new TarjetasException("No se pudieron cargar las tarjetas", e);
         }
     }
-    
 
     @Override
     public void create(Context context) {
@@ -114,8 +107,6 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
         }
     }
 
-
-
     @Override
     public void update(Context context) {
         boolean activo = context.formParam("estadoBeneficiario")!= null;
@@ -153,7 +144,6 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
             context.status(HttpStatus.NOT_FOUND);
         }
     }
-    
 
     @Override
     public void delete(Context context) {
@@ -169,6 +159,7 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
     public void remove(Context context) {
 
     }
+
     @Override
     public void show(Context context) {
 

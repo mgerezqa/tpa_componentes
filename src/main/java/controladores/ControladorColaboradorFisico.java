@@ -7,6 +7,7 @@ import dtos.requests.ColaboradorFisicoInputDTO;
 import dtos.responses.ColaboradorFisicoOutputDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.HttpStatus;
+import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
@@ -232,5 +233,55 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     public void show(Context context) {
 
     }
+    public void signup(Context ctx){
+        Validator<String> nombre = ctx.formParamAsClass("nombre", String.class)
+                .check(v -> !v.isEmpty()  , "El nombre del colaborador es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
+        Validator<String> apellido = ctx.formParamAsClass("apellido", String.class)
+                .check(v -> !v.isEmpty()  , "El apellido del colaborador es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el apellido");
+        //Opcionales, pueden llegar null, al menos uno
+        NullableValidator<String> email = ctx.formParamAsClass("user_email", String.class)
+                .allowNullable();
+        NullableValidator<String> wsp = ctx.formParamAsClass("nro_whatsapp", String.class)
+                .allowNullable();
+        NullableValidator<String> telegram = ctx.formParamAsClass("user_telegram", String.class)
+                .allowNullable();
+
+        //Opcionales (Opcional)
+        NullableValidator<String> domicilio = ctx.formParamAsClass("domicilio", String.class)
+                .allowNullable();
+
+        NullableValidator<String> nacimiento = ctx.formParamAsClass("fechaNacimiento", String.class)
+                .allowNullable();
+
+        //Datos para el usuario
+        Validator<String> usuario = ctx.formParamAsClass("emailUsuario", String.class)
+                .check(v -> !v.isEmpty()  , "El nombre de usuario o email del colaborador es obligatorio");
+        Validator<String> contrasenia = ctx.formParamAsClass("password", String.class)
+                .check(v -> !v.isEmpty()  , "La contraseña del colaborador es obligatorio");
+        Validator<String> repContrasenia = ctx.formParamAsClass("repeatPassword", String.class)
+                .check(v -> !v.isEmpty()  , "La repetción de contraseña del colaborador es obligatorio");
+
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre,apellido,email,wsp,telegram,domicilio,nacimiento,usuario,contrasenia,repContrasenia);
+
+        if(!errors.isEmpty()){
+            System.out.println(errors);
+            ctx.redirect("/dashboard/fisicos");
+            return;
+        }
+        System.out.println(nombre.get());
+        System.out.println(apellido.get());
+        System.out.println(email.get());
+        System.out.println(wsp.get());
+        System.out.println(telegram.get());
+        System.out.println(domicilio.get());
+        System.out.println(nacimiento.get());
+        System.out.println(usuario.get());
+        System.out.println(contrasenia.get());
+        System.out.println(repContrasenia.get());
+        ctx.redirect("/");
+    }
+
 
 }
