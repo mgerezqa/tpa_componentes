@@ -302,12 +302,9 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             //Falta agregar a la interface que se particione el campo en 2 para separar el nombre y el numero
             Calle calle = new Calle();
             calle.setNombre(domicilio.get());
-            System.out.println(calle.getNombre());
-            Ubicacion ubicacion = new Ubicacion(calle);
+            Ubicacion ubicacion = new Ubicacion();
+            ubicacion.setCalle(calle);
             colaboradorFisico.agregarDireccion(ubicacion);
-            System.out.println(colaboradorFisico);
-            Optional<Ubicacion> atacado = colaboradorFisico.getDirecciones().stream().findFirst();
-            System.out.println(atacado.get().getCalle());
         }
         if(nacimiento.get() != null && !nacimiento.get().isEmpty()){
             LocalDate fechaNacimiento = LocalDate.parse(nacimiento.get());
@@ -315,11 +312,9 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         }
         Usuario nuevoUsuario = new Usuario(usuario.get(), contrasenia.get());
         colaboradorFisico.setUsuario(nuevoUsuario);
-        colaboradorFisico.puntosAcumulados = 0;
 
         withTransaction(()->{
             repositorioColaboradores.guardar(colaboradorFisico);
-            System.out.println(colaboradorFisico.getDirecciones().get(0).getCalle());
         });
 
 

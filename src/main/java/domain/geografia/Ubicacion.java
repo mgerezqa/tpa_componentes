@@ -1,4 +1,5 @@
 package domain.geografia;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,9 +42,6 @@ public class Ubicacion {
         this.calle = calle;
     }
 
-
-    public Ubicacion(Calle calle) {
-    }
 
     public double calcularDistanciaKmA(Ubicacion ubicacion1) {
         double latitud1 = ubicacion1.getLatitud();
