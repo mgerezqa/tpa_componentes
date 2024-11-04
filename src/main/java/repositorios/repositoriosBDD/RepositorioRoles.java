@@ -1,0 +1,30 @@
+package repositorios.repositoriosBDD;
+
+import domain.usuarios.Rol;
+import domain.usuarios.Usuario;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
+
+import java.util.List;
+
+public class RepositorioRoles extends Repositorio implements WithSimplePersistenceUnit {
+    @SuppressWarnings("unchecked")
+    public List<Rol> buscarRolesPorIdUsuario(Long idUsuario) {
+        String sql = "SELECT r.* " +
+                "FROM rol r " +
+                "INNER JOIN usuario_rol ur ON r.id = ur.id_rol " +
+                "WHERE ur.id_usuario = ?";
+
+        return entityManager()
+                .createNativeQuery(sql, Rol.class)
+                .setParameter(1, idUsuario)
+                .getResultList();
+    }
+
+    public Rol buscarRolPorNombre(String nombreRol) {
+        return entityManager()
+                .createQuery("FROM Rol r WHERE r.nombre = :nombre", Rol.class)
+                .setParameter("nombre", nombreRol)
+                .getSingleResult();
+    }
+}

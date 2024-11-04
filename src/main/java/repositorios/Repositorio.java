@@ -23,5 +23,4 @@ public class Repositorio implements WithSimplePersistenceUnit {
     public Optional<Object> buscarPorID(Class clase, Long id){
         return Optional.ofNullable(entityManager().find(clase, id));
     }
-
 }

@@ -11,7 +11,7 @@ public class RepositorioUsuarios extends Repositorio implements WithSimplePersis
     @SuppressWarnings("unchecked")
     public List<Usuario> buscarPorNombre(String nombre) {
         return entityManager()
-                .createQuery("from "+ Usuario.class.getName()+" where nombreUsuario =:name")
+                .createQuery("from " + Usuario.class.getName() + " u where u.nombreUsuario = :name")
                 .setParameter("name", nombre)
                 .getResultList();
     }

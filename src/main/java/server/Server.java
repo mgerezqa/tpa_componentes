@@ -4,12 +4,16 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
+import config.ServiceLocator;
 import domain.Config;
 import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.suscripciones.TipoDeSuscripcionENUM;
+import middlewares.AuthMiddleware;
+import repositorios.repositoriosBDD.RepositorioRoles;
 import server.exceptions.CustomEnumConversionException;
+import server.handlers.AppHandlers;
 import utils.Initializer;
 import utils.JavalinRenderer;
 import io.javalin.Javalin;
@@ -32,7 +36,8 @@ public class Server {
         if (app == null) {
             Integer port = Integer.parseInt(Config.getInstance().getProperty("server_port"));
             app = Javalin.create(config()).start(port);
-
+            new AuthMiddleware(ServiceLocator.instanceOf(RepositorioRoles.class)).apply(app);
+            AppHandlers.applyHandlers(app);
             new Router().init(app);
 
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {

@@ -1,5 +1,6 @@
 package server;
 
+import config.RoleManager;
 import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
@@ -8,6 +9,13 @@ import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
 public class Router implements SimplePersistenceTest{
 
     public void init(Javalin app) {
+        //Testing sesiones basica
+        app.get("/guardar-en-sesion", ctx -> {
+            ctx.sessionAttribute("nombre", ctx.queryParam("nombre"));
+            ctx.result("Variable de sesion guardada");
+        });
+
+        app.get("/saludo-sesionado", ctx -> ctx.result("Hola " + ctx.sessionAttribute("nombre")));
 
         //Render la pagina principal
         app.get("/",(ctx)->{
@@ -24,7 +32,7 @@ public class Router implements SimplePersistenceTest{
         });
 
         //dashboard/ajustes
-        app.get("/dashboard/ajustes",ServiceLocator.instanceOf(ControladorUsuario.class)::show);
+        app.get("/dashboard/ajustes",ServiceLocator.instanceOf(ControladorUsuario.class)::show, RoleManager.Roles.ADMIN);
 
         //dashboard/heladeras
         app.get("/dashboard/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index);
@@ -86,6 +94,9 @@ public class Router implements SimplePersistenceTest{
         app.post("/dashboard/tarjetas/{id}/edit", ServiceLocator.instanceOf(ControladorTarjetas.class)::update);
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove);
+
+        // Creación de usuario ADMIN
+        app.get("/crear-admin", ServiceLocator.instanceOf(ControladorUsuario.class)::create);
 
     }
 
