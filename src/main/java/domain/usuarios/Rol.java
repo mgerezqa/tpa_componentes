@@ -14,16 +14,16 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Table(name = "rol")
-public class Rol implements RouteRole {
+public class Rol{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nombre")
-    private String nombre;
+    @Enumerated(EnumType.STRING)
+    private RoleENUM nombre;
     @OneToMany
     @JoinColumn(name = "id_permiso")
     private List<Permiso> permisos;
-    public Rol(String nombre) {
+    public Rol(RoleENUM nombre) {
         this.nombre = nombre;
         this.permisos = new ArrayList<>();
     }

@@ -1,6 +1,6 @@
 package server;
 
-import config.RoleManager;
+import domain.usuarios.RoleENUM;
 import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
@@ -32,7 +32,7 @@ public class Router implements SimplePersistenceTest{
         });
 
         //dashboard/ajustes
-        app.get("/dashboard/ajustes",ServiceLocator.instanceOf(ControladorUsuario.class)::show, RoleManager.Roles.ADMIN);
+        app.get("/dashboard/ajustes",ServiceLocator.instanceOf(ControladorUsuario.class)::show, RoleENUM.ADMIN);
 
         //dashboard/heladeras
         app.get("/dashboard/heladeras", ServiceLocator.instanceOf(ControladorHeladeras.class)::index);

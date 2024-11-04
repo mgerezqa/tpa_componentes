@@ -1,6 +1,7 @@
 package repositorios.repositoriosBDD;
 
 import domain.usuarios.Rol;
+import domain.usuarios.RoleENUM;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
@@ -20,7 +21,7 @@ public class RepositorioRoles extends Repositorio implements WithSimplePersisten
                 .getResultList();
     }
 
-    public Rol buscarRolPorNombre(String nombreRol) {
+    public Rol buscarRolPorNombre(RoleENUM nombreRol) {
         return entityManager()
                 .createQuery("FROM Rol r WHERE r.nombre = :nombre", Rol.class)
                 .setParameter("nombre", nombreRol)

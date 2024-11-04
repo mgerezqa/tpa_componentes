@@ -43,6 +43,6 @@ public class AuthMiddleware {
     }
 
     private boolean rolCoincide(Rol rol, RouteRole rolRequerido) {
-        return rol.getNombre().equalsIgnoreCase(rolRequerido.toString());
+        return rol.getNombre().equals(rolRequerido);
     }
 }

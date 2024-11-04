@@ -1,6 +1,7 @@
 package controladores;
 
 import domain.usuarios.Rol;
+import domain.usuarios.RoleENUM;
 import domain.usuarios.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -32,7 +33,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             if(password.equals(usuarioActual.getContrasenia())){
                 List<Rol> roles = repositorioRoles.buscarRolesPorIdUsuario(usuarioActual.getId());
                 ctx.sessionAttribute("id_usuario", usuarioActual.getId());
-                if(roles.stream().anyMatch(rol -> "ADMIN".equals(rol.getNombre()))){
+                if(roles.stream().anyMatch(rol -> RoleENUM.ADMIN.equals(rol.getNombre()))){
                     ctx.redirect("/dashboard");
                 }
                 //ACA se sigue haciendo el redirect en caso de que tenga el rol de colaborador y mandarlo a la interface de colaboradores
@@ -55,6 +56,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     }
 
 
+    //Ejemplo de creación de ADMIN
     @Override
     public void create(Context ctx) {
         String nombre = ctx.queryParam("nombre");
@@ -69,10 +71,9 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         withTransaction(() -> {
             Rol rolAdmin;
             try {
-                rolAdmin = repositorioRoles.buscarRolPorNombre("ADMIN");
+                rolAdmin = repositorioRoles.buscarRolPorNombre(RoleENUM.ADMIN);
             } catch (NoResultException e) {
-                rolAdmin = new Rol();
-                rolAdmin.setNombre("ADMIN");
+                rolAdmin = new Rol(RoleENUM.ADMIN);
                 repositorioRoles.guardar(rolAdmin);
             }
 
