@@ -222,18 +222,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             String nombre = context.formParam("nombre");
             String apellido = context.formParam("apellido");
             ColaboradorFisico colaborador = new ColaboradorFisico(nombre,apellido);
-            String email = context.formParam("emailUsuario");
-            String contrasenia = context.formParam("password");
-            Usuario usuario = new Usuario(email,contrasenia);
-            //Validación de repetición de usuario
-            if(!repositorioUsuarios.buscarPorNombre(email).isEmpty()){
-                context.redirect("Error al querer registrar usuario ya existente!");
-                return;
-            }
-            //TODO -> Hacer validación de que no sea una contraseña tipica de los 10000
             //Guardado de datos
             repositorioColaboradores.guardar(colaborador);
-            repositorioUsuarios.guardar(usuario);
             context.redirect("/"); //Sugerencia -> Redirección a una pantalla de exito del registro.
         });
     }

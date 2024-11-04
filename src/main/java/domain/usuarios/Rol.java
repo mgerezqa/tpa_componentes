@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,8 +23,8 @@ public class Rol implements RouteRole {
     @OneToMany
     @JoinColumn(name = "id_permiso")
     private List<Permiso> permisos;
-    public Rol(String nombre, List<Permiso> permisos) {
+    public Rol(String nombre) {
         this.nombre = nombre;
-        this.permisos = permisos;
+        this.permisos = new ArrayList<>();
     }
 }

@@ -63,14 +63,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             <div class="myform bg-dark rounded-5 ">
                                 <h1 class="text-center">Iniciar Sesión</h1>
-                                <form>
+                                <form action="/login" method="POST">
                                     <div class="mb-3 mt-4">
-                                        <label for="exampleInputEmail1" class="form-label">Email </label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <label for="exampleInputEmail1" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <input type="password" class="form-control" name="exampleInputPassword1" id="exampleInputPassword1">
                                     </div>
                                     <button type="submit" id="btn-modal">LOGIN</button>
                                     <!-- cerrar el modal luego de redirigir -->

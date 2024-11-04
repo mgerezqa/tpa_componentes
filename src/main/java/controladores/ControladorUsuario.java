@@ -4,10 +4,13 @@ import domain.usuarios.Rol;
 import domain.usuarios.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import utils.ICrudViewsHandler;
 import javax.persistence.NoResultException;
+import java.util.List;
+import java.util.Optional;
 
 public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioUsuarios repositorioUsuarios;
@@ -18,6 +21,28 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         this.repositorioRoles = repositorioRoles;
     }
 
+    public void login(Context ctx) {
+        //Falta hacer validaciones
+        String name = ctx.formParam("exampleInputEmail1");
+        String password = ctx.formParam("exampleInputPassword1");
+
+        Optional<Usuario> usuario = repositorioUsuarios.buscarPorNombre(name);
+        if (usuario.isPresent()) {
+            Usuario usuarioActual = usuario.get();
+            if(password.equals(usuarioActual.getContrasenia())){
+                List<Rol> roles = repositorioRoles.buscarRolesPorIdUsuario(usuarioActual.getId());
+                ctx.sessionAttribute("id_usuario", usuarioActual.getId());
+                if(roles.stream().anyMatch(rol -> "ADMIN".equals(rol.getNombre()))){
+                    ctx.redirect("/dashboard");
+                }
+                //ACA se sigue haciendo el redirect en caso de que tenga el rol de colaborador y mandarlo a la interface de colaboradores
+            }else{
+                ctx.redirect("/"); //Mostrar error de contraseña invalida
+            }
+        }else{
+            ctx.status(HttpStatus.NOT_FOUND);
+        }
+    }
     @Override
     public void show(Context context) {
         context.render("/dashboard/forms/ajustes.hbs");

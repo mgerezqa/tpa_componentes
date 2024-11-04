@@ -1,7 +1,6 @@
 package repositorios.repositoriosBDD;
 
 import domain.usuarios.Rol;
-import domain.usuarios.Usuario;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
