@@ -53,13 +53,13 @@
             {{#if admin}}
                 <div class="nav-item-login">
                     <form action="/dashboard" method="GET">
-                        <button id="nav-link-login" type="submit" data-bs-toggle="modal" data-bs-target="#loginModal">DASHBOARD</button>
+                        <button type="submit" >DASHBOARD</button>
                     </form>
                 </div>
             {{else}}
                 {{#if colaborador}}
                     <form action="/colaborador" method="GET">
-                        <button id="nav-link-login" type="submit" data-bs-toggle="modal" data-bs-target="#loginModal">HOME</button>
+                        <button type="submit" >HOME</button>
                     </form>
                 {{else}}
                     <div class="nav-item-login">
@@ -80,7 +80,7 @@
                                 <form action="/login" method="POST">
                                     <div class="mb-3 mt-4">
                                         <label for="exampleInputEmail1" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <input type="text" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label">Password</label>
