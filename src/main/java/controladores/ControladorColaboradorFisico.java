@@ -14,6 +14,7 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
+import org.hibernate.NonUniqueResultException;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import retrofit2.Call;
@@ -264,8 +265,10 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         //Datos para el usuario
         Validator<String> usuario = ctx.formParamAsClass("emailUsuario", String.class)
                 .check(v -> !v.isEmpty()  , "El nombre de usuario o email del colaborador es obligatorio");
+        //Falta agregar que no se pueda crear 2 usuarios con el mismo username.
         Validator<String> contrasenia = ctx.formParamAsClass("password", String.class)
                 .check(v -> !v.isEmpty()  , "La contraseña del colaborador es obligatorio");
+
         Validator<String> repContrasenia = ctx.formParamAsClass("repeatPassword", String.class)
                 .check(v -> !v.isEmpty()  , "La repetción de contraseña del colaborador es obligatorio")
                 .check(rp -> rp.equals(contrasenia.get()),"La contraseñas no son las mismas!");
@@ -317,30 +320,6 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             repositorioColaboradores.guardar(colaboradorFisico);
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-        System.out.println(nombre.get());
-        System.out.println(apellido.get());
-        System.out.println(email.get());
-        System.out.println(wsp.get());
-        System.out.println(telegram.get());
-        System.out.println(domicilio.get());
-        System.out.println(nacimiento.get());
-        System.out.println(usuario.get());
-        System.out.println(contrasenia.get());
-        System.out.println(repContrasenia.get());
         ctx.redirect("/");
     }
-
-
 }

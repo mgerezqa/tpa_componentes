@@ -33,6 +33,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             if(password.equals(usuarioActual.getContrasenia())){
                 List<Rol> roles = repositorioRoles.buscarRolesPorIdUsuario(usuarioActual.getId());
                 ctx.sessionAttribute("id_usuario", usuarioActual.getId());
+                ctx.sessionAttribute("rol", roles.get(0).getNombre().toString()); //Muy dependiende, hay que hacerlo dinamico, el guardar todos los roles del usuario
                 if(roles.stream().anyMatch(rol -> RoleENUM.ADMIN.equals(rol.getNombre()))){
                     ctx.redirect("/dashboard");
                 }
@@ -82,9 +83,10 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             repositorioUsuarios.guardar(usuario);
             ctx.sessionAttribute("nombre", nombre);
             ctx.sessionAttribute("id_usuario", usuario.getId());
+            ctx.sessionAttribute("rol",RoleENUM.ADMIN.toString());
         });
 
-        ctx.result("Usuario ADMIN creado exitosamente");
+        ctx.redirect("/dashboard");
     }
 
     @Override
