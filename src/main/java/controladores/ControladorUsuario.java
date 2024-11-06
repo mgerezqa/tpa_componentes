@@ -12,6 +12,7 @@ import utils.ICrudViewsHandler;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioUsuarios repositorioUsuarios;
@@ -32,8 +33,13 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             Usuario usuarioActual = usuario.get();
             if(password.equals(usuarioActual.getContrasenia())){
                 List<Rol> roles = repositorioRoles.buscarRolesPorIdUsuario(usuarioActual.getId());
+                List<String> rolesString = roles.stream()
+                    .map(rol -> rol.getNombre().toString())
+                    .collect(Collectors.toList());
+                
                 ctx.sessionAttribute("id_usuario", usuarioActual.getId());
-                ctx.sessionAttribute("rol", roles.get(0).getNombre().toString()); //Muy dependiende, hay que hacerlo dinamico, el guardar todos los roles del usuario
+                ctx.sessionAttribute("roles", rolesString);
+                
                 if(roles.stream().anyMatch(rol -> RoleENUM.ADMIN.equals(rol.getNombre()))){
                     ctx.redirect("/dashboard");
                 }

@@ -7,6 +7,7 @@ import io.javalin.Javalin;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,10 +26,11 @@ public class Router implements SimplePersistenceTest{
         //Render la pagina principal
         app.get("/",(ctx)->{
             Map<String, Object> model = new HashMap<>();
-            System.out.println(Optional.ofNullable(ctx.sessionAttribute("rol")));
-            System.out.println(Optional.ofNullable(ctx.sessionAttribute("id_usuario")));
-
-            model.put("admin", Objects.equals(ctx.sessionAttribute("rol"), RoleENUM.ADMIN.toString()));
+            List<String> roles = ctx.sessionAttribute("roles");
+            
+            boolean esAdmin = roles != null && roles.contains(RoleENUM.ADMIN.toString());
+            
+            model.put("admin", esAdmin);
             ctx.render("/index.hbs", model);
         });
 
