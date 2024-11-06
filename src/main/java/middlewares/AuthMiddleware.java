@@ -21,8 +21,7 @@ public class AuthMiddleware {
             Set<RouteRole> rolesRequeridos = ctx.routeRoles();
             if (!rolesRequeridos.isEmpty()) {
                 Long usuarioId = ctx.sessionAttribute("id_usuario");
-                System.out.println(rolesRequeridos);
-                System.out.println(usuarioId);
+
                 if (usuarioId == null) {
                     throw new AccessDeniedException();
                 }

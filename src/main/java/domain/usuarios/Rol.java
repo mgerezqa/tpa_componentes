@@ -20,8 +20,12 @@ public class Rol{
     private Long id;
     @Enumerated(EnumType.STRING)
     private RoleENUM nombre;
-    @OneToMany
-    @JoinColumn(name = "id_permiso")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "rol_permiso",
+            joinColumns = @JoinColumn(name = "rol_id"),
+            inverseJoinColumns = @JoinColumn(name = "permiso_id")
+    )
     private List<Permiso> permisos;
     public Rol(RoleENUM nombre) {
         this.nombre = nombre;

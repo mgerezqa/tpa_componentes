@@ -32,7 +32,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         if (usuario.isPresent()) {
             Usuario usuarioActual = usuario.get();
             if(password.equals(usuarioActual.getContrasenia())){
-                List<Rol> roles = repositorioRoles.buscarRolesPorIdUsuario(usuarioActual.getId());
+                List<Rol> roles = usuario.get().getRoles();
                 List<String> rolesString = roles.stream()
                     .map(rol -> rol.getNombre().toString())
                     .collect(Collectors.toList());
@@ -87,9 +87,14 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             usuario.agregarRol(rolAdmin);
 
             repositorioUsuarios.guardar(usuario);
+
             ctx.sessionAttribute("nombre", nombre);
             ctx.sessionAttribute("id_usuario", usuario.getId());
-            ctx.sessionAttribute("rol",RoleENUM.ADMIN.toString());
+            List<String> rolesString = usuario.getRoles().stream()
+                    .map(rol -> rol.getNombre().toString())
+                    .collect(Collectors.toList());
+            ctx.sessionAttribute("roles", rolesString);
+
         });
 
         ctx.redirect("/dashboard");

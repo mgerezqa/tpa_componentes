@@ -12,8 +12,8 @@ public class RepositorioRoles extends Repositorio implements WithSimplePersisten
     public List<Rol> buscarRolesPorIdUsuario(Long idUsuario) {
         String sql = "SELECT r.* " +
                 "FROM rol r " +
-                "INNER JOIN usuario_rol ur ON r.id = ur.id_rol " +
-                "WHERE ur.id_usuario = ?";
+                "INNER JOIN usuario_rol ur ON r.id = ur.rol_id " +
+                "WHERE ur.usuario_id = ?";
 
         return entityManager()
                 .createNativeQuery(sql, Rol.class)

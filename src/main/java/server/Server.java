@@ -32,7 +32,7 @@ public class Server {
 
     public static void init() {
         if (app == null) {
-            Integer port = Integer.parseInt(Config.getInstance().getProperty("server_port"));
+            int port = Integer.parseInt(Config.getInstance().getProperty("server_port"));
             app = Javalin.create(config()).start(port);
             new AuthMiddleware(ServiceLocator.instanceOf(RepositorioRoles.class)).apply(app);
             AppHandlers.applyHandlers(app);
