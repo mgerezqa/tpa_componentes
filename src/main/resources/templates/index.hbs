@@ -58,9 +58,11 @@
                 </div>
             {{else}}
                 {{#if colaborador}}
-                    <form action="/colaborador" method="GET">
-                        <button type="submit" >HOME</button>
-                    </form>
+                    <div class="nav-item-login">
+                        <form action="/colaborador" method="GET">
+                            <button type="submit" >HOME</button>
+                        </form>
+                    </div>
                 {{else}}
                     <div class="nav-item-login">
                         <button id="nav-link-login" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
@@ -461,7 +463,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="emailUsuario" class="form-label">Correo Electrónico para Registro</label>
-                                            <input type="email" class="form-control" id="emailUsuario" name="emailUsuario" required>
+                                            <input type="text" class="form-control" id="emailUsuario" name="emailUsuario" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="password" class="form-label">Contraseña</label>

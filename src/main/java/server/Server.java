@@ -8,6 +8,8 @@ import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.suscripciones.TipoDeSuscripcionENUM;
+import domain.usuarios.Rubro;
+import domain.usuarios.TipoRazonSocial;
 import middlewares.AuthMiddleware;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import server.exceptions.CustomEnumConversionException;
@@ -82,6 +84,8 @@ public class Server {
             config.validation.register(TamanioArea.class, v->  TamanioArea.valueOf(v.toUpperCase()));
             config.validation.register(EstadoHeladera.class, v->  EstadoHeladera.valueOf(v.toUpperCase()));
             config.validation.register(TipoDeSuscripcionENUM.class, v->  TipoDeSuscripcionENUM.valueOf(v.toUpperCase()));
+            config.validation.register(TipoRazonSocial.class, v->  TipoRazonSocial.valueOf(v.toUpperCase()));
+            config.validation.register(Rubro.class, v->  Rubro.valueOf(v.toUpperCase()));
 
         };
     }

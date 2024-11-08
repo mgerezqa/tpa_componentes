@@ -33,8 +33,9 @@ public class Router implements SimplePersistenceTest{
             List<String> roles = ctx.sessionAttribute("roles");
             
             boolean esAdmin = roles != null && roles.contains(RoleENUM.ADMIN.toString());
-            
+            boolean esColab = roles != null && roles.contains(RoleENUM.COLABORADOR.toString());
             model.put("admin", esAdmin);
+            model.put("colaborador", esColab);
             ctx.render("/index.hbs", model);
         });
 

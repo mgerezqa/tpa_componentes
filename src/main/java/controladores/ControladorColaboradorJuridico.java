@@ -290,11 +290,11 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Validator<String> razonSocial = context.formParamAsClass("razonSocial", String.class)
             .check(v -> !v.isEmpty(), "La razón social es obligatoria");
         
-        Validator<String> tipoOrganizacion = context.formParamAsClass("tipoOrganizacion", String.class)
-            .check(v -> !v.isEmpty(), "El tipo de organización es obligatorio");
+        Validator<TipoRazonSocial> tipoOrganizacion = context.formParamAsClass("tipoOrganizacion", TipoRazonSocial.class)
+            .check(Objects::nonNull, "El tipo de organización es obligatorio");
         
-        Validator<String> tipoRubro = context.formParamAsClass("tipoRubro", String.class)
-            .check(v -> !v.isEmpty(), "El rubro es obligatorio");
+        Validator<Rubro> tipoRubro = context.formParamAsClass("tipoRubro", Rubro.class)
+            .check(Objects::nonNull, "El rubro es obligatorio");
 
         NullableValidator<String> email = context.formParamAsClass("emailInput", String.class)
                 .allowNullable();
@@ -324,34 +324,40 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
             context.redirect("/");
             return;
         }
+        ColaboradorJuridico colaborador = new ColaboradorJuridico(
+                razonSocial.get(),tipoOrganizacion.get(),
+                tipoRubro.get()
+        );
         if(email.get() != null && !email.get().trim().isEmpty()){
             Email email1 = new Email(email.get());
+            colaborador.agregarMedioDeContacto(email1);
         }
         if(wsp.get() != null && !wsp.get().trim().isEmpty()){
             Whatsapp whatsapp = new Whatsapp(wsp.get());
+            colaborador.agregarMedioDeContacto(whatsapp);
         }
         if(telegram.get() != null && !telegram.get().trim().isEmpty()){
             Telegram userTelegram = new Telegram(telegram.get());
+            colaborador.agregarMedioDeContacto(userTelegram);
         }
         //FALTA agregar la validación de que almenos uno deba ser obligatorio, por ahora se permite la nada de los 3
         if(domicilio.get() != null && !domicilio.get().trim().isEmpty()){
             Calle calle = new Calle();
+            calle.setNombre(domicilio.get());
+            Ubicacion direccion = new Ubicacion();
+            direccion.setCalle(calle);
+            colaborador.agregarDireccion(direccion);
         }
-        withTransaction(() -> {
-            /*Usuario nuevoUsuario = new Usuario(email.get(), contrasenia.get());
+        Usuario nuevoUsuario = new Usuario(usuario.get(), contrasenia.get());
 
+        withTransaction(() -> {
             // Crear y guardar el colaborador jurídico
-            ColaboradorJuridico colaborador = new ColaboradorJuridico(
-                razonSocial.get(),
-                TipoRazonSocial.valueOf(tipoOrganizacion.get().toUpperCase()),
-                Rubro.valueOf(tipoRubro.get().toUpperCase())
-            );
             Rol rolColaborador = repositorioRoles.buscarRolPorNombre(RoleENUM.COLABORADOR);
             colaborador.setUsuario(nuevoUsuario);
             nuevoUsuario.agregarRol(rolColaborador);
 
             // Persistir ambas entidades
-            repositorioColaboradores.guardar(colaborador);*/
+            repositorioColaboradores.guardar(colaborador);
         });
 
         context.redirect("/");

@@ -43,6 +43,9 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
                 if(roles.stream().anyMatch(rol -> RoleENUM.ADMIN.equals(rol.getNombre()))){
                     ctx.redirect("/dashboard");
                 }
+                if(roles.stream().anyMatch(rol -> RoleENUM.COLABORADOR.equals(rol.getNombre()))){
+                    ctx.redirect("/");
+                }
                 //ACA se sigue haciendo el redirect en caso de que tenga el rol de colaborador y mandarlo a la interface de colaboradores
             }else{
                 ctx.redirect("/"); //Mostrar error de contraseña invalida
