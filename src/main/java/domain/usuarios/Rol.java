@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -31,4 +32,19 @@ public class Rol{
         this.nombre = nombre;
         this.permisos = new ArrayList<>();
     }
+
+    public boolean tienePermiso(Permiso permiso) {
+        return this.permisos.contains(permiso);
+    }
+
+    public void agregarPermiso(Permiso permiso) {
+        if (!this.permisos.contains(permiso)) {
+            this.permisos.add(permiso);
+        }
+    }
+
+    public void quitarPermiso(Permiso permiso) {
+        this.permisos.remove(permiso);
+    }
+
 }

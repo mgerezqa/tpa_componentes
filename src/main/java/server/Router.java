@@ -15,6 +15,10 @@ import java.util.Optional;
 public class Router implements SimplePersistenceTest{
 
     public void init(Javalin app) {
+        app.before(ctx -> {
+            entityManager().clear();
+        });
+
         //Testing sesiones basica
         app.get("/guardar-en-sesion", ctx -> {
             ctx.sessionAttribute("nombre", ctx.queryParam("nombre"));
@@ -34,9 +38,6 @@ public class Router implements SimplePersistenceTest{
             ctx.render("/index.hbs", model);
         });
 
-        app.before(ctx -> {
-            entityManager().clear();
-        });
 
         //Dashboard
         app.get("/dashboard",(ctx) ->{
@@ -108,6 +109,7 @@ public class Router implements SimplePersistenceTest{
 
         //signup de colaborador fisico
         app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);
+        app.post("/juridico/signup", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::signup);
 
         // Login con usuario
         app.post("/login",ServiceLocator.instanceOf(ControladorUsuario.class)::login);

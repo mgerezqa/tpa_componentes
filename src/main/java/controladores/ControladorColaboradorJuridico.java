@@ -2,11 +2,17 @@ package controladores;
 
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
+import domain.contacto.Telegram;
+import domain.contacto.Whatsapp;
+import domain.geografia.Calle;
+import domain.geografia.Ubicacion;
 import domain.usuarios.*;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import io.javalin.validation.NullableValidator;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import utils.ICrudViewsHandler;
 import io.javalin.http.HttpStatus;
@@ -19,10 +25,12 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioUsuarios repositorioUsuarios;
-
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios) {
+    private RepositorioRoles repositorioRoles;
+    
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
+        this.repositorioRoles = repositorioRoles;
     }
 
     @Override //LISTO
@@ -275,6 +283,78 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     @Override
     public void show(Context context) {
 
+    }
+
+    public void signup(Context context) {
+        // Validación de campos del formulario
+        Validator<String> razonSocial = context.formParamAsClass("razonSocial", String.class)
+            .check(v -> !v.isEmpty(), "La razón social es obligatoria");
+        
+        Validator<String> tipoOrganizacion = context.formParamAsClass("tipoOrganizacion", String.class)
+            .check(v -> !v.isEmpty(), "El tipo de organización es obligatorio");
+        
+        Validator<String> tipoRubro = context.formParamAsClass("tipoRubro", String.class)
+            .check(v -> !v.isEmpty(), "El rubro es obligatorio");
+
+        NullableValidator<String> email = context.formParamAsClass("emailInput", String.class)
+                .allowNullable();
+        NullableValidator<String> wsp = context.formParamAsClass("nro_whatsapp", String.class)
+                .allowNullable();
+        NullableValidator<String> telegram = context.formParamAsClass("telegramInput", String.class)
+                .allowNullable();
+        //Opcionales (Opcional)
+        NullableValidator<String> domicilio = context.formParamAsClass("domicilio", String.class)
+                .allowNullable();
+
+        //Datos para el usuario
+        Validator<String> usuario = context.formParamAsClass("emailUsuario", String.class)
+                .check(v -> !v.isEmpty()  , "El nombre de usuario o email del colaborador es obligatorio");
+        //Falta agregar que no se pueda crear 2 usuarios con el mismo username.
+        Validator<String> contrasenia = context.formParamAsClass("password", String.class)
+                .check(v -> !v.isEmpty()  , "La contraseña del colaborador es obligatorio");
+
+        Validator<String> repContrasenia = context.formParamAsClass("repeatPassword", String.class)
+                .check(v -> !v.isEmpty()  , "La repetción de contraseña del colaborador es obligatorio")
+                .check(rp -> rp.equals(contrasenia.get()),"La contraseñas no son las mismas!");
+
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(razonSocial,tipoOrganizacion,tipoRubro,email,wsp,telegram,domicilio,usuario,contrasenia,repContrasenia);
+
+        if(!errors.isEmpty()){
+            System.out.println(errors);
+            context.redirect("/");
+            return;
+        }
+        if(email.get() != null && !email.get().trim().isEmpty()){
+            Email email1 = new Email(email.get());
+        }
+        if(wsp.get() != null && !wsp.get().trim().isEmpty()){
+            Whatsapp whatsapp = new Whatsapp(wsp.get());
+        }
+        if(telegram.get() != null && !telegram.get().trim().isEmpty()){
+            Telegram userTelegram = new Telegram(telegram.get());
+        }
+        //FALTA agregar la validación de que almenos uno deba ser obligatorio, por ahora se permite la nada de los 3
+        if(domicilio.get() != null && !domicilio.get().trim().isEmpty()){
+            Calle calle = new Calle();
+        }
+        withTransaction(() -> {
+            /*Usuario nuevoUsuario = new Usuario(email.get(), contrasenia.get());
+
+            // Crear y guardar el colaborador jurídico
+            ColaboradorJuridico colaborador = new ColaboradorJuridico(
+                razonSocial.get(),
+                TipoRazonSocial.valueOf(tipoOrganizacion.get().toUpperCase()),
+                Rubro.valueOf(tipoRubro.get().toUpperCase())
+            );
+            Rol rolColaborador = repositorioRoles.buscarRolPorNombre(RoleENUM.COLABORADOR);
+            colaborador.setUsuario(nuevoUsuario);
+            nuevoUsuario.agregarRol(rolColaborador);
+
+            // Persistir ambas entidades
+            repositorioColaboradores.guardar(colaborador);*/
+        });
+
+        context.redirect("/");
     }
 
 }

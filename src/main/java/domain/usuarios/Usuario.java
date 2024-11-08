@@ -4,6 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -36,5 +37,21 @@ public class Usuario {
     }
     public void agregarRol(Rol rol) {
         this.roles.add(rol);
+    }
+
+    public boolean tieneRol(RoleENUM rol) {
+        return this.roles.stream()
+            .map(Rol::getNombre)
+            .anyMatch(nombre -> nombre.equals(rol));
+    }
+
+    public boolean tieneAlgunRol(Set<RoleENUM> rolesRequeridos) {
+        return this.roles.stream()
+            .map(Rol::getNombre)
+            .anyMatch(rolesRequeridos::contains);
+    }
+
+    public void quitarRol(Rol rol) {
+        this.roles.remove(rol);
     }
 }

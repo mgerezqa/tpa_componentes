@@ -388,7 +388,7 @@
                                     </div>
                                 </form>
                                 <!-- Formulario para Persona Jurídica -->
-                                <form action="/colaborador-juridico" method="POST" id="formularioPersonaJuridica" style="display: none;">
+                                <form action="/juridico/signup" method="POST" id="formularioPersonaJuridica" style="display: none;">
                                     <h3>Datos </h3>
                                     <div class="mb-3">
                                         <label for="razonSocial" class="form-label">Razón Social</label>
@@ -438,15 +438,15 @@
                                         <!-- Campos dinámicos para los medios de contacto -->
                                         <div class="mb-3" id="whatsappContainer" style="display: none;">
                                             <label for="whatsappInput" class="form-label">Número de WhatsApp</label>
-                                            <input type="tel" class="form-control" id="whatsappInput" placeholder="Ingresar número de teléfono">
+                                            <input type="tel" class="form-control" id="whatsappInput" name="whatsappInput" placeholder="Ingresar número de teléfono">
                                         </div>
                                         <div class="mb-3" id="telegramContainer" style="display: none;">
                                             <label for="telegramInput" class="form-label">Usuario de Telegram</label>
-                                            <input type="text" class="form-control" id="telegramInput" placeholder="Ingresar nombre de usuario">
+                                            <input type="text" class="form-control" id="telegramInput" name="telegramInput" placeholder="Ingresar nombre de usuario">
                                         </div>
                                         <div class="mb-3" id="emailContainer" style="display: none;">
                                             <label for="emailInput" class="form-label">Correo Electrónico</label>
-                                            <input type="email" class="form-control" id="emailInput" placeholder="Ingresar correo electrónico">
+                                            <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Ingresar correo electrónico">
                                         </div>
                                         <!-- Opcional -->
                                         <div class="mb-3">
