@@ -49,25 +49,23 @@
             </div>
         </div>
         <!-- Login  -->
-        <div id="container login-placeholder" >
+        <div id="container login-placeholder">
             {{#if admin}}
                 <div class="nav-item-login">
                     <form action="/dashboard" method="GET">
-                        <button type="submit" >DASHBOARD</button>
+                        <button type="submit">DASHBOARD</button>
+                    </form>
+                </div>
+            {{else if colaborador}}
+                <div class="nav-item-login">
+                    <form action="/home" method="GET">
+                        <button type="submit">HOME</button>
                     </form>
                 </div>
             {{else}}
-                {{#if colaborador}}
-                    <div class="nav-item-login">
-                        <form action="/colaborador" method="GET">
-                            <button type="submit" >HOME</button>
-                        </form>
-                    </div>
-                {{else}}
-                    <div class="nav-item-login">
-                        <button id="nav-link-login" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                    </div>
-                {{/if}}
+                <div class="nav-item-login">
+                    <button id="nav-link-login" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                </div>
             {{/if}}
         </div>
         <!-- Modal Login  -->

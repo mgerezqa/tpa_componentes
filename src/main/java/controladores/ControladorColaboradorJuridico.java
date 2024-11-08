@@ -352,10 +352,9 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
         withTransaction(() -> {
             // Crear y guardar el colaborador jurídico
-            Rol rolColaborador = repositorioRoles.buscarRolPorNombre(RoleENUM.COLABORADOR);
+            Rol rolColaborador = repositorioRoles.buscarRolPorNombre(RoleENUM.JURIDICO);
             colaborador.setUsuario(nuevoUsuario);
             nuevoUsuario.agregarRol(rolColaborador);
-
             // Persistir ambas entidades
             repositorioColaboradores.guardar(colaborador);
         });

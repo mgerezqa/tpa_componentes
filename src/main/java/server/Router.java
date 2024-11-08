@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class Router implements SimplePersistenceTest{
 
@@ -31,11 +32,17 @@ public class Router implements SimplePersistenceTest{
         app.get("/",(ctx)->{
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
-            
+
             boolean esAdmin = roles != null && roles.contains(RoleENUM.ADMIN.toString());
-            boolean esColab = roles != null && roles.contains(RoleENUM.COLABORADOR.toString());
+
+            boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
+            boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
+            boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
+
+            model.put("tecnico",esTecnico);
+            model.put("fisico",esFisico);
+            model.put("juridico",esJuridico);
             model.put("admin", esAdmin);
-            model.put("colaborador", esColab);
             ctx.render("/index.hbs", model);
         });
 
@@ -136,7 +143,7 @@ public class Router implements SimplePersistenceTest{
             modal.put("fisico",esFisico);
             modal.put("juridico",esJuridico);
             ctx.render("/home/home.hbs",modal);
-        });
+        },RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
     }
 
 }

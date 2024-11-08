@@ -321,7 +321,6 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             nuevoUsuario.agregarRol(rolFisico);
             repositorioColaboradores.guardar(colaboradorFisico);
         });
-
         ctx.redirect("/");
     }
 }
