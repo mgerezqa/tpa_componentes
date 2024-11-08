@@ -1,0 +1,85 @@
+body{
+    display: flex;
+    flex-flow: column nowrap;
+    overflow-y: hidden;
+    height: 100vh;
+    min-width: fit-content;
+}
+
+header{
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #C45D08;
+    color: white;
+    user-select: none;
+}
+.link_logout{
+    color: white;
+}
+
+main{
+    flex-grow: 1;
+    overflow-y: auto;
+    min-width: fit-content;
+}
+
+.boton{
+    color: white;
+    background-color: #1A73E8;
+    border-radius: 1rem;
+    border: .2rem solid #1A73E8;
+    transition: color ease .25s, background-color ease .25s;
+    user-select: none;
+    text-align: center;
+    align-content: center;
+    text-decoration: none;
+}
+.boton:active, .btn_seleccion_contribucion:not(.collapsed){
+    background-color: white;
+    color: #1A73E8;
+}
+.boton_rojo{
+    background-color: red;
+    border-color: red;
+}
+.boton_rojo:active{
+    color: red;
+}
+.boton_verde{
+    background-color: green;
+    border-color: green;
+}
+.boton_verde:active{
+    color: green;
+}
+.boton_titulo{
+    padding: 0 .5rem;
+}
+
+.contenedor_titulo_pagina{
+    user-select: none;
+    font-size: 2rem;
+}
+
+.titulo{
+    text-align: center;
+    flex-grow: 1;
+    color: white;
+    background-color: #C45D08;
+    border-radius: 1rem;
+    align-content: center;
+}
+.contenedor_datos{
+    background-color: #ebebeb;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* cambio de color de check en formularios de bootstrap */
+.form-check-input:checked{
+    border-color: #C45D08;
+    background-color: #C45D08;
+}

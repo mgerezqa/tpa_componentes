@@ -6,6 +6,8 @@ import domain.contacto.Whatsapp;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.usuarios.ColaboradorFisico;
+import domain.usuarios.Rol;
+import domain.usuarios.RoleENUM;
 import domain.usuarios.Usuario;
 import dtos.requests.ColaboradorFisicoInputDTO;
 import dtos.responses.ColaboradorFisicoOutputDTO;
@@ -16,8 +18,8 @@ import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import org.hibernate.NonUniqueResultException;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
-import retrofit2.Call;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
@@ -30,10 +32,12 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioUsuarios repositorioUsuarios;
+    private RepositorioRoles repositorioRoles;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
+        this.repositorioRoles = repositorioRoles;
     }
 
     @Override // funciona correctamente
@@ -282,11 +286,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         }
 
         //Creación de las instacias colaborador fisico y usuario correspondiente
-        ColaboradorFisico colaboradorFisico = new ColaboradorFisico();
-
-        colaboradorFisico.setNombre(nombre.get());
-        colaboradorFisico.setApellido(apellido.get());
-        colaboradorFisico.setActivo(true); //HARDCODEO EL ACTIVO a true ver?
+        ColaboradorFisico colaboradorFisico = new ColaboradorFisico(nombre.get(),apellido.get());
 
         if(email.get() != null && !email.get().trim().isEmpty()){
             Email email1 = new Email(email.get());
@@ -317,6 +317,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         colaboradorFisico.setUsuario(nuevoUsuario);
 
         withTransaction(()->{
+            Rol rolFisico = repositorioRoles.buscarRolPorNombre(RoleENUM.FISICO);
+            nuevoUsuario.agregarRol(rolFisico);
             repositorioColaboradores.guardar(colaboradorFisico);
         });
 
