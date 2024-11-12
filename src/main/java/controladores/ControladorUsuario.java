@@ -134,4 +134,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     public void remove(Context context) {
 
     }
+    public void perfil(Context ctx) {
+        ctx.render("/home/perfil.hbs");
+    }
 }

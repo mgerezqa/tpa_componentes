@@ -130,6 +130,8 @@ public class Router implements SimplePersistenceTest{
 
         // Creación de usuario ADMIN
         app.get("/crear-admin", ServiceLocator.instanceOf(ControladorUsuario.class)::create);
+        // /perfil
+        app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil);
 
         //Home -> (Dashboard de colaboradores, tecnicos
         app.get("/home",(ctx)->{
