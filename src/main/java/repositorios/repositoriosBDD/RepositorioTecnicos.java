@@ -55,15 +55,13 @@ public class RepositorioTecnicos extends Repositorio implements WithSimplePersis
             entityManager().remove(tecnico);
         }
     }
+    
     @SuppressWarnings("unchecked")
-    public Optional<Tecnico> buscarTecPorIdUsuario( Long idUsuario ) {
-        String sql = "SELECT t.* " +
-                "FROM tecnico t " +
-                "WHERE t.usuario_id = ?";
-
-        return (Optional<Tecnico>) entityManager()
-                .createNativeQuery(sql, Tecnico.class)
-                .setParameter(1, idUsuario)
-                .getSingleResult();
+    public Optional<Tecnico> buscarTecPorIdUsuario(Long idUsuario) {
+        return entityManager()
+                .createQuery("SELECT t FROM Tecnico t WHERE t.usuario.id = :idUsuario", Tecnico.class)
+                .setParameter("idUsuario", idUsuario)
+                .getResultStream()
+                .findFirst();
     }
 }

@@ -62,4 +62,12 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
                 .getResultList();
     }
 
+    public Optional<Colaborador> buscarColaboradorPorIdUsuario(Long idUsuario) {
+        return entityManager()
+                .createQuery("SELECT c FROM Colaborador c WHERE c.usuario.id = :idUsuario", Colaborador.class)
+                .setParameter("idUsuario", idUsuario)
+                .getResultStream()
+                .findFirst();
+    }
+
 }

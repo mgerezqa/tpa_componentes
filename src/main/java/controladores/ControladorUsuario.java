@@ -163,15 +163,15 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             
             // Determinar qué vista renderizar según el rol
             if (roles.contains(RoleENUM.TECNICO.toString())) {
-                Optional<Object> tecnico = repositorioTecnicos.buscarPorID(Tecnico.class,usuarioId);
+                Optional<Tecnico> tecnico = repositorioTecnicos.buscarTecPorIdUsuario(usuarioId);
                 if(tecnico.isPresent()){
-                    Tecnico tecnico1 = (Tecnico) tecnico.get();
+                    Tecnico tecnico1 = tecnico.get();
                     model.put("datos", tecnico1);
                 }
                 ctx.render("home/perfiles/tecnico.hbs", model);
             } 
             else if (roles.contains(RoleENUM.FISICO.toString())) {
-                Optional<Object> fisico = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,usuarioId);
+                Optional<Colaborador> fisico = repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId);
                 if(fisico.isPresent()){
                     ColaboradorFisico colaborador = (ColaboradorFisico) fisico.get();
                     model.put("datos", colaborador);
@@ -180,7 +180,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
                 ctx.render("home/perfiles/fisico.hbs", model);
             }
             else if (roles.contains(RoleENUM.JURIDICO.toString())) {
-                Optional<Object> juridico = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,usuarioId);
+                Optional<Colaborador> juridico = repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId);
                 if(juridico.isPresent()){
                     ColaboradorJuridico colaborador = (ColaboradorJuridico) juridico.get();
                     System.out.println(colaborador);
