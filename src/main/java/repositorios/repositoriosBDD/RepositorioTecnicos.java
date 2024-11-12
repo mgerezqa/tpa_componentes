@@ -1,10 +1,12 @@
 package repositorios.repositoriosBDD;
 
+import domain.usuarios.Rol;
 import domain.usuarios.Tecnico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RepositorioTecnicos extends Repositorio implements WithSimplePersistenceUnit {
 
@@ -52,5 +54,16 @@ public class RepositorioTecnicos extends Repositorio implements WithSimplePersis
         for (Tecnico tecnico : tecnicos) {
             entityManager().remove(tecnico);
         }
+    }
+    @SuppressWarnings("unchecked")
+    public Optional<Tecnico> buscarTecPorIdUsuario( Long idUsuario ) {
+        String sql = "SELECT t.* " +
+                "FROM tecnico t " +
+                "WHERE t.usuario_id = ?";
+
+        return (Optional<Tecnico>) entityManager()
+                .createNativeQuery(sql, Tecnico.class)
+                .setParameter(1, idUsuario)
+                .getSingleResult();
     }
 }

@@ -34,6 +34,9 @@ public class Tecnico {
 
     @Embedded
     private Cuil cuil;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "tecnico_id", referencedColumnName = "id")

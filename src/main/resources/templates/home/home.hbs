@@ -81,15 +81,20 @@
                             <span>MAPA ESTACIONES</span>
                         </a>
                     </div>
-                {{else}}
-                    {{#if fisico}}
-                        <div class="col mt-3 px-3">
-                            <a href="mapa.html" class="boton link_operacion" >
-                                <i class="bi bi-geo-alt"></i> <!-- Ícono de canjes -->
-                                <span>MAPA ESTACIONES</span>
-                            </a>
-                        </div>
-                    {{/if}}
+                {{else if fisico}}
+                    <div class="col mt-3 px-3">
+                        <a href="mapa.html" class="boton link_operacion" >
+                            <i class="bi bi-geo-alt"></i> <!-- Ícono de canjes -->
+                            <span>MAPA ESTACIONES</span>
+                        </a>
+                    </div>
+                {{else if juridico}}
+                    <div class="col mt-3 px-3">
+                        <a href="mapa.html" class="boton link_operacion" >
+                            <i class="bi bi-geo-alt"></i> <!-- Ícono de canjes -->
+                            <span>MAPA ESTACIONES</span>
+                        </a>
+                    </div>
                 {{/if}}
             </div>
         </div>

@@ -11,7 +11,10 @@ import domain.suscripciones.TipoDeSuscripcionENUM;
 import domain.usuarios.Rubro;
 import domain.usuarios.TipoRazonSocial;
 import middlewares.AuthMiddleware;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioRoles;
+import repositorios.repositoriosBDD.RepositorioTecnicos;
+import repositorios.repositoriosBDD.RepositorioUsuarios;
 import server.exceptions.CustomEnumConversionException;
 import server.handlers.AppHandlers;
 import utils.Initializer;
@@ -41,7 +44,8 @@ public class Server {
             new Router().init(app);
 
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
-                Initializer.init();
+                Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class));
+                initializer.init();
             }
         }
     }
