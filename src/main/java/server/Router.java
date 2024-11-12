@@ -130,22 +130,16 @@ public class Router implements SimplePersistenceTest{
 
         // Creación de usuario ADMIN
         app.get("/crear-admin", ServiceLocator.instanceOf(ControladorUsuario.class)::create);
+
+        //Rutas del dashboard de los colaboradores,tecnicos
+
+        // /Home -> Dashboard de colaboradores, tecnicos
+        app.get("/home",ServiceLocator.instanceOf(ControladorUsuario.class)::home,RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
+
         // /perfil
-        app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil);
+        app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
 
-        //Home -> (Dashboard de colaboradores, tecnicos
-        app.get("/home",(ctx)->{
-            Map<String,Object> modal = new HashMap<>();
-            List<String> roles = ctx.sessionAttribute("roles");
-            boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
-            boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
-            boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
 
-            modal.put("tecnico",esTecnico);
-            modal.put("fisico",esFisico);
-            modal.put("juridico",esJuridico);
-            ctx.render("/home/home.hbs",modal);
-        },RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
     }
 
 }

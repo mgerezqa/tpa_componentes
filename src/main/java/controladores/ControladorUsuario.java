@@ -10,7 +10,9 @@ import repositorios.repositoriosBDD.RepositorioUsuarios;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import utils.ICrudViewsHandler;
 import javax.persistence.NoResultException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -134,7 +136,27 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     public void remove(Context context) {
 
     }
+    public void home(Context ctx){
+        Map<String,Object> modal = new HashMap<>();
+        List<String> roles = ctx.sessionAttribute("roles");
+        boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
+        boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
+        boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
+
+        modal.put("tecnico",esTecnico);
+        modal.put("fisico",esFisico);
+        modal.put("juridico",esJuridico);
+        ctx.render("home/home.hbs",modal);
+    }
     public void perfil(Context ctx) {
-        ctx.render("/home/perfil.hbs");
+        Map<String,Object> modal = new HashMap<>();
+        List<String> roles = ctx.sessionAttribute("roles");
+        boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
+        boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
+        boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
+        modal.put("tecnico",esTecnico);
+        modal.put("fisico",esFisico);
+        modal.put("juridico",esJuridico);
+        ctx.render("home/perfil.hbs",modal);
     }
 }
