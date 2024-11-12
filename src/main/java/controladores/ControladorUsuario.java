@@ -1,28 +1,29 @@
 package controladores;
 
-import domain.usuarios.Rol;
-import domain.usuarios.RoleENUM;
-import domain.usuarios.Usuario;
+import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioTecnicos;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import utils.ICrudViewsHandler;
 import javax.persistence.NoResultException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioRoles repositorioRoles;
+    private RepositorioColaboradores repositorioColaboradores;
+    private RepositorioTecnicos repositorioTecnicos;
 
-    public ControladorUsuario(RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles) {
+    public ControladorUsuario(RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioColaboradores repositorioColaboradores,RepositorioTecnicos repositorioTecnicos) {
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
+        this.repositorioColaboradores = repositorioColaboradores;
+        this.repositorioTecnicos = repositorioTecnicos;
     }
 
     public void login(Context ctx) {
@@ -149,14 +150,47 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         ctx.render("home/home.hbs",modal);
     }
     public void perfil(Context ctx) {
-        Map<String,Object> modal = new HashMap<>();
+        Long usuarioId = ctx.sessionAttribute("id_usuario");
         List<String> roles = ctx.sessionAttribute("roles");
-        boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
-        boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
-        boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
-        modal.put("tecnico",esTecnico);
-        modal.put("fisico",esFisico);
-        modal.put("juridico",esJuridico);
-        ctx.render("home/perfil.hbs",modal);
+        System.out.println(usuarioId);
+        System.out.println(roles);
+        Optional<Object> usuarioOptional =  repositorioUsuarios.buscarPorID(Usuario.class,usuarioId);
+        
+        if (usuarioOptional.isPresent()) {
+            Map<String,Object> model = new HashMap<>();
+            Usuario usuario = (Usuario) usuarioOptional.get();
+            model.put("usuario", usuario);
+            
+            // Determinar qué vista renderizar según el rol
+            if (roles.contains(RoleENUM.TECNICO.toString())) {
+                Optional<Object> tecnico = repositorioTecnicos.buscarPorID(Tecnico.class,usuarioId);
+                if(tecnico.isPresent()){
+                    Tecnico tecnico1 = (Tecnico) tecnico.get();
+                    model.put("datos", tecnico1);
+                }
+                ctx.render("home/perfiles/tecnico.hbs", model);
+            } 
+            else if (roles.contains(RoleENUM.FISICO.toString())) {
+                Optional<Object> fisico = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,usuarioId);
+                if(fisico.isPresent()){
+                    ColaboradorFisico colaborador = (ColaboradorFisico) fisico.get();
+                    model.put("datos", colaborador);
+                    System.out.println(colaborador);
+                }
+                ctx.render("home/perfiles/fisico.hbs", model);
+            }
+            else if (roles.contains(RoleENUM.JURIDICO.toString())) {
+                Optional<Object> juridico = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,usuarioId);
+                if(juridico.isPresent()){
+                    ColaboradorJuridico colaborador = (ColaboradorJuridico) juridico.get();
+                    System.out.println(colaborador);
+                    model.put("datos", colaborador);
+                }
+                ctx.render("home/perfiles/juridico.hbs", model);
+            }
+        } else {
+            ctx.status(HttpStatus.NOT_FOUND);
+            ctx.result("Usuario no encontrado");
+        }
     }
 }

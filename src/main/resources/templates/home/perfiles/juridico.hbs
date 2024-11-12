@@ -1,0 +1,117 @@
+{{#partial "formulario"}}
+    <form id="form_juridico">
+        <div class="row justify-content-center g-3 mb-4">
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_nombre_razon_social"
+                           value="Pepe" placeholder="Nombre" disabled>
+                    <label for="campo_nombre_razon_social">Razón Social</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center g-3 mb-4">
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <select class="entrada_form form-select shadow-none rounded-4" id="campo_tipo_empresa" disabled>
+                        <option value="1" selected>Empresa</option>
+                        <option value="2">Institución</option>
+                        <option value="3">Gubernamental</option>
+                        <option value="4">ONG</option>
+                    </select>
+                    <label for="campo_tipo_empresa">Tipo </label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center g-3 mb-4">
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_nombre_razon_social"
+                           value="Electronica" placeholder="Rubro" disabled>
+                    <label for="campo_nombre_razon_social">Rubro </label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center g-3 mb-4">
+            <div class="col-md-8">
+                <div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_direccion_juridico"
+                           value="Calle Falsa 123" placeholder="Dirección" disabled>
+                    <label for="campo_direccion_juridico">Dirección</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 mb-2 fst-italic text-muted text-center">- Seleccione la forma de contacto principal -</div>
+
+        <div class="row g-3 mb-4 text-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-text rounded-start-4">
+                        <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
+                               name="campo_contacto_preferido_juridico" checked disabled>
+                    </div>
+                    <div class="form-floating flex-grow-1">
+                        <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
+                               id="campo_whatsapp_juridico" value="123456789" placeholder="WhatsApp" disabled>
+                        <label for="campo_whatsapp_juridico">WhatsApp</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-text rounded-start-4">
+                        <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
+                               name="campo_contacto_preferido_juridico" disabled>
+                    </div>
+                    <div class="form-floating flex-grow-1">
+                        <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
+                               id="campo_telegram_juridico" value="987654321" placeholder="Telegram" disabled>
+                        <label for="campo_telegram_juridico">Telegram</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-text rounded-start-4">
+                        <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
+                               name="campo_contacto_preferido_juridico" disabled>
+                    </div>
+                    <div class="form-floating flex-grow-1">
+                        <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
+                               id="campo_email_juridico" value="pepe@ejemplo.com" placeholder="Email" disabled>
+                        <label for="campo_email_juridico">Email</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cont_editar_form_juridico" class="row justify-content-center mb-4 py-4">
+            <div class="col-6 col-md-4">
+                <button id="btn_editar_form_juridico" type="button" class="boton py-1 w-100"><span>EDITAR</span></button>
+            </div>
+        </div>
+
+        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <strong>Atención:</strong> El medio seleccionado como principal será utilizado para recibir todas las notificaciones.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div id="cont_cancelar_guardar_form_juridico" class="row justify-content-around d-none mb-4">
+            <div class="col-6 col-md-4">
+                <button id="btn_cancelar_form_juridico" type="button" class="boton boton_rojo py-1 w-100"><span>CANCELAR</span></button>
+            </div>
+            <div class="col-6 col-md-4">
+                <button id="btn_guardar_form_juridico" type="button" class="boton boton_verde py-1 w-100"><span>GUARDAR</span></button>
+            </div>
+        </div>
+    </form>
+{{/partial}}
+{{#partial "script"}}perfil_juridico{{/partial}}
+{{> templates/home/perfiles/perfil}}

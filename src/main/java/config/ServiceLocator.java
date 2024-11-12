@@ -85,7 +85,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(ControladorUsuario.class.getName())){
-                ControladorUsuario instance = new ControladorUsuario(instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class));
+                ControladorUsuario instance = new ControladorUsuario(instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioTecnicos.class));
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(RepositorioRoles.class.getName())){

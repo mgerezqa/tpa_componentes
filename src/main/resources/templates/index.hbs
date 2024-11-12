@@ -56,13 +56,25 @@
                         <button type="submit">DASHBOARD</button>
                     </form>
                 </div>
-            {{else if colaborador}}
+            {{else if tecnico}}
                 <div class="nav-item-login">
                     <form action="/home" method="GET">
                         <button type="submit">HOME</button>
                     </form>
                 </div>
-            {{else}}
+            {{else if fisico}}
+                <div class="nav-item-login">
+                    <form action="/home" method="GET">
+                        <button type="submit">HOME</button>
+                    </form>
+                </div>
+            {{else if juridico}}
+                <div class="nav-item-login">
+                    <form action="/home" method="GET">
+                        <button type="submit">HOME</button>
+                    </form>
+                </div>
+                {{else}}
                 <div class="nav-item-login">
                     <button id="nav-link-login" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
                 </div>
