@@ -29,42 +29,32 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     }
 
     public void login(Context ctx) {
-        //Falta hacer validaciones
         String name = ctx.formParam("exampleInputEmail1");
         String password = ctx.formParam("exampleInputPassword1");
 
         Optional<Usuario> usuario = repositorioUsuarios.buscarPorNombre(name);
-        if (usuario.isPresent()) {
-            Usuario usuarioActual = usuario.get();
-            if(password.equals(usuarioActual.getContrasenia())){
-                List<Rol> roles = usuario.get().getRoles();
-                List<String> rolesString = roles.stream()
-                    .map(rol -> rol.getNombre().toString())
-                    .collect(Collectors.toList());
-                
-                ctx.sessionAttribute("id_usuario", usuarioActual.getId());
-                ctx.sessionAttribute("roles", rolesString);
-                
-                if(roles.stream().anyMatch(rol -> RoleENUM.ADMIN.equals(rol.getNombre()))){
-                    ctx.redirect("/dashboard");
-                }
-                if(roles.stream().anyMatch(rol -> RoleENUM.FISICO.equals(rol.getNombre()))){
-                    ctx.redirect("/home");
-                }
-                if(roles.stream().anyMatch(rol -> RoleENUM.JURIDICO.equals(rol.getNombre()))){
-                    ctx.redirect("/home");
-                }
-                if(roles.stream().anyMatch(rol -> RoleENUM.TECNICO.equals(rol.getNombre()))){
-                    ctx.redirect("/home");
-                }
-
-                //ACA se sigue haciendo el redirect en caso de que tenga el rol de colaborador y mandarlo a la interface de colaboradores
-            }else{
-                ctx.redirect("/"); //Mostrar error de contraseña invalida
-            }
-        }else{
-            ctx.status(HttpStatus.NOT_FOUND);
+        if (usuario.isEmpty()) {
+            System.out.println("Usuario no encontrado");
+            ctx.redirect("/");
+            return;
         }
+
+        Usuario usuarioActual = usuario.get();
+        if (!Objects.requireNonNull(password).equals(usuarioActual.getContrasenia())) {
+            System.out.println("Contraseña incorrecta");
+            ctx.redirect("/");
+            return;
+        }
+
+        // Login exitoso
+        List<String> rolesString = usuarioActual.getRoles().stream()
+            .map(rol -> rol.getNombre().toString())
+            .collect(Collectors.toList());
+        
+        ctx.sessionAttribute("id_usuario", usuarioActual.getId());
+        ctx.sessionAttribute("roles", rolesString);
+        String redirectUrl = rolesString.contains(RoleENUM.ADMIN.toString()) ? "/dashboard" : "/home";
+        ctx.redirect(redirectUrl);
     }
     @Override
     public void show(Context context) {

@@ -18,10 +18,11 @@ public class RepositorioUsuarios extends Repositorio implements WithSimplePersis
 
     @SuppressWarnings("unchecked")
     public Optional<Usuario> buscarPorNombre(String nombre) {
-        return Optional.ofNullable((Usuario) entityManager()
+        return entityManager()
                 .createQuery("from " + Usuario.class.getName() + " u where u.nombreUsuario = :name")
                 .setParameter("name", nombre)
-                .getSingleResult());
+                .getResultStream()
+                .findFirst();
     }
 
 }
