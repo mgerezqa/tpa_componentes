@@ -10,8 +10,10 @@ public class TecnicoDTO {
     private String apellido;
     private String tipoDocumento;
     private String nroDocumento;
+    private String cuil;
+    private String areaDeCobertura;
     private Boolean activo;
-    private String calle;
-    private String altura;
-    private String tamanioArea;
+    private MedioDeContactoDTO whatsapp;
+    private MedioDeContactoDTO telegram;
+    private MedioDeContactoDTO email;
 }

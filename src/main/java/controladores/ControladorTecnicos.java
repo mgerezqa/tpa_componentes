@@ -205,7 +205,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         tecnicoDTO.setApellido(tecnico.getApellido());
         tecnicoDTO.setNroDocumento(tecnico.getDocumento().getNumeroDeDocumento());
         tecnicoDTO.setTipoDocumento(tecnico.getDocumento().getTipo().toString());
-        tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
+/*        tecnicoDTO.setTamanioArea((tecnico.getArea() != null && tecnico.getArea().getTamanioArea() != null)
                 ? tecnico.getArea().getTamanioArea().toString()
                 : "");
         if(tecnico.getArea()!= null && tecnico.getArea().getUbicacionPrincipal()!=null && tecnico.getArea().getUbicacionPrincipal().getCalle()!= null){
@@ -214,7 +214,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         }else{
             tecnicoDTO.setCalle("");
             tecnicoDTO.setAltura("");
-        }
+        }*/
         return tecnicoDTO;
     }
 }

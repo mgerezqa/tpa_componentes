@@ -21,9 +21,9 @@
             <div class="col-md-6">
                 <div class="form-floating">
                     <select class="entrada_form form-select shadow-none rounded-4" id="campo_tipo_documento_tecnico" disabled>
-                        <option value="1" selected>DNI</option>
-                        <option value="2">LC</option>
-                        <option value="3">LE</option>
+                        <option value="DNI" {{#if (eq datos.tipoDocumento 'DNI')}}selected{{/if}}>DNI</option>
+                        <option value="LC" {{#if (eq datos.tipoDocumento 'LC')}}selected{{/if}}>LC</option>
+                        <option value="LE" {{#if (eq datos.tipoDocumento 'LE')}}selected{{/if}}>LE</option>
                     </select>
                     <label for="campo_tipo_documento_tecnico">Tipo Documento</label>
                 </div>
@@ -31,7 +31,7 @@
             <div class="col-md-6">
                 <div class="form-floating">
                     <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_nro_documento_tecnico"
-                           value="123456789" placeholder="Nro Documento" disabled>
+                           value="{{datos.nroDocumento}}" placeholder="Nro Documento" disabled>
                     <label for="campo_nro_documento_tecnico">Nro Documento</label>
                 </div>
             </div>
@@ -41,14 +41,14 @@
             <div class="col-md-6">
                 <div class="form-floating">
                     <input type="text" class="entrada_form form-control shadow-none rounded-4"
-                           id="campo_cuil_tecnico" value="20-40999444-9" placeholder="CUIL" disabled>
+                           id="campo_cuil_tecnico" value="{{datos.cuil}}" placeholder="CUIL" disabled>
                     <label for="campo_cuil_tecnico">CUIL</label>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-floating">
                     <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_area_de_cobertura_tecnico"
-                           value="Zona Norte" placeholder="Area de cobertura" disabled>
+                           value="{{datos.areaDeCobertura}}" placeholder="Area de cobertura" disabled>
                     <label for="campo_area_de_cobertura_tecnico">Area de cobertura</label>
                 </div>
             </div>
@@ -61,11 +61,12 @@
                 <div class="input-group">
                     <div class="input-group-text rounded-start-4">
                         <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
-                               name="campo_contacto_preferido_tecnico" checked disabled>
+                               name="campo_contacto_preferido_tecnico"
+                               {{#if datos.whatsapp.notificar}}checked{{/if}} disabled>
                     </div>
                     <div class="form-floating flex-grow-1">
                         <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
-                               id="campo_whatsapp_tecnico" value="123456789" placeholder="WhatsApp" disabled>
+                               id="campo_whatsapp_tecnico" value="{{datos.whatsapp.valor}}" placeholder="WhatsApp" disabled>
                         <label for="campo_whatsapp_tecnico">WhatsApp</label>
                     </div>
                 </div>
@@ -74,11 +75,12 @@
                 <div class="input-group">
                     <div class="input-group-text rounded-start-4">
                         <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
-                               name="campo_contacto_preferido_tecnico" disabled>
+                               name="campo_contacto_preferido_tecnico"
+                               {{#if datos.telegram.notificar}}checked{{/if}} disabled>
                     </div>
                     <div class="form-floating flex-grow-1">
                         <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
-                               id="campo_telegram_tecnico" value="987654321" placeholder="Telegram" disabled>
+                               id="campo_telegram_tecnico" value="{{datos.telegram.valor}}" placeholder="Telegram" disabled>
                         <label for="campo_telegram_tecnico">Telegram</label>
                     </div>
                 </div>
@@ -87,11 +89,12 @@
                 <div class="input-group">
                     <div class="input-group-text rounded-start-4">
                         <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
-                               name="campo_contacto_preferido_tecnico" disabled>
+                               name="campo_contacto_preferido_tecnico"
+                               {{#if datos.email.notificar}}checked{{/if}} disabled>
                     </div>
                     <div class="form-floating flex-grow-1">
                         <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
-                               id="campo_email_tecnico" value="pepe@ejemplo.com" placeholder="Email" disabled>
+                               id="campo_email_tecnico" value="{{datos.email.valor}}" placeholder="Email" disabled>
                         <label for="campo_email_tecnico">Email</label>
                     </div>
                 </div>

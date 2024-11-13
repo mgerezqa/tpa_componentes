@@ -71,6 +71,8 @@ public class Initializer implements WithSimplePersistenceUnit {
         Whatsapp whatsappTecnico = new Whatsapp("+5491123256789");
         Email emailTecnico = new Email("tecnico1@example.com");
         Telegram telegramTecnico = new Telegram("tecnico1_telegram");
+        telegramTecnico.setNumero("+5491123256789");
+        telegramTecnico.setNotificar(true);
         tecnico.agregarMedioDeContacto(whatsappTecnico);
         tecnico.agregarMedioDeContacto(emailTecnico);
         tecnico.agregarMedioDeContacto(telegramTecnico);

@@ -15,7 +15,8 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "medios_de_contacto")
@@ -26,8 +27,8 @@ public abstract class MedioDeContacto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Transient
-    private boolean notificar;
+    @Column(name = "notificar")
+    private boolean notificar = false;
 
     @Column(name = "tipoMedio")
     public abstract String tipoMedioDeContacto();
@@ -37,4 +38,7 @@ public abstract class MedioDeContacto {
     public abstract void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) throws MessagingException;
     public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {}
     public void enviarMensaje(Tecnico tecnico, FallaTecnica alerta) throws MessagingException {}
+    public Boolean isNotificar(){
+        return this.notificar;
+    }
 }

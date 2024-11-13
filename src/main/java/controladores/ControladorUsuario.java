@@ -1,6 +1,7 @@
 package controladores;
 
 import domain.usuarios.*;
+import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -12,6 +13,7 @@ import utils.ICrudViewsHandler;
 import javax.persistence.NoResultException;
 import java.util.*;
 import java.util.stream.Collectors;
+import mappers.TecnicoMapper;
 
 public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioUsuarios repositorioUsuarios;
@@ -152,8 +154,6 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     public void perfil(Context ctx) {
         Long usuarioId = ctx.sessionAttribute("id_usuario");
         List<String> roles = ctx.sessionAttribute("roles");
-        System.out.println(usuarioId);
-        System.out.println(roles);
         Optional<Object> usuarioOptional =  repositorioUsuarios.buscarPorID(Usuario.class,usuarioId);
         
         if (usuarioOptional.isPresent()) {
@@ -161,12 +161,12 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             Usuario usuario = (Usuario) usuarioOptional.get();
             model.put("usuario", usuario);
             
-            // Determinar qué vista renderizar según el rol
+            // Renderizar según el rol
             if (roles.contains(RoleENUM.TECNICO.toString())) {
                 Optional<Tecnico> tecnico = repositorioTecnicos.buscarTecPorIdUsuario(usuarioId);
-                if(tecnico.isPresent()){
-                    Tecnico tecnico1 = tecnico.get();
-                    model.put("datos", tecnico1);
+                if(tecnico.isPresent()) {
+                    TecnicoDTO tecnicoDTO = TecnicoMapper.toDTO(tecnico.get());
+                    model.put("datos", tecnicoDTO);
                 }
                 ctx.render("home/perfiles/tecnico.hbs", model);
             } 
@@ -175,7 +175,6 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
                 if(fisico.isPresent()){
                     ColaboradorFisico colaborador = (ColaboradorFisico) fisico.get();
                     model.put("datos", colaborador);
-                    System.out.println(colaborador);
                 }
                 ctx.render("home/perfiles/fisico.hbs", model);
             }
@@ -183,7 +182,6 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
                 Optional<Colaborador> juridico = repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId);
                 if(juridico.isPresent()){
                     ColaboradorJuridico colaborador = (ColaboradorJuridico) juridico.get();
-                    System.out.println(colaborador);
                     model.put("datos", colaborador);
                 }
                 ctx.render("home/perfiles/juridico.hbs", model);
@@ -192,5 +190,10 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             ctx.status(HttpStatus.NOT_FOUND);
             ctx.result("Usuario no encontrado");
         }
+    }
+    public TecnicoDTO convertToDTO(Tecnico tecnico){
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        
+        return tecnicoDTO;
     }
 }
