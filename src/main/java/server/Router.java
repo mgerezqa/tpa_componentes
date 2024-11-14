@@ -143,16 +143,13 @@ public class Router implements SimplePersistenceTest{
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
 
-            boolean esAdmin = roles != null && roles.contains(RoleENUM.ADMIN.toString());
-
-            boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
-            boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
-            boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
+            boolean esTecnico = roles.contains(RoleENUM.TECNICO.toString());
+            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
+            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
 
             model.put("tecnico",esTecnico);
             model.put("fisico",esFisico);
             model.put("juridico",esJuridico);
-            model.put("admin", esAdmin);
             ctx.render("home/estaciones/mapa.hbs",model);
         },RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
     }
