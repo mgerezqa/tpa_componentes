@@ -42,7 +42,6 @@ public class Cuil {
     }
     public Cuil(String cuilMezclado) {
         String[] partes = cuilMezclado.split("-");
-
         validarFormato(partes);
         validarPrefijo(partes[0]);
         validarDni(partes[1]);

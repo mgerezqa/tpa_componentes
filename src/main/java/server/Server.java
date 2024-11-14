@@ -25,6 +25,7 @@ import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
 
+import javax.xml.bind.ValidationException;
 import java.io.IOException;
 import java.util.function.Consumer;
 
@@ -92,7 +93,6 @@ public class Server {
             config.validation.register(TipoDeSuscripcionENUM.class, v->  TipoDeSuscripcionENUM.valueOf(v.toUpperCase()));
             config.validation.register(TipoRazonSocial.class, v->  TipoRazonSocial.valueOf(v.toUpperCase()));
             config.validation.register(Rubro.class, v->  Rubro.valueOf(v.toUpperCase()));
-            config.validation.register(Cuil.class, Cuil::new);
         };
     }
 }

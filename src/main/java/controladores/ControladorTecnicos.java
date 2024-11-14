@@ -236,13 +236,14 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         Validator<TipoDocumento> tipoDocumento = context.formParamAsClass("campo_tipo_documento_tecnico", TipoDocumento.class);
         Validator<String> nroDocumento = context.formParamAsClass("campo_nro_documento_tecnico", String.class)
                 .check(v -> !v.isEmpty()  , "El nro de documento  es obligatorio");
-        Validator<Cuil> cuil = context.formParamAsClass("campo_cuil_tecnico",Cuil.class); //Buena forma de instanciar clases en el validator a partir del input del usuario desde el formulario
+        Cuil cuil = new Cuil(Objects.requireNonNull(context.formParam("campo_cuil_tecnico")));
+        //Buena forma de instanciar clases en el validator a partir del input del usuario desde el formulario
         NullableValidator<String> whatsappTecnico = context.formParamAsClass("campo_whatsapp_tecnico",String.class).allowNullable();
         NullableValidator<String> telegramTecnico = context.formParamAsClass("campo_telegram_tecnico",String.class).allowNullable();
         NullableValidator<String> emailTecnico = context.formParamAsClass("campo_email_tecnico",String.class).allowNullable();
         Validator<String> notificacionPreferida = context.formParamAsClass("campo_contacto_preferido_tecnico",String.class);
 
-        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,nroDocumento,cuil,whatsappTecnico,telegramTecnico,emailTecnico,notificacionPreferida);
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,nroDocumento,whatsappTecnico,telegramTecnico,emailTecnico,notificacionPreferida);
 
         if(!errors.isEmpty()){
             System.out.println(errors);
@@ -263,7 +264,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
                 tecnico.setApellido(apellidoTecnico.get());
                 documento.setTipo(tipoDocumento.get());
                 documento.setNumeroDeDocumento(nroDocumento.get());
-                tecnico.setCuil(cuil.get());
+                tecnico.setCuil(cuil);
 
                 // Obtener el medio de contacto preferido
                 String preferido = notificacionPreferida.get();

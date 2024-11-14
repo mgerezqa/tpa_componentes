@@ -1,12 +1,12 @@
 package server.handlers;
 
 import io.javalin.Javalin;
-import server.exceptions.TarjetasException;
 
 public class AppHandlers {
     private IHandler[] handlers = new IHandler[]{
             new AccessDeniedHandler(),
             new TarjetasExceptionHandler(),
+            new CuilInvalidoHandler(),
     };
 
     public static void applyHandlers(Javalin app) {
