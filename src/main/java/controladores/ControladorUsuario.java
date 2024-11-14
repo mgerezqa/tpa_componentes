@@ -1,10 +1,8 @@
 package controladores;
 
 import domain.usuarios.*;
-import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
@@ -170,22 +168,21 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         model.put("usuario", usuario);
 
         String rolPrincipal = obtenerRolPrincipal(roles);
-
         //A este punto se deberia obtener un fisico, tecnico o juridico, debido a que en el authMiddleware se realizo la verificación del usuarioId.
         Object datos = obtenerUsuarioSegun(usuarioId, rolPrincipal);
         
         if (datos != null) {
             model.put("datos", datos);
         }
-        
         ctx.render(String.format("home/perfiles/%s.hbs", rolPrincipal.toLowerCase()), model);
     }
+
 
     private String obtenerRolPrincipal(List<String> roles) {
         if (roles.contains(RoleENUM.TECNICO.toString())) return "tecnico";
         if (roles.contains(RoleENUM.FISICO.toString())) return "fisico";
         if (roles.contains(RoleENUM.JURIDICO.toString())) return "juridico";
-        throw new RuntimeException("Rol no válido");
+        return "";
     }
 
     private Object obtenerUsuarioSegun(Long usuarioId, String rol) {

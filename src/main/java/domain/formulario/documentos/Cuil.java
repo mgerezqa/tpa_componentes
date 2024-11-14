@@ -40,6 +40,46 @@ public class Cuil {
         this.dni = dni;
         this.verificador = verificador;
     }
+    public Cuil(String cuilMezclado) {
+        String[] partes = cuilMezclado.split("-");
+
+        validarFormato(partes);
+        validarPrefijo(partes[0]);
+        validarDni(partes[1]);
+        validarVerificador(partes[2]);
+        
+        this.prefijo = partes[0];
+        this.dni = partes[1];
+        this.verificador = partes[2];
+    }
+
+    private void validarFormato(String[] partes) {
+        if (partes.length != 3) {
+            throw new CuilInvalidoException("El formato del CUIL debe ser XX-XXXXXXXX-X");
+        }
+    }
+
+
+    private void validarPrefijo(String prefijo) {
+        int prefijoInt = Integer.parseInt(prefijo);
+        if (prefijoInt < 20 || prefijoInt > 27) {
+            throw new CuilInvalidoException("El prefijo debe ser mayor o igual a 20 y menor o igual a 27");
+        }
+    }
+
+    private void validarDni(String dni) {
+        int dniInt = Integer.parseInt(dni);
+        if (dniInt < 1000000 || dniInt > 99999999) {
+            throw new CuilInvalidoException("El DNI debe ser mayor o igual a 1000000 y menor o igual a 99999999");
+        }
+    }
+
+    private void validarVerificador(String verificador) {
+        int verificadorInt = Integer.parseInt(verificador);
+        if (verificadorInt < 0 || verificadorInt > 9) {
+            throw new CuilInvalidoException("El verificador debe ser mayor o igual a 0 y menor o igual a 9");
+        }
+    }
 
     public String obtenerDescripcion() {
         return prefijo + "-" + dni + "-" + verificador;
