@@ -20,9 +20,9 @@ public class TecnicoMapper {
         dto.setNroDocumento(tecnico.numeroDeDocumento());
         dto.setCuil(tecnico.getCuil().obtenerDescripcion());
         dto.setActivo(tecnico.getActivo());
-        if (tecnico.getArea() != null) {
+        /*if (tecnico.getArea() != null) {
             dto.setAreaDeCobertura(tecnico.getArea().toString());
-        }
+        }*/
         
         if (tecnico.getMediosDeContacto() != null) {
             for (MedioDeContacto medio : tecnico.getMediosDeContacto()) {

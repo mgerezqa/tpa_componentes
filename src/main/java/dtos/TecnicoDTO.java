@@ -2,7 +2,6 @@ package dtos;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 @Data
 public class TecnicoDTO {
     private Long id;

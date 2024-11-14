@@ -15,6 +15,7 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
+import org.jetbrains.annotations.NotNull;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
 import utils.ICrudViewsHandler;
 
@@ -216,5 +217,35 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             tecnicoDTO.setAltura("");
         }*/
         return tecnicoDTO;
+    }
+
+    public void actualizar(Context context) {
+        context.formParamMap().forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+        Validator<String> nombreTecnico = context.formParamAsClass("campo_nombre_tecnico", String.class)
+                .check(v -> !v.isEmpty()  , "El nombre es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
+        Validator<String> apellidoTecnico = context.formParamAsClass("campo_apellido_tecnico", String.class)
+                .check(v -> !v.isEmpty()  , "El apellido es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el apellido");
+        Validator<TipoDocumento> tipoDocumento = context.formParamAsClass("campo_tipo_documento_tecnico", TipoDocumento.class);
+        Validator<String> nroDocumento = context.formParamAsClass("campo_nro_documento_tecnico", String.class)
+                .check(v -> !v.isEmpty()  , "El nro de documento  es obligatorio");
+        Validator<Cuil> cuil = context.formParamAsClass("campo_cuil_tecnico",Cuil.class);
+        Validator<String> whatsappTecnico = context.formParamAsClass("campo_whatsapp_tecnico",String.class);
+        Validator<String> telegramTecnico = context.formParamAsClass("campo_telegram_tecnico",String.class);
+        Validator<String> emailTecnico = context.formParamAsClass("campo_email_tecnico",String.class);
+        Validator<String> notificacionPreferida = context.formParamAsClass("campo_contacto_preferido_tecnico",String.class);
+
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreTecnico,apellidoTecnico,tipoDocumento,nroDocumento,cuil,whatsappTecnico,telegramTecnico,emailTecnico,notificacionPreferida);
+
+        if(!errors.isEmpty()){
+            System.out.println(errors);
+            context.redirect("/dashboard/tecnicos"); // TODO -> Pantalla del form pero mencionando los errores al usuario
+        }
+
+        context.redirect("/profile");
+
     }
 }

@@ -4,6 +4,8 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import config.ServiceLocator;
 import domain.Config;
+import domain.excepciones.CuilInvalidoException;
+import domain.formulario.documentos.Cuil;
 import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.EstadoHeladera;
@@ -90,7 +92,7 @@ public class Server {
             config.validation.register(TipoDeSuscripcionENUM.class, v->  TipoDeSuscripcionENUM.valueOf(v.toUpperCase()));
             config.validation.register(TipoRazonSocial.class, v->  TipoRazonSocial.valueOf(v.toUpperCase()));
             config.validation.register(Rubro.class, v->  Rubro.valueOf(v.toUpperCase()));
-
+            config.validation.register(Cuil.class, Cuil::new);
         };
     }
 }
