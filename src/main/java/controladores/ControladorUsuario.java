@@ -145,18 +145,21 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     public void remove(Context context) {
 
     }
-    public void home(Context ctx){
-        Map<String,Object> modal = new HashMap<>();
+    public void home(Context ctx) {
         List<String> roles = ctx.sessionAttribute("roles");
-        boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
-        boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
-        boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
-
-        modal.put("tecnico",esTecnico);
-        modal.put("fisico",esFisico);
-        modal.put("juridico",esJuridico);
-        ctx.render("home/home.hbs",modal);
+        Map<String, Object> model = Map.of(
+            "tecnico", tieneRol(roles, RoleENUM.TECNICO),
+            "fisico", tieneRol(roles, RoleENUM.FISICO),
+            "juridico", tieneRol(roles, RoleENUM.JURIDICO)
+        );
+        
+        ctx.render("home/home.hbs", model);
     }
+
+    private boolean tieneRol(List<String> roles, RoleENUM rol) {
+        return roles.contains(rol.toString());
+    }
+
     public void perfil(Context ctx) {
         Long usuarioId = ctx.sessionAttribute("id_usuario");
         List<String> roles = ctx.sessionAttribute("roles");
