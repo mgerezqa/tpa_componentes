@@ -1,0 +1,151 @@
+{{#partial "styles"}}
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/usuarios/usuarios.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/donaciones.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/nueva_donacion.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/mapa_de_estaciones.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+{{/partial}}
+{{#partial "title"}}
+    Mapa de estaciones
+{{/partial}}
+{{#partial "contenido"}}
+    <div id="contenedor_principal_donaciones " class="p-4 container ">
+        <div class="contenedor_titulo_pagina d-flex gap-4 mb-4 container">
+            <div class="titulo">
+                <span>Mapa de estaciones</span>
+            </div>
+        </div>
+
+        <!-- MAPA -->
+        <section class = "stations-map ">
+            <div class = "container">
+                <div id="stations-map-placeholder " class="bg-light bg-gradient rounded-5" style="--bs-bg-opacity: .5;">
+                    <div class="row p-5 ">
+                        <!-- Columna del mapa -->
+                        <div class="col-lg-12 mb-4 p-0">
+                            <div class="p-lg-3 p-0 m-0">
+                                <h2 class="text-center mb-4">Estaciones</h2>
+                                <div id="map" class="rounded-5" >
+
+                                    <div class="tooltip-map" id="tooltip-map">
+                                        1. Seleccionar un punto en el mapa donde desee ubicar la heladera.
+                                    </div>
+                                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
+                                    <script src="/js/script_mapa_colaborador_juridico.js"></script>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Columna de la barra de búsqueda e información -->
+                        <div class="col-lg-12">
+                            <div class="rounded pt-1 mt-3 px-3">
+
+                                <div class="d-flex justify-content-evenly col-12 col-md-12  mt-4 gap-4" >
+                                    <button href="" class="btn btn-success botones" id="boton-donar-heladera" data-bs-toggle="modal" data-bs-target="#donarHeladeraModal" disabled >
+                                        <i class="bi bi-bell-fill"></i>
+                                        Donar Heladera
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MODALES -->
+                    <!-- Modal para "Hacer una donación de heladera" -->
+                    <div class="modal fade" id="donarHeladeraModal" tabindex="-1" aria-labelledby="donarHeladeraModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="donarHeladeraModalLabel">Donar nueva heladera</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Formulario para donar heladera -->
+                                    <form id="donationForm">
+                                        <div class="mb-3">
+                                            <label for="donorName" class="form-label">Nombre del Donante</label>
+                                            <input type="text" class="form-control" id="donorName" name="donorName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="refrigeratorModel" class="form-label">Modelo de la Heladera</label>
+                                            <select class="form-select" id="refrigeratorModel" name="refrigeratorModel" required>
+                                                <option value="">Seleccione una opción</option>
+                                                <option value="Nueva">MODELO A</option>
+                                                <option value="Usada">MODELO B</option>
+                                                <option value="Reparada">MODELO C</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="refrigeratorCapacity" class="form-label">Capacidad de la Heladera</label>
+                                            <input type="number" class="form-control" id="refrigeratorCapacity" name="refrigeratorCapacity" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="donationLocation" class="form-label">Dirección </label>
+                                            <input type="text" class="form-control" id="donationLocation" name="donationLocation" readonly required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="donationNeighborhood" class="form-label">Barrio</label>
+                                            <input type="text" class="form-control" id="donationNeighborhood" name="donationNeighborhood" readonly required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="donationCity" class="form-label">Localidad</label>
+                                            <input type="text" class="form-control" id="donationCity" name="donationCity" readonly required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="donationState" class="form-label">Provincia</label>
+                                            <input type="text" class="form-control" id="donationState" name="donationState" readonly required>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmarDonacionModal" data-bs-dismiss="modal">
+                                                Confirmar donación
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal de Confirmación de Donación -->
+                    <div class="modal fade" id="confirmarDonacionModal" tabindex="-1" aria-labelledby="confirmarDonacionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmarDonacionModalLabel">Confirmación de Donación</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>¿Estás seguro de que deseas realizar esta donación?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-success" id="confirmarDonacionFinal">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Botones volver al menu  -->
+    <div class="flex row col-12">
+        <!-- boton volver al menu principal -->
+        <div class="d-flex col-12 col-md-12 justify-content-center mb-4" id="boton-home">
+            <a href="dashboard_colaborador_juridico.html" class="btn btn-primary botones" >
+                <i class="bi bi-house-door-fill"></i>
+                Volver al menú
+            </a>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script src="/js/script_mapa_colaborador_juridico.js"></script>
+{{/partial}}
+{{> templates/home/base}}
