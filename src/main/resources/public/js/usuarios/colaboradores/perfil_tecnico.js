@@ -1,6 +1,5 @@
 document.getElementById('btn_editar_form_tecnico').onclick = editar_form_tecnico;
 document.getElementById('btn_cancelar_form_tecnico').onclick = cancelar_edicion_tecnico;
-document.getElementById('btn_guardar_form_tecnico').onclick = guardar_edicion_tecnico;
 
 
 function editar_form_tecnico(){
@@ -10,12 +9,6 @@ function editar_form_tecnico(){
 }
 function cancelar_edicion_tecnico(){
     // TODO
-    mostrar_elemento_id('cont_editar_form_tecnico');
-    ocultar_elemento_id('cont_cancelar_guardar_form_tecnico');
-    habilitar_edicion('form_tecnico', false);
-}
-function guardar_edicion_tecnico(){
-    // TODO: posible post
     mostrar_elemento_id('cont_editar_form_tecnico');
     ocultar_elemento_id('cont_cancelar_guardar_form_tecnico');
     habilitar_edicion('form_tecnico', false);
