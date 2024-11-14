@@ -14,6 +14,9 @@ import javax.persistence.NoResultException;
 import java.util.*;
 import java.util.stream.Collectors;
 import mappers.TecnicoMapper;
+import io.javalin.validation.Validator;
+import io.javalin.validation.Validation;
+import io.javalin.validation.ValidationError;
 
 public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioUsuarios repositorioUsuarios;
@@ -29,10 +32,23 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     }
 
     public void login(Context ctx) {
-        String name = ctx.formParam("exampleInputEmail1");
-        String password = ctx.formParam("exampleInputPassword1");
+        // Agregar validaciones
+        Validator<String> name = ctx.formParamAsClass("exampleInputEmail1", String.class)
+            .check(v -> v != null && !v.isEmpty(), "El nombre de usuario es obligatorio");
+        Validator<String> password = ctx.formParamAsClass("exampleInputPassword1", String.class)
+            .check(v -> v != null && !v.isEmpty(), "La contraseña es obligatoria");
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(name, password);
 
-        Optional<Usuario> usuario = repositorioUsuarios.buscarPorNombre(name);
+        if (!errors.isEmpty()) {
+            System.out.println(errors);
+            ctx.redirect("/");
+            return;
+        }
+
+        String nameValue = ctx.formParam("exampleInputEmail1");
+        String passwordValue = ctx.formParam("exampleInputPassword1");
+
+        Optional<Usuario> usuario = repositorioUsuarios.buscarPorNombre(nameValue);
         if (usuario.isEmpty()) {
             System.out.println("Usuario no encontrado");
             ctx.redirect("/");
@@ -40,7 +56,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         }
 
         Usuario usuarioActual = usuario.get();
-        if (!Objects.requireNonNull(password).equals(usuarioActual.getContrasenia())) {
+        if (!Objects.requireNonNull(passwordValue).equals(usuarioActual.getContrasenia())) {
             System.out.println("Contraseña incorrecta");
             ctx.redirect("/");
             return;
@@ -144,46 +160,39 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     public void perfil(Context ctx) {
         Long usuarioId = ctx.sessionAttribute("id_usuario");
         List<String> roles = ctx.sessionAttribute("roles");
-        Optional<Object> usuarioOptional =  repositorioUsuarios.buscarPorID(Usuario.class,usuarioId);
+
+        Map<String, Object> model = new HashMap<>();
+
+        Usuario usuario = (Usuario) repositorioUsuarios.buscarPorID(Usuario.class, usuarioId).orElse(null);
+        model.put("usuario", usuario);
+
+        String rolPrincipal = obtenerRolPrincipal(roles);
+
+        //A este punto se deberia obtener un fisico, tecnico o juridico, debido a que en el authMiddleware se realizo la verificación del usuarioId.
+        Object datos = obtenerUsuarioSegun(usuarioId, rolPrincipal);
         
-        if (usuarioOptional.isPresent()) {
-            Map<String,Object> model = new HashMap<>();
-            Usuario usuario = (Usuario) usuarioOptional.get();
-            model.put("usuario", usuario);
-            
-            // Renderizar según el rol
-            if (roles.contains(RoleENUM.TECNICO.toString())) {
-                Optional<Tecnico> tecnico = repositorioTecnicos.buscarTecPorIdUsuario(usuarioId);
-                if(tecnico.isPresent()) {
-                    TecnicoDTO tecnicoDTO = TecnicoMapper.toDTO(tecnico.get());
-                    model.put("datos", tecnicoDTO);
-                }
-                ctx.render("home/perfiles/tecnico.hbs", model);
-            } 
-            else if (roles.contains(RoleENUM.FISICO.toString())) {
-                Optional<Colaborador> fisico = repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId);
-                if(fisico.isPresent()){
-                    ColaboradorFisico colaborador = (ColaboradorFisico) fisico.get();
-                    model.put("datos", colaborador);
-                }
-                ctx.render("home/perfiles/fisico.hbs", model);
-            }
-            else if (roles.contains(RoleENUM.JURIDICO.toString())) {
-                Optional<Colaborador> juridico = repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId);
-                if(juridico.isPresent()){
-                    ColaboradorJuridico colaborador = (ColaboradorJuridico) juridico.get();
-                    model.put("datos", colaborador);
-                }
-                ctx.render("home/perfiles/juridico.hbs", model);
-            }
-        } else {
-            ctx.status(HttpStatus.NOT_FOUND);
-            ctx.result("Usuario no encontrado");
+        if (datos != null) {
+            model.put("datos", datos);
         }
-    }
-    public TecnicoDTO convertToDTO(Tecnico tecnico){
-        TecnicoDTO tecnicoDTO = new TecnicoDTO();
         
-        return tecnicoDTO;
+        ctx.render(String.format("home/perfiles/%s.hbs", rolPrincipal.toLowerCase()), model);
+    }
+
+    private String obtenerRolPrincipal(List<String> roles) {
+        if (roles.contains(RoleENUM.TECNICO.toString())) return "tecnico";
+        if (roles.contains(RoleENUM.FISICO.toString())) return "fisico";
+        if (roles.contains(RoleENUM.JURIDICO.toString())) return "juridico";
+        throw new RuntimeException("Rol no válido");
+    }
+
+    private Object obtenerUsuarioSegun(Long usuarioId, String rol) {
+        return switch (rol) {
+            case "tecnico" -> repositorioTecnicos.buscarTecPorIdUsuario(usuarioId)
+                .map(TecnicoMapper::toDTO)
+                .orElse(null);
+            case "fisico" -> (ColaboradorFisico) repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId).orElse(null);
+            case "juridico" -> (ColaboradorJuridico) repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId).orElse(null);
+            default -> null;
+        };
     }
 }
