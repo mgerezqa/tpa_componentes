@@ -22,12 +22,13 @@ public class AuthMiddleware {
             if (!rolesRequeridos.isEmpty()) {
                 Long usuarioId = ctx.sessionAttribute("id_usuario");
 
+                //Checkeo que si tiene sesión, por lo tanto no debo verificar esto en las rutas
                 if (usuarioId == null) {
                     throw new AccessDeniedException();
                 }
-
+                //Tambien podria obtener los roles mediante la sesión al logeo, en este caso lo dejo asi porque tendria que refactorizar.
                 List<Rol> rolesUsuario = this.repositorioRoles.buscarRolesPorIdUsuario(usuarioId);
-                
+                //Checkeo si tiene los roles que deben tener segun la ruta, no debo verificar en las rutas los roles.
                 if (!tieneRolValido(rolesUsuario, rolesRequeridos)) {
                     throw new AccessDeniedException();
                 }
