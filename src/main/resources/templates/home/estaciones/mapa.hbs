@@ -232,11 +232,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <!-- Formulario para donar heladera -->
-                                        <form id="donationForm">
-                                            <div class="mb-3">
-                                                <label for="donorName" class="form-label">Nombre del Donante</label>
-                                                <input type="text" class="form-control" id="donorName" name="donorName" required>
-                                            </div>
+                                        <form action="/mantenerHeladera" method="POST" id="donationForm">
                                             <div class="mb-3">
                                                 <label for="refrigeratorModel" class="form-label">Modelo de la Heladera</label>
                                                 <select class="form-select" id="refrigeratorModel" name="refrigeratorModel" required>
@@ -267,7 +263,7 @@
                                                 <input type="text" class="form-control" id="donationState" name="donationState" readonly required>
                                             </div>
                                             <div class="d-flex justify-content-end">
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmarDonacionModal" data-bs-dismiss="modal">
+                                                <button type="submit" class="btn btn-primary">
                                                     Confirmar donación
                                                 </button>
                                             </div>
@@ -276,8 +272,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Modal de Confirmación de Donación -->
+                        <!-- Este boton de confirmación agrega complejidad ya que como envio los campos del formulario, seguramente tendre que usar JS-->
+                        <!--&lt;!&ndash; Modal de Confirmación de Donación &ndash;&gt;
                         <div class="modal fade" id="confirmarDonacionModal" tabindex="-1" aria-labelledby="confirmarDonacionModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -294,7 +290,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     {{else if fisico}}
                         <!-- Modal para "Reportar heladera" -->
                         <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
