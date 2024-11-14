@@ -362,4 +362,27 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         context.redirect("/");
     }
 
+    public void mantenerHeladera(Context context){
+        context.formParamMap().forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+        Validator<String> nombreHeladera = context.formParamAsClass("nombreHeladera", String.class)
+                .check(v -> !v.isEmpty()  , "El nombre de la heladera es obligatorio");
+        Validator<String> modeloHeladera = context.formParamAsClass("refrigeratorModel",String.class)
+                .check(v -> !v.isEmpty()  , "El modelo de la heladera es obligatorio");
+        Validator<Integer> capacidadHeladera = context.formParamAsClass("refrigeratorCapacity",Integer.class)
+                .check(Objects::nonNull, "La capacidad de la heladera es obligatorio");
+        Validator<String> direccionHeladera = context.formParamAsClass("donationLocation", String.class)
+                .check(v -> !v.isEmpty()  , "La dirección de la heladera es obligatorio");
+        Validator<String> barrioHeladera = context.formParamAsClass("donationNeighborhood", String.class)
+                .check(v -> !v.isEmpty()  , "El barrio de la heladera es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
+        Validator<String> localidadHeladera = context.formParamAsClass("donationCity", String.class)
+                .check(v -> !v.isEmpty()  , "La localidad de la heladera es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
+        Validator<String> provinciaHeladera = context.formParamAsClass("donationState", String.class)
+                .check(v -> !v.isEmpty()  , "La provincia de la heladera es obligatorio")
+                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
+        context.redirect("/estaciones");
+    }
 }

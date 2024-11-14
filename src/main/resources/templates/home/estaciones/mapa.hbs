@@ -234,12 +234,16 @@
                                         <!-- Formulario para donar heladera -->
                                         <form action="/mantenerHeladera" method="POST" id="donationForm">
                                             <div class="mb-3">
+                                                <label for="nombreHeladera" class="form-label">Nombre de la heladera</label>
+                                                <input type="text" class="form-control" id="nombreHeladera" name="nombreHeladera" required>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="refrigeratorModel" class="form-label">Modelo de la Heladera</label>
                                                 <select class="form-select" id="refrigeratorModel" name="refrigeratorModel" required>
                                                     <option value="">Seleccione una opción</option>
-                                                    <option value="Nueva">MODELO A</option>
-                                                    <option value="Usada">MODELO B</option>
-                                                    <option value="Reparada">MODELO C</option>
+                                                    <option value="MODELO A">MODELO A</option>
+                                                    <option value="MODELO B">MODELO B</option>
+                                                    <option value="MODELO C">MODELO C</option>
                                                 </select>
                                             </div>
                                             <div class="mb-3">

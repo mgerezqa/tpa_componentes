@@ -152,6 +152,8 @@ public class Router implements SimplePersistenceTest{
             model.put("juridico",esJuridico);
             ctx.render("home/estaciones/mapa.hbs",model);
         },RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
-    }
 
+        app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
+
+    }
 }
