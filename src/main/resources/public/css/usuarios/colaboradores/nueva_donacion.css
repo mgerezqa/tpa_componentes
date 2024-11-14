@@ -1,0 +1,16 @@
+.btn_seleccion_contribucion{
+    display: inline-block;
+    width: 100%;
+    min-width: fit-content;
+    padding: .5rem 0;
+}
+
+.boton_enviar_form{
+    padding: .5rem 0;
+    width: 100%;
+    text-align: center;
+}
+
+.boton_modal{
+    font-size: 1.25rem;
+}

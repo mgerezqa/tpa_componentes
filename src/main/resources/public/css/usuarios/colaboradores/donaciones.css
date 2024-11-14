@@ -1,0 +1,88 @@
+main{
+    background: linear-gradient(#f07605,#F6E347);
+}
+
+
+.fila_contribucion{
+    background-color: white;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-top: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.fila_contribucion:first-of-type{
+    margin-top: 0;
+}
+.tag_info{
+    background-color: white;
+    color: #1A73E8;
+    border-radius: 1rem;
+    border: .2rem solid #1A73E8;
+    text-align: center;
+    padding: 1px 0;
+}
+.contenedor_datos{
+    margin-bottom: 0;
+}
+
+/* modales se estiran dependiendo el contenido */
+.modal-dialog{
+    min-width: fit-content !important;
+}
+
+.valor_info {
+    font-weight: bold;
+    color: #007bff; /* Cambia el color según tus preferencias */
+    font-size: 1rem;
+}
+.tag_info {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+.scrollable-card {
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+
+@media (min-width: 768px) {
+    .fila_contribucion {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+}
+
+
+.botones {
+    align-items: center;
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    width: 50%; /* Ajuste para que los botones tengan el mismo ancho */
+    text-align: center; /* Centrar el contenido dentro del botón */
+}
+
+#boton-home a, #boton-agregar-donacion a {
+    padding: 15px 30px;
+    font-size: 1.5rem;
+}
+
+#boton-home a {
+    background-color: #007bff; /* Azul del botón Volver al menú */
+    color: #fff;
+}
+
+#boton-agregar-donacion a {
+    background-color: #28a745; /* Verde del botón Quiero donar */
+    color: #fff;
+}
+
+.btn-donar:hover {
+    background-color: #fff; /* Fondo blanco al hacer hover */
+    color: #28a745; /* Texto verde */
+    border: 2px solid #28a745; /* Borde verde */
+    transform: scale(1.05); /* Efecto de agrandar ligeramente */
+}
+

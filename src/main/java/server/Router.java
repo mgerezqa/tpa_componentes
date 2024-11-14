@@ -139,7 +139,9 @@ public class Router implements SimplePersistenceTest{
         // /profile
         app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
         app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
-
+        app.get("/estaciones", (ctx)->{
+            ctx.render("home/estaciones/mapa.hbs");
+        });
     }
 
 }
