@@ -30,5 +30,4 @@ public abstract class Telefono extends MedioDeContacto {
 
 
     }
-
 }

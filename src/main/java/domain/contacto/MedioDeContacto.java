@@ -34,7 +34,6 @@ public abstract class MedioDeContacto {
     public abstract String tipoMedioDeContacto();
     @Transient
     public abstract String informacionDeMedioDeContacto();
-
     public abstract void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) throws MessagingException;
     public void enviarMensaje(Tecnico tecnico, Alerta alerta) throws MessagingException {}
     public void enviarMensaje(Tecnico tecnico, FallaTecnica alerta) throws MessagingException {}
