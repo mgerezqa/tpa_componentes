@@ -136,11 +136,9 @@ public class Router implements SimplePersistenceTest{
         // /Home -> Dashboard de colaboradores, tecnicos
         app.get("/home",ServiceLocator.instanceOf(ControladorUsuario.class)::home,RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
 
-        // /perfil
+        // /profile
         app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
-
-        // Rutas del tecnico
-        app.post("/colaborador/tecnicos/{id}/edit", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
+        app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
 
     }
 
