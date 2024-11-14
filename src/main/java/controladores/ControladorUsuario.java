@@ -1,6 +1,7 @@
 package controladores;
 
 import domain.usuarios.*;
+import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
@@ -145,17 +146,23 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
     }
     public void home(Context ctx) {
         List<String> roles = ctx.sessionAttribute("roles");
+        Long usuarioId = ctx.sessionAttribute("id_usuario");
+
+        String rolPrincipal = obtenerRolPrincipal(roles);
+        Object datos = obtenerUsuarioSegun(usuarioId, rolPrincipal);
+
+        if (datos != null) {
+            Long colaboradorId = obtenerIdDeDatos(datos);
+            ctx.sessionAttribute("id_colaborador", colaboradorId);
+        }
+
         Map<String, Object> model = Map.of(
             "tecnico", tieneRol(roles, RoleENUM.TECNICO),
             "fisico", tieneRol(roles, RoleENUM.FISICO),
             "juridico", tieneRol(roles, RoleENUM.JURIDICO)
         );
-        
-        ctx.render("home/home.hbs", model);
-    }
 
-    private boolean tieneRol(List<String> roles, RoleENUM rol) {
-        return roles.contains(rol.toString());
+        ctx.render("home/home.hbs", model);
     }
 
     public void perfil(Context ctx) {
@@ -194,5 +201,18 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             case "juridico" -> (ColaboradorJuridico) repositorioColaboradores.buscarColaboradorPorIdUsuario(usuarioId).orElse(null);
             default -> null;
         };
+    }
+    private Long obtenerIdDeDatos(Object datos) {
+        if (datos instanceof TecnicoDTO) {
+            return ((TecnicoDTO) datos).getId();
+        } else if (datos instanceof ColaboradorFisico) {
+            return ((ColaboradorFisico) datos).getId();
+        } else if (datos instanceof ColaboradorJuridico) {
+            return ((ColaboradorJuridico) datos).getId();
+        }
+        return null;
+    }
+    private boolean tieneRol(List<String> roles, RoleENUM rol) {
+        return roles.contains(rol.toString());
     }
 }
