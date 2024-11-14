@@ -11,6 +11,7 @@ import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
@@ -21,20 +22,28 @@ public class Initializer implements WithSimplePersistenceUnit {
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioTecnicos repositorioTecnicos;
+    private Repositorio repositorio;
 
-    public Initializer(RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos) {
+    public Initializer(RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
         this.repositorioRoles = repositorioRoles;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioTecnicos = repositorioTecnicos;
+        this.repositorio = repositorio;
     }
 
     public void init() {
         withTransaction(()->{
             this.instaciarLosRoles();
             this.instaciarLosDistintosUsuariosRoles();
+            this.instanciarDistintosModelosDeHeladeras();
         });
     }
+
+    private void instanciarDistintosModelosDeHeladeras() {
+
+    }
+
     private void instaciarLosRoles(){
         Rol admin = new Rol(RoleENUM.ADMIN);
         Rol juridico = new Rol(RoleENUM.JURIDICO);
