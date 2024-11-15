@@ -1,15 +1,12 @@
 package utils.Broker;
 
-import domain.Config;
+import config.ServiceLocator;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
-import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
-import utils.Broker.receptors.ReceptorMov;
-import utils.Broker.receptors.ReceptorTemp;
 
 import java.util.Locale;
 import java.util.Random;
@@ -42,25 +39,14 @@ public class Test implements WithSimplePersistenceUnit {
         });
 
         //Configuración de conexión con el broker, topics.
+        ServiceBroker serviceBroker = ServiceLocator.instanceOf(ServiceBroker.class); //Aca se ve la ventaja de ahora es un una linea de codigo, por usar el service locator y tener toda la logica de instanciación ahi metida.
+
+        //Parte para generar simulación de sensor para enviar temperaturas
         String topic1 = "dds2024/heladera/movimiento";
         String topic2 = "dds2024/heladera/temperatura";
-        String broker = "tcp://freemqttbroker.sfodo.crystalmq.com:1883";
-        IMqttMessageListener receptor1 = new ReceptorMov(repositorio);
-        IMqttMessageListener receptor2 = new ReceptorTemp(repositorio);
-
-        Config config = Config.getInstance();
-        ClientCredentials credentials = new ClientCredentials(config.getProperty("broker.clientID"),config.getProperty("broker.clientUsername"),config.getProperty("broker.clientPassword"));
-        IServiceBroker serviceBroker = new ServiceBroker(broker,credentials);
-
-        serviceBroker.init();
-
-        serviceBroker.suscribe(topic1, receptor1);
-        serviceBroker.suscribe(topic2, receptor2);
-
-
         Timer timer = new Timer();
         long delay = 0;
-        long intervalPeriod = 3000;
+        long intervalPeriod = 10000;
         TimerTask task = new TimerTask() {
             @Override
             public void run() {

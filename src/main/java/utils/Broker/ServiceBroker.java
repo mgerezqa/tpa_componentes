@@ -7,6 +7,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class ServiceBroker implements IServiceBroker {
+    private static ServiceBroker instance;
     private String broker;
     private String clientId;
     private Integer qos = 1;
@@ -18,14 +19,21 @@ public class ServiceBroker implements IServiceBroker {
     private String username;
     private String password;
 
-
-    public ServiceBroker(String broker, ClientCredentials credentials) {
+    private ServiceBroker(String broker, ClientCredentials credentials) {
         this.broker = broker;
         this.persistence = new MemoryPersistence();
         this.username = credentials.getUsername();
         this.password = credentials.getPassword();
         this.clientId = credentials.getClientID();
     }
+
+    public static ServiceBroker getInstance(String broker, ClientCredentials credentials) {
+        if (instance == null) {
+            instance = new ServiceBroker(broker, credentials);
+        }
+        return instance;
+    }
+
     @Override
     public void init(){
         try {

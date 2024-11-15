@@ -1,5 +1,6 @@
 package utils.Broker;
 
+import config.ServiceLocator;
 import domain.Config;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
@@ -37,17 +38,9 @@ public class Test2 implements WithSimplePersistenceUnit {
             repositorio.guardar(colaborador);
         });
         //Configuración de conexión con el broker, topics.
+        ServiceBroker serviceBroker = ServiceLocator.instanceOf(ServiceBroker.class);
+
         String topic = "dds2024/heladera/autorizacion";
-        String broker = "tcp://freemqttbroker.sfodo.crystalmq.com:1883";
-        IMqttMessageListener receptor = new ReceptorAutorizacion(repositorio);
-
-        Config config = Config.getInstance();
-        ClientCredentials credentials = new ClientCredentials(config.getProperty("broker.clientID"),config.getProperty("broker.clientUsername"),config.getProperty("broker.clientPassword"));
-        IServiceBroker serviceBroker = new ServiceBroker(broker,credentials);
-
-        serviceBroker.init();
-        serviceBroker.suscribe(topic, receptor);
-
         String msg = "{'idH': 1, 'idC':1}";
         serviceBroker.publishMessage(topic, msg);
     }

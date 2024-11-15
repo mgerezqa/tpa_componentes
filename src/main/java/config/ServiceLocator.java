@@ -6,12 +6,20 @@ import controladores.ControladorBeneficiarios;
 import controladores.ControladorColaboradorFisico;
 import controladores.ControladorColaboradorJuridico;
 import controladores.ControladorHeladeras;
+import domain.Config;
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import repositorios.repositoriosBDD.RepositorioVulnerables;
+import utils.Broker.ClientCredentials;
+import utils.Broker.IServiceBroker;
+import utils.Broker.ServiceBroker;
+import utils.Broker.receptors.ReceptorAutorizacion;
+import utils.Broker.receptors.ReceptorMov;
+import utils.Broker.receptors.ReceptorTemp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -106,6 +114,25 @@ public class ServiceLocator {
             }
             else if(componentName.equals(RepositorioBarrios.class.getName())){
                 RepositorioBarrios instance = new RepositorioBarrios();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ServiceBroker.class.getName())){
+                String topic1 = "dds2024/heladera/movimiento";
+                String topic2 = "dds2024/heladera/temperatura";
+                String topic3 = "dds2024/heladera/autorizacion";
+                Config config = Config.getInstance();
+                String broker = config.getProperty("broker.url");
+                IMqttMessageListener receptor1 = new ReceptorMov(instanceOf(Repositorio.class));
+                IMqttMessageListener receptor2 = new ReceptorTemp(instanceOf(Repositorio.class));
+                IMqttMessageListener receptor3 = new ReceptorAutorizacion(instanceOf(Repositorio.class));
+
+
+                ClientCredentials credentials = new ClientCredentials(config.getProperty("broker.clientID"),config.getProperty("broker.clientUsername"),config.getProperty("broker.clientPassword"));
+                ServiceBroker instance = ServiceBroker.getInstance(broker,credentials);
+                instance.init();
+                instance.suscribe(topic1,receptor1);
+                instance.suscribe(topic2,receptor2);
+                instance.suscribe(topic3,receptor3);
                 instances.put(componentName, instance);
             }
         }

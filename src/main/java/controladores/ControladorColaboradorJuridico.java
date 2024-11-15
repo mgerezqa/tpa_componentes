@@ -410,10 +410,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Localidad localidad = repositorioLocalidades.buscarLocalidad(localidadHeladera.get());
         Barrio barrio = repositorioBarrios.buscarBarrioPorNombre(barrioHeladera.get());
         Calle calle = new Calle(direccionHeladera.get());
-        Ubicacion ubicacion = new Ubicacion(provincia,localidad,barrio);
-        ubicacion.setCalle(calle);
-        ubicacion.setLatitud(latitudHeladera.get());
-        ubicacion.setLongitud(longitudHeladera.get());
+        Ubicacion ubicacion = new Ubicacion(latitudHeladera.get(),longitudHeladera.get(),calle,provincia,localidad,barrio);
         Heladera heladera = new Heladera(modeloDeHeladera.get(),nombreHeladera.get(),ubicacion);
         heladera.setCapacidadMax(capacidadHeladera.get());
         Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
