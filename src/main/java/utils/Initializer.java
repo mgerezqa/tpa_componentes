@@ -42,7 +42,9 @@ public class Initializer implements WithSimplePersistenceUnit {
             this.instaciarLosDistintosUsuariosRoles();
             this.instanciarDistintosModelosDeHeladeras();
             this.instanciarHeladeras();
-            this.instanciarTestParaBroker();
+            //Test especifico para simular sensor de temperatura de las heladeras activas, y generé eventualmente una falla
+            //this.instanciarTestParaBroker();
+
         });
     }
 
@@ -69,9 +71,6 @@ public class Initializer implements WithSimplePersistenceUnit {
         
         timer.scheduleAtFixedRate(task, delay, intervalPeriod);
     }
-
-
-
 
     private void instanciarHeladeras() {
         Calle calle1 = new Calle("Presidente Luis Sáenz Peña","701");

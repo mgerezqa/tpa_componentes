@@ -1,3 +1,6 @@
+
+
+//No es usado, lo dejo por si se necesita algun script particular para el fisico
 // Inicializar el mapa de Leaflet
 var map = L.map('map').setView([-34.6037, -58.3816], 12); // Coordenadas de Buenos Aires (puedes cambiar)
 

@@ -61,15 +61,10 @@
                                 </div>
                                 <div id="map" class="rounded-5 ">
                                     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
-                                    {{#if tecnico}}
-                                        <script src="/js/script_mapa_tecnico.js"></script>
-                                    {{else if fisico}}
-                                        <script src="/js/script_mapa_colaborador_fisico.js"></script>
-                                    {{/if}}
+                                    <script src="/js/script_mapa_tecnico_fisico.js"></script>
                                 </div>
                             </div>
                         {{/if}}
-
 
                         <!-- Columna de la barra de búsqueda e información -->
                         {{#if juridico}}
@@ -85,7 +80,7 @@
 
                                 </div>
                             </div>
-                        {{else if tecnico}}
+                        {{else}}
                             <div class="col-lg-4">
                                 <div class="rounded pt-1 mt-3 px-3">
                                     <!-- Barra de búsqueda -->
@@ -128,72 +123,26 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {{#if tecnico}}
+                                        <div class="d-flex justify-content-evenly col-12 col-md-12  mt-4 gap-4" >
 
-                                    <div class="d-flex justify-content-evenly col-12 col-md-12  mt-4 gap-4" >
-
-                                        <!-- Botón "Informe de reparación" con data-target actualizado -->
-                                        <button href="#" class="btn btn-success botones" id="boton-informe-reparacion" data-bs-toggle="modal" data-bs-target="#reparacionModal" disabled>
-                                            <i class="bi bi-bell-fill"></i> Informe de reparación
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        {{else if fisico}}
-                            <div class="col-lg-4">
-                                <div class="rounded pt-1 mt-3 px-3">
-                                    <!-- Barra de búsqueda -->
-                                    <h2 class="text-center mb-4">Buscar </h2>
-                                    <div id="search-bar">
-                                        <input type="text" class="form-control " placeholder="Buscar estación..." >
-                                    </div>
-
-                                    <!-- Información de la heladera -->
-                                    <div id="container-information-refrigerator" class="mt-5 px-3 rounded-5 pb-4 bg-light bg-gradient">
-                                        <h2 class="text-center mb-5 pt-3">Información</h2>
-                                        <div id="information-refrigerators">
-                                            <div class="d-flex mb-3">
-                                                <label class="form-label w-50" for="estado"> <i class="bi bi-clipboard2-pulse"></i> Estado: </label>
-                                                <input placeholder="Activa/NO" class="form-control form-control-sm w-50" name="estado" type="text" id="estado" disabled>
-                                            </div>
-                                            <div class="d-flex mb-3">
-                                                <label class="form-label w-50" for="estacion"><i class="bi bi-bookmark"></i> Estación: </label>
-                                                <input placeholder="Nombre de estación" class="form-control form-control-sm w-50" name="estacion" type="text" id="estacion-name" disabled>
-                                            </div>
-                                            <div class="d-flex mb-3">
-                                                <label class="form-label w-50" for="direccion"><i class="bi bi-geo-alt"></i> Dirección: </label>
-                                                <input placeholder="Dirección" class="form-control form-control-sm w-50" name="direccion" type="text" id="direccion" disabled>
-                                            </div>
-                                            <div class="d-flex mb-3">
-                                                <label class="form-label w-50" for="temperatura"><i class="bi bi-thermometer"></i> Temperatura: </label>
-                                                <input placeholder="Temperatura" class="form-control form-control-sm w-50" name="temperatura" type="text" id="temperatura" disabled>
-                                            </div>
-                                            <div class="d-flex mb-3">
-                                                <label class="form-label w-50" for="capacidad-total"><i class="bi bi-box-seam"></i> Capacidad : </label>
-                                                <input placeholder="Capacidad Total" class="form-control form-control-sm w-50" name="capacidad-total" type="text" id="capacidad-total" disabled>
-                                            </div>
-                                            <div class="d-flex mb-3">
-                                                <label class="form-label w-50" for="viandas-disponibles"><i class="bi bi-basket2"></i> Viandas Disponibles: </label>
-                                                <input placeholder="Viandas Disponibles" class="form-control form-control-sm w-50" name="viandas-disponibles" type="text" id="viandas-disponibles" disabled>
-                                            </div>
-                                            <div class="d-flex mb-3">
-                                                <label class="form-label w-50" for="inicio-operacion"><i class="bi bi-calendar"></i> Inicio de Operación: </label>
-                                                <input placeholder="Fecha de Inicio" class="form-control form-control-sm w-50" name="inicio-operacion" type="text" id="inicio-operacion" disabled>
-                                            </div>
+                                            <!-- Botón "Informe de reparación" con data-target actualizado -->
+                                            <button href="#" class="btn btn-success botones" id="boton-informe-reparacion" data-bs-toggle="modal" data-bs-target="#reparacionModal" disabled>
+                                                <i class="bi bi-bell-fill"></i> Informe de reparación
+                                            </button>
                                         </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-evenly col-12 col-md-12  mt-4 gap-4" >
-                                        <a href="" class="btn btn-danger botones" id="boton-report-heladera" data-bs-toggle="modal" data-bs-target="#reportModal" >
-                                            <i class="bi bi-exclamation-triangle-fill"></i>
-                                            Reportar heladera
-                                        </a>
-                                        <a href="" class="btn btn-success botones" id="boton-suscribirse-heladera" data-bs-toggle="modal" data-bs-target="#subscribeModal">
-                                            <i class="bi bi-bell-fill"></i>
-                                            Suscribirse
-                                        </a>
-                                    </div>
-
+                                    {{else}}
+                                        <div class="d-flex justify-content-evenly col-12 col-md-12  mt-4 gap-4" >
+                                            <a href="" class="btn btn-danger botones" id="boton-report-heladera" data-bs-toggle="modal" data-bs-target="#reportModal" >
+                                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                                Reportar heladera
+                                            </a>
+                                            <a href="" class="btn btn-success botones" id="boton-suscribirse-heladera" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                                                <i class="bi bi-bell-fill"></i>
+                                                Suscribirse
+                                            </a>
+                                        </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         {{/if}}
@@ -354,14 +303,10 @@
     </div>
 {{/partial}}
 {{#partial "scripts"}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-    {{#if tecnico}}
-        <script src="/js/script_mapa_tecnico.js"></script>
-    {{else if juridico}}
+    {{#if juridico}}
         <script src="/js/script_mapa_colaborador_juridico.js"></script>
-    {{else if fisico}}
-        <script src="/js/script_mapa_colaborador_fisico.js"></script>
+    {{else}}
+        <script src="/js/script_mapa_tecnico_fisico.js"></script>
     {{/if}}
 {{/partial}}
 {{> templates/home/base}}

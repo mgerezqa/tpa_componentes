@@ -1,5 +1,3 @@
-//No es usado, lo dejo por si se necesita algun script particular para el tecnico
-
 // Repositorio simulado de heladeras
 // Inicializa el mapa y añade marcadores
 var map = L.map('map').setView([-34.6037, -58.3816], 12);

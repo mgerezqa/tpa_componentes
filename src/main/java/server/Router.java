@@ -166,7 +166,7 @@ public class Router implements SimplePersistenceTest{
 
                 model.put("modelosHeladeras", modelosHeladeras);
             }
-            if (esTecnico) {
+            if (esTecnico || esFisico) {
                 List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
                         .buscarTodos(Heladera.class)
                         .stream()
