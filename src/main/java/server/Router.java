@@ -1,5 +1,6 @@
 package server;
 
+import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.RoleENUM;
 import config.ServiceLocator;
@@ -162,6 +163,16 @@ public class Router implements SimplePersistenceTest{
                     .collect(Collectors.toList());
 
                 model.put("modelosHeladeras", modelosHeladeras);
+            }
+            if (esTecnico){
+                List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
+                        .buscarTodos(Heladera.class)
+                        .stream()
+                        .map(m -> (Heladera) m)
+                        .collect(Collectors.toList());
+
+                model.put("heladeras", heladeras);
+
             }
 
             ctx.render("home/estaciones/mapa.hbs", model);

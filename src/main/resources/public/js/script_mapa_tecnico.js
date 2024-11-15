@@ -1,10 +1,4 @@
 // Repositorio simulado de heladeras
-const heladeras = [
-    { nombre: "Estación Medrano", coordenadas: [-34.59845242130508, -58.42017359115016], estado: "Activa", direccion: "Calle Medrano 123", temperatura: "5°C", capacidad: "100", viandas: "20", inicioOperacion: "2021-05-12" },
-    { nombre: "Estación Campus", coordenadas: [-34.6589172508621, -58.467761023827016], estado: "Activa", direccion: "Calle Campus 456", temperatura: "4°C", capacidad: "150", viandas: "50", inicioOperacion: "2020-11-23" },
-    // Agregar más estaciones según sea necesario
-];
-
 // Inicializa el mapa y añade marcadores
 var map = L.map('map').setView([-34.6037, -58.3816], 12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

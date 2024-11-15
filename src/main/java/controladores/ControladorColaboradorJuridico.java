@@ -415,6 +415,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         ubicacion.setLatitud(latitudHeladera.get());
         ubicacion.setLongitud(longitudHeladera.get());
         Heladera heladera = new Heladera(modeloDeHeladera.get(),nombreHeladera.get(),ubicacion);
+        heladera.setCapacidadMax(capacidadHeladera.get());
         Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
 
         withTransaction(()->{

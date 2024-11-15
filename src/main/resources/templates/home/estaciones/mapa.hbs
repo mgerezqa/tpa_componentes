@@ -5,6 +5,18 @@
     <link rel="stylesheet" href="/css/usuarios/colaboradores/nueva_donacion.css">
     <link rel="stylesheet" href="/css/usuarios/colaboradores/mapa_de_estaciones.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    {{#if tecnico}}
+        <script>
+            var heladeras = [];
+                {{#each heladeras}}
+                heladeras.push({
+                    nombre: "{{nombreIdentificador}}",
+                    coordenadas: [{{ubicacion.latitud}}, {{ubicacion.longitud}}],
+                    estado: "{{estadoHeladera}}"
+                });
+                {{/each}}
+        </script>
+    {{/if}}
 {{/partial}}
 {{#partial "title"}}
     Mapa de estaciones
@@ -279,25 +291,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Este boton de confirmación agrega complejidad ya que como envio los campos del formulario, seguramente tendre que usar JS-->
-                        <!--&lt;!&ndash; Modal de Confirmación de Donación &ndash;&gt;
-                        <div class="modal fade" id="confirmarDonacionModal" tabindex="-1" aria-labelledby="confirmarDonacionModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmarDonacionModalLabel">Confirmación de Donación</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>¿Estás seguro de que deseas realizar esta donación?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-success" id="confirmarDonacionFinal">Confirmar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                     {{else if fisico}}
                         <!-- Modal para "Reportar heladera" -->
                         <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
