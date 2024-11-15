@@ -1,6 +1,7 @@
 package domain.donaciones;
 
 import domain.heladera.Heladera.Heladera;
+import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,35 +16,22 @@ import java.time.temporal.ChronoUnit;
 @NoArgsConstructor
 @Entity
 @Table(name = "donaciones_mantener_heladera")
-public class MantenerHeladera {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class MantenerHeladera extends Donacion{
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id", nullable = false)
     private Heladera heladera;
 
-    @Column(name = "fecha_comienzo", nullable = false,columnDefinition = "DATE")
-    private LocalDate fechaDeDonacion;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "colaborador_id", nullable = false)
-    private ColaboradorJuridico colaboradorQueLaDono;
-
     @Column(name = "meses_puntarizados", nullable = false)
     private Integer mesesPuntarizados = 0;
 
     public MantenerHeladera(Heladera heladera, LocalDate fechaDeDonacion, ColaboradorJuridico colaboradorQueLaDono) {
+        super(fechaDeDonacion, colaboradorQueLaDono);
         this.heladera = heladera;
-        this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
-    public MantenerHeladera(Heladera heladera, ColaboradorJuridico colaboradorJuridico){
+    public MantenerHeladera(Heladera heladera, Colaborador colaboradorQueLaDono){
+        super(LocalDate.now(), colaboradorQueLaDono);
         this.heladera = heladera;
-        this.fechaDeDonacion = LocalDate.now();
-        this.colaboradorQueLaDono = colaboradorJuridico;
     }
 
     public int mesesMantenida() {

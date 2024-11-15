@@ -17,11 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "donaciones_distribuir")
-public class Distribuir {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Distribuir extends Donacion{
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_origen_id", nullable = false)
@@ -38,18 +34,10 @@ public class Distribuir {
     @Column(name = "motivo")
     private Motivo motivo;
 
-    @Column(name = "fecha_donacion", nullable = false)
-    private LocalDate fechaDeDonacion;
-
-    @ManyToOne
-    @JoinColumn(name = "colaborador_id", nullable = false)
-    private ColaboradorFisico colaboradorQueLaDono;
-
     public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, LocalDate fechaDeDonacion, ColaboradorFisico colaboradorQueLaDono) {
+        super(fechaDeDonacion, colaboradorQueLaDono);
         this.heladeraOrigen = heladeraOrigen;
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
-        this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
 }

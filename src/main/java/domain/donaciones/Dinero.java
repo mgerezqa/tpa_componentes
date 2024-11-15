@@ -11,15 +11,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "donaciones_dinero")
-public class Dinero {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Dinero extends Donacion{
 
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
@@ -27,18 +23,10 @@ public class Dinero {
     @Enumerated(EnumType.STRING)
     private FrecuenciaDeDonacion frecuencia;
 
-
-    @Column(name = "fecha_donacion", nullable = false)
-    private LocalDate fechaDeDonacion;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "colaborador_id", nullable = false)
-    private Colaborador colaboradorQueLaDono;
-
     public Dinero(Integer cantidad, FrecuenciaDeDonacion frecuencia, LocalDate fechaDeDonacion, Colaborador colaboradorQueLaDono) {
+        super(fechaDeDonacion,colaboradorQueLaDono);
         this.cantidad = cantidad;
         this.frecuencia = frecuencia;
-        this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
+
 }

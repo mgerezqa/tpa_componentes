@@ -14,21 +14,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "donaciones_viandas")
-public class Vianda  {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Vianda extends Donacion {
     @Column(name = "fecha_vencimiento", columnDefinition = "DATE")
     private LocalDate fechaVencimiento;
-
-    @Column(name = "fecha_donacion", columnDefinition = "DATE")
-    private LocalDate fechaDonacion;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "colaborador_id")
-    private ColaboradorFisico colaboradorQueLaDono;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "heladera_id")
@@ -38,9 +26,8 @@ public class Vianda  {
 
     // < CONSTRUCTOR > //
     public Vianda(LocalDate fechaVencimiento, LocalDate fechaDonacion, ColaboradorFisico colaboradorQueLaDono) {
+        super(fechaDonacion, colaboradorQueLaDono);
         this.fechaVencimiento = fechaVencimiento;
-        this.fechaDonacion = fechaDonacion;
-        this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
 
     // ============================================================ //

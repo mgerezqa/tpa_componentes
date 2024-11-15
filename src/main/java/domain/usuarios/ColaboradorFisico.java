@@ -1,10 +1,8 @@
 package domain.usuarios;
 
 import domain.donaciones.Vianda;
-import domain.geografia.Ubicacion;
 import domain.geografia.area.AreaDeCobertura;
 import lombok.*;
-import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,7 +24,7 @@ public class ColaboradorFisico extends Colaborador {
     @Column(name = "apellido", nullable = false)
     private String apellido;
 
-    @Column(name = "nacimiento")
+    @Column(name = "nacimiento",columnDefinition = "DATE")
     private LocalDate nacimiento;
 
     @OneToMany(mappedBy = "colaboradorQueLaDono", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
