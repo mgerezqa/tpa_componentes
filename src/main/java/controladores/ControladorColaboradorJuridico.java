@@ -393,6 +393,10 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Validator<String> provinciaHeladera = context.formParamAsClass("donationState", String.class)
                 .check(v -> !v.isEmpty()  , "La provincia de la heladera es obligatorio")
                 .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
+        Validator<Float> longitudHeladera = context.formParamAsClass("longitud",Float.class)
+                .check(Objects::nonNull, "La latiud de la heladera es obligatorio");
+        Validator<Float> latitudHeladera = context.formParamAsClass("latitud",Float.class)
+                .check(Objects::nonNull, "La longitud de la heladera es obligatorio");
 
         Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreHeladera,modeloHeladera,capacidadHeladera,direccionHeladera,barrioHeladera,localidadHeladera,provinciaHeladera);
 
@@ -408,6 +412,8 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Calle calle = new Calle(direccionHeladera.get());
         Ubicacion ubicacion = new Ubicacion(provincia,localidad,barrio);
         ubicacion.setCalle(calle);
+        ubicacion.setLatitud(latitudHeladera.get());
+        ubicacion.setLongitud(longitudHeladera.get());
         Heladera heladera = new Heladera(modeloDeHeladera.get(),nombreHeladera.get(),ubicacion);
         Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
 

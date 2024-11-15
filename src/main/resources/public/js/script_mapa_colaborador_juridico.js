@@ -28,6 +28,8 @@ map.on('click', async (e) => {
     // Intentar obtener la dirección
     try {
         const address = await getAddressFromCoords(lat, lng);
+        document.getElementById("latitud").value = lat;
+        document.getElementById("longitud").value = lng;
         document.getElementById('donationLocation').value = address.fullAddress; // Colocar dirección en el formulario
         document.getElementById('donationNeighborhood').value = address.neighborhood;
         document.getElementById('donationCity').value = address.city;
