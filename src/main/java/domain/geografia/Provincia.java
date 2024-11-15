@@ -1,9 +1,11 @@
 package domain.geografia;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity
+@Getter
 @Table(name = "provincias")
 public class Provincia {
     @Id

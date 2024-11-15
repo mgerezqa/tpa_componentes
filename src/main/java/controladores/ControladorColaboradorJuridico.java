@@ -5,6 +5,7 @@ import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
 import domain.geografia.Calle;
+import domain.geografia.Provincia;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.*;
@@ -12,10 +13,7 @@ import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.validation.NullableValidator;
-import repositorios.repositoriosBDD.RepositorioColaboradores;
-import repositorios.repositoriosBDD.RepositorioModeloHeladeras;
-import repositorios.repositoriosBDD.RepositorioRoles;
-import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
 import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
@@ -29,11 +27,13 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioRoles repositorioRoles;
     private RepositorioModeloHeladeras repositorioModeloHeladeras;
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras) {
+    private RepositorioProvincias repositorioProvincias;
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorioModeloHeladeras = repositorioModeloHeladeras;
+        this.repositorioProvincias = repositorioProvincias;
     }
 
     @Override //LISTO
@@ -388,7 +388,8 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
                 .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
 
         Optional<ModeloDeHeladera> modeloDeHeladera = repositorioModeloHeladeras.buscarModeloPorNombre(modeloHeladera.get());
-        System.out.println(modeloDeHeladera.get());
+        Provincia provinciaPosible = repositorioProvincias.buscarProvincia(provinciaHeladera.get());
+        System.out.println(provinciaPosible.getId());
         context.redirect("/estaciones");
     }
 }
