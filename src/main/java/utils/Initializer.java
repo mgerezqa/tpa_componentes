@@ -1,5 +1,6 @@
 package utils;
 
+import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
@@ -14,13 +15,10 @@ import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
-import repositorios.repositoriosBDD.RepositorioColaboradores;
-import repositorios.repositoriosBDD.RepositorioRoles;
-import repositorios.repositoriosBDD.RepositorioTecnicos;
-import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.*;
+import utils.Broker.ServiceBroker;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Initializer implements WithSimplePersistenceUnit {
     private RepositorioRoles repositorioRoles;
@@ -44,8 +42,36 @@ public class Initializer implements WithSimplePersistenceUnit {
             this.instaciarLosDistintosUsuariosRoles();
             this.instanciarDistintosModelosDeHeladeras();
             this.instanciarHeladeras();
+            this.instanciarTestParaBroker();
         });
     }
+
+    private void instanciarTestParaBroker() {
+        ServiceBroker serviceBroker = ServiceLocator.instanceOf(ServiceBroker.class);
+        String topic1 = "dds2024/heladera/temperatura";
+        Timer timer = new Timer();
+        long delay = 0;
+        long intervalPeriod = 10000;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                List<Heladera> heladeras = ServiceLocator.instanceOf(RepositorioHeladeras.class).obtenerTodasLasHeladerasActivas();
+                Random random = new Random();
+                for (Heladera heladera : heladeras) {
+                    float min = -20f;
+                    float max = 10f;
+                    float temperature = min + (max - min) * random.nextFloat();
+                    String msg = String.format(Locale.US, "{'id':%d,'temp':%.2f}", heladera.getId(), temperature);
+                    serviceBroker.publishMessage(topic1, msg);
+                }
+            }
+        };
+        
+        timer.scheduleAtFixedRate(task, delay, intervalPeriod);
+    }
+
+
+
 
     private void instanciarHeladeras() {
         Calle calle1 = new Calle("Presidente Luis Sáenz Peña","701");

@@ -1,6 +1,8 @@
 package repositorios.repositoriosBDD;
 
+import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
+import domain.usuarios.Tecnico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
@@ -31,6 +33,14 @@ public class RepositorioHeladeras extends Repositorio implements WithSimplePersi
     public List<Heladera> obtenerTodasLasHeladeras() {
         return entityManager()
                 .createQuery("FROM Heladera", Heladera.class)
+                .getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Heladera> obtenerTodasLasHeladerasActivas() {
+        return entityManager()
+                .createQuery("SELECT h FROM Heladera h WHERE h.estadoHeladera =:estado ", Heladera.class)
+                .setParameter("estado", EstadoHeladera.ACTIVA)
                 .getResultList();
     }
 }
