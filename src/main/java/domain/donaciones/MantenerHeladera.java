@@ -25,7 +25,7 @@ public class MantenerHeladera {
     @JoinColumn(name = "heladera_id", nullable = false)
     private Heladera heladera;
 
-    @Column(name = "fecha_comienzo", nullable = false)
+    @Column(name = "fecha_comienzo", nullable = false,columnDefinition = "DATE")
     private LocalDate fechaDeDonacion;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
