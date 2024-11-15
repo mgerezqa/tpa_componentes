@@ -14,10 +14,7 @@ import repositorios.Repositorio;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Router implements SimplePersistenceTest{
 
@@ -182,7 +179,9 @@ public class Router implements SimplePersistenceTest{
 
             ctx.render("home/estaciones/mapa.hbs", model);
         }, RoleENUM.TECNICO, RoleENUM.FISICO, RoleENUM.JURIDICO);
-
+        app.get("/donaciones", (ctx) ->{
+           ctx.render("/home/donaciones/donaciones.hbs");
+        },RoleENUM.JURIDICO,RoleENUM.FISICO);
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
 
     }

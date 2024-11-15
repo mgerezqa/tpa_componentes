@@ -19,56 +19,37 @@
                         <span>MI PERFIL</span>
                     </a>
                 </div>
-                {{#if fisico}}
+                {{#if tecnico}}
+                {{else}}
                     <div class="col mt-3 px-3">
-                        <a href="donaciones.html" class="boton link_operacion" >
+                        <a href="/donaciones" class="boton link_operacion" >
                             <i class="bi bi-basket"></i>
                             <span>MIS DONACIONES</span>
                         </a>
                     </div>
                     <div class="col mt-3 px-3">
-                        <a href="mis_puntos.html" class="boton link_operacion" >
+                        <a href="/puntos" class="boton link_operacion" >
                             <i class="bi bi-gear"></i> <!-- Ícono de operaciones -->
                             <span>MIS PUNTOS </span>
                         </a>
                     </div>
                     <div class="col mt-3 px-3">
-                        <a href="canjes_realizados.html" class="boton link_operacion" >
+                        <a href="/canjes" class="boton link_operacion" >
                             <i class="bi bi-gift"></i> <!-- Ícono de canjes -->
                             <span>MIS CANJES</span>
                         </a>
                     </div>
-                {{else}}
-                    {{#if juridico}}
-                        <div class="col mt-3 px-3">
-                            <a href="donaciones.html" class="boton link_operacion" >
-                                <i class="bi bi-basket"></i>
-                                <span>MIS DONACIONES</span>
-                            </a>
-                        </div>
-                        <div class="col mt-3 px-3">
-                            <a href="mis_puntos.html" class="boton link_operacion" >
-                                <i class="bi bi-gear"></i> <!-- Ícono de operaciones -->
-                                <span>MIS PUNTOS </span>
-                            </a>
-                        </div>
-                        <div class="col mt-3 px-3">
-                            <a href="canjes_realizados.html" class="boton link_operacion" >
-                                <i class="bi bi-gift"></i> <!-- Ícono de canjes -->
-                                <span>MIS CANJES</span>
-                            </a>
-                        </div>
-                    {{/if}}
                 {{/if}}
+
                 {{#if tecnico}}
                     <div class="col mt-3 px-3">
-                        <a href="visitas.html" class="boton link_operacion" >
+                        <a href="/visitas" class="boton link_operacion" >
                             <i class="bi bi-wrench-adjustable"></i>
                             <span>MIS VISITAS</span>
                         </a>
                     </div>
                     <div class="col mt-3 px-3">
-                        <a href="notificaciones.html" class="boton link_operacion" >
+                        <a href="/notificaciones" class="boton link_operacion" >
                             <i class="bi bi-envelope-fill"></i>
                             <span>NOTIFICACIONES</span>
                         </a>
