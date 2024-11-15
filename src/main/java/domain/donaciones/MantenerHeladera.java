@@ -40,6 +40,11 @@ public class MantenerHeladera {
         this.fechaDeDonacion = fechaDeDonacion;
         this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
+    public MantenerHeladera(Heladera heladera, ColaboradorJuridico colaboradorJuridico){
+        this.heladera = heladera;
+        this.fechaDeDonacion = LocalDate.now();
+        this.colaboradorQueLaDono = colaboradorJuridico;
+    }
 
     public int mesesMantenida() {
         int months = (int) ChronoUnit.MONTHS.between(this.fechaDeDonacion, LocalDate.now());

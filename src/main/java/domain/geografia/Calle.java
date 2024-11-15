@@ -24,4 +24,13 @@ public class Calle {
         this.nombre = calle;
         this.altura = altura;
     }
+    public Calle(String calleAltura) {
+        String[] partes = calleAltura.split(", ");
+        if (partes.length == 2) {
+            this.nombre = partes[0];
+            this.altura = partes[1];
+        } else {
+            throw new IllegalArgumentException("Formato incorrecto. Se espera 'Calle, Altura'");
+        }
+    }
 }

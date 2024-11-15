@@ -4,13 +4,16 @@ import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
+import domain.donaciones.MantenerHeladera;
 import domain.geografia.*;
+import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.*;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.validation.NullableValidator;
+import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
 import io.javalin.http.HttpStatus;
@@ -28,7 +31,8 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     private RepositorioProvincias repositorioProvincias;
     private RepositorioLocalidades repositorioLocalidades;
     private RepositorioBarrios repositorioBarrios;
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios) {
+    private Repositorio repositorio;
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios, Repositorio repositorio) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
@@ -36,6 +40,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         this.repositorioProvincias = repositorioProvincias;
         this.repositorioLocalidades = repositorioLocalidades;
         this.repositorioBarrios = repositorioBarrios;
+        this.repositorio = repositorio;
     }
 
     @Override //LISTO
@@ -389,10 +394,27 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
                 .check(v -> !v.isEmpty()  , "La provincia de la heladera es obligatorio")
                 .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
 
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombreHeladera,modeloHeladera,capacidadHeladera,direccionHeladera,barrioHeladera,localidadHeladera,provinciaHeladera);
+
+        if(!errors.isEmpty()){
+            System.out.println(errors);
+            context.redirect("/dashboard/tecnicos"); // TODO -> Pantalla del form pero mencionando los errores al usuario
+        }
+
         Optional<ModeloDeHeladera> modeloDeHeladera = repositorioModeloHeladeras.buscarModeloPorNombre(modeloHeladera.get());
         Provincia provincia = repositorioProvincias.buscarProvincia(provinciaHeladera.get());
         Localidad localidad = repositorioLocalidades.buscarLocalidad(localidadHeladera.get());
         Barrio barrio = repositorioBarrios.buscarBarrioPorNombre(barrioHeladera.get());
+        Calle calle = new Calle(direccionHeladera.get());
+        Ubicacion ubicacion = new Ubicacion(provincia,localidad,barrio);
+        ubicacion.setCalle(calle);
+        Heladera heladera = new Heladera(modeloDeHeladera.get(),nombreHeladera.get(),ubicacion);
+        Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
+
+        withTransaction(()->{
+            MantenerHeladera donacion = new MantenerHeladera(heladera,(ColaboradorJuridico) colaboradorJuridicoPosible.get());
+            repositorio.guardar(donacion);
+        });
 
         context.redirect("/estaciones");
     }
