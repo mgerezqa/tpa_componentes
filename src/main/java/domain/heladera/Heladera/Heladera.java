@@ -83,6 +83,17 @@ public class Heladera {
         this.fechaInicioFuncionamiento = LocalDate.now();
         this.eventManager = new EventManager();
     }
+    public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion,Integer capacidadMax){
+        this.ubicacion = ubicacion;
+        this.capacidadActual = 0;
+        this.modelo = modelo;
+        this.nombreIdentificador = nombreIdentificador;
+        this.darDeAltaHeladera();
+        this.solicitudesPendientes = new ArrayList<>();
+        this.fechaInicioFuncionamiento = LocalDate.now();
+        this.eventManager = new EventManager();
+        this.capacidadMax = capacidadMax;
+    }
 
     // ============================================================ //
     // MéTODOS //

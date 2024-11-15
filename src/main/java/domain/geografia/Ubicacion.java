@@ -81,4 +81,12 @@ public class Ubicacion {
         this.localidad = localidad;
         this.barrio = barrio;
     }
+    public Ubicacion(Float latitud, Float longitud, Calle calle,Provincia provincia, Localidad localidad, Barrio barrio) {
+        this.provincia = provincia;
+        this.localidad = localidad;
+        this.barrio = barrio;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.calle = calle;
+    }
 }

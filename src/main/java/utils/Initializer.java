@@ -9,6 +9,7 @@ import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.*;
 import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
+import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -18,12 +19,16 @@ import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Initializer implements WithSimplePersistenceUnit {
     private RepositorioRoles repositorioRoles;
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioTecnicos repositorioTecnicos;
     private Repositorio repositorio;
+    private List<ModeloDeHeladera> modelosHeladerasPorDefecto = new ArrayList<>();
 
     public Initializer(RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
         this.repositorioRoles = repositorioRoles;
@@ -38,7 +43,65 @@ public class Initializer implements WithSimplePersistenceUnit {
             this.instaciarLosRoles();
             this.instaciarLosDistintosUsuariosRoles();
             this.instanciarDistintosModelosDeHeladeras();
+            this.instanciarHeladeras();
         });
+    }
+
+    private void instanciarHeladeras() {
+        Calle calle1 = new Calle("Presidente Luis Sáenz Peña","701");
+        Barrio barrio1 = new Barrio("Monserrat");
+        Localidad localidad1 = new Localidad("Buenos Aires");
+        Provincia provincia1 = new Provincia("Ciudad Autónoma de Buenos Aires");
+        Float latitud1 = -34.61674811076943f;
+        Float longitud1 = -58.3875399828503f;
+        Ubicacion ubicacion1 = new Ubicacion(latitud1,longitud1,calle1,provincia1,localidad1,barrio1);
+        ModeloDeHeladera modeloA = modelosHeladerasPorDefecto.get(0);
+        String nombreHeladera1 = "heladera 1";
+        Integer capacidadMax1 = 14;
+        Heladera heladera1 = new Heladera(modeloA,nombreHeladera1,ubicacion1,capacidadMax1);
+
+        Calle calle2 = new Calle("Virrey Cevallos","699");
+        Barrio barrio2 = new Barrio("Monserrat");
+        Localidad localidad2 = new Localidad("Buenos Aires");
+        Provincia provincia2 = new Provincia("Ciudad Autónoma de Buenos Aires");
+        Float latitud2 = -34.616733394911506f;
+        Float longitud2 = -58.38906347757075f;
+        Ubicacion ubicacion2 = new Ubicacion(latitud2,longitud2,calle2,provincia2,localidad2,barrio2);
+        ModeloDeHeladera modeloB = modelosHeladerasPorDefecto.get(1);
+        String nombreHeladera2 = "heladera 2";
+        Integer capacidadMax2 = 20;
+        Heladera heladera2 = new Heladera(modeloB,nombreHeladera2,ubicacion2,capacidadMax2);
+
+        Calle calle3 = new Calle("San José","302");
+        Barrio barrio3 = new Barrio("Monserrat");
+        Localidad localidad3 = new Localidad("Buenos Aires");
+        Provincia provincia3 = new Provincia("Ciudad Autónoma de Buenos Aires");
+        Float latitud3 = -34.61230085978499f;
+        Float longitud3 = -58.38616669183467f;
+        Ubicacion ubicacion3 = new Ubicacion(latitud3,longitud3,calle3,provincia3,localidad3,barrio3);
+        ModeloDeHeladera modeloC = modelosHeladerasPorDefecto.get(2);
+        String nombreHeladera3 = "heladera 3";
+        Integer capacidadMax3 = 40;
+        Heladera heladera3 = new Heladera(modeloC,nombreHeladera3,ubicacion3,capacidadMax3);
+
+        Calle calle4 = new Calle("Piedras","1102");
+        Barrio barrio4 = new Barrio("San Telmo");
+        Localidad localidad4 = new Localidad("Buenos Aires");
+        Provincia provincia4 = new Provincia("Ciudad Autónoma de Buenos Aires");
+        Float latitud4 = -34.620914065209135f;
+        Float longitud4 = -58.37723493581508f;
+        Ubicacion ubicacion4 = new Ubicacion(latitud4,longitud4,calle4,provincia4,localidad4,barrio4);
+        ModeloDeHeladera modeloD = modelosHeladerasPorDefecto.get(3);
+        String nombreHeladera4 = "heladera 4";
+        Integer capacidadMax4 = 60;
+        Heladera heladera4 = new Heladera(modeloD,nombreHeladera4,ubicacion4,capacidadMax4);
+
+
+        repositorio.guardar(heladera1);
+        repositorio.guardar(heladera2);
+        repositorio.guardar(heladera3);
+        repositorio.guardar(heladera4);
+
     }
 
     private void instanciarDistintosModelosDeHeladeras() {
@@ -51,6 +114,12 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorio.guardar(modelo2);
         repositorio.guardar(modelo3);
         repositorio.guardar(modelo4);
+
+        //Esto lo hago para poder setear despues heladeras con esta misma instancia de los modelos, y evitar llamar a la base de datos para obtener la refenrencia
+        modelosHeladerasPorDefecto.add(modelo1);
+        modelosHeladerasPorDefecto.add(modelo2);
+        modelosHeladerasPorDefecto.add(modelo3);
+        modelosHeladerasPorDefecto.add(modelo4);
     }
 
     private void instaciarLosRoles(){
