@@ -4,14 +4,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Embeddable
+@Entity
+@Table(name = "localidades")
 public class Localidad {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "localidad")
     private String localidad;
     public Localidad(String localidad) {

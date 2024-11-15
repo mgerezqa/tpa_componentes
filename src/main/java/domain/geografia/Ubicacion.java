@@ -30,10 +30,12 @@ public class Ubicacion {
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
-    @Embedded
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "localidad_id")
     private Localidad localidad;
 
-    @Embedded
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "barrio_id")
     private Barrio barrio;
 
     public Ubicacion(Float latitud, Float longitud, Calle calle) {

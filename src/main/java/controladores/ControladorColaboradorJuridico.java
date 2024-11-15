@@ -4,9 +4,7 @@ import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
-import domain.geografia.Calle;
-import domain.geografia.Provincia;
-import domain.geografia.Ubicacion;
+import domain.geografia.*;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.*;
 import dtos.ColaboradorJuridicoDTO;
@@ -28,12 +26,16 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     private RepositorioRoles repositorioRoles;
     private RepositorioModeloHeladeras repositorioModeloHeladeras;
     private RepositorioProvincias repositorioProvincias;
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias) {
+    private RepositorioLocalidades repositorioLocalidades;
+    private RepositorioBarrios repositorioBarrios;
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorioModeloHeladeras = repositorioModeloHeladeras;
         this.repositorioProvincias = repositorioProvincias;
+        this.repositorioLocalidades = repositorioLocalidades;
+        this.repositorioBarrios = repositorioBarrios;
     }
 
     @Override //LISTO
@@ -388,8 +390,10 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
                 .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
 
         Optional<ModeloDeHeladera> modeloDeHeladera = repositorioModeloHeladeras.buscarModeloPorNombre(modeloHeladera.get());
-        Provincia provinciaPosible = repositorioProvincias.buscarProvincia(provinciaHeladera.get());
-        System.out.println(provinciaPosible.getId());
+        Provincia provincia = repositorioProvincias.buscarProvincia(provinciaHeladera.get());
+        Localidad localidad = repositorioLocalidades.buscarLocalidad(localidadHeladera.get());
+        Barrio barrio = repositorioBarrios.buscarBarrioPorNombre(barrioHeladera.get());
+
         context.redirect("/estaciones");
     }
 }
