@@ -9,6 +9,7 @@ import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.*;
 import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
+import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
@@ -41,7 +42,15 @@ public class Initializer implements WithSimplePersistenceUnit {
     }
 
     private void instanciarDistintosModelosDeHeladeras() {
+        ModeloDeHeladera modelo1 = new ModeloDeHeladera("MODELO A",-12f,22f);
+        ModeloDeHeladera modelo2 = new ModeloDeHeladera("MODELO B",-2f,44f);
+        ModeloDeHeladera modelo3 = new ModeloDeHeladera("MODELO C",2f,55f);
+        ModeloDeHeladera modelo4 = new ModeloDeHeladera("MODELO D",10f,66f);
 
+        repositorio.guardar(modelo1);
+        repositorio.guardar(modelo2);
+        repositorio.guardar(modelo3);
+        repositorio.guardar(modelo4);
     }
 
     private void instaciarLosRoles(){

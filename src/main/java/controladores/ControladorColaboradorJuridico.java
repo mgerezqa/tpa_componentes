@@ -6,12 +6,14 @@ import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
+import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.*;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.validation.NullableValidator;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioModeloHeladeras;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import utils.ICrudViewsHandler;
@@ -26,11 +28,12 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioRoles repositorioRoles;
-    
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles) {
+    private RepositorioModeloHeladeras repositorioModeloHeladeras;
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
+        this.repositorioModeloHeladeras = repositorioModeloHeladeras;
     }
 
     @Override //LISTO
@@ -383,6 +386,9 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Validator<String> provinciaHeladera = context.formParamAsClass("donationState", String.class)
                 .check(v -> !v.isEmpty()  , "La provincia de la heladera es obligatorio")
                 .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
+
+        Optional<ModeloDeHeladera> modeloDeHeladera = repositorioModeloHeladeras.buscarModeloPorNombre(modeloHeladera.get());
+        System.out.println(modeloDeHeladera.get());
         context.redirect("/estaciones");
     }
 }

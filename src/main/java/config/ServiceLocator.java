@@ -53,7 +53,7 @@ public class ServiceLocator {
             }
 
             else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
-                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class));
+                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(RepositorioModeloHeladeras.class));
                 instances.put(componentName, instance);
             }else if(componentName.equals(ControladorTecnicos.class.getName())){
                 ControladorTecnicos instance = new ControladorTecnicos(instanceOf(RepositorioTecnicos.class));
@@ -90,6 +90,10 @@ public class ServiceLocator {
             }
             else if(componentName.equals(RepositorioRoles.class.getName())){
                 RepositorioRoles instance = new RepositorioRoles();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(RepositorioModeloHeladeras.class.getName())){
+                RepositorioModeloHeladeras instance = new RepositorioModeloHeladeras();
                 instances.put(componentName, instance);
             }
         }

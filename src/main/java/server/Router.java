@@ -1,16 +1,19 @@
 package server;
 
+import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.RoleENUM;
 import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
+import repositorios.Repositorio;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Router implements SimplePersistenceTest{
@@ -139,7 +142,7 @@ public class Router implements SimplePersistenceTest{
         // /profile
         app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
         app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
-        app.get("/estaciones", (ctx)->{
+        app.get("/estaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
 
@@ -147,11 +150,22 @@ public class Router implements SimplePersistenceTest{
             boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
             boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
 
-            model.put("tecnico",esTecnico);
-            model.put("fisico",esFisico);
-            model.put("juridico",esJuridico);
-            ctx.render("home/estaciones/mapa.hbs",model);
-        },RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
+            model.put("tecnico", esTecnico);
+            model.put("fisico", esFisico);
+            model.put("juridico", esJuridico);
+
+            if (esJuridico) {
+                List<ModeloDeHeladera> modelosHeladeras = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarTodos(ModeloDeHeladera.class)
+                    .stream()
+                    .map(m -> (ModeloDeHeladera) m)
+                    .collect(Collectors.toList());
+
+                model.put("modelosHeladeras", modelosHeladeras);
+            }
+
+            ctx.render("home/estaciones/mapa.hbs", model);
+        }, RoleENUM.TECNICO, RoleENUM.FISICO, RoleENUM.JURIDICO);
 
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
 

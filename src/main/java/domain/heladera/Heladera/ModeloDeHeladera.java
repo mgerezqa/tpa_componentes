@@ -25,5 +25,10 @@ public class ModeloDeHeladera {
     public ModeloDeHeladera(String nombreModelo) {
         this.nombreModelo = nombreModelo;
     }
+    public ModeloDeHeladera(String nombreModelo, Float temperaturaMin, Float temperaturaMax) {
+        this.nombreModelo = nombreModelo;
+        this.temperaturaMinima = temperaturaMin;
+        this.temperaturaMaxima = temperaturaMax;
+    }
 
 }

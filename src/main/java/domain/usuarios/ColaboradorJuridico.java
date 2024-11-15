@@ -11,7 +11,7 @@ import java.util.HashSet;
 @NoArgsConstructor
 @Entity
 @Table(name = "colaboradores_juridicos")
-public class ColaboradorJuridico extends Colaborador{
+public class ColaboradorJuridico extends Colaborador {
 
     @Column(name = "razonSocial")
     private String razonSocial;

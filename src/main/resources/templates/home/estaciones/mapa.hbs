@@ -241,9 +241,9 @@
                                                 <label for="refrigeratorModel" class="form-label">Modelo de la Heladera</label>
                                                 <select class="form-select" id="refrigeratorModel" name="refrigeratorModel" required>
                                                     <option value="">Seleccione una opción</option>
-                                                    <option value="MODELO A">MODELO A</option>
-                                                    <option value="MODELO B">MODELO B</option>
-                                                    <option value="MODELO C">MODELO C</option>
+                                                    {{#each modelosHeladeras}}
+                                                        <option value="{{nombreModelo}}">{{nombreModelo}}</option>
+                                                    {{/each}}
                                                 </select>
                                             </div>
                                             <div class="mb-3">
