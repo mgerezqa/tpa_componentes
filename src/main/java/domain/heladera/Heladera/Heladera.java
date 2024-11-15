@@ -80,7 +80,7 @@ public class Heladera {
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
         this.solicitudesPendientes = new ArrayList<>();
-
+        this.fechaInicioFuncionamiento = LocalDate.now();
         this.eventManager = new EventManager();
     }
 

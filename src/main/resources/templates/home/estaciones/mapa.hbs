@@ -10,9 +10,14 @@
             var heladeras = [];
                 {{#each heladeras}}
                 heladeras.push({
-                    nombre: "{{nombreIdentificador}}",
-                    coordenadas: [{{ubicacion.latitud}}, {{ubicacion.longitud}}],
-                    estado: "{{estadoHeladera}}"
+                    nombre: "{{estacion}}",
+                    coordenadas: [{{latitud}}, {{longitud}}],
+                    estado: "{{estado}}",
+                    direccion: "{{direccion}}",
+                    temperatura: "{{temperatura}}",
+                    capacidad: "{{capacidadMax}}",
+                    viandas: "{{viandasDisponibles}}",
+                    inicioOperacion: "{{inicioOperacion}}"
                 });
                 {{/each}}
         </script>

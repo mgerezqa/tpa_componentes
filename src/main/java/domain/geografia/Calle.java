@@ -33,4 +33,8 @@ public class Calle {
             throw new IllegalArgumentException("Formato incorrecto. Se espera 'Calle, Altura'");
         }
     }
+
+    public String obtenerFormatoCalleAltura() {
+        return this.nombre + ", " + this.altura;
+    }
 }

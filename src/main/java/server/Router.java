@@ -7,6 +7,8 @@ import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
+import mappers.HeladeraMapper;
+import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
 import java.util.HashMap;
@@ -164,15 +166,18 @@ public class Router implements SimplePersistenceTest{
 
                 model.put("modelosHeladeras", modelosHeladeras);
             }
-            if (esTecnico){
+            if (esTecnico) {
                 List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
                         .buscarTodos(Heladera.class)
                         .stream()
                         .map(m -> (Heladera) m)
                         .collect(Collectors.toList());
 
-                model.put("heladeras", heladeras);
+                List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                        .map(HeladeraMapper::toDTO)
+                        .collect(Collectors.toList());
 
+                model.put("heladeras", heladerasDTO);
             }
 
             ctx.render("home/estaciones/mapa.hbs", model);
