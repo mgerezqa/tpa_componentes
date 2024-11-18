@@ -38,4 +38,8 @@ public class MantenerHeladera extends Donacion{
         int months = (int) ChronoUnit.MONTHS.between(this.fechaDeDonacion, LocalDate.now());
         return months;
     }
+    @Override
+    public String getTipo() {
+        return "MantenerHeladera";
+    }
 }

@@ -43,7 +43,10 @@ public class Vianda extends Donacion {
             throw new Exception("La vianda no puede ser ingresada en la heladera seleccionada");
         }
     }
-
+    @Override
+    public String getTipo() {
+        return "Vianda";
+    }
 
 
     // En este caso, la heladera actual de una vianda no es ingresada en el constructor (cuando se crea la instancia de la vianda),

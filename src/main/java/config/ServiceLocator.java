@@ -7,6 +7,7 @@ import controladores.ControladorColaboradorFisico;
 import controladores.ControladorColaboradorJuridico;
 import controladores.ControladorHeladeras;
 import domain.Config;
+import domain.puntos.CalculadoraPuntos;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
@@ -61,7 +62,7 @@ public class ServiceLocator {
             }
 
             else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
-                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(RepositorioModeloHeladeras.class),instanceOf(RepositorioProvincias.class),instanceOf(RepositorioLocalidades.class),instanceOf(RepositorioBarrios.class),instanceOf(Repositorio.class));
+                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(RepositorioModeloHeladeras.class),instanceOf(RepositorioProvincias.class),instanceOf(RepositorioLocalidades.class),instanceOf(RepositorioBarrios.class),instanceOf(Repositorio.class),instanceOf(CalculadoraPuntos.class));
                 instances.put(componentName, instance);
             }else if(componentName.equals(ControladorTecnicos.class.getName())){
                 ControladorTecnicos instance = new ControladorTecnicos(instanceOf(RepositorioTecnicos.class));
@@ -133,6 +134,10 @@ public class ServiceLocator {
                 instance.suscribe(topic1,receptor1);
                 instance.suscribe(topic2,receptor2);
                 instance.suscribe(topic3,receptor3);
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(CalculadoraPuntos.class.getName())){
+                CalculadoraPuntos instance = CalculadoraPuntos.obtenerInstancia();
                 instances.put(componentName, instance);
             }
         }

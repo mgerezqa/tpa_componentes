@@ -38,4 +38,8 @@ public class RegistroDePersonaVulnerable extends Donacion{
         vulnerable.setFechaRegitrado(fechaRegistro);
         tarjeta.setFechaInicioDeFuncionamiento(fechaRegistro);
     }
+    @Override
+    public String getTipo() {
+        return "RegistroDePersonaVulnerable";
+    }
 }

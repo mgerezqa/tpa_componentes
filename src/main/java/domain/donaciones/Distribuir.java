@@ -40,4 +40,8 @@ public class Distribuir extends Donacion{
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
     }
+    @Override
+    public String getTipo() {
+        return "Distribuir";
+    }
 }

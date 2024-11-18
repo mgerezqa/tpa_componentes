@@ -29,4 +29,5 @@ public abstract class Donacion {
     public Donacion() {
 
     }
+    public abstract String getTipo();
 }

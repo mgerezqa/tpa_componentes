@@ -29,4 +29,8 @@ public class Dinero extends Donacion{
         this.frecuencia = frecuencia;
     }
 
+    @Override
+    public String getTipo() {
+        return "Dinero";
+    }
 }

@@ -1,23 +1,22 @@
 package domain.puntos;
 
+import domain.donaciones.Donacion;
 import domain.excepciones.ExcepcionCanjePuntosInsuficientes;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorJuridico;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "Oferta")
-@Data
+@Table(name = "ofertas")
+@Getter
+@Setter
 @NoArgsConstructor
-public class Oferta {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Oferta extends Donacion {
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "descripcion")
@@ -25,17 +24,15 @@ public class Oferta {
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria")
     private CategoriaOferta categoria;
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_colaborador_juridico", referencedColumnName = "id")
-    private ColaboradorJuridico ofertante;
+
     @Column(name = "costo")
     private Integer costoPuntos;
 
     public Oferta(String nombre, String descripcion, CategoriaOferta categoria, ColaboradorJuridico ofertante, Integer costoPuntos) {
+        super(LocalDate.now(), ofertante);
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
-        this.ofertante = ofertante;
         this.costoPuntos = costoPuntos;
     }
 
@@ -46,5 +43,10 @@ public class Oferta {
         }else {
             throw new ExcepcionCanjePuntosInsuficientes("No alcanzan los puntos para hacer el canje.");
         }
+    }
+
+    @Override
+    public String getTipo() {
+        return "Oferta";
     }
 }

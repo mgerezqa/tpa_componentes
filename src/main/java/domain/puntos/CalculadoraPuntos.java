@@ -7,11 +7,11 @@ public class CalculadoraPuntos {
     private static CalculadoraPuntos instancia;
     private Config config;
 
-    public CalculadoraPuntos() throws IOException {
+    public CalculadoraPuntos() {
             config = Config.getInstance();
     }
 
-    public static CalculadoraPuntos obtenerInstancia() throws IOException {
+    public static CalculadoraPuntos obtenerInstancia(){
         if (instancia == null) {
             instancia = new CalculadoraPuntos();
         }

@@ -44,7 +44,6 @@ public class Initializer implements WithSimplePersistenceUnit {
             this.instanciarHeladeras();
             //Test especifico para simular sensor de temperatura de las heladeras activas, y generé eventualmente una falla
             //this.instanciarTestParaBroker();
-
         });
     }
 

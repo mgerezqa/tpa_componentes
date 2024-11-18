@@ -8,6 +8,7 @@ import domain.donaciones.MantenerHeladera;
 import domain.geografia.*;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.puntos.CalculadoraPuntos;
 import domain.usuarios.*;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -32,7 +33,8 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     private RepositorioLocalidades repositorioLocalidades;
     private RepositorioBarrios repositorioBarrios;
     private Repositorio repositorio;
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios, Repositorio repositorio) {
+    private CalculadoraPuntos calculadoraPuntos;
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios, Repositorio repositorio,CalculadoraPuntos calculadoraPuntos) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
@@ -41,6 +43,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         this.repositorioLocalidades = repositorioLocalidades;
         this.repositorioBarrios = repositorioBarrios;
         this.repositorio = repositorio;
+        this.calculadoraPuntos = calculadoraPuntos;
     }
 
     @Override //LISTO
@@ -416,8 +419,9 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
 
         withTransaction(()->{
-            MantenerHeladera donacion = new MantenerHeladera(heladera,(ColaboradorJuridico) colaboradorJuridicoPosible.get());
-            repositorio.guardar(donacion);
+            MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera,(ColaboradorJuridico) colaboradorJuridicoPosible.get());
+            calculadoraPuntos.puntosHeladerasActivas(mantenerHeladera);
+            repositorio.guardar(mantenerHeladera);
         });
 
         context.redirect("/estaciones");

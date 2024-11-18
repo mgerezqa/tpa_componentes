@@ -1,7 +1,9 @@
 package server;
 
+import domain.donaciones.Donacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.usuarios.Colaborador;
 import domain.usuarios.RoleENUM;
 import config.ServiceLocator;
 import controladores.*;
@@ -14,6 +16,7 @@ import repositorios.Repositorio;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Router implements SimplePersistenceTest{
@@ -179,18 +182,30 @@ public class Router implements SimplePersistenceTest{
 
             ctx.render("home/estaciones/mapa.hbs", model);
         }, RoleENUM.TECNICO, RoleENUM.FISICO, RoleENUM.JURIDICO);
-        app.get("/donaciones", (ctx) ->{
+
+        app.get("/donaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
 
             boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
             boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
 
+            Long idColaborador = ctx.sessionAttribute("id_colaborador");
+            Optional<Object> colaborador = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarPorID(Colaborador.class, idColaborador);
+
+            List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarTodos(Donacion.class)
+                    .stream().map(d -> (Donacion) d)
+                    .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
+                    .collect(Collectors.toList());
+            System.out.println(donaciones);
+            model.put("donaciones", donaciones);
             model.put("fisico", esFisico);
             model.put("juridico", esJuridico);
 
-           ctx.render("/home/donaciones/donaciones.hbs",model);
-        },RoleENUM.JURIDICO,RoleENUM.FISICO);
+            ctx.render("/home/donaciones/donaciones.hbs", model);
+        }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
 
     }
