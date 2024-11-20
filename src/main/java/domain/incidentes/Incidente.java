@@ -39,4 +39,7 @@ public abstract class Incidente {
         heladera.setEstadoHeladera(EstadoHeladera.INACTIVA); // Setear cada heladera como inactiva.
     }
 
+    // Método para obtener la descripción del incidente
+    public abstract String obtenerDescripcion();
+
 }

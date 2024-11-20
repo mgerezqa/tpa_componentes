@@ -19,4 +19,9 @@ public class Alerta extends Incidente {
     public Alerta(Heladera heladera) {
         super(heladera);
     }
+
+    @Override
+    public String obtenerDescripcion() {
+        return "Alerta: " + this.tipoAlerta;
+    }
 }

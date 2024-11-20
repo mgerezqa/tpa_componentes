@@ -17,4 +17,5 @@ public class HeladeraDTO {
     private String inicioOperacion;
     private Float latitud;
     private Float longitud;
+    private String descripcion;
 } 

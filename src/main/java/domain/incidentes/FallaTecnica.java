@@ -25,4 +25,9 @@ public class FallaTecnica extends Incidente {
     public FallaTecnica(Heladera heladera) {
         super(heladera);
     }
+
+    @Override
+    public String obtenerDescripcion() {
+        return "Falla Técnica: " + this.descripcion;
+    }
 }
