@@ -176,19 +176,17 @@ public class Router implements SimplePersistenceTest{
 
                 model.put("modelosHeladeras", modelosHeladeras);
             }
-            if (esTecnico || esFisico) {
-                List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
-                        .buscarTodos(Heladera.class)
-                        .stream()
-                        .map(m -> (Heladera) m)
-                        .collect(Collectors.toList());
+            List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarTodos(Heladera.class)
+                    .stream()
+                    .map(m -> (Heladera) m)
+                    .collect(Collectors.toList());
 
-                List<HeladeraDTO> heladerasDTO = heladeras.stream()
-                        .map(HeladeraMapper::toDTO)
-                        .collect(Collectors.toList());
+            List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                    .map(HeladeraMapper::toDTO)
+                    .collect(Collectors.toList());
 
-                model.put("heladeras", heladerasDTO);
-            }
+            model.put("heladeras", heladerasDTO);
 
             ctx.render("home/estaciones/mapa.hbs", model);
         }, RoleENUM.TECNICO, RoleENUM.FISICO, RoleENUM.JURIDICO);

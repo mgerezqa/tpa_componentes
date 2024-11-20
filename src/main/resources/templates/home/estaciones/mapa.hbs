@@ -5,13 +5,11 @@
     <link rel="stylesheet" href="/css/usuarios/colaboradores/nueva_donacion.css">
     <link rel="stylesheet" href="/css/usuarios/colaboradores/mapa_de_estaciones.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    {{#if juridico}}
-    {{else}}
-        <script>
-            var heladeras = [];
-                {{#each heladeras}}
-                heladeras.push({
-                    nombre: "{{estacion}}",
+    <script>
+        var heladeras = [];
+        {{#each heladeras}}
+            heladeras.push({
+                nombre: "{{estacion}}",
                     coordenadas: [{{latitud}}, {{longitud}}],
                     estado: "{{estado}}",
                     direccion: "{{direccion}}",
@@ -20,9 +18,8 @@
                     viandas: "{{viandasDisponibles}}",
                     inicioOperacion: "{{inicioOperacion}}"
                 });
-                {{/each}}
-        </script>
-    {{/if}}
+        {{/each}}
+    </script>
 {{/partial}}
 {{#partial "title"}}
     Mapa de estaciones
