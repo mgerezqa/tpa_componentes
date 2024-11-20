@@ -44,7 +44,17 @@ public class Router implements SimplePersistenceTest{
             boolean esTecnico = roles != null && roles.contains(RoleENUM.TECNICO.toString());
             boolean esFisico = roles != null && roles.contains(RoleENUM.FISICO.toString());
             boolean esJuridico = roles != null && roles.contains(RoleENUM.JURIDICO.toString());
+            List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarTodos(Heladera.class)
+                    .stream()
+                    .map(m -> (Heladera) m)
+                    .collect(Collectors.toList());
 
+            List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                    .map(HeladeraMapper::toDTO)
+                    .collect(Collectors.toList());
+
+            model.put("heladeras", heladerasDTO);
             model.put("tecnico",esTecnico);
             model.put("fisico",esFisico);
             model.put("juridico",esJuridico);
