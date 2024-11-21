@@ -215,6 +215,16 @@ public class Router implements SimplePersistenceTest{
             ctx.render("/home/donaciones/donaciones.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
+        app.get("/puntos", (ctx) -> {
+            Map<String, Object> model = new HashMap<>();
+            List<String> roles = ctx.sessionAttribute("roles");
 
+            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
+            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
+
+            model.put("fisico", esFisico);
+            model.put("juridico", esJuridico);
+            ctx.render("/home/puntos/puntos.hbs", model);
+        }, RoleENUM.JURIDICO, RoleENUM.FISICO);
     }
 }

@@ -1,0 +1,176 @@
+
+{{#partial "styles"}}
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/usuarios/usuarios.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/donaciones.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/nueva_donacion.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script>
+        var heladeras = [];
+        {{#each heladeras}}
+            heladeras.push({
+                nombre: "{{estacion}}",
+                    coordenadas: [{{latitud}}, {{longitud}}],
+                    estado: "{{estado}}",
+                    direccion: "{{direccion}}",
+                    temperatura: "{{temperatura}}",
+                    capacidad: "{{capacidadMax}}",
+                    viandas: "{{viandasDisponibles}}",
+                    inicioOperacion: "{{inicioOperacion}}"
+                });
+        {{/each}}
+    </script>
+{{/partial}}
+{{#partial "title"}}
+    Puntos
+{{/partial}}
+{{#partial "contenido"}}
+    <!-- HISTORIAL DE PUNTOS OBTENIDOS -->
+    <div id="contenedor_principal_puntos " class="p-4 container ">
+        <div class="contenedor_titulo_pagina d-flex gap-4 mb-4 container">
+            <div class="titulo">
+                <span>Total Puntos Acumulados</span>
+            </div>
+        </div>
+        <!-- LISTA DE CARDS DE PUNTOS SEGUN DONACION -->
+        <div class="contenedor_datos container-fluid py-4">
+
+            <!-- Card 1: DINERO -->
+            <div class="row fila_contribucion mb-3">
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-cash-stack"></i> DINERO</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-01</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-currency-dollar"></i> Monto: <span class="valor_info">$500</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: VIANDA -->
+            <div class="row fila_contribucion mb-3">
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-box-seam"></i> VIANDA</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-05</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">Ensalada de frutas</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: REPARTO -->
+            <div class="row fila_contribucion mb-3">
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-truck"></i> REPARTO</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-07</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-arrow-repeat"></i> Motivo: <span class="valor_info">Reposición</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: MANTENIMIENTO -->
+            <div class="row fila_contribucion mb-3">
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-tools"></i> MANTENIMIENTO</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-10</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-door-open"></i> Heladera ID: <span class="valor_info">5678</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: REGISTRO P.V. -->
+            <div class="row fila_contribucion mb-3">
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> REGISTRO P.V.</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-12</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre completo: <span class="valor_info">Juan Pérez</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sumatoria de puntos -->
+            <div class="p-4 mb-3 bg-secondary
+                text-white fs-4 rounded-3">
+                <span>Total Puntos Obtenidos: </span>
+            </div>
+        </div>
+    </div>
+    <!-- Botones volver al menu y quiero donar -->
+    <div class="flex row col-12 ">
+        <!-- boton volver al menu principal -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-home">
+            <a href="/home" class="btn btn-primary botones" >
+                <i class="bi bi-house-door-fill"></i>
+                Volver al menú
+            </a>
+        </div>
+        <!-- boton donar de nuevo -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-agregar-donacion">
+            <a class="btn btn-primary botones bg-primary text-white" href="/donaciones">
+                <i class="bi bi-basket"></i>
+                Ir a donaciones
+            </a>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+{{/partial}}
+{{> templates/home/base}}
