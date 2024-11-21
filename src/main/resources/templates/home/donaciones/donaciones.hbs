@@ -42,317 +42,420 @@
                             <span>SELECCIONE EL TIPO DE DONACION</span>
                         </div>
                         <br>
-                        <div class="accordion" id="collapse_registro">
-                            <div class="row row-cols-3 gx-3 gy-2 mb-3">
-                                <div class="col-6 col-md-4">
-                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_dinero" aria-expanded="false" aria-controls="contenedor_form_dinero">DINERO</a>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_vianda" aria-expanded="false" aria-controls="contenedor_form_vianda">VIANDA</a>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_reparto" aria-expanded="false" aria-controls="contenedor_form_reparto">REPARTO</a>
-                                </div>
-                                <div class="col-6 col-md-4">
-                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_pv" aria-expanded="false" aria-controls="contenedor_form_pv">REGISTRO P.V.</a>
-                                </div>
-                            </div>
-
-                            <!-- MODALES DE DONACIONES -->
-                            <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
-                                <div class="accordion-body contenedor_datos">
-                                    <form>
-                                        <div class="row g-3">
-                                            <div class="col-12 col-md">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_dinero" value="" placeholder="">
-                                                    <label for="campo_monto_dinero">Monto</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_dinero" value="" placeholder="">
-                                                    <label for="campo_fecha_dinero">Fecha de donacion</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md">
-                                                <div class="form-floating">
-                                                    <select class="form-select shadow-none rounded-4" id="campo_frecuencia_dinero">
-                                                        <option value="0" class="d-none">Seleccione...</option>
-                                                        <option value="2">Opcion 2</option>
-                                                        <option value="3">Opcion n</option>
-                                                    </select>
-                                                    <label for="campo_frecuencia_dinero">Frecuencia</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center mt-3">
-                                            <div class="col-6">
-                                                <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div id="contenedor_form_vianda" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
-
-                                <div class="accordion-body contenedor_datos">
-                                    <div class="text-center fs-3 mb-2 bg-primary-subtle text-primary-emphasis text-white ">
-                                        <span>RECOMENDAME UN LUGAR </span>
+                        {{#if fisico}}
+                            <div class="accordion" id="collapse_registro">
+                                <div class="row row-cols-3 gx-3 gy-2 mb-3">
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_dinero" aria-expanded="false" aria-controls="contenedor_form_dinero">DINERO</a>
                                     </div>
-                                    <br>
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_vianda" aria-expanded="false" aria-controls="contenedor_form_vianda">VIANDA</a>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_reparto" aria-expanded="false" aria-controls="contenedor_form_reparto">REPARTO</a>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_pv" aria-expanded="false" aria-controls="contenedor_form_pv">REGISTRO P.V.</a>
+                                    </div>
+                                </div>
 
-                                    <div class="accordion" id="collapse_lugar">
-                                        <div class="row row-cols-3 gx-3 gy-2 mb-3">
-                                            <div class="col-6 col-md-6">
-                                                <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#id_ubicacion_actual" aria-expanded="false" aria-controls="id_ubicacion_actual">SEGUN MI UBICACIÓN ACTUAL</a> <!-- Permitir acceder a ubicación -->
-                                            </div>
-                                            <div class="col-6 col-md-6">
-                                                <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_seleccionar_ubicacion" aria-expanded="false" aria-controls="contenedor_seleccionar_ubicacion">SELECCIONAR UBICACIÓN</a> <!-- Buscar por provincia por provincia y localidad -->
-                                            </div>
-                                        </div>
-                                        <div id="contenedor_seleccionar_ubicacion" class="accordion-collapse collapse" data-bs-parent="#collapse_lugar">
-                                            <div class="accordion-body contenedor_datos">
-                                                <form>
-                                                    <div class="row row-cols-1 row-cols-md-2 g-3">
-                                                        <div class="col-12 col-md-6">
-                                                            <div class="form-floating">
-                                                                <select class="form-select shadow-none rounded-4" id="provincia">
-                                                                    <option value="0" class="d-none">Seleccione...</option>
-                                                                    <option value="2">Buenos Aires</option>
-                                                                    <option value="3">Córdoba</option>
-                                                                </select>
-                                                                <label for="provincia">Provincia</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-md-6">
-                                                            <div class="form-floating">
-                                                                <select class="form-select shadow-none rounded-4" id="localidad">
-                                                                    <option value="0" class="d-none">Seleccione...</option>
-                                                                    <option value="2">CABA</option>
-                                                                    <option value="3">Rosario</option>
-                                                                </select>
-                                                                <label for="localidad">Localidad</label>
-                                                            </div>
-                                                        </div>
+                                <!-- MODALES DE DONACIONES -->
+                                <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form>
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_dinero" value="" placeholder="">
+                                                        <label for="campo_monto_dinero">Monto</label>
                                                     </div>
-                                                </form>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_dinero" value="" placeholder="">
+                                                        <label for="campo_fecha_dinero">Fecha de donacion</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_frecuencia_dinero">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="2">Opcion 2</option>
+                                                            <option value="3">Opcion n</option>
+                                                        </select>
+                                                        <label for="campo_frecuencia_dinero">Frecuencia</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="contenedor_form_vianda" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+
+                                    <div class="accordion-body contenedor_datos">
+                                        <div class="text-center fs-3 mb-2 bg-primary-subtle text-primary-emphasis text-white ">
+                                            <span>RECOMENDAME UN LUGAR </span>
+                                        </div>
+                                        <br>
+
+                                        <div class="accordion" id="collapse_lugar">
+                                            <div class="row row-cols-3 gx-3 gy-2 mb-3">
+                                                <div class="col-6 col-md-6">
+                                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#id_ubicacion_actual" aria-expanded="false" aria-controls="id_ubicacion_actual">SEGUN MI UBICACIÓN ACTUAL</a> <!-- Permitir acceder a ubicación -->
+                                                </div>
+                                                <div class="col-6 col-md-6">
+                                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_seleccionar_ubicacion" aria-expanded="false" aria-controls="contenedor_seleccionar_ubicacion">SELECCIONAR UBICACIÓN</a> <!-- Buscar por provincia por provincia y localidad -->
+                                                </div>
+                                            </div>
+                                            <div id="contenedor_seleccionar_ubicacion" class="accordion-collapse collapse" data-bs-parent="#collapse_lugar">
+                                                <div class="accordion-body contenedor_datos">
+                                                    <form>
+                                                        <div class="row row-cols-1 row-cols-md-2 g-3">
+                                                            <div class="col-12 col-md-6">
+                                                                <div class="form-floating">
+                                                                    <select class="form-select shadow-none rounded-4" id="provincia">
+                                                                        <option value="0" class="d-none">Seleccione...</option>
+                                                                        <option value="2">Buenos Aires</option>
+                                                                        <option value="3">Córdoba</option>
+                                                                    </select>
+                                                                    <label for="provincia">Provincia</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-6">
+                                                                <div class="form-floating">
+                                                                    <select class="form-select shadow-none rounded-4" id="localidad">
+                                                                        <option value="0" class="d-none">Seleccione...</option>
+                                                                        <option value="2">CABA</option>
+                                                                        <option value="3">Rosario</option>
+                                                                    </select>
+                                                                    <label for="localidad">Localidad</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <form>
+                                            <div class="row row-cols-1 row-cols-md-2 g-3">
+                                                <div class="col-12 col-md-12">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_vianda" value="" placeholder="">
+                                                        <label for="campo_monto_vianda">Descripcion</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_vencimiento_dinero" value="" placeholder="">
+                                                        <label for="campo_vencimiento_dinero">Fecha de vencimiento</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_vianda" value="" placeholder="">
+                                                        <label for="campo_fecha_vianda">Fecha de Donacion</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_calorias_vianda" value="" placeholder="">
+                                                        <label for="campo_calorias_vianda">Calorias</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_peso_vianda" value="" placeholder="">
+                                                        <label for="campo_peso_vianda">Peso</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-12 d-none">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
+                                                        <label for="campo_colaborador_vianda">Colaborador</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="contenedor_form_reparto" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form>
+                                            <div class="row row-cols-1 row-cols-md-2 g-3">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_origen_reparto">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="2">Opcion 2</option>
+                                                            <option value="3">Opcion n</option>
+                                                        </select>
+                                                        <label for="campo_origen_reparto">Heladera de origen</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_destino_reparto">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="2">Opcion 2</option>
+                                                            <option value="3">Opcion n</option>
+                                                        </select>
+                                                        <label for="campo_destino_reparto">Heladera de destino</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8 col-md-10">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_vianda_reparto">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="2">Opcion 2</option>
+                                                            <option value="3">Opcion n</option>
+                                                        </select>
+                                                        <label for="campo_vianda_reparto">Seleccione la vianda</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_reparto" value="" placeholder="">
+                                                        <label for="campo_calorias_reparto">Ingrese cantidad</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-12">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_motivo_reparto">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="2">Opcion 2</option>
+                                                            <option value="3">Opcion n</option>
+                                                        </select>
+                                                        <label for="campo_motivo_reparto">Motivo</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-12 d-none">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
+                                                        <label for="campo_colaborador_vianda">Colaborador</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="contenedor_form_pv" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form>
+                                            <div class="row row-cols-1 row-cols-md-3 g-3 align-items-center">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nombre_pv" value="" placeholder="">
+                                                        <label for="campo_nombre_pv">Nombre(s)</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_apellido_pv" value="" placeholder="">
+                                                        <label for="campo_apellido_pv">Apellido(s)</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_situacion_domicilio_pv">
+                                                        <label class="form-check-label" for="check_situacion_domicilio_pv">
+                                                            Tiene domicilio
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_situacion_calle_pv">
+                                                        <label class="form-check-label" for="check_situacion_calle_pv">
+                                                            Situacion de calle
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_direccion_pv" value="" placeholder="">
+                                                        <label for="campo_direccion_pv">Direccion</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_si_documento_pv">
+                                                        <label class="form-check-label" for="check_si_documento_pv">
+                                                            Tiene documento
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_no_documento_pv">
+                                                        <label class="form-check-label" for="check_no_documento_pv">
+                                                            No tiene documento
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_tipo_documento_pv">
+                                                            <option value="0" class="d-none">...</option>
+                                                            <option value="2">Opcion 2</option>
+                                                            <option value="3">Opcion n</option>
+                                                        </select>
+                                                        <label for="campo_tipo_documento_pv">Tipo</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8 col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nro_documento_pv" value="" placeholder="">
+                                                        <label for="campo_nro_documento_pv">Numero</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input shadow-none" type="checkbox" value="" id="campo_tiene_menores_pv">
+                                                        <label class="form-check-label" for="campo_tiene_menores_pv">
+                                                            Tiene menores a cargo
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_a_cargo_pv" value="" placeholder="">
+                                                        <label for="campo_cantidad_a_cargo_pv">Cantidad</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-12 d-none">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
+                                                        <label for="campo_colaborador_vianda">Colaborador</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="accordion" id="collapse_registro">
+                                <div class="row row-cols-3 gx-3 gy-2 mb-3">
+                                    <div class="col-6 col-md-6">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_dinero" aria-expanded="false" aria-controls="contenedor_form_dinero">DINERO</a>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_producto_servicio" aria-expanded="false" aria-controls="contenedor_form_producto_servicio">OFRECER PRODUCTO/SERVICIO</a>
                                     </div>
 
-                                    <form>
-                                        <div class="row row-cols-1 row-cols-md-2 g-3">
-                                            <div class="col-12 col-md-12">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_vianda" value="" placeholder="">
-                                                    <label for="campo_monto_vianda">Descripcion</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_vencimiento_dinero" value="" placeholder="">
-                                                    <label for="campo_vencimiento_dinero">Fecha de vencimiento</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_vianda" value="" placeholder="">
-                                                    <label for="campo_fecha_vianda">Fecha de Donacion</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_calorias_vianda" value="" placeholder="">
-                                                    <label for="campo_calorias_vianda">Calorias</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_peso_vianda" value="" placeholder="">
-                                                    <label for="campo_peso_vianda">Peso</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-12 d-none">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
-                                                    <label for="campo_colaborador_vianda">Colaborador</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center mt-3">
-                                            <div class="col-6">
-                                                <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
-                                            </div>
-                                        </div>
-                                    </form>
                                 </div>
-                            </div>
-                            <div id="contenedor_form_reparto" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
-                                <div class="accordion-body contenedor_datos">
-                                    <form>
-                                        <div class="row row-cols-1 row-cols-md-2 g-3">
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating">
-                                                    <select class="form-select shadow-none rounded-4" id="campo_origen_reparto">
-                                                        <option value="0" class="d-none">Seleccione...</option>
-                                                        <option value="2">Opcion 2</option>
-                                                        <option value="3">Opcion n</option>
-                                                    </select>
-                                                    <label for="campo_origen_reparto">Heladera de origen</label>
+
+                                <!-- MODALES DE DONACIONES -->
+                                <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form>
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_dinero" value="" placeholder="">
+                                                        <label for="campo_monto_dinero">Monto</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_dinero" value="" placeholder="">
+                                                        <label for="campo_fecha_dinero">Fecha de donacion</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_frecuencia_dinero">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="2">Opcion 2</option>
+                                                            <option value="3">Opcion n</option>
+                                                        </select>
+                                                        <label for="campo_frecuencia_dinero">Frecuencia</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating">
-                                                    <select class="form-select shadow-none rounded-4" id="campo_destino_reparto">
-                                                        <option value="0" class="d-none">Seleccione...</option>
-                                                        <option value="2">Opcion 2</option>
-                                                        <option value="3">Opcion n</option>
-                                                    </select>
-                                                    <label for="campo_destino_reparto">Heladera de destino</label>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
                                                 </div>
                                             </div>
-                                            <div class="col-8 col-md-10">
-                                                <div class="form-floating">
-                                                    <select class="form-select shadow-none rounded-4" id="campo_vianda_reparto">
-                                                        <option value="0" class="d-none">Seleccione...</option>
-                                                        <option value="2">Opcion 2</option>
-                                                        <option value="3">Opcion n</option>
-                                                    </select>
-                                                    <label for="campo_vianda_reparto">Seleccione la vianda</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-4 col-md-2">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_reparto" value="" placeholder="">
-                                                    <label for="campo_calorias_reparto">Ingrese cantidad</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-12">
-                                                <div class="form-floating">
-                                                    <select class="form-select shadow-none rounded-4" id="campo_motivo_reparto">
-                                                        <option value="0" class="d-none">Seleccione...</option>
-                                                        <option value="2">Opcion 2</option>
-                                                        <option value="3">Opcion n</option>
-                                                    </select>
-                                                    <label for="campo_motivo_reparto">Motivo</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-12 d-none">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
-                                                    <label for="campo_colaborador_vianda">Colaborador</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center mt-3">
-                                            <div class="col-6">
-                                                <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="contenedor_form_pv" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
-                                <div class="accordion-body contenedor_datos">
-                                    <form>
-                                        <div class="row row-cols-1 row-cols-md-3 g-3 align-items-center">
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_nombre_pv" value="" placeholder="">
-                                                    <label for="campo_nombre_pv">Nombre(s)</label>
+
+                                <div id="contenedor_form_producto_servicio" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form>
+                                            <div class="row row-cols-1 row-cols-md-3 g-3">
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="descripcion_producto_servicio" value="" placeholder="">
+                                                        <label for="descripcion_producto_servicio">Descripción</label>
+                                                    </div>
+                                                </div>
+                                                <!-- Selector button producto o servicio -->
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="categoria_producto_servicio">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="1">Producto</option>
+                                                            <option value="2">Servicio</option>
+                                                        </select>
+                                                        <label for="campo_tipo_producto_servicio">Categoría</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_rubro_producto_servicio">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="1">Electrónica</option>
+                                                            <option value="2">Alimenticio</option>
+                                                            <option value="3">Entretenimiento</option>
+                                                        </select>
+                                                        <label for="campo_rubro_producto_servicio">Rubro</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-12 d-none">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
+                                                        <label for="campo_colaborador_vianda">Colaborador</label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_apellido_pv" value="" placeholder="">
-                                                    <label for="campo_apellido_pv">Apellido(s)</label>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
                                                 </div>
                                             </div>
-                                            <div class="col-6 col-md-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_situacion_domicilio_pv">
-                                                    <label class="form-check-label" for="check_situacion_domicilio_pv">
-                                                        Tiene domicilio
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_situacion_calle_pv">
-                                                    <label class="form-check-label" for="check_situacion_calle_pv">
-                                                        Situacion de calle
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_direccion_pv" value="" placeholder="">
-                                                    <label for="campo_direccion_pv">Direccion</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_si_documento_pv">
-                                                    <label class="form-check-label" for="check_si_documento_pv">
-                                                        Tiene documento
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_no_documento_pv">
-                                                    <label class="form-check-label" for="check_no_documento_pv">
-                                                        No tiene documento
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-4 col-md-2">
-                                                <div class="form-floating">
-                                                    <select class="form-select shadow-none rounded-4" id="campo_tipo_documento_pv">
-                                                        <option value="0" class="d-none">...</option>
-                                                        <option value="2">Opcion 2</option>
-                                                        <option value="3">Opcion n</option>
-                                                    </select>
-                                                    <label for="campo_tipo_documento_pv">Tipo</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-8 col-md-4">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_nro_documento_pv" value="" placeholder="">
-                                                    <label for="campo_nro_documento_pv">Numero</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-6">
-                                                <div class="form-check">
-                                                    <input class="form-check-input shadow-none" type="checkbox" value="" id="campo_tiene_menores_pv">
-                                                    <label class="form-check-label" for="campo_tiene_menores_pv">
-                                                        Tiene menores a cargo
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 col-md-6">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_a_cargo_pv" value="" placeholder="">
-                                                    <label for="campo_cantidad_a_cargo_pv">Cantidad</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-12 d-none">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
-                                                    <label for="campo_colaborador_vianda">Colaborador</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center mt-3">
-                                            <div class="col-6">
-                                                <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
+
+
                             </div>
-                        </div>
+                        {{/if}}
+
                     </div>
                 </div>
             </div>
