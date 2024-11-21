@@ -310,4 +310,8 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         context.render("/home/notificaciones/notificaciones.hbs");
     }
 
+    public void visitas(@NotNull Context context) {
+        context.render("/home/visitas/visitas.hbs");
+
+    }
 }
