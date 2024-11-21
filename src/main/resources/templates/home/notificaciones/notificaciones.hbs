@@ -1,0 +1,122 @@
+{{#partial "styles"}}
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/usuarios/usuarios.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/donaciones.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/nueva_donacion.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script>
+        var heladeras = [];
+        {{#each heladeras}}
+            heladeras.push({
+                nombre: "{{estacion}}",
+                    coordenadas: [{{latitud}}, {{longitud}}],
+                    estado: "{{estado}}",
+                    direccion: "{{direccion}}",
+                    temperatura: "{{temperatura}}",
+                    capacidad: "{{capacidadMax}}",
+                    viandas: "{{viandasDisponibles}}",
+                    inicioOperacion: "{{inicioOperacion}}"
+                });
+        {{/each}}
+    </script>
+{{/partial}}
+{{#partial "title"}}
+    Notificaciones
+{{/partial}}
+{{#partial "contenido"}}
+    <!-- HISTORIAL DE PUNTOS OBTENIDOS -->
+    <div id="contenedor_principal_puntos " class="p-4 container ">
+        <div class="contenedor_titulo_pagina d-flex gap-4 mb-4 container">
+            <div class="titulo">
+                <span>Historial de notificaciones </span>
+            </div>
+        </div>
+        <!-- LISTA DE CARDS DE PUNTOS SEGUN DONACION -->
+        <div class="contenedor_datos container-fluid py-4">
+
+            <!-- Card 4: ALERTA -->
+            <div class="row fila_contribucion mb-3">
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-exclamation-circle-fill"></i> ALERTA</div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha: <span class="valor_info">2024-09-07</span></div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-info-circle"></i> Motivo: <span class="valor_info">ALTA TEMPERATURA</span></div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-box-arrow-right"></i> Heladera id : <span class="valor_info">7890</span></div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-activity"></i> Estado : <span class="valor_info">Inactiva</span></div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-chat-left"></i> Descripción del problema </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4: FALLA TÉCNICA-->
+            <div class="row fila_contribucion mb-3">
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-tools"></i> FALLA TÉCNICA</div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha: <span class="valor_info">2024-09-07</span></div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-info-circle"></i> Motivo: <span class="valor_info">FALLA APERTURA</span></div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-box-arrow-right"></i> Heladera id : <span class="valor_info">9000</span></div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-activity"></i> Estado : <span class="valor_info">Inactiva</span></div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-person-arms-up"></i> Reportado por : <span class="valor_info">90</span></div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="tag_info w-100"><i class="bi bi-chat-left"></i> Descripción del problema </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Botones volver al menu y quiero donar -->
+    <div class="flex row col-12 ">
+        <!-- boton volver al menu principal -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-home">
+            <a href="/home" class="btn btn-primary botones" >
+                <i class="bi bi-house-door-fill"></i>
+                Volver al menú
+            </a>
+        </div>
+        <!-- boton donar de nuevo -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-agregar-donacion">
+            <a class="btn btn-primary botones bg-primary text-white" href="/visitas">
+                <i class="bi bi-wrench-adjustable"></i>
+                Ir a visitas técnicas
+            </a>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+{{/partial}}
+{{> templates/home/base}}

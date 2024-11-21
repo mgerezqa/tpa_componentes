@@ -20,6 +20,7 @@ import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
+import org.jetbrains.annotations.NotNull;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
 import utils.ICrudViewsHandler;
 
@@ -305,4 +306,8 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             context.status(HttpStatus.NOT_FOUND);
         }
     }
+    public void notificaciones(@NotNull Context context) {
+        context.render("/home/notificaciones/notificaciones.hbs");
+    }
+
 }

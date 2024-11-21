@@ -237,5 +237,7 @@ public class Router implements SimplePersistenceTest{
             model.put("juridico", esJuridico);
             ctx.render("/home/canjes/canjes.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
+        app.get("/notificaciones",ServiceLocator.instanceOf(ControladorTecnicos.class)::notificaciones,RoleENUM.TECNICO);
+
     }
 }
