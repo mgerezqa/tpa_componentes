@@ -1,6 +1,7 @@
 package domain.donaciones;
 
 import domain.usuarios.Colaborador;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public abstract class Donacion {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "colaborador_id", nullable = false)
-    protected Colaborador colaboradorQueLaDono;
+    private Colaborador colaboradorQueLaDono;
 
     @Column(name = "fecha_donacion", nullable = false,columnDefinition = "DATE")
     protected LocalDate fechaDeDonacion;

@@ -3,6 +3,9 @@ import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
+import domain.donaciones.Dinero;
+import domain.donaciones.Donacion;
+import domain.donaciones.FrecuenciaDeDonacion;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.usuarios.ColaboradorFisico;
@@ -17,6 +20,7 @@ import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import org.hibernate.NonUniqueResultException;
+import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
@@ -33,11 +37,13 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioRoles repositorioRoles;
+    private Repositorio repositorio;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
+        this.repositorio = repositorio;
     }
 
     @Override // funciona correctamente
@@ -322,5 +328,19 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             repositorioColaboradores.guardar(colaboradorFisico);
         });
         ctx.redirect("/");
+    }
+    public void registroPersonaVulnerable(Context context){
+
+    }
+    public void donacionDinero(Context context){
+        Integer monto = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_monto_dinero")));
+        FrecuenciaDeDonacion frecuenciaDeDonacion = FrecuenciaDeDonacion.valueOf(context.formParam("campo_frecuencia_dinero"));
+        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
+
+        Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,LocalDate.now(),(ColaboradorFisico) colaborador.get());
+        withTransaction(()->{
+            repositorio.guardar(donacion);
+        });
+        context.redirect("/donaciones");
     }
 }

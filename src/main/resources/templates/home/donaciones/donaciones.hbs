@@ -62,34 +62,30 @@
                                 <!-- MODALES DE DONACIONES -->
                                 <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form>
+                                        <form action="/donar-dinero" method="POST">
                                             <div class="row g-3">
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_dinero" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_dinero" name="campo_monto_dinero" value="" placeholder="">
                                                         <label for="campo_monto_dinero">Monto</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_dinero" value="" placeholder="">
-                                                        <label for="campo_fecha_dinero">Fecha de donacion</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md">
-                                                    <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_frecuencia_dinero">
-                                                            <option value="0" class="d-none">Seleccione...</option>
-                                                            <option value="2">Opcion 2</option>
-                                                            <option value="3">Opcion n</option>
+                                                        <select class="form-select shadow-none rounded-4" name="campo_frecuencia_dinero" id="campo_frecuencia_dinero">
+                                                            <option value="" class="d-none">Seleccione...</option>
+                                                            <option value="FRECUENCIA_DIARIA">FRECUENCIA DIARIA</option>
+                                                            <option value="FRECUENCIA_SEMANAL">FRECUENCIA SEMANAL</option>
+                                                            <option value="FRECUENCIA_MENSUAL">FRECUENCIA MENSUAL</option>
+                                                            <option value="FRECUENCIA_ANUAL">FRECUENCIA ANUAL</option>
                                                         </select>
                                                         <label for="campo_frecuencia_dinero">Frecuencia</label>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row justify-content-center mt-3">
-                                                <div class="col-6">
-                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                <div class="row justify-content-center mt-3">
+                                                    <div class="col-6">
+                                                        <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>

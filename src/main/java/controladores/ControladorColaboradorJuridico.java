@@ -302,10 +302,10 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         // Validación de campos del formulario
         Validator<String> razonSocial = context.formParamAsClass("razonSocial", String.class)
             .check(v -> !v.isEmpty(), "La razón social es obligatoria");
-        
+
         Validator<TipoRazonSocial> tipoOrganizacion = context.formParamAsClass("tipoOrganizacion", TipoRazonSocial.class)
             .check(Objects::nonNull, "El tipo de organización es obligatorio");
-        
+
         Validator<Rubro> tipoRubro = context.formParamAsClass("tipoRubro", Rubro.class)
             .check(Objects::nonNull, "El rubro es obligatorio");
 
@@ -427,4 +427,5 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
         context.redirect("/estaciones");
     }
+
 }
