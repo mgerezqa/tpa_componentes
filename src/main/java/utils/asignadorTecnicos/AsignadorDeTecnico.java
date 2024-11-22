@@ -37,6 +37,7 @@ public class AsignadorDeTecnico {
                 }
             }
         }
+        System.out.println(tecnicoMasCercano);
         return tecnicoMasCercano;
     }
 

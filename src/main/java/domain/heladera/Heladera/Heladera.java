@@ -2,6 +2,7 @@ package domain.heladera.Heladera;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.incidentes.Alerta;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
 import domain.suscripciones.EventManager;
@@ -168,8 +169,8 @@ public class Heladera {
     // ============================================================ //
 
     // Falla de temperatura
-    public void fallaTemperatura() {
-        IncidenteFactory.crearAlerta(this, "falla_temperatura");
+    public Alerta fallaTemperatura() {
+        return IncidenteFactory.crearAlerta(this, "falla_temperatura");
     }
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"

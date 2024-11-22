@@ -1,10 +1,12 @@
 package domain.heladera.Sensores;
+import config.ServiceLocator;
 import domain.heladera.Heladera.Heladera;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import utils.asignadorTecnicos.AsignadorDeTecnico;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,7 +34,7 @@ public class SensorTemperatura {
         //heladera.setUltimaTemperaturaRegistrada(dato);
         heladera.setUltimaTemperaturaRegistrada(temperaturaActual, LocalDateTime.now());
         if(heladera.temperaturaFueraDeRango()){
-            heladera.fallaTemperatura();
+            new AsignadorDeTecnico().asignarTecnicoA(heladera.fallaTemperatura()); //Mirar tema de singleton,etc
             System.out.println("Activación de alerta de falla de temperatura!");
         }
     }

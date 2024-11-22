@@ -420,6 +420,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
         withTransaction(()->{
             MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera,(ColaboradorJuridico) colaboradorJuridicoPosible.get());
+            //Calculo de puntos a dar al colaborador por mantener/donar la heladera
             calculadoraPuntos.puntosHeladerasActivas(mantenerHeladera);
             repositorio.guardar(mantenerHeladera);
         });

@@ -6,6 +6,9 @@ import domain.heladera.Sensores.SensorTemperatura;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import repositorios.Repositorio;
+import repositorios.repositoriosBDD.RepositorioTecnicos;
+import utils.asignadorTecnicos.AsignadorDeTecnico;
+
 import java.util.Optional;
 
 
