@@ -26,6 +26,10 @@ public abstract class Donacion {
         this.fechaDeDonacion = fechaDeDonacion;
         this.colaboradorQueLaDono = colaboradorQueLaDono;
     }
+    public Donacion(Colaborador colaboradorQueLaDono) {
+        this.colaboradorQueLaDono = colaboradorQueLaDono;
+        this.fechaDeDonacion = LocalDate.now();
+    }
 
     public Donacion() {
 

@@ -26,6 +26,11 @@ public class Dinero extends Donacion{
         this.cantidad = cantidad;
         this.frecuencia = frecuencia;
     }
+    public Dinero(Integer cantidad, FrecuenciaDeDonacion frecuencia, Colaborador colaboradorQueLaDono) {
+        super(colaboradorQueLaDono);
+        this.cantidad = cantidad;
+        this.frecuencia = frecuencia;
+    }
 
     @Override
     public String getTipo() {

@@ -337,7 +337,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         FrecuenciaDeDonacion frecuenciaDeDonacion = FrecuenciaDeDonacion.valueOf(context.formParam("campo_frecuencia_dinero"));
         Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
 
-        Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,LocalDate.now(),(ColaboradorFisico) colaborador.get());
+        Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(ColaboradorFisico) colaborador.get());
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
