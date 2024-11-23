@@ -4,14 +4,12 @@ import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
-import domain.donaciones.Dinero;
-import domain.donaciones.Donacion;
-import domain.donaciones.FrecuenciaDeDonacion;
-import domain.donaciones.RegistroDePersonaVulnerable;
+import domain.donaciones.*;
 import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
+import domain.heladera.Heladera.Heladera;
 import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
 import domain.puntos.CalculadoraPuntos;
@@ -414,4 +412,25 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         });
         context.redirect("/donaciones");
     }
+
+    public void distrubuirViandas(Context context){
+        Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
+        Long destinoReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_destino_reparto")));
+        Integer cantidadReparto = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_cantidad_reparto")));
+        Motivo motivoReparto = Motivo.valueOf(context.formParam("campo_motivo_reparto"));
+
+        Optional<Object> heladeraOrigen = repositorio.buscarPorID(Heladera.class,origenReparto);
+        Optional<Object> heladeraDestino = repositorio.buscarPorID(Heladera.class,destinoReparto);
+        Optional<Object> colaborador = repositorio.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
+
+        Distribuir nuevaDistribucion = new Distribuir((Heladera) heladeraOrigen.get(),(Heladera) heladeraDestino.get(),cantidadReparto,(ColaboradorFisico) colaborador.get());
+        nuevaDistribucion.setMotivo(motivoReparto);
+        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(nuevaDistribucion);
+        ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+        withTransaction(()->{
+            repositorio.guardar(nuevaDistribucion);
+        });
+
+    }
+
 }

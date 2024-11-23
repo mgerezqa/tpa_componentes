@@ -241,6 +241,7 @@ public class Router implements SimplePersistenceTest{
         app.get("/visitas",ServiceLocator.instanceOf(ControladorTecnicos.class)::visitas,RoleENUM.TECNICO);
         app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
         app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO);
+        app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
 
     }
 }
