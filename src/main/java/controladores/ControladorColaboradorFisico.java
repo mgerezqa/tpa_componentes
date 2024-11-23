@@ -6,8 +6,15 @@ import domain.contacto.Whatsapp;
 import domain.donaciones.Dinero;
 import domain.donaciones.Donacion;
 import domain.donaciones.FrecuenciaDeDonacion;
+import domain.donaciones.RegistroDePersonaVulnerable;
+import domain.formulario.documentos.Documento;
+import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
+import domain.persona.Persona;
+import domain.persona.PersonaVulnerable;
+import domain.tarjeta.Tarjeta;
+import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Rol;
 import domain.usuarios.RoleENUM;
@@ -329,8 +336,53 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         });
         ctx.redirect("/");
     }
-    public void registroPersonaVulnerable(Context context){
+    public void registroPersonaVulnerable(Context context) {
+        String nombreBeneficiario = context.formParam("campo_nombre_pv");
+        String apellidoBeneficiario = context.formParam("campo_apellido_pv");
+        String direccionBeneficiario = context.formParam("campo_direccion_pv");
+        TipoDocumento tipoDocumentoBeneficiario = TipoDocumento.valueOf(context.formParam("campo_tipo_documento_pv"));
+        String numeroDocumentoBeneficiario = context.formParam("campo_nro_documento_pv");
+        LocalDate fechaNacimientoBeneficiario = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_nacimiento_pv")));
 
+
+        PersonaVulnerable personaVulnerable = new PersonaVulnerable(nombreBeneficiario,fechaNacimientoBeneficiario);
+        personaVulnerable.setApellido(apellidoBeneficiario);
+
+        Documento doc = new Documento();
+        doc.setTipo(tipoDocumentoBeneficiario);
+        assert numeroDocumentoBeneficiario != null;
+        doc.setNumeroDeDocumento(numeroDocumentoBeneficiario);
+        assert direccionBeneficiario != null;
+        Calle direccion = new Calle();
+
+        direccion.setNombre(direccionBeneficiario);
+        personaVulnerable.setDocumento(doc);
+
+        int index = 1;
+        // Continuar mientras haya un nombre de hijo en el formulario
+        String nombreHijo;
+        while ((nombreHijo = context.formParam("nombreHijo" + index)) != null) {
+            String apellidoHijo = context.formParam("apellidoHijo" + index);
+            LocalDate fechaNacimientoHijo = LocalDate.parse(Objects.requireNonNull(context.formParam("fechaNacimientoHijo" + index)));
+
+            // Crear un nuevo objeto hijo y establecer sus atributos
+            Persona hijo = new Persona();
+            hijo.setNombre(nombreHijo);
+            hijo.setApellido(apellidoHijo);
+            hijo.setFechaNacimiento(fechaNacimientoHijo);
+
+            // Agregar el hijo a la lista
+            personaVulnerable.agregarMenorACargo(hijo);
+            index++;
+        }
+        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
+        TarjetaVulnerable tarjeta= new TarjetaVulnerable();
+        tarjeta.setVulnerable(personaVulnerable);
+        RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
+        withTransaction(() -> {
+            repositorio.guardar(registroDePersonaVulnerable);
+        });
+        context.redirect("/donaciones");
     }
     public void donacionDinero(Context context){
         Integer monto = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_monto_dinero")));

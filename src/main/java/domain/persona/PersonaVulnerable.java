@@ -54,6 +54,9 @@ public class PersonaVulnerable {
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.menoresACargo = new ArrayList<>();
+        this.fechaRegitrado = LocalDate.now();
+        this.activo = true;
+        this.cantidadMenoresACargo = 0;
     }
 
     public int cantidadDeMenoresACargo(){
@@ -62,5 +65,6 @@ public class PersonaVulnerable {
 
     public void agregarMenorACargo(Persona persona){
         menoresACargo.add(persona);
+        this.cantidadMenoresACargo = cantidadMenoresACargo + 1;
     }
 }

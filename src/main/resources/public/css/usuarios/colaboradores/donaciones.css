@@ -1,3 +1,15 @@
+.container-hijos{
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+#hijosContainerEdit{
+    display:flex;
+    flex-wrap: wrap;
+}
+
 main{
     background: linear-gradient(#f07605,#F6E347);
 }

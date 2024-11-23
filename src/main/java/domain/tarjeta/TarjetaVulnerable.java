@@ -16,7 +16,6 @@ public class TarjetaVulnerable extends Tarjeta {
     private PersonaVulnerable vulnerable;
     private static Integer cantidadDisponiblePorDefecto = 4;
 
-
     public int cantidadDisponiblePorMenores(){
         return 2*this.getVulnerable().cantidadDeMenoresACargo();
     }

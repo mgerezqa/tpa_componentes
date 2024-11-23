@@ -252,94 +252,56 @@
                                 </div>
                                 <div id="contenedor_form_pv" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form>
+                                        <form action="/registrarVulnerable" method="POST">
                                             <div class="row row-cols-1 row-cols-md-3 g-3 align-items-center">
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nombre_pv" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nombre_pv" name="campo_nombre_pv" placeholder="">
                                                         <label for="campo_nombre_pv">Nombre(s)</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_apellido_pv" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_apellido_pv" name="campo_apellido_pv" placeholder="">
                                                         <label for="campo_apellido_pv">Apellido(s)</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_situacion_domicilio_pv">
-                                                        <label class="form-check-label" for="check_situacion_domicilio_pv">
-                                                            Tiene domicilio
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_situacion_calle_pv">
-                                                        <label class="form-check-label" for="check_situacion_calle_pv">
-                                                            Situacion de calle
-                                                        </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_direccion_pv" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_direccion_pv" name="campo_direccion_pv" placeholder="">
                                                         <label for="campo_direccion_pv">Direccion</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_si_documento_pv">
-                                                        <label class="form-check-label" for="check_si_documento_pv">
-                                                            Tiene documento
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-md-3">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input shadow-none" type="radio" name="flexRadioDefault" id="check_no_documento_pv">
-                                                        <label class="form-check-label" for="check_no_documento_pv">
-                                                            No tiene documento
-                                                        </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-4 col-md-2">
                                                     <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_tipo_documento_pv">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_tipo_documento_pv" name="campo_tipo_documento_pv">
                                                             <option value="0" class="d-none">...</option>
-                                                            <option value="2">Opcion 2</option>
-                                                            <option value="3">Opcion n</option>
+                                                            <option value="DNI" >DNI</option>
+                                                            <option value="LE" >LE</option>
+                                                            <option value="PASAPORTE">PASAPORTE</option>
                                                         </select>
                                                         <label for="campo_tipo_documento_pv">Tipo</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-8 col-md-4">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nro_documento_pv" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nro_documento_pv" name="campo_nro_documento_pv" placeholder="">
                                                         <label for="campo_nro_documento_pv">Numero</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-6 col-md-6">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input shadow-none" type="checkbox" value="" id="campo_tiene_menores_pv">
-                                                        <label class="form-check-label" for="campo_tiene_menores_pv">
-                                                            Tiene menores a cargo
-                                                        </label>
-                                                    </div>
+                                                <div class="mb-3">
+                                                    <label for="campo_nacimiento_pv" class="form-label">Fecha de Nacimiento</label>
+                                                    <input type="date" class="form-control" id="campo_nacimiento_pv"
+                                                           name="campo_nacimiento_pv"
+                                                           required>
                                                 </div>
-                                                <div class="col-6 col-md-6">
-                                                    <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_a_cargo_pv" value="" placeholder="">
-                                                        <label for="campo_cantidad_a_cargo_pv">Cantidad</label>
-                                                    </div>
+                                                <div class="container-hijos">
+                                                    <h5 class="mt-4">Información de los Hijos</h5>
+                                                    <div id="hijosContainerEdit"></div>
+                                                    <button type="button" class="btn btn-success" id="agregarHijoEditBtn"><i class="bi bi-plus-circle"></i> Agregar Hijo</button>
                                                 </div>
-                                                <div class="col-12 col-md-12 d-none">
-                                                    <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
-                                                        <label for="campo_colaborador_vianda">Colaborador</label>
-                                                    </div>
-                                                </div>
+
+
                                             </div>
                                             <div class="row justify-content-center mt-3">
                                                 <div class="col-6">
@@ -530,7 +492,35 @@
                                         </div>
                                     </div>
                                 {{/if}}
-
+                                {{#if (eq this.getTipo "RegistroDePersonaVulnerable")}}
+                                    <!-- Card 5: REGISTRO P.V. -->
+                                    <div class="row fila_contribucion mb-3">
+                                        <div class="col-12">
+                                            <div class="scrollable-card p-3">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> REGISTRO P.V.</div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre completo: <span class="valor_info">{{this.personaVulnerable.nombre}}</span></div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="tag_info w-100"><i class="bi bi-card-list"></i> Tipo Documento: <span class="valor_info">{{this.personaVulnerable.documento.tipo}}</span></div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="tag_info w-100"><i class="bi bi-credit-card-2-front"></i> Nro Documento: <span class="valor_info">{{this.personaVulnerable.documento.numeroDeDocumento}}</span></div>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <div class="tag_info w-100"><i class="bi bi-people-fill"></i> Cantidad de hijos: <span class="valor_info">{{this.personaVulnerable.cantidadMenoresACargo}}</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/if}}
                                 <!-- Agrega más condicionales para otros tipos de donaciones -->
                             </div>
                         </div>
@@ -561,7 +551,45 @@
     </div>
 {{/partial}}
 {{#partial "scripts"}}
-    {{#if juridico}}
+    {{#if fisico}}
+        <script>
+            // Referencia al contenedor de los hijos en el modal de edición
+            const hijosContainerEdit = document.getElementById('hijosContainerEdit');
+            let hijoEditIndex = 0;
+
+            // Función para agregar un nuevo hijo en el modal de edición
+            document.getElementById('agregarHijoEditBtn').addEventListener('click', function () {
+                hijoEditIndex++; // Incrementar el índice de los hijos
+                const hijoHtml = `
+                <div class="mb-3 border p-3" id="hijo-edit-${hijoEditIndex}">
+                    <h6>Hijo ${hijoEditIndex}</h6>
+                    <div class="mb-3">
+                        <label for="nombreHijoEdit${hijoEditIndex}" class="form-label">Nombre del Hijo</label>
+                        <input type="text" class="form-control" id="nombreHijoEdit${hijoEditIndex}" name="nombreHijo${hijoEditIndex}" placeholder="Ingrese Nombre del Hijo" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidoHijoEdit${hijoEditIndex}" class="form-label">Apellido del Hijo</label>
+                        <input type="text" class="form-control" id="apellidoHijoEdit${hijoEditIndex}" name="apellidoHijo${hijoEditIndex}" placeholder="Ingrese Apellido del Hijo" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaNacimientoHijoEdit${hijoEditIndex}" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="fechaNacimientoHijoEdit${hijoEditIndex}" name="fechaNacimientoHijo${hijoEditIndex}" required>
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="eliminarHijoEdit(${hijoEditIndex})"><i class="bi bi-trash"></i> Eliminar Hijo</button>
+                </div>`;
+                hijosContainerEdit.insertAdjacentHTML('beforeend', hijoHtml);
+            });
+
+
+            // Función para eliminar un hijo en el modal de edición
+            function eliminarHijoEdit(index) {
+                const hijoElement = document.getElementById(`hijo-edit-${index}`);
+                hijoElement.remove();
+            }
+
+        </script>
     {{else}}
     {{/if}}
 {{/partial}}
