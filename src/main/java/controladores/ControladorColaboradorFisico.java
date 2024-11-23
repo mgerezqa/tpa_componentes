@@ -27,6 +27,7 @@ import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioRegistrosVulnerables;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import utils.ICrudViewsHandler;
@@ -43,12 +44,14 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioRoles repositorioRoles;
     private Repositorio repositorio;
+    private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorio = repositorio;
+        this.repositorioRegistrosVulnerables = repositorioRegistrosVulnerables;
     }
 
     @Override // funciona correctamente
@@ -377,8 +380,18 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         TarjetaVulnerable tarjeta= new TarjetaVulnerable();
         tarjeta.setVulnerable(personaVulnerable);
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
+
+        //Cuantas tarjetas repartió.
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
+        });
+        List<RegistroDePersonaVulnerable> tarjetasRepartidas = repositorioRegistrosVulnerables.buscarPorColaboradorId(((ColaboradorFisico) colaborador.get()).getId());
+
+        int cantidadTarjetasRepartidas = tarjetasRepartidas.size();
+        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosTarjetasRepatidas(cantidadTarjetasRepartidas);
+        ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+        withTransaction(()->{
+            repositorio.actualizar(colaborador.get());
         });
         context.redirect("/donaciones");
     }
@@ -388,11 +401,15 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
 
         Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(ColaboradorFisico) colaborador.get());
+        var puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosPesosDonados(donacion);
+        ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
         context.redirect("/donaciones");
     }
+
     public void distrubuirViandas(Context context){
         Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
         Long destinoReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_destino_reparto")));
@@ -412,4 +429,5 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         });
 
     }
+
 }
