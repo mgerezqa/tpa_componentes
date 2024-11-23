@@ -43,7 +43,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(ControladorColaboradorFisico.class.getName())) {
-                ControladorColaboradorFisico instance = new ControladorColaboradorFisico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(Repositorio.class));
+                ControladorColaboradorFisico instance = new ControladorColaboradorFisico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(Repositorio.class),instanceOf(RepositorioRegistrosVulnerables.class));
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(RepositorioColaboradores.class.getName())) {
@@ -138,6 +138,9 @@ public class ServiceLocator {
             }
             else if(componentName.equals(CalculadoraPuntos.class.getName())){
                 CalculadoraPuntos instance = CalculadoraPuntos.obtenerInstancia();
+                instances.put(componentName, instance);
+            }else if(componentName.equals(RepositorioRegistrosVulnerables.class.getName())){
+                RepositorioRegistrosVulnerables instance = new RepositorioRegistrosVulnerables();
                 instances.put(componentName, instance);
             }
         }

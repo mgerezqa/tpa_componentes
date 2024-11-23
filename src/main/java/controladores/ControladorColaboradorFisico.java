@@ -31,6 +31,7 @@ import io.javalin.validation.ValidationError;
 import org.hibernate.NonUniqueResultException;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioRegistrosVulnerables;
 import repositorios.repositoriosBDD.RepositorioRoles;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import utils.ICrudViewsHandler;
@@ -40,6 +41,7 @@ import io.javalin.validation.Validator;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
@@ -47,12 +49,14 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioRoles repositorioRoles;
     private Repositorio repositorio;
+    private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorio = repositorio;
+        this.repositorioRegistrosVulnerables = repositorioRegistrosVulnerables;
     }
 
     @Override // funciona correctamente
@@ -383,11 +387,17 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
 
         //Cuantas tarjetas repartió.
-
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
         });
+        List<RegistroDePersonaVulnerable> tarjetasRepartidas = repositorioRegistrosVulnerables.buscarPorColaboradorId(((ColaboradorFisico) colaborador.get()).getId());
 
+        int cantidadTarjetasRepartidas = tarjetasRepartidas.size();
+        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosTarjetasRepatidas(cantidadTarjetasRepartidas);
+        ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+        withTransaction(()->{
+            repositorio.actualizar(colaborador.get());
+        });
         context.redirect("/donaciones");
     }
     public void donacionDinero(Context context){
