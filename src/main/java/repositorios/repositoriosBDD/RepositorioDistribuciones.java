@@ -1,8 +1,11 @@
 package repositorios.repositoriosBDD;
 
 import domain.donaciones.Distribuir;
+import domain.donaciones.RegistroDePersonaVulnerable;
 import domain.donaciones.Vianda;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+
+import java.util.List;
 
 public class RepositorioDistribuciones implements WithSimplePersistenceUnit {
 
@@ -19,5 +22,14 @@ public class RepositorioDistribuciones implements WithSimplePersistenceUnit {
 
     public Distribuir obtenerPorId(Long id){
         return entityManager().find(Distribuir.class, id);
+    }
+    public List<Distribuir> buscarPorColaboradorId(Long colaboradId) {
+        return entityManager()
+                .createQuery(
+                        "SELECT d FROM Distribuir d WHERE d.colaboradorQueLaDono.id = :colaboradId",
+                        Distribuir.class
+                )
+                .setParameter("colaboradId", colaboradId)
+                .getResultList();
     }
 }

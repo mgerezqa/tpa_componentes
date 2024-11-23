@@ -51,11 +51,5 @@ public class Distribuir extends Donacion{
         return "Distribuir";
     }
 
-    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino,Integer cantidad,ColaboradorFisico colaboradorQueLaDono){
-        super(colaboradorQueLaDono);
-        this.heladeraOrigen = heladeraOrigen;
-        this.heladeraDestino = heladeraDestino;
-        this.cantidad = cantidad;
-    }
 
 }

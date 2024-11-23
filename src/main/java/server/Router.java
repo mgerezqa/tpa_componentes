@@ -201,7 +201,14 @@ public class Router implements SimplePersistenceTest{
             Long idColaborador = ctx.sessionAttribute("id_colaborador");
             Optional<Object> colaborador = ServiceLocator.instanceOf(Repositorio.class)
                     .buscarPorID(Colaborador.class, idColaborador);
-
+            if(esFisico){
+                List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
+                        .buscarTodos(Heladera.class)
+                        .stream()
+                        .map(m -> (Heladera) m)
+                        .collect(Collectors.toList());
+                model.put("heladeras", heladeras);
+            }
             List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
                     .buscarTodos(Donacion.class)
                     .stream().map(d -> (Donacion) d)

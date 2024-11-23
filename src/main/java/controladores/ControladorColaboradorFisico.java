@@ -26,14 +26,10 @@ import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import repositorios.Repositorio;
-import repositorios.repositoriosBDD.RepositorioColaboradores;
-import repositorios.repositoriosBDD.RepositorioRegistrosVulnerables;
-import repositorios.repositoriosBDD.RepositorioRoles;
-import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
-
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Objects;
@@ -45,13 +41,15 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private RepositorioRoles repositorioRoles;
     private Repositorio repositorio;
     private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
+    private RepositorioDistribuciones repositorioDistribuciones;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorio = repositorio;
         this.repositorioRegistrosVulnerables = repositorioRegistrosVulnerables;
+        this.repositorioDistribuciones = repositorioDistribuciones;
     }
 
     @Override // funciona correctamente
@@ -402,6 +400,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(ColaboradorFisico) colaborador.get());
         var puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosPesosDonados(donacion);
+
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
 
         withTransaction(()->{
@@ -422,12 +421,20 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         Distribuir nuevaDistribucion = new Distribuir((Heladera) heladeraOrigen.get(),(Heladera) heladeraDestino.get(),cantidadReparto,(ColaboradorFisico) colaborador.get());
         nuevaDistribucion.setMotivo(motivoReparto);
-        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(nuevaDistribucion);
+
+        int viandasDistribuidas = repositorioDistribuciones
+                .buscarPorColaboradorId(((ColaboradorFisico) colaborador.get()).getId())
+                .stream()
+                .mapToInt(Distribuir::getCantidad) // Mapea cada elemento a su cantidad como un int
+                .sum();
+
+        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(viandasDistribuidas + nuevaDistribucion.getCantidad());
+
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
         withTransaction(()->{
             repositorio.guardar(nuevaDistribucion);
         });
-
+        context.redirect("/donaciones");
     }
 
 }
