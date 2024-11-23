@@ -1,4 +1,5 @@
 package controladores;
+import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
@@ -13,6 +14,7 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
+import domain.puntos.CalculadoraPuntos;
 import domain.tarjeta.Tarjeta;
 import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.ColaboradorFisico;
@@ -379,9 +381,13 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         TarjetaVulnerable tarjeta= new TarjetaVulnerable();
         tarjeta.setVulnerable(personaVulnerable);
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
+
+        //Cuantas tarjetas repartió.
+
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
         });
+
         context.redirect("/donaciones");
     }
     public void donacionDinero(Context context){
@@ -390,6 +396,9 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
 
         Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(ColaboradorFisico) colaborador.get());
+        var puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosPesosDonados(donacion);
+        ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
