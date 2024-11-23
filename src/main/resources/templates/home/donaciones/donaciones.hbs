@@ -114,7 +114,7 @@
                                                         <div class="row row-cols-1 row-cols-md-2 g-3">
                                                             <div class="col-12 col-md-6">
                                                                 <div class="form-floating">
-                                                                    <select class="form-select shadow-none rounded-4" id="provincia">
+                                                                    <select class="form-select shadow-none rounded-4" id="vianda_provincia" name="vianda_provincia">
                                                                         <option value="0" class="d-none">Seleccione...</option>
                                                                         <option value="2">Buenos Aires</option>
                                                                         <option value="3">Córdoba</option>
@@ -124,7 +124,7 @@
                                                             </div>
                                                             <div class="col-12 col-md-6">
                                                                 <div class="form-floating">
-                                                                    <select class="form-select shadow-none rounded-4" id="localidad">
+                                                                    <select class="form-select shadow-none rounded-4" id="vianda_localidad" name="vianda_localidad">
                                                                         <option value="0" class="d-none">Seleccione...</option>
                                                                         <option value="2">CABA</option>
                                                                         <option value="3">Rosario</option>
@@ -142,37 +142,37 @@
                                             <div class="row row-cols-1 row-cols-md-2 g-3">
                                                 <div class="col-12 col-md-12">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_vianda" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_vianda" name ="campo_monto_vianda" value="" placeholder="">
                                                         <label for="campo_monto_vianda">Descripcion</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_vencimiento_dinero" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_vencimiento_dinero" name="campo_vencimiento_dinero" value="" placeholder="">
                                                         <label for="campo_vencimiento_dinero">Fecha de vencimiento</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_vianda" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_vianda" name="campo_fecha_vianda" value="" placeholder="">
                                                         <label for="campo_fecha_vianda">Fecha de Donacion</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_calorias_vianda" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_calorias_vianda" name="campo_calorias_vianda" value="" placeholder="">
                                                         <label for="campo_calorias_vianda">Calorias</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_peso_vianda" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_peso_vianda" name="campo_peso_vianda" value="" placeholder="">
                                                         <label for="campo_peso_vianda">Peso</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-12 d-none">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" name="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
                                                         <label for="campo_colaborador_vianda">Colaborador</label>
                                                     </div>
                                                 </div>
@@ -191,7 +191,7 @@
                                             <div class="row row-cols-1 row-cols-md-2 g-3">
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_origen_reparto">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_origen_reparto" name="campo_origen_reparto">
                                                             <option value="0" class="d-none">Seleccione...</option>
                                                             <option value="2">Opcion 2</option>
                                                             <option value="3">Opcion n</option>
@@ -201,7 +201,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_destino_reparto">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_destino_reparto" name="campo_destino_reparto">
                                                             <option value="0" class="d-none">Seleccione...</option>
                                                             <option value="2">Opcion 2</option>
                                                             <option value="3">Opcion n</option>
@@ -209,35 +209,27 @@
                                                         <label for="campo_destino_reparto">Heladera de destino</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-8 col-md-10">
-                                                    <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_vianda_reparto">
-                                                            <option value="0" class="d-none">Seleccione...</option>
-                                                            <option value="2">Opcion 2</option>
-                                                            <option value="3">Opcion n</option>
-                                                        </select>
-                                                        <label for="campo_vianda_reparto">Seleccione la vianda</label>
-                                                    </div>
-                                                </div>
                                                 <div class="col-4 col-md-2">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_reparto" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_reparto" name="campo_cantidad_reparto" value="0" placeholder="">
                                                         <label for="campo_calorias_reparto">Ingrese cantidad</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-12">
                                                     <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_motivo_reparto">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_motivo_reparto" name="campo_motivo_reparto">
                                                             <option value="0" class="d-none">Seleccione...</option>
-                                                            <option value="2">Opcion 2</option>
-                                                            <option value="3">Opcion n</option>
+                                                            <option value="2">DESPERFECTO_HELADERA</option>
+                                                            <option value="3">FALTA_DE_VIANDAS</option>
+                                                            <option value="4">OTROS</option>
+
                                                         </select>
                                                         <label for="campo_motivo_reparto">Motivo</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-12 d-none">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" name="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
                                                         <label for="campo_colaborador_vianda">Colaborador</label>
                                                     </div>
                                                 </div>
