@@ -77,19 +77,18 @@ footer {
     bottom: 0;
 }
 
-#btn-cerrar-sesion a {
-    font-size: 2rem; /* Tamaño del texto */
-    padding: 15px 30px; /* Espaciado interno (padding) */
-    border-radius: 8px; /* Bordes redondeados */
+#btn-cerrar-sesion button {
+    font-size: 2rem;
+    padding: 15px 30px;
+    border-radius: 8px;
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 #btn-cerrar-sesion i {
-    font-size: 2rem; /* Tamaño del ícono */
+    font-size: 2rem;
 }
 
-#btn-cerrar-sesion a:hover {
-    background-color: #c82333; /* Color más oscuro en hover */
-    transform: scale(1.2); /* Efecto de agrandar al hacer hover */
+#btn-cerrar-sesion button:hover {
+    background-color: #c82333;
+    transform: scale(1.2);
 }
-
