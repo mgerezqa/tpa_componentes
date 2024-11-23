@@ -13,15 +13,11 @@ import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.heladera.Sensores.SensorTemperatura;
-import domain.incidentes.Alerta;
-import domain.incidentes.FallaTecnica;
 import domain.incidentes.Incidente;
 import domain.incidentes.IncidenteFactory;
 import domain.persona.PersonaVulnerable;
 import domain.suscripciones.Suscripcion;
 import domain.suscripciones.SuscripcionPorCantidadDeViandasDisponibles;
-import domain.suscripciones.TipoDeSuscripcion;
-import domain.tarjeta.Tarjeta;
 import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.*;
 import domain.visitas.Visita;
@@ -48,7 +44,7 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
     public RepositorioMantenciones repositorioMantenciones;
     public RepositorioVulnerables repositorioVulnerables;
     public RepositorioTarjetas repositorioTarjetas;
-    public RepositorioRegistros repositorioRegistros;
+    public RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
     public RepositorioSuscripciones repositorioSuscripciones;
 
 
@@ -68,7 +64,7 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
         instance.repositorioMantenciones = new RepositorioMantenciones();
         instance.repositorioVulnerables = new RepositorioVulnerables();
         instance.repositorioTarjetas = new RepositorioTarjetas();
-        instance.repositorioRegistros = new RepositorioRegistros();
+        instance.repositorioRegistrosVulnerables = new RepositorioRegistrosVulnerables();
         instance.repositorioSuscripciones = new RepositorioSuscripciones();
 
         instance.testBDD();
@@ -266,7 +262,7 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
         TarjetaVulnerable tarjeta = new TarjetaVulnerable();
 
         RegistroDePersonaVulnerable registro = new RegistroDePersonaVulnerable(colaborador1, tarjeta, joaquin, LocalDate.now());
-        repositorioRegistros.guardar(registro);
+        repositorioRegistrosVulnerables.guardar(registro);
 
         //SUSCRIPCIONES
 
