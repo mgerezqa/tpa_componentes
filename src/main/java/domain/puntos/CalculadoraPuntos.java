@@ -27,6 +27,10 @@ public class CalculadoraPuntos {
         double coeficiente = Double.parseDouble(config.getProperty("puntos.coefViandasDistribuidas"));
         return (int) Math.round(viandasDistribuidas.getCantidad() * coeficiente);
     }
+    public int puntosViandasDistribuidas (Integer viandasDistribuidas) {
+        double coeficiente = Double.parseDouble(config.getProperty("puntos.coefViandasDistribuidas"));
+        return (int) Math.round(viandasDistribuidas * coeficiente);
+    }
 
     public int puntosViandasDonadas (int viandasDonadas) {
         double coeficiente = Double.parseDouble(config.getProperty("puntos.coefViandasDonadas"));
