@@ -206,6 +206,7 @@ public class Router implements SimplePersistenceTest{
                 List<HeladeraDTO> heladerasDTO = heladeras.stream()
                         .map(HeladeraMapper::toDTO)
                         .collect(Collectors.toList());
+                System.out.println(heladerasDTO);
                 model.put("heladeras", heladerasDTO);
             }
 

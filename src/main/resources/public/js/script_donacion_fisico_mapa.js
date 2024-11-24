@@ -16,6 +16,7 @@ document.getElementById('contenedor_donar_por_heladera').addEventListener('shown
 
 // Función para manejar la selección de una heladera y mostrar la información en el formulario
 function mostrarInformacionHeladera(heladera) {
+    document.getElementById("heladera").value = heladera.id;
     document.getElementById("estado").value = heladera.estado;
     document.getElementById("estacion-name").value = heladera.nombre;
     document.getElementById("direccion").value = heladera.direccion;

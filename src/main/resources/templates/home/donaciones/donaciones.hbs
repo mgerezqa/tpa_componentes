@@ -9,6 +9,7 @@
             var heladeras = [];
             {{#each heladeras}}
                 heladeras.push({
+                    id: "{{this.id}}",
                     nombre: "{{estacion}}",
                     coordenadas: [{{latitud}}, {{longitud}}],
                     estado: "{{estado}}",
@@ -244,45 +245,39 @@
                                                                             </div>
 
                                                                             <div class="d-flex mb-3">
-                                                                                <label class="form-label w-50" for="inicio-operacion"><i class="bi bi-journal-text"></i> Descripción: </label>
+                                                                                <label class="form-label w-50" for="descripcion"><i class="bi bi-journal-text"></i> Descripción: </label>
                                                                                 <input placeholder="Descripcion" class="form-control form-control-sm w-50" name="descripcion" type="text" id="descripcion" disabled>
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <form>
+                                                    <form action="/donar-viandas" method="POST">
+                                                        <input type="hidden" class="form-control" id="heladera" name="heladera" readonly required>
                                                         <div class="row row-cols-1 row-cols-md-2 g-3">
                                                             <div class="col-12 col-md-12">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_vianda" value="" placeholder="">
-                                                                    <label for="campo_monto_vianda">Descripcion</label>
+                                                                    <input type="text" class="form-control shadow-none rounded-4" id="descripcion" name="descripcion"  placeholder="">
+                                                                    <label for="descripcion">Descripcion</label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-md">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_vencimiento_dinero" value="" placeholder="">
-                                                                    <label for="campo_vencimiento_dinero">Fecha de vencimiento</label>
+                                                                    <input type="date" class="form-control shadow-none rounded-4" id="campo_vencimiento_vianda" name="campo_vencimiento_vianda" placeholder="">
+                                                                    <label for="campo_vencimiento_vianda">Fecha de vencimiento</label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-md">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_fecha_vianda" value="" placeholder="">
-                                                                    <label for="campo_fecha_vianda">Fecha de Donacion</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md">
-                                                                <div class="form-floating">
-                                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_calorias_vianda" value="" placeholder="">
+                                                                    <input type="number" class="form-control shadow-none rounded-4" id="campo_calorias_vianda" name="campo_calorias_vianda" placeholder="">
                                                                     <label for="campo_calorias_vianda">Calorias</label>
                                                                 </div>
                                                             </div>
                                                             <div class="col-12 col-md">
                                                                 <div class="form-floating">
-                                                                    <input type="text" class="form-control shadow-none rounded-4" id="campo_peso_vianda" value="" placeholder="">
+                                                                    <input type="number" class="form-control shadow-none rounded-4" id="campo_peso_vianda" name="campo_peso_vianda" placeholder="">
                                                                     <label for="campo_peso_vianda">Peso</label>
                                                                 </div>
                                                             </div>
@@ -551,7 +546,19 @@
                                         <div class="tag_info w-100"><i class="bi bi-box-seam"></i> VIANDA</div>
                                     </div>
                                     <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-door-closed"></i> Heladera: <span class="valor_info">{{this.heladeraActual.nombreIdentificador}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">{{this.descripcion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-bag"></i> Peso: <span class="valor_info">{{this.peso}}kg</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-bag"></i> Calorias: <span class="valor_info">{{this.calorias}}kg</span></div>
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-exclamation-triangle"></i> Fecha de vencimiento: <span class="valor_info">{{this.fechaVencimiento}}</span></div>
@@ -575,9 +582,6 @@
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <div class="tag_info w-100"><i class="bi bi-door-open"></i> Heladera: <span class="valor_info">{{this.heladera.nombreIdentificador}}</span></div>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
                                     </div>
                                 {{else if (eq this.getTipo "Producto")}}
                                     <div class="col-12 col-md-4">

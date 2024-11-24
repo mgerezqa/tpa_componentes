@@ -441,11 +441,13 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     }
 
     public void donarViandas(Context context) {
-        String descripcion = context.formParam("campo_monto_vianda");
-        LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_dinero")));
+        context.formParamMap().forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+        String descripcion = context.formParam("descripcion");
+        LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_vianda")));
         Long calorias = Long.parseLong(Objects.requireNonNull(context.formParam("campo_calorias_vianda")));
         Long peso = Long.parseLong(Objects.requireNonNull(context.formParam("campo_peso_vianda")));
-        
         Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,
                 context.sessionAttribute("id_colaborador"));
 
@@ -453,6 +455,11 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         Vianda donacion = new Vianda(descripcion, fechaVencimiento,
                 calorias, peso, colaboradorFisico);
+        if(!Objects.equals(context.formParam("heladera"), "") || context.formParam("heladera") !=null){
+            Long idHeladera = Long.parseLong(context.formParam("heladera"));
+            Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
+            donacion.setHeladeraActual((Heladera) heladera.get());
+        }
 
         int viandasDonadas = repositorioViandas
                 .buscarPorColaboradorId(colaboradorFisico.getId())

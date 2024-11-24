@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HeladeraDTO {
+    private Long id;
     private String estado;
     private String estacion;
     private String direccion;
