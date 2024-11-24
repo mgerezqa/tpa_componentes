@@ -217,13 +217,20 @@ public class Router implements SimplePersistenceTest{
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.get("/puntos", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
-            List<String> roles = ctx.sessionAttribute("roles");
 
-            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
-            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
+            Long idColaborador = ctx.sessionAttribute("id_colaborador");
+            Optional<Object> colaborador = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarPorID(Colaborador.class, idColaborador);
 
-            model.put("fisico", esFisico);
-            model.put("juridico", esJuridico);
+            List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarTodos(Donacion.class)
+                    .stream().map(d -> (Donacion) d)
+                    .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
+                    .sorted(Comparator.comparing(Donacion::getId))
+                    .collect(Collectors.toList());
+
+            model.put("donaciones", donaciones);
+            model.put("colaborador", colaborador.get());
             ctx.render("/home/puntos/puntos.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.get("/canjes", (ctx) -> {
@@ -237,6 +244,5 @@ public class Router implements SimplePersistenceTest{
             model.put("juridico", esJuridico);
             ctx.render("/home/canjes/canjes.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
-
     }
 }

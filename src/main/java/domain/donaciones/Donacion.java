@@ -3,11 +3,13 @@ package domain.donaciones;
 import domain.usuarios.Colaborador;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Donacion {
@@ -21,6 +23,9 @@ public abstract class Donacion {
 
     @Column(name = "fecha_donacion", nullable = false,columnDefinition = "DATE")
     protected LocalDate fechaDeDonacion;
+
+    @Column(name = "puntosOtorgados")
+    protected Integer puntosOtorgados;
 
     public Donacion(LocalDate fechaDeDonacion, Colaborador colaboradorQueLaDono) {
         this.fechaDeDonacion = fechaDeDonacion;

@@ -378,7 +378,6 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         TarjetaVulnerable tarjeta= new TarjetaVulnerable();
         tarjeta.setVulnerable(personaVulnerable);
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
-
         //Cuantas tarjetas repartió.
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
@@ -388,8 +387,10 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         int cantidadTarjetasRepartidas = tarjetasRepartidas.size();
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosTarjetasRepatidas(cantidadTarjetasRepartidas);
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+        registroDePersonaVulnerable.setPuntosOtorgados(puntos);
         withTransaction(()->{
             repositorio.actualizar(colaborador.get());
+            repositorio.actualizar(registroDePersonaVulnerable);
         });
         context.redirect("/donaciones");
     }
@@ -402,7 +403,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         var puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosPesosDonados(donacion);
 
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
-
+        donacion.setPuntosOtorgados(puntos);
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
@@ -429,7 +430,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
                 .sum();
 
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(viandasDistribuidas + nuevaDistribucion.getCantidad());
-
+        nuevaDistribucion.setPuntosOtorgados(puntos);
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
         withTransaction(()->{
             repositorio.guardar(nuevaDistribucion);
