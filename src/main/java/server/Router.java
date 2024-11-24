@@ -13,10 +13,7 @@ import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Router implements SimplePersistenceTest{
@@ -209,6 +206,7 @@ public class Router implements SimplePersistenceTest{
                     .buscarTodos(Donacion.class)
                     .stream().map(d -> (Donacion) d)
                     .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
+                    .sorted(Comparator.comparing(Donacion::getId))
                     .collect(Collectors.toList());
 
             model.put("donaciones", donaciones);

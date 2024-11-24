@@ -429,9 +429,7 @@
                                     <div class="col-12 col-md-3">
                                         <div class="tag_info w-100"><i class="bi bi-repeat"></i> Frecuencia: <span class="valor_info">{{this.frecuencia}}</span></div>
                                     </div>
-                                {{/if}}
-
-                                {{#if (eq this.getTipo "Vianda")}}
+                                {{else if (eq this.getTipo "Vianda")}}
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-box-seam"></i> VIANDA</div>
                                     </div>
@@ -441,9 +439,7 @@
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-exclamation-triangle"></i> Fecha de vencimiento: <span class="valor_info">{{this.fechaVencimiento}}</span></div>
                                     </div>
-                                {{/if}}
-
-                                {{#if (eq this.getTipo "Distribuir")}}
+                                {{else if (eq this.getTipo "Distribuir")}}
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-truck"></i> REPARTO</div>
                                     </div>
@@ -453,8 +449,7 @@
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-arrow-repeat"></i> Motivo: <span class="valor_info">{{this.motivo}}</span></div>
                                     </div>
-                                {{/if}}
-                                {{#if (eq this.getTipo "MantenerHeladera")}}
+                                {{else if (eq this.getTipo "MantenerHeladera")}}
                                     <div class="col-12 col-md-3">
                                         <div class="tag_info w-100"><i class="bi bi-tools"></i> MANTENER ESTACIÓN	</div>
                                     </div>
@@ -467,8 +462,7 @@
                                     <div class="col-12 col-md-3">
                                         <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
                                     </div>
-                                {{/if}}
-                                {{#if (eq this.getTipo "Producto")}}
+                                {{else if (eq this.getTipo "Producto")}}
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-box-seam"></i> Producto</div>
                                     </div>
@@ -479,8 +473,7 @@
                                         <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">Playstation 5</span>
                                         </div>
                                     </div>
-                                {{/if}}
-                                {{#if (eq this.getTipo "RegistroDePersonaVulnerable")}}
+                                {{else if (eq this.getTipo "RegistroDePersonaVulnerable")}}
                                     <!-- Card 5: REGISTRO P.V. -->
                                     <div class="row fila_contribucion mb-3">
                                         <div class="col-12">
@@ -509,13 +502,11 @@
                                         </div>
                                     </div>
                                 {{/if}}
-                                <!-- Agrega más condicionales para otros tipos de donaciones -->
                             </div>
                         </div>
                     </div>
                 </div>
             {{/each}}
-
         </div>
     </div>
 
