@@ -183,7 +183,7 @@ public class Router implements SimplePersistenceTest{
         app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO);
         app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
         app.post("/donar-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donarViandas,RoleENUM.FISICO);
-        app.get("/recomendacion-comunidades",ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::recomendarComunidades,RoleENUM.FISICO);
+        app.get("/recomendacion-comunidades",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::recomendarComunidades,RoleENUM.FISICO);
 
         //FISICO E JURIDICO
         app.get("/donaciones", (ctx) -> {
@@ -202,7 +202,11 @@ public class Router implements SimplePersistenceTest{
                         .stream()
                         .map(m -> (Heladera) m)
                         .collect(Collectors.toList());
-                model.put("heladeras", heladeras);
+
+                List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                        .map(HeladeraMapper::toDTO)
+                        .collect(Collectors.toList());
+                model.put("heladeras", heladerasDTO);
             }
 
             List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)

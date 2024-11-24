@@ -429,7 +429,4 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         context.redirect("/estaciones");
     }
 
-    public void recomendarComunidades(Context context) {
-
-    }
 }

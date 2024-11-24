@@ -470,4 +470,9 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         
         context.redirect("/donaciones");
     }
+    public void recomendarComunidades(Context context) {
+        Float latitud = Float.valueOf(Objects.requireNonNull(context.formParam("latitud")));
+        Float longitud = Float.valueOf(Objects.requireNonNull(context.formParam("longitud")));
+
+    }
 }
