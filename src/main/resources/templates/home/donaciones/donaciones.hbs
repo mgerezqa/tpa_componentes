@@ -306,7 +306,7 @@
                                                         <select class="form-select shadow-none rounded-4" id="campo_origen_reparto" name="campo_origen_reparto">
                                                             <option value="" class="d-none">Seleccione...</option>
                                                             {{#each heladeras}}
-                                                                <option value="{{this.id}}">{{this.nombreIdentificador}}</option>
+                                                                <option value="{{this.id}}">{{this.estacion}}</option>
                                                             {{/each}}
                                                         </select>
                                                         <label for="campo_origen_reparto">Heladera de origen</label>
@@ -317,7 +317,7 @@
                                                         <select class="form-select shadow-none rounded-4" id="campo_destino_reparto" name="campo_destino_reparto">
                                                             <option value="0" class="d-none">Seleccione...</option>
                                                             {{#each heladeras}}
-                                                                <option value="{{this.id}}">{{this.nombreIdentificador}}</option>
+                                                                <option value="{{this.id}}">{{this.estacion}}</option>
                                                             {{/each}}
                                                         </select>
                                                         <label for="campo_destino_reparto">Heladera de destino</label>
