@@ -1,5 +1,6 @@
 package controladores;
 
+import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
@@ -14,6 +15,8 @@ import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.validation.NullableValidator;
+import mappers.HeladeraMapper;
+import mappers.dtos.HeladeraDTO;
 import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
@@ -23,6 +26,7 @@ import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
@@ -429,4 +433,21 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         context.redirect("/estaciones");
     }
 
+    public void misEstaciones( Context context) {
+        Map<String, Object> model = new HashMap<>();
+
+        List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
+                .buscarTodos(Heladera.class)
+                .stream()
+                .map(m -> (Heladera) m)
+                .collect(Collectors.toList());
+
+        List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                .map(HeladeraMapper::toDTO)
+                .collect(Collectors.toList());
+
+        model.put("heladeras", heladerasDTO);
+
+        context.render("home/estaciones/misEstaciones.hbs", model);
+    }
 }

@@ -57,10 +57,18 @@
                 {{/if}}
                 <div class="col mt-3 px-3">
                     <a href="/estaciones" class="boton link_operacion" >
-                        <i class="bi bi-geo-alt"></i> <!-- Ícono de canjes -->
+                        <i class="bi bi-geo-alt"></i>
                         <span>MAPA ESTACIONES</span>
                     </a>
                 </div>
+                {{#if juridico}}
+                    <div class="col mt-3 px-3">
+                        <a href="/mis-estaciones" class="boton link_operacion" >
+                            <i class="bi bi-geo-alt"></i>
+                            <span>MIS ESTACIONES</span>
+                        </a>
+                    </div>
+                {{/if}}
             </div>
         </div>
 
