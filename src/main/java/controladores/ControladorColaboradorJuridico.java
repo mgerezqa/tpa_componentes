@@ -39,7 +39,8 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     private RepositorioBarrios repositorioBarrios;
     private Repositorio repositorio;
     private CalculadoraPuntos calculadoraPuntos;
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios, Repositorio repositorio,CalculadoraPuntos calculadoraPuntos) {
+    private RepositorioMantenciones repositorioMantenciones;
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios, Repositorio repositorio,CalculadoraPuntos calculadoraPuntos,RepositorioMantenciones repositorioMantenciones) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
@@ -49,6 +50,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         this.repositorioBarrios = repositorioBarrios;
         this.repositorio = repositorio;
         this.calculadoraPuntos = calculadoraPuntos;
+        this.repositorioMantenciones = repositorioMantenciones;
     }
 
     @Override //LISTO
@@ -436,10 +438,11 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     public void misEstaciones( Context context) {
         Map<String, Object> model = new HashMap<>();
 
-        List<Heladera> heladeras = ServiceLocator.instanceOf(Repositorio.class)
-                .buscarTodos(Heladera.class)
+        List<Heladera> heladeras = repositorioMantenciones
+                .buscarPorColaboradorId(context.sessionAttribute("id_colaborador"))
                 .stream()
-                .map(m -> (Heladera) m)
+                .map(m -> (MantenerHeladera) m)
+                .map(MantenerHeladera::getHeladera)
                 .collect(Collectors.toList());
 
         List<HeladeraDTO> heladerasDTO = heladeras.stream()
