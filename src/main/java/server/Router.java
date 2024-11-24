@@ -190,7 +190,6 @@ public class Router implements SimplePersistenceTest{
 
             ctx.render("home/estaciones/mapa.hbs", model);
         }, RoleENUM.TECNICO, RoleENUM.FISICO, RoleENUM.JURIDICO);
-
         app.get("/donaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
@@ -209,18 +208,20 @@ public class Router implements SimplePersistenceTest{
                         .collect(Collectors.toList());
                 model.put("heladeras", heladeras);
             }
+
             List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
                     .buscarTodos(Donacion.class)
                     .stream().map(d -> (Donacion) d)
                     .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
                     .collect(Collectors.toList());
-            System.out.println(donaciones);
+
             model.put("donaciones", donaciones);
             model.put("fisico", esFisico);
             model.put("juridico", esJuridico);
 
             ctx.render("/home/donaciones/donaciones.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
+
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
         app.get("/puntos", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
