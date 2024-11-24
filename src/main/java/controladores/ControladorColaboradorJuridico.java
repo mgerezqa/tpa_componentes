@@ -14,6 +14,7 @@ import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.validation.NullableValidator;
+import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
@@ -428,4 +429,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         context.redirect("/estaciones");
     }
 
+    public void recomendarComunidades(Context context) {
+
+    }
 }
