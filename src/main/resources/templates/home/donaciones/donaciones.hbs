@@ -474,32 +474,23 @@
                                         </div>
                                     </div>
                                 {{else if (eq this.getTipo "RegistroDePersonaVulnerable")}}
-                                    <!-- Card 5: REGISTRO P.V. -->
-                                    <div class="row fila_contribucion mb-3">
-                                        <div class="col-12">
-                                            <div class="scrollable-card p-3">
-                                                <div class="row">
-                                                    <div class="col-12 col-md-4">
-                                                        <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> REGISTRO P.V.</div>
-                                                    </div>
-                                                    <div class="col-12 col-md-4">
-                                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
-                                                    </div>
-                                                    <div class="col-12 col-md-4">
-                                                        <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre completo: <span class="valor_info">{{this.personaVulnerable.nombre}}</span></div>
-                                                    </div>
-                                                    <div class="col-12 col-md-4">
-                                                        <div class="tag_info w-100"><i class="bi bi-card-list"></i> Tipo Documento: <span class="valor_info">{{this.personaVulnerable.documento.tipo}}</span></div>
-                                                    </div>
-                                                    <div class="col-12 col-md-4">
-                                                        <div class="tag_info w-100"><i class="bi bi-credit-card-2-front"></i> Nro Documento: <span class="valor_info">{{this.personaVulnerable.documento.numeroDeDocumento}}</span></div>
-                                                    </div>
-                                                    <div class="col-12 col-md-4">
-                                                        <div class="tag_info w-100"><i class="bi bi-people-fill"></i> Cantidad de hijos: <span class="valor_info">{{this.personaVulnerable.cantidadMenoresACargo}}</span></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> REGISTRO P.V.</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre completo: <span class="valor_info">{{this.personaVulnerable.nombre}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-card-list"></i> Tipo Documento: <span class="valor_info">{{this.personaVulnerable.documento.tipo}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-credit-card-2-front"></i> Nro Documento: <span class="valor_info">{{this.personaVulnerable.documento.numeroDeDocumento}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-people-fill"></i> Cantidad de hijos: <span class="valor_info">{{this.personaVulnerable.cantidadMenoresACargo}}</span></div>
                                     </div>
                                 {{/if}}
                             </div>

@@ -22,12 +22,25 @@ public class Vianda extends Donacion {
     @JoinColumn(name = "heladera_id")
     private Heladera heladeraActual;
 
+    @Column(name = "calorias")
+    private Long calorias;
+    @Column(name = "peso")
+    private Long peso;
+    @Column(name = "descripcion")
+    private String descripcion;
     // ============================================================ //
 
     // < CONSTRUCTOR > //
     public Vianda(LocalDate fechaVencimiento, LocalDate fechaDonacion, ColaboradorFisico colaboradorQueLaDono) {
         super(fechaDonacion, colaboradorQueLaDono);
         this.fechaVencimiento = fechaVencimiento;
+    }
+    public Vianda(String descripcion,LocalDate fechaVencimiento, Long calorias,Long peso,ColaboradorFisico colaboradorQueLaDono) {
+        super(colaboradorQueLaDono);
+        this.fechaVencimiento = fechaVencimiento;
+        this.descripcion = descripcion;
+        this.calorias = calorias;
+        this.peso = peso;
     }
 
     // ============================================================ //

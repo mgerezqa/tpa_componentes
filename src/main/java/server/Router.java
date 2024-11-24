@@ -182,6 +182,8 @@ public class Router implements SimplePersistenceTest{
         app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
         app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO);
         app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
+        app.post("/donar-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donarViandas,RoleENUM.FISICO);
+
         //FISICO E JURIDICO
         app.get("/donaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();

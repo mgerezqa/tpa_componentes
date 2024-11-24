@@ -25,6 +25,7 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
+import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
@@ -42,14 +43,16 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private Repositorio repositorio;
     private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
     private RepositorioDistribuciones repositorioDistribuciones;
+    private RepositorioViandas repositorioViandas;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones,RepositorioViandas repositorioViandas) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorio = repositorio;
         this.repositorioRegistrosVulnerables = repositorioRegistrosVulnerables;
         this.repositorioDistribuciones = repositorioDistribuciones;
+        this.repositorioViandas = repositorioViandas;
     }
 
     @Override // funciona correctamente
@@ -409,7 +412,6 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         });
         context.redirect("/donaciones");
     }
-
     public void distrubuirViandas(Context context){
         Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
         Long destinoReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_destino_reparto")));
@@ -438,4 +440,34 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         context.redirect("/donaciones");
     }
 
+    public void donarViandas(Context context) {
+        String descripcion = context.formParam("campo_monto_vianda");
+        LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_dinero")));
+        Long calorias = Long.parseLong(Objects.requireNonNull(context.formParam("campo_calorias_vianda")));
+        Long peso = Long.parseLong(Objects.requireNonNull(context.formParam("campo_peso_vianda")));
+        
+        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,
+                context.sessionAttribute("id_colaborador"));
+
+        ColaboradorFisico colaboradorFisico = (ColaboradorFisico) colaborador.get();
+
+        Vianda donacion = new Vianda(descripcion, fechaVencimiento,
+                calorias, peso, colaboradorFisico);
+
+        int viandasDonadas = repositorioViandas
+                .buscarPorColaboradorId(colaboradorFisico.getId())
+                .size();
+
+        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
+                .puntosViandasDonadas(viandasDonadas + 1);
+
+        donacion.setPuntosOtorgados(puntos);
+        colaboradorFisico.sumarPuntos(puntos);
+
+        withTransaction(() -> {
+            repositorio.guardar(donacion);
+        });
+        
+        context.redirect("/donaciones");
+    }
 }
