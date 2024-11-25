@@ -28,6 +28,7 @@ import io.javalin.validation.ValidationError;
 import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
+import utils.Broker.ServiceBroker;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
@@ -441,9 +442,6 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     }
 
     public void donarViandas(Context context) {
-        context.formParamMap().forEach((key, value) -> {
-            System.out.println(key + ": " + value);
-        });
         String descripcion = context.formParam("descripcion");
         LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_vianda")));
         Long calorias = Long.parseLong(Objects.requireNonNull(context.formParam("campo_calorias_vianda")));
@@ -458,9 +456,15 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         if(!Objects.equals(context.formParam("heladera"), "") || context.formParam("heladera") !=null){
             Long idHeladera = Long.parseLong(context.formParam("heladera"));
             Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
+            ServiceBroker serviceBroker = ServiceLocator.instanceOf(ServiceBroker.class);
+            String topic = "dds2024/heladera/autorizacion";
+            String msg = String.format("{'idH': %d, 'idC': %d}", idHeladera, colaboradorFisico.getId());
+            serviceBroker.publishMessage(topic, msg);
             donacion.setHeladeraActual((Heladera) heladera.get());
         }
 
+
+        //Esta logica de otorgale puntos solo se deberia hacer cuando realmente abrio la heladera
         int viandasDonadas = repositorioViandas
                 .buscarPorColaboradorId(colaboradorFisico.getId())
                 .size();
@@ -470,6 +474,9 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         donacion.setPuntosOtorgados(puntos);
         colaboradorFisico.sumarPuntos(puntos);
+
+        //Mandar la autorización para solicitud de apertura
+
 
         withTransaction(() -> {
             repositorio.guardar(donacion);
