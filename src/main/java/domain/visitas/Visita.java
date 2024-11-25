@@ -43,9 +43,13 @@ public class Visita {
     @JoinColumn(name = "incidente_id", nullable = false)
     private Incidente incidente;
 
+    @Column(name = "resuelto")
+    private Boolean resuelto;
+
     public void incidenteResuelto(Boolean resuelto){
         if(resuelto) {
             heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
+
         }
     }
 }

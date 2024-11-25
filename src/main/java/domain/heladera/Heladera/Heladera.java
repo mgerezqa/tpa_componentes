@@ -168,8 +168,8 @@ public class Heladera {
     // ============================================================ //
 
     // Falla de temperatura
-    public Alerta fallaTemperatura() {
-        return IncidenteFactory.crearAlerta(this, "falla_temperatura");
+    public void fallaTemperatura() {
+        IncidenteFactory.crearAlerta(this, "falla_temperatura");
     }
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"
