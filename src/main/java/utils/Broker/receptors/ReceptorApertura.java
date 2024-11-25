@@ -60,7 +60,7 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
                 if(donacion instanceof Vianda){
                     ColaboradorFisico colaboradorFisico = (ColaboradorFisico) donacion.getColaboradorQueLaDono();
 
-                    //Lo correcta seria ir directamente a buscar a repo de viandas, y no traer todas las donaciones
+                    //Lo correcto seria ir directamente a buscar a repo de viandas, y no traer todas las donaciones
                     int viandasDonadas = (int) repositorio.buscarTodos(Donacion.class)
                             .stream()
                             .filter(d -> d instanceof Vianda)
@@ -71,6 +71,8 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
                             .puntosViandasDonadas(viandasDonadas + 1);
                     donacion.setPuntosOtorgados(puntos);
                     colaboradorFisico.sumarPuntos(puntos);
+                    //
+                    heladeraEncontrada.ingresarVianda();
                 } else if (donacion instanceof Distribuir) {
                     //TODO otra logica de calculo
                 }

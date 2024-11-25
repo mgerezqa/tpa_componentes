@@ -192,7 +192,7 @@ public class Heladera {
     public  void ingresarVianda(){
         if(this.capacidadActual < this.capacidadMax){
             this.capacidadActual += 1;
-            eventManager.notifyObservers();
+            //eventManager.notifyObservers(); Lo comento porque aun no se hace la funcionalidad de la suscripcion
         }
     }
 
