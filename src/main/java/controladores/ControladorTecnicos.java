@@ -238,7 +238,6 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         Validator<String> nroDocumento = context.formParamAsClass("campo_nro_documento_tecnico", String.class)
                 .check(v -> !v.isEmpty()  , "El nro de documento  es obligatorio");
         Cuil cuil = new Cuil(Objects.requireNonNull(context.formParam("campo_cuil_tecnico")));
-        //Buena forma de instanciar clases en el validator a partir del input del usuario desde el formulario
         NullableValidator<String> whatsappTecnico = context.formParamAsClass("campo_whatsapp_tecnico",String.class).allowNullable();
         NullableValidator<String> telegramTecnico = context.formParamAsClass("campo_telegram_tecnico",String.class).allowNullable();
         NullableValidator<String> emailTecnico = context.formParamAsClass("campo_email_tecnico",String.class).allowNullable();
@@ -309,7 +308,6 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
     public void notificaciones(@NotNull Context context) {
         context.render("/home/notificaciones/notificaciones.hbs");
     }
-
     public void visitas(@NotNull Context context) {
         context.render("/home/visitas/visitas.hbs");
 

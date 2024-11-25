@@ -13,10 +13,7 @@ import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Router implements SimplePersistenceTest{
@@ -25,14 +22,6 @@ public class Router implements SimplePersistenceTest{
         app.before(ctx -> {
             entityManager().clear();
         });
-
-        //Testing sesiones basica
-        app.get("/guardar-en-sesion", ctx -> {
-            ctx.sessionAttribute("nombre", ctx.queryParam("nombre"));
-            ctx.result("Variable de sesion guardada");
-        });
-
-        app.get("/saludo-sesionado", ctx -> ctx.result("Hola " + ctx.sessionAttribute("nombre")));
 
         //Render la pagina principal
         app.get("/",(ctx)->{
@@ -61,7 +50,6 @@ public class Router implements SimplePersistenceTest{
             model.put("admin", esAdmin);
             ctx.render("/index.hbs", model);
         });
-
 
         //Dashboard
         app.get("/dashboard",(ctx) ->{
@@ -131,9 +119,11 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove,RoleENUM.ADMIN);
 
+
         //signup de colaborador fisico
         app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);
         app.post("/juridico/signup", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::signup);
+
 
         // Login con usuario
         app.post("/login",ServiceLocator.instanceOf(ControladorUsuario.class)::login);
@@ -144,17 +134,8 @@ public class Router implements SimplePersistenceTest{
             ctx.redirect("/");
         });
 
-        // Creación de usuario ADMIN
-        app.get("/crear-admin", ServiceLocator.instanceOf(ControladorUsuario.class)::create);
-
-        //Rutas del dashboard de los colaboradores,tecnicos
-
-        // /Home -> Dashboard de colaboradores, tecnicos
+        // FISICO/JURIDICO/TECNICO
         app.get("/home",ServiceLocator.instanceOf(ControladorUsuario.class)::home,RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
-
-        // /profile
-        app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
-        app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
         app.get("/estaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
@@ -190,7 +171,22 @@ public class Router implements SimplePersistenceTest{
 
             ctx.render("home/estaciones/mapa.hbs", model);
         }, RoleENUM.TECNICO, RoleENUM.FISICO, RoleENUM.JURIDICO);
+        app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
+        //TECNICOS
+        app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
+        app.get("/notificaciones",ServiceLocator.instanceOf(ControladorTecnicos.class)::notificaciones,RoleENUM.TECNICO);
+        app.get("/visitas",ServiceLocator.instanceOf(ControladorTecnicos.class)::visitas,RoleENUM.TECNICO);
+        //JURIDICO
+        app.get("/mis-estaciones", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::misEstaciones,RoleENUM.JURIDICO);
+        app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
+        //FISICOS
+        app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
+        app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO);
+        app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
+        app.post("/donar-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donarViandas,RoleENUM.FISICO);
+        app.get("/recomendacion-comunidades",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::recomendarComunidades,RoleENUM.FISICO);
 
+        //FISICO E JURIDICO
         app.get("/donaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
@@ -207,30 +203,43 @@ public class Router implements SimplePersistenceTest{
                         .stream()
                         .map(m -> (Heladera) m)
                         .collect(Collectors.toList());
-                model.put("heladeras", heladeras);
+
+                List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                        .map(HeladeraMapper::toDTO)
+                        .collect(Collectors.toList());
+                System.out.println(heladerasDTO);
+                model.put("heladeras", heladerasDTO);
             }
+
             List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
                     .buscarTodos(Donacion.class)
                     .stream().map(d -> (Donacion) d)
                     .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
+                    .sorted(Comparator.comparing(Donacion::getId))
                     .collect(Collectors.toList());
-            System.out.println(donaciones);
+
             model.put("donaciones", donaciones);
             model.put("fisico", esFisico);
             model.put("juridico", esJuridico);
 
             ctx.render("/home/donaciones/donaciones.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
-        app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
         app.get("/puntos", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
-            List<String> roles = ctx.sessionAttribute("roles");
 
-            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
-            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
+            Long idColaborador = ctx.sessionAttribute("id_colaborador");
+            Optional<Object> colaborador = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarPorID(Colaborador.class, idColaborador);
 
-            model.put("fisico", esFisico);
-            model.put("juridico", esJuridico);
+            List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarTodos(Donacion.class)
+                    .stream().map(d -> (Donacion) d)
+                    .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
+                    .sorted(Comparator.comparing(Donacion::getId))
+                    .collect(Collectors.toList());
+
+            model.put("donaciones", donaciones);
+            model.put("colaborador", colaborador.get());
             ctx.render("/home/puntos/puntos.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.get("/canjes", (ctx) -> {
@@ -244,11 +253,5 @@ public class Router implements SimplePersistenceTest{
             model.put("juridico", esJuridico);
             ctx.render("/home/canjes/canjes.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
-        app.get("/notificaciones",ServiceLocator.instanceOf(ControladorTecnicos.class)::notificaciones,RoleENUM.TECNICO);
-        app.get("/visitas",ServiceLocator.instanceOf(ControladorTecnicos.class)::visitas,RoleENUM.TECNICO);
-        app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
-        app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO);
-        app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
-
     }
 }

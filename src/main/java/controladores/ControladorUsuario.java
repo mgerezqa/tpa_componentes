@@ -81,43 +81,8 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
 
     }
 
-    //Ejemplo de creación de ADMIN
     @Override
     public void create(Context ctx) {
-        String nombre = ctx.queryParam("nombre");
-        String password = ctx.queryParam("password");
-
-        if (nombre == null || password == null) {
-            ctx.status(400);
-            ctx.result("Nombre y password son requeridos");
-            return;
-        }
-
-        withTransaction(() -> {
-            Rol rolAdmin;
-            try {
-                rolAdmin = repositorioRoles.buscarRolPorNombre(RoleENUM.ADMIN);
-            } catch (NoResultException e) {
-                rolAdmin = new Rol(RoleENUM.ADMIN);
-                repositorioRoles.guardar(rolAdmin);
-            }
-
-            // Crear usuario
-            Usuario usuario = new Usuario(nombre, password);
-            usuario.agregarRol(rolAdmin);
-
-            repositorioUsuarios.guardar(usuario);
-
-            ctx.sessionAttribute("nombre", nombre);
-            ctx.sessionAttribute("id_usuario", usuario.getId());
-            List<String> rolesString = usuario.getRoles().stream()
-                    .map(rol -> rol.getNombre().toString())
-                    .collect(Collectors.toList());
-            ctx.sessionAttribute("roles", rolesString);
-
-        });
-
-        ctx.redirect("/dashboard");
     }
 
     @Override

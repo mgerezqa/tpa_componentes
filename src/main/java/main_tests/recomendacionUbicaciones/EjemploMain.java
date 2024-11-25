@@ -16,7 +16,7 @@ public class EjemploMain {
         Integer max = 3;
         Float distanciaMax = 100f;
 
-        ListadoDeComunidades listadoDeComunidades = servicioRecomendacionUbicaciones.listadoCumunidades("Uo0lhGZ_0baxg_miCp-rh6944wpHLJGJ",latitud, longitud,max,distanciaMax);
+        ListadoDeComunidades listadoDeComunidades = servicioRecomendacionUbicaciones.listadoCumunidades("kEngFlrARB_9OAdC.8F.X7Gj5xDu4IcA",latitud, longitud,max,distanciaMax);
         System.out.println(listadoDeComunidades);
         for(Comunidad comunidadRecomendada : listadoDeComunidades.getComunidades()) {
             System.out.println("Id: "+ comunidadRecomendada.getId()+ ", Comunidad: "+comunidadRecomendada.getNombre() +", Latitud: " + comunidadRecomendada.getLat() + ", Longitud: " + comunidadRecomendada.getLon());

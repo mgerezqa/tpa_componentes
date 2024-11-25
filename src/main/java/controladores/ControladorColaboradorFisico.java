@@ -25,6 +25,7 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
+import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
@@ -42,14 +43,16 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private Repositorio repositorio;
     private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
     private RepositorioDistribuciones repositorioDistribuciones;
+    private RepositorioViandas repositorioViandas;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones,RepositorioViandas repositorioViandas) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorio = repositorio;
         this.repositorioRegistrosVulnerables = repositorioRegistrosVulnerables;
         this.repositorioDistribuciones = repositorioDistribuciones;
+        this.repositorioViandas = repositorioViandas;
     }
 
     @Override // funciona correctamente
@@ -378,7 +381,6 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         TarjetaVulnerable tarjeta= new TarjetaVulnerable();
         tarjeta.setVulnerable(personaVulnerable);
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
-
         //Cuantas tarjetas repartió.
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
@@ -388,8 +390,10 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         int cantidadTarjetasRepartidas = tarjetasRepartidas.size();
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosTarjetasRepatidas(cantidadTarjetasRepartidas);
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+        registroDePersonaVulnerable.setPuntosOtorgados(puntos);
         withTransaction(()->{
             repositorio.actualizar(colaborador.get());
+            repositorio.actualizar(registroDePersonaVulnerable);
         });
         context.redirect("/donaciones");
     }
@@ -402,13 +406,12 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         var puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosPesosDonados(donacion);
 
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
-
+        donacion.setPuntosOtorgados(puntos);
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
         context.redirect("/donaciones");
     }
-
     public void distrubuirViandas(Context context){
         Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
         Long destinoReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_destino_reparto")));
@@ -429,7 +432,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
                 .sum();
 
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(viandasDistribuidas + nuevaDistribucion.getCantidad());
-
+        nuevaDistribucion.setPuntosOtorgados(puntos);
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
         withTransaction(()->{
             repositorio.guardar(nuevaDistribucion);
@@ -437,4 +440,46 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         context.redirect("/donaciones");
     }
 
+    public void donarViandas(Context context) {
+        context.formParamMap().forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+        String descripcion = context.formParam("descripcion");
+        LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_vianda")));
+        Long calorias = Long.parseLong(Objects.requireNonNull(context.formParam("campo_calorias_vianda")));
+        Long peso = Long.parseLong(Objects.requireNonNull(context.formParam("campo_peso_vianda")));
+        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,
+                context.sessionAttribute("id_colaborador"));
+
+        ColaboradorFisico colaboradorFisico = (ColaboradorFisico) colaborador.get();
+
+        Vianda donacion = new Vianda(descripcion, fechaVencimiento,
+                calorias, peso, colaboradorFisico);
+        if(!Objects.equals(context.formParam("heladera"), "") || context.formParam("heladera") !=null){
+            Long idHeladera = Long.parseLong(context.formParam("heladera"));
+            Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
+            donacion.setHeladeraActual((Heladera) heladera.get());
+        }
+
+        int viandasDonadas = repositorioViandas
+                .buscarPorColaboradorId(colaboradorFisico.getId())
+                .size();
+
+        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
+                .puntosViandasDonadas(viandasDonadas + 1);
+
+        donacion.setPuntosOtorgados(puntos);
+        colaboradorFisico.sumarPuntos(puntos);
+
+        withTransaction(() -> {
+            repositorio.guardar(donacion);
+        });
+        
+        context.redirect("/donaciones");
+    }
+    public void recomendarComunidades(Context context) {
+        Float latitud = Float.valueOf(Objects.requireNonNull(context.formParam("latitud")));
+        Float longitud = Float.valueOf(Objects.requireNonNull(context.formParam("longitud")));
+
+    }
 }

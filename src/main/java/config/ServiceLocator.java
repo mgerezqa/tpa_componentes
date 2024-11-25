@@ -43,7 +43,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(ControladorColaboradorFisico.class.getName())) {
-                ControladorColaboradorFisico instance = new ControladorColaboradorFisico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(Repositorio.class),instanceOf(RepositorioRegistrosVulnerables.class),instanceOf(RepositorioDistribuciones.class));
+                ControladorColaboradorFisico instance = new ControladorColaboradorFisico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(Repositorio.class),instanceOf(RepositorioRegistrosVulnerables.class),instanceOf(RepositorioDistribuciones.class),instanceOf(RepositorioViandas.class));
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(RepositorioColaboradores.class.getName())) {
@@ -62,7 +62,7 @@ public class ServiceLocator {
             }
 
             else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
-                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(RepositorioModeloHeladeras.class),instanceOf(RepositorioProvincias.class),instanceOf(RepositorioLocalidades.class),instanceOf(RepositorioBarrios.class),instanceOf(Repositorio.class),instanceOf(CalculadoraPuntos.class));
+                ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(RepositorioModeloHeladeras.class),instanceOf(RepositorioProvincias.class),instanceOf(RepositorioLocalidades.class),instanceOf(RepositorioBarrios.class),instanceOf(Repositorio.class),instanceOf(CalculadoraPuntos.class),instanceOf(RepositorioMantenciones.class));
                 instances.put(componentName, instance);
             }else if(componentName.equals(ControladorTecnicos.class.getName())){
                 ControladorTecnicos instance = new ControladorTecnicos(instanceOf(RepositorioTecnicos.class));
@@ -144,6 +144,12 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }else if(componentName.equals(RepositorioDistribuciones.class.getName())){
                 RepositorioDistribuciones instance = new RepositorioDistribuciones();
+                instances.put(componentName, instance);
+            }else if(componentName.equals(RepositorioViandas.class.getName())){
+                RepositorioViandas instance = new RepositorioViandas();
+                instances.put(componentName, instance);
+            }else if(componentName.equals(RepositorioMantenciones.class.getName())){
+                RepositorioMantenciones instance = new RepositorioMantenciones();
                 instances.put(componentName, instance);
             }
         }

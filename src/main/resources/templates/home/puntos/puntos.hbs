@@ -34,122 +34,100 @@
         </div>
         <!-- LISTA DE CARDS DE PUNTOS SEGUN DONACION -->
         <div class="contenedor_datos container-fluid py-4">
-
-            <!-- Card 1: DINERO -->
-            <div class="row fila_contribucion mb-3">
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-cash-stack"></i> DINERO</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-01</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-currency-dollar"></i> Monto: <span class="valor_info">$500</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
+            {{#each donaciones}}
+                <div class="row fila_contribucion mb-3">
+                    <div class="col-12">
+                        <div class="scrollable-card p-3">
+                            <div class="row">
+                                {{#if (eq this.getTipo "Dinero")}}
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-cash-stack"></i> DINERO</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-currency-dollar"></i> Monto: <span class="valor_info">${{this.cantidad}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">{{this.puntosOtorgados}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "Vianda")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-box-seam"></i> VIANDA</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">{{this.descripcion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">{{this.puntosOtorgados}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "Distribuir")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-truck"></i> REPARTO</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-arrow-repeat"></i> Motivo: <span class="valor_info">{{this.motivo}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">{{this.puntosOtorgados}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "MantenerHeladera")}}
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-tools"></i> MANTENER ESTACIÓN	</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-door-open"></i> Heladera: <span class="valor_info">{{this.heladera.nombreIdentificador}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">{{this.puntosOtorgados}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "Producto")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-box-seam"></i> Producto</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-05</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">Playstation 5</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">{{this.puntosOtorgados}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "RegistroDePersonaVulnerable")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> REGISTRO P.V.</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre completo: <span class="valor_info">{{this.personaVulnerable.nombre}} {{this.personaVulnerable.apellido}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">{{this.puntosOtorgados}}</span></div>
+                                    </div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Card 2: VIANDA -->
-            <div class="row fila_contribucion mb-3">
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-box-seam"></i> VIANDA</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-05</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">Ensalada de frutas</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: REPARTO -->
-            <div class="row fila_contribucion mb-3">
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-truck"></i> REPARTO</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-07</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-arrow-repeat"></i> Motivo: <span class="valor_info">Reposición</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4: MANTENIMIENTO -->
-            <div class="row fila_contribucion mb-3">
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-tools"></i> MANTENIMIENTO</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-10</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-door-open"></i> Heladera ID: <span class="valor_info">5678</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 5: REGISTRO P.V. -->
-            <div class="row fila_contribucion mb-3">
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> REGISTRO P.V.</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-12</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre completo: <span class="valor_info">Juan Pérez</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-repeat"></i> Puntos obtenidos: <span class="valor_info">300</span></div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            {{/each}}
             <!-- Sumatoria de puntos -->
             <div class="p-4 mb-3 bg-secondary
                 text-white fs-4 rounded-3">
-                <span>Total Puntos Obtenidos: </span>
+                <span>Total Puntos Obtenidos: {{colaborador.puntosAcumulados}} </span>
             </div>
         </div>
     </div>
