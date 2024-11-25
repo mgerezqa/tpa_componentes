@@ -11,6 +11,7 @@ import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.puntos.CalculadoraPuntos;
 import domain.usuarios.*;
+import domain.visitas.Visita;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -441,13 +442,13 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         List<Heladera> heladeras = repositorioMantenciones
                 .buscarPorColaboradorId(context.sessionAttribute("id_colaborador"))
                 .stream()
-                .map(m -> (MantenerHeladera) m)
                 .map(MantenerHeladera::getHeladera)
                 .collect(Collectors.toList());
 
         List<HeladeraDTO> heladerasDTO = heladeras.stream()
                 .map(HeladeraMapper::toDTO)
                 .collect(Collectors.toList());
+
 
         model.put("heladeras", heladerasDTO);
 

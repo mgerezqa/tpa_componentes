@@ -1,8 +1,11 @@
 package mappers.dtos;
 
+import domain.incidentes.Incidente;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,4 +22,4 @@ public class HeladeraDTO {
     private Float latitud;
     private Float longitud;
     private String descripcion;
-} 
+}
