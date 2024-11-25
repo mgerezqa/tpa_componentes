@@ -234,6 +234,7 @@ public class Router implements SimplePersistenceTest{
             List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
                     .buscarTodos(Donacion.class)
                     .stream().map(d -> (Donacion) d)
+                    .filter(Donacion::getCompletado)
                     .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
                     .sorted(Comparator.comparing(Donacion::getId))
                     .collect(Collectors.toList());
