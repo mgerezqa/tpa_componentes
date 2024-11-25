@@ -124,6 +124,7 @@
                                                 </div>
                                             </div>
                                             <!-- DONAR POR SERVICIO -->
+                                            <!-- DONAR POR SERVICIO -->
                                             <div id="contenedor_donar_por_ubicacion_service" class="accordion-collapse collapse" data-bs-parent="#collapse_lugar">
                                                 <div class="accordion-body contenedor_datos border border-primary rounded-5">
                                                     <!-- Sección: Ubicación -->
@@ -133,6 +134,9 @@
                                                             <div class="col-lg-8 mb-4 p-0">
                                                                 <div class="p-lg-3 p-0 m-0">
                                                                     <h2 class="text-center mb-4">Comunidades</h2>
+                                                                    <div class="text-center fs-3 mb-2 bg-primary-subtle text-primary-emphasis text-white rounded-4 ">
+                                                                        <span>PODRAS ACERCAR TU DONACIÓN A LAS SIGUIENTES COMUNIDADES</span>
+                                                                    </div>
                                                                     <div id="map-service" class="rounded-5 " style="width: 100%; height: 500px;">
                                                                         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
                                                                         <script src="/js/script_donacion_fisico_mapa_service.js"></script>
@@ -141,7 +145,6 @@
                                                                     <div class="m-4 text-center fs-5 mb-2 bg-warning-subtle text-primary-emphasis text-white rounded-4 ">
                                                                         <span>HACE CLICK EN TU UBICACIÓN SOBRE EL MAPA </span>
                                                                     </div>
-
                                                                 </div>
                                                             </div>
                                                             <!-- Columna de la barra de ubicación -->
@@ -170,23 +173,28 @@
                                                                                 </div>
                                                                             </form>
                                                                         </div>
-                                                                        <div class="d-flex justify-content-center w-100 align-items-center col-12 col-md-12  mt-4 gap-5" >
-                                                                            <button href="" class="btn btn-primary botones" id="btn-mi-ubicacion-actual" >
+                                                                        <h2 class="text-center mb-5 pt-3">Filtro de comunidades</h2>
+                                                                        <div id="information-filtro-comunidades">
+                                                                            <!-- Filtros -->
+                                                                            <div class="mb-3">
+                                                                                <label for="max-comunidades" class="form-label">Máximo de Comunidades</label>
+                                                                                <input type="number" class="form-control" id="max-comunidades" name="max-comunidades" value="10" min="1" required>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="radio-maximo" class="form-label">Radio Máximo (km)</label>
+                                                                                <input type="number" class="form-control" id="radio-maximo" name="radio-maximo" value="5.0" min="0.1" step="0.1" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-center w-100 align-items-center col-12 col-md-12 mt-4 gap-5">
+                                                                            <button href="" class="btn btn-primary botones" id="btn-mi-ubicacion-actual">
                                                                                 <i class="bi bi-geo-alt"></i>
-                                                                                Segun mi ubicación actual
+                                                                                Según mi ubicación actual
                                                                             </button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <div class="text-center fs-3 mb-2 bg-primary-subtle text-primary-emphasis text-white rounded-4 ">
-                                                            <span>PODRAS ACERCAR TU DONACIÓN A LAS SIGUIENTES COMUNIDADES</span>
-                                                            <!-- AGREGAR COMPORTAMIENTO DE SERVICIO -->
-
-                                                        </div>
-
                                                     </div>
                                                 </div>
                                             </div>

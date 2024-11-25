@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }).addTo(map2);
 
     let selectedMarker = null;
+    let communityMarkers = [];
 
     map2.on('click', async (e) => {
         const { lat, lng } = e.latlng;
@@ -15,9 +16,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             actualizarPanelInformacion(address);
             manejarMarcadorMapa(e.latlng, address.fullAddress);
 
+            // Obtener valores de los filtros
+            const maxComunidades = document.getElementById('max-comunidades').value;
+            const radioMaximo = document.getElementById('radio-maximo').value;
+
             // Enviar coordenadas al backend para obtener comunidades recomendadas
-            const comunidades = await obtenerComunidadesRecomendadas(lat, lng, 10, 5.0);
-            mostrarComunidadesEnMapa(comunidades.comunidades); // Acceder a la propiedad 'comunidades'
+            const comunidades = await obtenerComunidadesRecomendadas(lat, lng, maxComunidades, radioMaximo);
+            actualizarComunidadesEnMapa(comunidades.comunidades); // Acceder a la propiedad 'comunidades'
         } catch (error) {
             console.error('Error al obtener la dirección o las comunidades:', error);
             alert('No se pudo obtener la dirección o las comunidades. Por favor, intenta de nuevo.');
@@ -74,9 +79,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                 actualizarPanelInformacion(address);
                 manejarMarcadorMapa({ lat, lng: lon }, address.fullAddress);
 
+                // Obtener valores de los filtros
+                const maxComunidades = document.getElementById('max-comunidades').value;
+                const radioMaximo = document.getElementById('radio-maximo').value;
+
                 // Enviar coordenadas al backend para obtener comunidades recomendadas
-                obtenerComunidadesRecomendadas(lat, lon, 10, 5.0).then(comunidades => {
-                    mostrarComunidadesEnMapa(comunidades.comunidades); // Acceder a la propiedad 'comunidades'
+                obtenerComunidadesRecomendadas(lat, lon, maxComunidades, radioMaximo).then(comunidades => {
+                    actualizarComunidadesEnMapa(comunidades.comunidades); // Acceder a la propiedad 'comunidades'
                 });
             })
             .catch(error => {
@@ -126,11 +135,26 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
-    // Función para mostrar las comunidades en el mapa
-    function mostrarComunidadesEnMapa(comunidades) {
+    // Función para actualizar las comunidades en el mapa
+    function actualizarComunidadesEnMapa(comunidades) {
+        // Eliminar los marcadores anteriores
+        communityMarkers.forEach(marker => map2.removeLayer(marker));
+        communityMarkers = [];
+
+        // Agregar los nuevos marcadores
         comunidades.forEach(comunidad => {
-            L.marker([comunidad.lat, comunidad.lon]).addTo(map2)
+            const marker = L.marker([comunidad.lat, comunidad.lon], { icon: redIcon }).addTo(map2)
                 .bindPopup(`<b>${comunidad.nombre}</b><br>${comunidad.direccion}`);
+            communityMarkers.push(marker);
         });
     }
+
+    // Crear un icono  para las comunidades
+    const redIcon = new L.Icon({
+        iconUrl: 'http://localhost:8081/img/assets/icon-community.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 });
