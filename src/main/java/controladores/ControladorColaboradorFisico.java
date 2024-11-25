@@ -382,6 +382,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         TarjetaVulnerable tarjeta= new TarjetaVulnerable();
         tarjeta.setVulnerable(personaVulnerable);
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
+        registroDePersonaVulnerable.completar();
         //Cuantas tarjetas repartió.
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
@@ -408,6 +409,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
         donacion.setPuntosOtorgados(puntos);
+        //Seteo completo, pero en deberia ir a una parasera de pago, etc.
+        donacion.completar();
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
@@ -434,6 +437,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(viandasDistribuidas + nuevaDistribucion.getCantidad());
         nuevaDistribucion.setPuntosOtorgados(puntos);
+        nuevaDistribucion.completar();
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
         withTransaction(()->{
             repositorio.guardar(nuevaDistribucion);
