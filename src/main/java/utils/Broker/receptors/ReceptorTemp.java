@@ -31,6 +31,7 @@ public class ReceptorTemp extends Receptor implements WithSimplePersistenceUnit 
             withTransaction(() -> {
                 repositorioHeladeras.actualizar(heladeraEncontrada);
             });
+            System.out.println("Termino el messagedArrived");
         }
     }
 }

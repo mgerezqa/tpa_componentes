@@ -1,6 +1,7 @@
 package utils.Broker.receptors;
 
 import com.google.gson.JsonObject;
+import domain.donaciones.Donacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.SolicitudApertura;
 import domain.usuarios.ColaboradorFisico;
@@ -22,14 +23,15 @@ public class ReceptorAutorizacion extends Receptor implements WithSimplePersiste
         JsonObject jsonObject = getJsonObjectFrom(mqttMessage);
         Long idHeladera = jsonObject.get("idH").getAsLong();
         Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
-        Long idColaborador = jsonObject.get("idC").getAsLong();
-        Optional<Object> colaborador = repositorio.buscarPorID(ColaboradorFisico.class,idColaborador);
+        Long idDonacion = jsonObject.get("idD").getAsLong();
+        Optional<Object> donacion = repositorio.buscarPorID(Donacion.class,idDonacion);
 
-        if(heladera.isPresent() && colaborador.isPresent()){
+        if(heladera.isPresent() && donacion.isPresent()){
             System.out.println("Mensaje recibido del topic "+ topic + ": "+ mqttMessage);
             Heladera heladeraEncontrada = (Heladera) heladera.get();
-            ColaboradorFisico colaboradorEncontrado = (ColaboradorFisico) colaborador.get();
-            SolicitudApertura solicitud = new SolicitudApertura(LocalDateTime.now(), "Solicitud apertura heladera.", colaboradorEncontrado);
+            Donacion donacionEncontrada = (Donacion) donacion.get();
+            SolicitudApertura solicitud = new SolicitudApertura(LocalDateTime.now(), "Solicitud apertura heladera.", donacionEncontrada.getColaboradorQueLaDono());
+            solicitud.setDonacionVinculada(donacionEncontrada);
             heladeraEncontrada.registrarSolicitud(solicitud);
             withTransaction(() -> {
                 repositorio.actualizar(heladeraEncontrada);

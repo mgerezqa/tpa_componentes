@@ -35,4 +35,8 @@ public class RegistroDeUso {
         this.heladera = heladera;
         this.tarjeta = tarjeta;
     }
+    public RegistroDeUso(Heladera heladera) {
+        this.fechaDeUso = LocalDateTime.now();
+        this.heladera = heladera;
+    }
 }

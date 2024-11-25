@@ -3,7 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .codebuddy/
-
+/src/main/resources/config.properties
 ### IntelliJ IDEA ###
 .idea/
 .idea/modules.xml

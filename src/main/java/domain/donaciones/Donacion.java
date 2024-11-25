@@ -27,17 +27,25 @@ public abstract class Donacion {
     @Column(name = "puntosOtorgados")
     protected Integer puntosOtorgados;
 
+    @Column(name = "completado")
+    private Boolean completado;
+
     public Donacion(LocalDate fechaDeDonacion, Colaborador colaboradorQueLaDono) {
         this.fechaDeDonacion = fechaDeDonacion;
         this.colaboradorQueLaDono = colaboradorQueLaDono;
+        this.completado = false;
     }
     public Donacion(Colaborador colaboradorQueLaDono) {
         this.colaboradorQueLaDono = colaboradorQueLaDono;
         this.fechaDeDonacion = LocalDate.now();
+        this.completado= false;
     }
 
     public Donacion() {
 
+    }
+    public void completar(){
+        this.completado = true;
     }
     public abstract String getTipo();
 }

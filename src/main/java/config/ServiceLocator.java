@@ -18,6 +18,7 @@ import repositorios.repositoriosBDD.RepositorioVulnerables;
 import utils.Broker.ClientCredentials;
 import utils.Broker.IServiceBroker;
 import utils.Broker.ServiceBroker;
+import utils.Broker.receptors.ReceptorApertura;
 import utils.Broker.receptors.ReceptorAutorizacion;
 import utils.Broker.receptors.ReceptorMov;
 import utils.Broker.receptors.ReceptorTemp;
@@ -121,11 +122,13 @@ public class ServiceLocator {
                 String topic1 = "dds2024/heladera/movimiento";
                 String topic2 = "dds2024/heladera/temperatura";
                 String topic3 = "dds2024/heladera/autorizacion";
+                String topic4 = "dds2024/heladera/apertura";
                 Config config = Config.getInstance();
                 String broker = config.getProperty("broker.url");
                 IMqttMessageListener receptor1 = new ReceptorMov(instanceOf(Repositorio.class));
                 IMqttMessageListener receptor2 = new ReceptorTemp(instanceOf(Repositorio.class));
                 IMqttMessageListener receptor3 = new ReceptorAutorizacion(instanceOf(Repositorio.class));
+                IMqttMessageListener receptor4 = new ReceptorApertura(instanceOf(Repositorio.class));
 
 
                 ClientCredentials credentials = new ClientCredentials(config.getProperty("broker.clientID"),config.getProperty("broker.clientUsername"),config.getProperty("broker.clientPassword"));
@@ -134,6 +137,8 @@ public class ServiceLocator {
                 instance.suscribe(topic1,receptor1);
                 instance.suscribe(topic2,receptor2);
                 instance.suscribe(topic3,receptor3);
+                instance.suscribe(topic4,receptor4);
+
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(CalculadoraPuntos.class.getName())){
