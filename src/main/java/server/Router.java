@@ -1,14 +1,18 @@
 package server;
 
 import domain.donaciones.Donacion;
+import domain.excepciones.ExcepcionCanjePuntosInsuficientes;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.puntos.Canje;
+import domain.puntos.Oferta;
 import domain.usuarios.Colaborador;
 import domain.usuarios.RoleENUM;
 import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
+import io.javalin.http.HttpStatus;
 import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
@@ -247,14 +251,62 @@ public class Router implements SimplePersistenceTest{
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.get("/canjes", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
-            List<String> roles = ctx.sessionAttribute("roles");
+            Repositorio repositorio = ServiceLocator.instanceOf(Repositorio.class);
+            List<Oferta> ofertasDisponibles = repositorio.buscarTodos(Oferta.class)
+                    .stream()
+                    .map(m -> (Oferta) m)
+                    .collect(Collectors.toList());
+            Long idColaborador = ctx.sessionAttribute("id_colaborador");
+            Optional<Object> colaborador = repositorio
+                    .buscarPorID(Colaborador.class, idColaborador);
+            Colaborador posibleComprador = (Colaborador) colaborador.get();
 
-            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
-            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
+            List<Canje> canjesDelColaborador = repositorio.buscarTodos(Canje.class)
+                    .stream()
+                    .map(m -> (Canje) m)
+                    .filter(c -> c.getCanjeador().getId() == posibleComprador.getId())
+                    .collect(Collectors.toList());
 
-            model.put("fisico", esFisico);
-            model.put("juridico", esJuridico);
+            model.put("canjes",canjesDelColaborador);
+            model.put("colaborador",posibleComprador);
+            model.put("ofertas",ofertasDisponibles);
             ctx.render("/home/canjes/canjes.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
+
+        app.post("/canjear", (context) -> {
+            Repositorio repositorio =ServiceLocator.instanceOf(Repositorio.class);
+            context.formParamMap().forEach((key, value) -> {
+                System.out.println(key + ": " + value);
+            });
+            Long idOfertaElegida = Long.valueOf(Objects.requireNonNull(context.formParam("campo_tipo_canje_fisico")));
+            Optional<Object> posibleOferta = repositorio.buscarPorID(Oferta.class,idOfertaElegida);
+            if(posibleOferta.isPresent()){
+                Oferta ofertaElegida = (Oferta) posibleOferta.get();
+                Long idColaborador = context.sessionAttribute("id_colaborador");
+                Optional<Object> colaborador = repositorio
+                        .buscarPorID(Colaborador.class, idColaborador);
+                Colaborador comprador = (Colaborador) colaborador.get();
+                //Hacer el canje
+                try {
+                    ofertaElegida.hacerCanje(comprador,ofertaElegida);
+                    //Tengo que crear la nueva entidad "compra/factura" para despues mostrarles en sus canjes.
+                    Integer costoPuntos = ofertaElegida.getCostoPuntos(); //Se desnormalizo para consistencia de datos, y poder evitar que se tenga un precio antiguo debido a que puede cambiar la oferta
+                    Canje canje = new Canje(comprador,ofertaElegida,costoPuntos);
+                    withTransaction(()->{
+                        //Con el efecto cascada se hace la actualización de las demas entidades.
+                        repositorio.guardar(canje);
+                    });
+                }catch (ExcepcionCanjePuntosInsuficientes exception){
+                    context.redirect("/canjes");
+                }
+
+
+
+                context.redirect("/canjes");
+            }else{
+                context.status(HttpStatus.NOT_FOUND);
+            }
+        }, RoleENUM.JURIDICO, RoleENUM.FISICO);
+
     }
 }

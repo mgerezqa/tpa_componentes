@@ -473,30 +473,27 @@
                                                         <label for="descripcion_producto_servicio">Descripción</label>
                                                     </div>
                                                 </div>
-                                                <!-- Selector button producto o servicio -->
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="tipo_producto_servicio" name="tipo_producto_servicio" required>
+                                                            <option value="PRODUCTO">PRODUCTO</option>
+                                                            <option value="SERVICIO">SERVICIO</option>
+                                                        </select>
+                                                        <label for="tipo_producto_servicio">Tipo</label>
+                                                    </div>
+                                                </div>
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-floating">
                                                         <select class="form-select shadow-none rounded-4" id="categoria_producto_servicio" name="categoria_producto_servicio" required>
-                                                            <option value="0" class="d-none">Seleccione...</option>
                                                             <option value="GASTRONOMIA">GASTRONOMIA</option>
-                                                            <option value="GASTRONOMIA">ELECTRONICA</option>
-                                                            <option value="ARTICULOS_HOGAR">GASTRONOMIA</option>
-                                                            <option value="OTROS">ELECTRONICA</option>
+                                                            <option value="ELECTRONICA">ELECTRONICA</option>
+                                                            <option value="ARTICULOS_HOGAR">ARTICULOS_HOGAR</option>
+                                                            <option value="OTROS">OTROS</option>
                                                         </select>
                                                         <label for="campo_tipo_producto_servicio">Categoría</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-6 col-md-4">
-                                                    <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_rubro_producto_servicio">
-                                                            <option value="0" class="d-none">Seleccione...</option>
-                                                            <option value="1">Electrónica</option>
-                                                            <option value="2">Alimenticio</option>
-                                                            <option value="3">Entretenimiento</option>
-                                                        </select>
-                                                        <label for="campo_rubro_producto_servicio">Rubro</label>
-                                                    </div>
-                                                </div>
+
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-floating">
                                                         <input type="number" class="form-control shadow-none rounded-4" id="campo_costo_puntos" name="campo_costo_puntos" placeholder="campo_costo_puntos" required>

@@ -12,6 +12,7 @@ import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.puntos.CalculadoraPuntos;
 import domain.puntos.CategoriaOferta;
 import domain.puntos.Oferta;
+import domain.puntos.TipoDeOferta;
 import domain.usuarios.*;
 import domain.visitas.Visita;
 import dtos.ColaboradorJuridicoDTO;
@@ -446,11 +447,12 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         });
         String nombreOferta = context.formParam("nombre_oferta");
         String descripcion = context.formParam("descripcion_producto_servicio");
+        TipoDeOferta tipoDeOferta = TipoDeOferta.valueOf(context.formParam("tipo_producto_servicio"));
         CategoriaOferta categoriaOferta = CategoriaOferta.valueOf(context.formParam("categoria_producto_servicio"));
         Integer costoPuntos = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_costo_puntos")));
         Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
         ColaboradorJuridico ofertante = (ColaboradorJuridico) colaboradorJuridicoPosible.get();
-        Oferta oferta = new Oferta(nombreOferta,descripcion,categoriaOferta,ofertante,costoPuntos);
+        Oferta oferta = new Oferta(nombreOferta,descripcion,tipoDeOferta,categoriaOferta,ofertante,costoPuntos);
         oferta.completar();
 
         withTransaction(()->{

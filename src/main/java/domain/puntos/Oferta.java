@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class Oferta extends Donacion {
+    @Enumerated
+    private TipoDeOferta tipoDeOferta;
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "descripcion")
@@ -36,6 +38,15 @@ public class Oferta extends Donacion {
         this.categoria = categoria;
         this.costoPuntos = costoPuntos;
     }
+    public Oferta(String nombre, String descripcion,TipoDeOferta tipoDeOferta, CategoriaOferta categoria, ColaboradorJuridico ofertante, Integer costoPuntos) {
+        super(LocalDate.now(), ofertante);
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.categoria = categoria;
+        this.costoPuntos = costoPuntos;
+        this.tipoDeOferta = tipoDeOferta;
+    }
+
 
     public void hacerCanje(Colaborador colaborador, Oferta oferta){
         if (oferta.getCostoPuntos() <= colaborador.getPuntosAcumulados()) {

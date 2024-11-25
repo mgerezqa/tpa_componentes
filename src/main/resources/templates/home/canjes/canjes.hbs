@@ -51,42 +51,15 @@
                     </div>
                     <div class="modal-body">
                         <!-- Formulario -->
-                        <form id="form_fisico">
-                            <div class="row g-5 mb-4">
-                                <!-- Nombre -->
-                                <div class="col-12 col-md-4 px-5">
-                                    <div class="form-floating">
-                                        <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_nombre_fisico"
-                                               value="Pepe" placeholder="Nombre" disabled>
-                                        <label for="campo_nombre_fisico">Nombre</label>
-                                    </div>
-                                </div>
-                                <!-- Apellido -->
-                                <div class="col-12 col-md-4 px-5">
-                                    <div class="form-floating">
-                                        <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_apellido_fisico"
-                                               value="Argento" placeholder="Apellido" disabled>
-                                        <label for="campo_apellido_fisico">Apellido</label>
-                                    </div>
-                                </div>
-                                <!-- Nro Documento -->
-                                <div class="col-12 col-md-4 px-5">
-                                    <div class="form-floating">
-                                        <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_nro_documento_fisico"
-                                               value="123456789" placeholder="Nro Documento" disabled>
-                                        <label for="campo_nro_documento_fisico">Nro Documento</label>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <form action="/canjear" method="POST" id="form_fisico">
                             <div class="row g-5 mb-4">
                                 <!-- Canje de producto -->
                                 <div class="col-md-4 px-5">
                                     <div class="form-floating">
-                                        <select class="entrada_form form-select shadow-none rounded-4" id="campo_tipo_canje_fisico">
-                                            <option value="1" selected>Lavarropas</option>
-                                            <option value="2">Descuento en supermercados</option>
-                                            <option value="3">Viaje gratis</option>
+                                        <select class="entrada_form form-select shadow-none rounded-4" id="campo_tipo_canje_fisico" name="campo_tipo_canje_fisico" required >
+                                            {{#each ofertas}}
+                                                <option value="{{this.id}}" selected>{{this.nombre}}</option>
+                                            {{/each}}
                                         </select>
                                         <label for="campo_tipo_canje_fisico">Canje de producto</label>
                                     </div>
@@ -106,7 +79,7 @@
                             <div class="col-12 col-md-3 g-4 px-4 mb-4">
                                 <div class="form-floating">
                                     <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_puntos_acumulados"
-                                           value="1500" placeholder="Puntos Acumulados" disabled>
+                                           value="{{colaborador.puntosAcumulados}}" placeholder="Puntos Acumulados" disabled>
                                     <label for="campo_puntos_acumulados" class="text-success">Puntos Disponibles</label>
                                 </div>
                             </div>
@@ -114,7 +87,7 @@
                             <!-- Botones cancelar/guardar -->
                             <div id="cont_cancelar_guardar_form_fisico" class="row justify-content-around mb-4">
                                 <div class="col-6 col-md-4">
-                                    <button id="btn_guardar_form_canje_fisico" type="button" class="boton boton_verde py-1 w-100 fs-3" data-bs-toggle="modal" data-bs-target="#modalConfirmacion">
+                                    <button id="btn_guardar_form_canje_fisico" type="submit" class="boton boton_verde py-1 w-100 fs-3" data-bs-toggle="modal" data-bs-target="#modalConfirmacion">
                                         <span>SOLICITAR</span>
                                     </button>
                                 </div>
@@ -131,32 +104,32 @@
 
             <!-- FOR DE PRODUCTOS -->
             <!-- Card : Producto -->
-            <div class="row fila_contribucion mb-3">
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-4">
-                                <div class="tag_info w-100"><i class="bi bi-box-seam"></i> Producto</div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="tag_info w-100"><i class="bi bi-door-closed"></i> Heladera ID: <span class="valor_info">1234</span></div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-05</span></div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">Playstation 5</span></div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="tag_info w-100"><i class="bi bi-bag"></i> Puntos utilizados: <span class="valor_info">200</span></div>
+            {{#each canjes}}
+                <div class="row fila_contribucion mb-3">
+                    <div class="col-12">
+                        <div class="scrollable-card p-3">
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <div class="tag_info w-100"><i class="bi bi-box-seam"></i> {{this.ofertaCanjeada.tipoDeOferta}}</div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="tag_info w-100"><i class="bi bi-door-closed"></i> Nombre <span class="valor_info">{{this.ofertaCanjeada.nombre}}</span></div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaYHoraCanje}}</span></div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="tag_info w-100"><i class="bi bi-bag"></i> Puntos utilizados: <span class="valor_info">{{this.puntosGastados}}</span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            {{/each}}
         </div>
 
+
+        <!-- Ver si puedo meterlo dentro del form y que sea el submit-->
         <!-- Modal de confirmación -->
         <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
             <div class="modal-dialog">
