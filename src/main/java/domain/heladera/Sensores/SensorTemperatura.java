@@ -34,8 +34,7 @@ public class SensorTemperatura {
         //heladera.setUltimaTemperaturaRegistrada(dato);
         heladera.setUltimaTemperaturaRegistrada(temperaturaActual, LocalDateTime.now());
         if(heladera.temperaturaFueraDeRango()){
-            new AsignadorDeTecnico().asignarTecnicoA(heladera.fallaTemperatura()); //Mirar tema de singleton,etc
-            System.out.println("Activación de alerta de falla de temperatura!");
+            heladera.fallaTemperatura();
         }
     }
 }

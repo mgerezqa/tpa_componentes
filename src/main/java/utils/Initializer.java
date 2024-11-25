@@ -12,6 +12,7 @@ import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.tarjeta.TarjetaColaborador;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
@@ -212,6 +213,9 @@ public class Initializer implements WithSimplePersistenceUnit {
         colaboradorFisico.setZona(areaFisico);
         colaboradorFisico.setUsuario(usuarioFisico);
 
+        TarjetaColaborador tarjetaColaborador = new TarjetaColaborador();
+        tarjetaColaborador.setColaborador(colaboradorFisico);
+
         //Juridico
         Whatsapp whatsappJuridico = new Whatsapp("+5491165419940");
         Email emailJuridico = new Email("empresaX@example.com");
@@ -227,5 +231,6 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorioColaboradores.guardar(colaboradorFisico);
         repositorioTecnicos.guardar(tecnico);
         repositorioUsuarios.guardar(admin);
+        repositorio.guardar(tarjetaColaborador);
     }
 }

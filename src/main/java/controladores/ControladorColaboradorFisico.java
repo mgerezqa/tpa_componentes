@@ -25,6 +25,7 @@ import io.javalin.validation.ValidationError;
 import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
+import utils.Broker.ServiceBroker;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
@@ -378,6 +379,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         TarjetaVulnerable tarjeta= new TarjetaVulnerable();
         tarjeta.setVulnerable(personaVulnerable);
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
+        registroDePersonaVulnerable.completar();
         //Cuantas tarjetas repartió.
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
@@ -404,6 +406,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         ((Colaborador) colaborador.get()).sumarPuntos(puntos);
         donacion.setPuntosOtorgados(puntos);
+        //Seteo completo, pero en deberia ir a una parasera de pago, etc.
+        donacion.completar();
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
@@ -430,6 +434,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(viandasDistribuidas + nuevaDistribucion.getCantidad());
         nuevaDistribucion.setPuntosOtorgados(puntos);
+        nuevaDistribucion.completar();
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
         withTransaction(()->{
             repositorio.guardar(nuevaDistribucion);
@@ -438,9 +443,6 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     }
 
     public void donarViandas(Context context) {
-        context.formParamMap().forEach((key, value) -> {
-            System.out.println(key + ": " + value);
-        });
         String descripcion = context.formParam("descripcion");
         LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_vianda")));
         Long calorias = Long.parseLong(Objects.requireNonNull(context.formParam("campo_calorias_vianda")));
@@ -453,20 +455,32 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         Vianda donacion = new Vianda(descripcion, fechaVencimiento,
                 calorias, peso, colaboradorFisico);
         if(!Objects.equals(context.formParam("heladera"), "") || context.formParam("heladera") !=null){
+            withTransaction(()->{
+                repositorio.guardar(donacion);
+            });
             Long idHeladera = Long.parseLong(context.formParam("heladera"));
             Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
+            ServiceBroker serviceBroker = ServiceLocator.instanceOf(ServiceBroker.class);
+            String topic = "dds2024/heladera/autorizacion";
+            String msg = String.format("{'idH': %d,'idD': %d}", idHeladera,donacion.getId());
+            serviceBroker.publishMessage(topic, msg);
             donacion.setHeladeraActual((Heladera) heladera.get());
         }
 
-        int viandasDonadas = repositorioViandas
-                .buscarPorColaboradorId(colaboradorFisico.getId())
-                .size();
 
-        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
-                .puntosViandasDonadas(viandasDonadas + 1);
+        //Esta logica de otorgale puntos solo se deberia hacer cuando realmente abrio la heladera
+        //int viandasDonadas = repositorioViandas
+        //        .buscarPorColaboradorId(colaboradorFisico.getId())
+        //        .size();
+//
+        //int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
+        //        .puntosViandasDonadas(viandasDonadas + 1);
+//
+        //donacion.setPuntosOtorgados(puntos);
+        //colaboradorFisico.sumarPuntos(puntos);
 
-        donacion.setPuntosOtorgados(puntos);
-        colaboradorFisico.sumarPuntos(puntos);
+        //Mandar la autorización para solicitud de apertura
+
 
         withTransaction(() -> {
             repositorio.guardar(donacion);

@@ -10,6 +10,8 @@ import domain.geografia.*;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.puntos.CalculadoraPuntos;
+import domain.puntos.CategoriaOferta;
+import domain.puntos.Oferta;
 import domain.usuarios.*;
 import domain.visitas.Visita;
 import dtos.ColaboradorJuridicoDTO;
@@ -26,6 +28,8 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -430,10 +434,29 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
             MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera,(ColaboradorJuridico) colaboradorJuridicoPosible.get());
             //Calculo de puntos a dar al colaborador por mantener/donar la heladera
             calculadoraPuntos.puntosHeladerasActivas(mantenerHeladera);
+            mantenerHeladera.completar();
             repositorio.guardar(mantenerHeladera);
         });
 
         context.redirect("/estaciones");
+    }
+    public void ofrecerOferta(Context context){
+        context.formParamMap().forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+        String nombreOferta = context.formParam("nombre_oferta");
+        String descripcion = context.formParam("descripcion_producto_servicio");
+        CategoriaOferta categoriaOferta = CategoriaOferta.valueOf(context.formParam("categoria_producto_servicio"));
+        Integer costoPuntos = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_costo_puntos")));
+        Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
+        ColaboradorJuridico ofertante = (ColaboradorJuridico) colaboradorJuridicoPosible.get();
+        Oferta oferta = new Oferta(nombreOferta,descripcion,categoriaOferta,ofertante,costoPuntos);
+        oferta.completar();
+
+        withTransaction(()->{
+           repositorio.guardar(oferta);
+        });
+        context.redirect("/donaciones");
     }
 
     public void misEstaciones( Context context) {

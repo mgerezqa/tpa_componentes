@@ -24,9 +24,10 @@ public class Oferta extends Donacion {
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria")
     private CategoriaOferta categoria;
-
     @Column(name = "costo")
     private Integer costoPuntos;
+    @Column(name = "foto")
+    private String foto;
 
     public Oferta(String nombre, String descripcion, CategoriaOferta categoria, ColaboradorJuridico ofertante, Integer costoPuntos) {
         super(LocalDate.now(), ofertante);

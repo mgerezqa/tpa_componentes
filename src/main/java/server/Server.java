@@ -20,6 +20,7 @@ import repositorios.repositoriosBDD.RepositorioTecnicos;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import server.exceptions.CustomEnumConversionException;
 import server.handlers.AppHandlers;
+import utils.Broker.ServiceBroker;
 import utils.Initializer;
 import utils.JavalinRenderer;
 import io.javalin.Javalin;
@@ -46,7 +47,7 @@ public class Server {
             new AuthMiddleware(ServiceLocator.instanceOf(RepositorioRoles.class)).apply(app);
             AppHandlers.applyHandlers(app);
             new Router().init(app);
-
+            ServiceLocator.instanceOf(ServiceBroker.class);
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
                 Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class),ServiceLocator.instanceOf(Repositorio.class));
                 initializer.init();

@@ -179,6 +179,8 @@ public class Router implements SimplePersistenceTest{
         //JURIDICO
         app.get("/mis-estaciones", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::misEstaciones,RoleENUM.JURIDICO);
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
+        app.post("/ofrecer-prod-servicio", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::ofrecerOferta,RoleENUM.JURIDICO);
+
         //FISICOS
         app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
         app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
@@ -234,6 +236,7 @@ public class Router implements SimplePersistenceTest{
             List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
                     .buscarTodos(Donacion.class)
                     .stream().map(d -> (Donacion) d)
+                    .filter(Donacion::getCompletado)
                     .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
                     .sorted(Comparator.comparing(Donacion::getId))
                     .collect(Collectors.toList());
