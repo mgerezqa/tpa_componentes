@@ -223,6 +223,12 @@ public class Initializer implements WithSimplePersistenceUnit {
         colaboradorJuridico.agregarMedioDeContacto(telegramJuridico);
         colaboradorJuridico.setUsuario(usuarioJuridico);
 
+        Documento doc1 = new Documento(TipoDocumento.DNI,"40789234");
+        Documento doc2 = new Documento(TipoDocumento.DNI,"32784211");
+
+        colaboradorJuridico.setDocumento(doc1);
+        colaboradorFisico.setDocumento(doc2);
+
         repositorioColaboradores.guardar(colaboradorJuridico);
         repositorioColaboradores.guardar(colaboradorFisico);
         repositorioTecnicos.guardar(tecnico);

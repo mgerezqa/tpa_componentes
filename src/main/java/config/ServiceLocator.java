@@ -69,12 +69,7 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             } else if (componentName.equals(ImportadorCSV.class.getName())) {
                 ImportadorCSV instance = new ImportadorCSV(
-                        instanceOf(RepositorioColaboradores.class),
-                        instanceOf(RepositorioDonacionesDinero.class),
-                        instanceOf(RepositorioViandas.class),
-                        instanceOf(RepositorioDistribuciones.class),
-                        instanceOf(RepositorioMantenciones.class),
-                        instanceOf(RepositorioRegistrosVulnerables.class));
+                        instanceOf(RepositorioColaboradores.class));
                 instances.put(componentName, instance);
             } else if (componentName.equals(ControladorColaboradorJuridico.class.getName())) {
                 ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(
@@ -169,6 +164,11 @@ public class ServiceLocator {
                 RepositorioDistribuciones instance = new RepositorioDistribuciones();
                 instances.put(componentName, instance);
             }
+            else if (componentName.equals(ControladorCargaMasiva.class.getName())) {
+                ControladorCargaMasiva instance = new ControladorCargaMasiva(instanceOf(ImportadorCSV.class));
+                instances.put(componentName, instance);
+            }
+
         }
 
         return (T) instances.get(componentName);

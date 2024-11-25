@@ -1,18 +1,28 @@
 package server;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import domain.donaciones.Donacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.usuarios.Colaborador;
+import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.RoleENUM;
 import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
+import io.javalin.http.UploadedFile;
 import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +90,6 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/heladeras/{id}/delete",ServiceLocator.instanceOf(ControladorHeladeras.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/heladeras/{id}/delete",ServiceLocator.instanceOf(ControladorHeladeras.class)::remove,RoleENUM.ADMIN);
 
-
         //dashboard/fisicos
         app.get("/dashboard/fisicos",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::index,RoleENUM.ADMIN);
         app.post("/dashboard/fisicos",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::create,RoleENUM.ADMIN);
@@ -130,6 +139,61 @@ public class Router implements SimplePersistenceTest{
         app.post("/dashboard/tarjetas/{id}/edit", ServiceLocator.instanceOf(ControladorTarjetas.class)::update,RoleENUM.ADMIN);
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove,RoleENUM.ADMIN);
+
+        // // //
+
+        // Ruta para carga masiva de donaciones
+        app.post("/dashboard/carga-masiva", ctx -> {
+            try {
+                // Obtener el archivo subido
+                UploadedFile uploadedFile = ctx.uploadedFile("file");
+
+                if (uploadedFile == null) {
+                    ctx.status(400).result("No se ha subido ningún archivo.");
+                    return;
+                }
+
+                // Crear archivo temporal con el nombre del archivo subido
+                java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("uploads");
+                File archivo = new File(tempDir.toFile(), uploadedFile.filename()); // Aquí se usa 'uploadedFile.filename'
+
+                try (InputStream inputStream = uploadedFile.content();
+                     FileOutputStream outputStream = new FileOutputStream(archivo)) {
+
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                }
+
+                // Obtener colaboradores existentes
+                List<ColaboradorFisico> colaboradores = ServiceLocator.instanceOf(Repositorio.class)
+                        .buscarTodos(ColaboradorFisico.class)
+                        .stream()
+                        .map(c -> (ColaboradorFisico) c)
+                        .collect(Collectors.toList());
+
+                // Instancia del controlador
+                ControladorCargaMasiva controladorCargaMasiva = ServiceLocator.instanceOf(ControladorCargaMasiva.class);
+
+                // Procesar el archivo
+                String resultado = controladorCargaMasiva.procesarCargaMasiva(archivo, colaboradores);
+
+                // Eliminar archivo temporal
+                archivo.delete();
+                tempDir.toFile().delete(); // Elimina también el directorio temporal
+
+                // Devolver resultado
+                ctx.result(resultado);
+            } catch (Exception e) {
+                e.printStackTrace();
+                ctx.status(500).result("Error al procesar el archivo: " + e.getMessage());
+            }
+        }, RoleENUM.ADMIN);
+
+        // // //
+
 
         //signup de colaborador fisico
         app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);
