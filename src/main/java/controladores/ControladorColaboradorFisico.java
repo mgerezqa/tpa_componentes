@@ -454,11 +454,14 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         Vianda donacion = new Vianda(descripcion, fechaVencimiento,
                 calorias, peso, colaboradorFisico);
         if(!Objects.equals(context.formParam("heladera"), "") || context.formParam("heladera") !=null){
+            withTransaction(()->{
+                repositorio.guardar(donacion);
+            });
             Long idHeladera = Long.parseLong(context.formParam("heladera"));
             Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
             ServiceBroker serviceBroker = ServiceLocator.instanceOf(ServiceBroker.class);
             String topic = "dds2024/heladera/autorizacion";
-            String msg = String.format("{'idH': %d, 'idC': %d}", idHeladera, colaboradorFisico.getId());
+            String msg = String.format("{'idH': %d,'idD': %d}", idHeladera,donacion.getId());
             serviceBroker.publishMessage(topic, msg);
             donacion.setHeladeraActual((Heladera) heladera.get());
         }

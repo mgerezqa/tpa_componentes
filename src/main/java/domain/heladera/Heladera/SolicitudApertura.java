@@ -1,6 +1,7 @@
 package domain.heladera.Heladera;
 
 import domain.Config;
+import domain.donaciones.Donacion;
 import domain.excepciones.ExcepcionSolicitudExpirada;
 import domain.usuarios.Colaborador;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class SolicitudApertura {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST},fetch = FetchType.LAZY)
     @JoinColumn(name = "colaborador_id")
     private Colaborador colaborador;
+
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
+    private Donacion donacionVinculada;
 
     @Column(name = "fecha_concrecion",columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraConcretado;
