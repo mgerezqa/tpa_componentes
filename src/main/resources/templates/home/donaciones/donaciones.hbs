@@ -631,7 +631,24 @@
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-people-fill"></i> Cantidad de hijos: <span class="valor_info">{{this.personaVulnerable.cantidadMenoresACargo}}</span></div>
                                     </div>
+                                {{else if (eq this.getTipo "Oferta")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> OFERTA</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre <span class="valor_info">{{this.nombre}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-card-list"></i> Categoria  <span class="valor_info">{{this.categoria}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-credit-card-2-front"></i> Costo puntos: <span class="valor_info">{{this.costoPuntos}}</span></div>
+                                    </div>
                                 {{/if}}
+
                             </div>
                         </div>
                     </div>
