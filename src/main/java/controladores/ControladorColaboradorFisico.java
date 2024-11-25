@@ -468,15 +468,15 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
 
         //Esta logica de otorgale puntos solo se deberia hacer cuando realmente abrio la heladera
-        int viandasDonadas = repositorioViandas
-                .buscarPorColaboradorId(colaboradorFisico.getId())
-                .size();
-
-        int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
-                .puntosViandasDonadas(viandasDonadas + 1);
-
-        donacion.setPuntosOtorgados(puntos);
-        colaboradorFisico.sumarPuntos(puntos);
+        //int viandasDonadas = repositorioViandas
+        //        .buscarPorColaboradorId(colaboradorFisico.getId())
+        //        .size();
+//
+        //int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
+        //        .puntosViandasDonadas(viandasDonadas + 1);
+//
+        //donacion.setPuntosOtorgados(puntos);
+        //colaboradorFisico.sumarPuntos(puntos);
 
         //Mandar la autorización para solicitud de apertura
 
