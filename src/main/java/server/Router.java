@@ -181,12 +181,12 @@ public class Router implements SimplePersistenceTest{
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
         //FISICOS
         app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
-        app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO);
         app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
         app.post("/donar-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donarViandas,RoleENUM.FISICO);
         app.get("/recomendacion-comunidades",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::recomendarComunidades,RoleENUM.FISICO);
 
         //FISICO E JURIDICO
+        app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO,RoleENUM.JURIDICO); //La logica es la misma para el juridico, da cosa que este en el controlador del fisico.
         app.get("/donaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");

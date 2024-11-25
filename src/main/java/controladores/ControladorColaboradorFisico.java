@@ -14,10 +14,7 @@ import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
 import domain.puntos.CalculadoraPuntos;
 import domain.tarjeta.TarjetaVulnerable;
-import domain.usuarios.ColaboradorFisico;
-import domain.usuarios.Rol;
-import domain.usuarios.RoleENUM;
-import domain.usuarios.Usuario;
+import domain.usuarios.*;
 import dtos.requests.ColaboradorFisicoInputDTO;
 import dtos.responses.ColaboradorFisicoOutputDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -400,12 +397,12 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     public void donacionDinero(Context context){
         Integer monto = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_monto_dinero")));
         FrecuenciaDeDonacion frecuenciaDeDonacion = FrecuenciaDeDonacion.valueOf(context.formParam("campo_frecuencia_dinero"));
-        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
+        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(Colaborador.class,context.sessionAttribute("id_colaborador"));
 
-        Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(ColaboradorFisico) colaborador.get());
+        Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(Colaborador) colaborador.get());
         var puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosPesosDonados(donacion);
 
-        ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+        ((Colaborador) colaborador.get()).sumarPuntos(puntos);
         donacion.setPuntosOtorgados(puntos);
         withTransaction(()->{
             repositorio.guardar(donacion);
