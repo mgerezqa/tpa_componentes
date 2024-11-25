@@ -463,21 +463,29 @@
 
                                 <div id="contenedor_form_producto_servicio" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form>
+                                        <form action="/ofrecer-prod-servicio" method="POST">
                                             <div class="row row-cols-1 row-cols-md-3 g-3">
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="descripcion_producto_servicio" value="" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="nombre_oferta" name="nombre_oferta" placeholder="nombre_oferta" required>
+                                                        <label for="nombre_oferta">Nombre</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="descripcion_producto_servicio" name="descripcion_producto_servicio" placeholder="descripcion_producto_servicio" required>
                                                         <label for="descripcion_producto_servicio">Descripción</label>
                                                     </div>
                                                 </div>
                                                 <!-- Selector button producto o servicio -->
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="categoria_producto_servicio">
+                                                        <select class="form-select shadow-none rounded-4" id="categoria_producto_servicio" name="categoria_producto_servicio" required>
                                                             <option value="0" class="d-none">Seleccione...</option>
-                                                            <option value="1">Producto</option>
-                                                            <option value="2">Servicio</option>
+                                                            <option value="GASTRONOMIA">GASTRONOMIA</option>
+                                                            <option value="GASTRONOMIA">ELECTRONICA</option>
+                                                            <option value="ARTICULOS_HOGAR">GASTRONOMIA</option>
+                                                            <option value="OTROS">ELECTRONICA</option>
                                                         </select>
                                                         <label for="campo_tipo_producto_servicio">Categoría</label>
                                                     </div>
@@ -493,13 +501,13 @@
                                                         <label for="campo_rubro_producto_servicio">Rubro</label>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-12 col-md-12 d-none">
+                                                <div class="col-6 col-md-4">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
-                                                        <label for="campo_colaborador_vianda">Colaborador</label>
+                                                        <input type="number" class="form-control shadow-none rounded-4" id="campo_costo_puntos" name="campo_costo_puntos" placeholder="campo_costo_puntos" required>
+                                                        <label for="campo_costo_puntos">Costo de puntos</label>
                                                     </div>
                                                 </div>
+
                                             </div>
                                             <div class="row justify-content-center mt-3">
                                                 <div class="col-6">
