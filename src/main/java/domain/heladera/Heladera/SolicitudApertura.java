@@ -34,19 +34,14 @@ public class SolicitudApertura {
     @Column(name = "fecha_concrecion",columnDefinition = "DATETIME")
     private LocalDateTime fechaHoraConcretado;
 
-    @Transient
-    private Config config;
-
     public SolicitudApertura(LocalDateTime fechaHora, String detalle, Colaborador colaborador) {
         this.fechaHoraInicio = fechaHora;
         this.detalle = detalle;
         this.colaborador = colaborador;
-
-        config = Config.getInstance();
     }
 
     public void completarSolicitud(LocalDateTime fechaHora) {
-        if ((int) ChronoUnit.MINUTES.between(this.fechaHoraInicio, fechaHora) > Integer.parseInt(config.getProperty("solicitudApertura.expiryHours"))*60) {
+        if ((int) ChronoUnit.MINUTES.between(this.fechaHoraInicio, fechaHora) > Integer.parseInt(Config.getInstance().getProperty("solicitudApertura.expiryHours"))*60) {
             throw new ExcepcionSolicitudExpirada("Su solicitud expiró. Debe generar una nueva solicitud.");
         }else {
             this.fechaHoraConcretado = fechaHora;
