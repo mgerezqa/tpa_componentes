@@ -70,4 +70,13 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
                 .findFirst();
     }
 
+    public Optional<Colaborador> buscarPorDocumento(String numeroDocumento) {
+        return entityManager()
+                .createQuery("SELECT c FROM Colaborador c WHERE c.documento.numeroDeDocumento = :numeroDocumento", Colaborador.class)
+                .setParameter("numeroDocumento", numeroDocumento)
+                .getResultStream()
+                .findFirst();
+    }
+
+
 }

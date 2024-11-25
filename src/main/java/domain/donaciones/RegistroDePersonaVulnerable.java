@@ -45,6 +45,10 @@ public class RegistroDePersonaVulnerable extends Donacion{
         tarjeta.setVulnerable(vulnerable);
         tarjeta.setFechaInicioDeFuncionamiento(vulnerable.getFechaRegitrado());
     }
+    public RegistroDePersonaVulnerable(ColaboradorFisico colaboradorQueLaDono, LocalDate fechaDeDonacion) {
+        super(colaboradorQueLaDono);
+        this.fechaDeDonacion = fechaDeDonacion;
+    }
     @Override
     public String getTipo() {
         return "RegistroDePersonaVulnerable";

@@ -2,6 +2,8 @@ package domain.usuarios;
 
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
+import domain.formulario.documentos.Documento;
+import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,11 +19,14 @@ import java.util.Set;
 @Entity
 // USE ESTA STRATEGY Y NO MAPPED SUPERCLASS, SOLO POR SI ES NECESARIO "RECUPERAR" A TODOS LOS COLABORADORES!
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Colaborador{
+public abstract class Colaborador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
+
+    @Embedded
+    private Documento documento;
 
     @JoinColumn(name = "usuario_id", nullable = false)
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
@@ -70,6 +75,14 @@ public abstract class Colaborador{
 
     public void agregarDireccion(Ubicacion direccion) {
         this.direcciones.add(direccion);
+    }
+
+    public boolean identificarPorDocumento(TipoDocumento tipo, String numeroDeDocumento) {
+        if (this.getDocumento() == null) {
+            return false; // Si no hay documento, no puede haber coincidencia.
+        }
+        return this.getDocumento().getTipo() == tipo &&
+                this.getDocumento().getNumeroDeDocumento().equals(numeroDeDocumento);
     }
 
 }

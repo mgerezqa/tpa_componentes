@@ -2,6 +2,7 @@ package domain.donaciones;
 
 import domain.usuarios.Colaborador;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Data
 public abstract class Donacion {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
