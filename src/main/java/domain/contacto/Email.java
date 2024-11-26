@@ -1,5 +1,6 @@
 package domain.contacto;
 
+import config.ServiceLocator;
 import domain.heladera.Heladera.Heladera;
 import domain.incidentes.Alerta;
 import domain.incidentes.FallaTecnica;
@@ -34,7 +35,7 @@ public class Email extends MedioDeContacto {
     public Email(String email) {
         validarEmail(email);
         this.email = email;
-        emailSender = EmailSender.getInstance();
+        emailSender = ServiceLocator.instanceOf(EmailSender.class);
     }
 
     private void validarEmail(String email){
@@ -80,7 +81,6 @@ public class Email extends MedioDeContacto {
                 heladera.getNombreIdentificador(),
                 tipoDeSuscripcion.getDescripcion()
         );
-
         emailSender.sendEmail("📢 INFORME DE SUSCRIPCIÓN",mensaje,getEmail());
     }
 
@@ -98,7 +98,7 @@ public class Email extends MedioDeContacto {
                 alerta.getHeladera().getNombreIdentificador(),
                 alerta.getFechaYHora()
         );
-        emailSender.sendEmail("⚠️ INFORME DE ALERTA", mensaje, getEmail());
+        ServiceLocator.instanceOf(EmailSender.class).sendEmail("⚠️ INFORME DE ALERTA", mensaje, getEmail());
     }
 
     public void enviarMensaje(Tecnico tecnico, FallaTecnica falla) throws MessagingException {

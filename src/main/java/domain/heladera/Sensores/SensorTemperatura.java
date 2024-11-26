@@ -2,10 +2,12 @@ package domain.heladera.Sensores;
 import config.ServiceLocator;
 import domain.heladera.Heladera.Heladera;
 
+import domain.incidentes.Incidente;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import repositorios.repositoriosBDD.RepositorioTecnicos;
 import utils.asignadorTecnicos.AsignadorDeTecnico;
 
 import javax.persistence.*;

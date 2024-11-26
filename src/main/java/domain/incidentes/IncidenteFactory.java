@@ -1,7 +1,10 @@
 package domain.incidentes;
+import config.ServiceLocator;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Usuario;
 import dtos.FallaTecnicaDTO;
+import repositorios.repositoriosBDD.RepositorioTecnicos;
+import utils.asignadorTecnicos.AsignadorDeTecnico;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +16,10 @@ public class IncidenteFactory {
 
         alerta.setFechaYHora(LocalDateTime.now());
         alerta.setTipoAlerta(tipoAlerta);
+
+        AsignadorDeTecnico asignadorDeTecnico = ServiceLocator.instanceOf(AsignadorDeTecnico.class);
+        asignadorDeTecnico.setTecnicos(ServiceLocator.instanceOf(RepositorioTecnicos.class).buscarTodosTecnicos());
+        asignadorDeTecnico.asignarTecnicoA(alerta);
 
         return alerta;
     }

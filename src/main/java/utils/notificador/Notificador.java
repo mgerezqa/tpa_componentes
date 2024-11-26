@@ -1,5 +1,6 @@
 package utils.notificador;
 
+import config.ServiceLocator;
 import domain.contacto.MedioDeContacto;
 import domain.excepciones.MedioDeContactoException;
 import domain.heladera.Heladera.Heladera;
@@ -10,7 +11,6 @@ import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Tecnico;
 import jakarta.mail.MessagingException;
-
 public class Notificador {
 
     public void notificar(Tecnico tecnico, Alerta alerta) {

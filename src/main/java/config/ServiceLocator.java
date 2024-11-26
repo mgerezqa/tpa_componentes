@@ -7,6 +7,7 @@ import controladores.ControladorColaboradorFisico;
 import controladores.ControladorColaboradorJuridico;
 import controladores.ControladorHeladeras;
 import domain.Config;
+import domain.mensajeria.EmailSender;
 import domain.puntos.CalculadoraPuntos;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
@@ -22,6 +23,8 @@ import utils.Broker.receptors.ReceptorApertura;
 import utils.Broker.receptors.ReceptorAutorizacion;
 import utils.Broker.receptors.ReceptorMov;
 import utils.Broker.receptors.ReceptorTemp;
+import utils.asignadorTecnicos.AsignadorDeTecnico;
+import utils.notificador.Notificador;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -155,6 +158,13 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }else if(componentName.equals(RepositorioMantenciones.class.getName())){
                 RepositorioMantenciones instance = new RepositorioMantenciones();
+                instances.put(componentName, instance);
+            }else if(componentName.equals(AsignadorDeTecnico.class.getName())){
+                AsignadorDeTecnico instance = new AsignadorDeTecnico();
+                instance.setNotificador(new Notificador());
+                instances.put(componentName, instance);
+            }else if(componentName.equals(EmailSender.class.getName())){
+                EmailSender instance = EmailSender.getInstance();
                 instances.put(componentName, instance);
             }
         }

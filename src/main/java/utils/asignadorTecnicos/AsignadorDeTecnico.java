@@ -27,7 +27,6 @@ public class AsignadorDeTecnico {
         Heladera heladera = incidente.getHeladera();
         Tecnico tecnicoMasCercano = null;
         double distanciaMinima = Double.MAX_VALUE;
-
         for (Tecnico tecnico : tecnicos) {
             if (tecnico.estaActivo() && tecnico.getArea().estaEnElAreaDelTecnico(heladera.getUbicacion())) {
                 double distancia = (heladera.getUbicacion().calcularDistanciaKmA(tecnico.getArea().getUbicacionPrincipal()));
@@ -45,7 +44,6 @@ public class AsignadorDeTecnico {
 
         // Técnico mas cercano
         Tecnico tecnico = this.tecnicoMasCercano(incidente);
-
         // Set técnico al incidente
         incidente.setTecnicoAsignado(tecnico);
 
