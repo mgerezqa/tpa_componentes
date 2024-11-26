@@ -429,7 +429,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         int viandasDistribuidas = repositorioDistribuciones
                 .buscarPorColaboradorId(((ColaboradorFisico) colaborador.get()).getId())
                 .stream()
-                .mapToInt(Distribuir::getCantidad) // Mapea cada elemento a su cantidad como un int
+                .mapToInt(Distribuir::getCantidad)
                 .sum();
 
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(viandasDistribuidas + nuevaDistribucion.getCantidad());

@@ -73,17 +73,18 @@ public class Initializer implements WithSimplePersistenceUnit {
     }
 
     private void instanciarHeladeras() {
-        Calle calle1 = new Calle("Presidente Luis Sáenz Peña","701");
-        Barrio barrio1 = new Barrio("Monserrat");
+        Calle calle1 = new Calle("Medrano","951");
+        Barrio barrio1 = new Barrio("Almagro");
         Localidad localidad1 = new Localidad("Buenos Aires");
         Provincia provincia1 = new Provincia("Ciudad Autónoma de Buenos Aires");
-        Float latitud1 = -34.61674811076943f;
-        Float longitud1 = -58.3875399828503f;
+        Float latitud1 = -34.59887f;
+        Float longitud1 = -58.42015f;
         Ubicacion ubicacion1 = new Ubicacion(latitud1,longitud1,calle1,provincia1,localidad1,barrio1);
         ModeloDeHeladera modeloA = modelosHeladerasPorDefecto.get(0);
-        String nombreHeladera1 = "heladera 1";
-        Integer capacidadMax1 = 14;
+        String nombreHeladera1 = "Heladera Medrano UTN";
+        Integer capacidadMax1 = 500;
         Heladera heladera1 = new Heladera(modeloA,nombreHeladera1,ubicacion1,capacidadMax1);
+        heladera1.agregarCantViandas(200);
 
         Calle calle2 = new Calle("Virrey Cevallos","699");
         Barrio barrio2 = new Barrio("Monserrat");
@@ -93,9 +94,10 @@ public class Initializer implements WithSimplePersistenceUnit {
         Float longitud2 = -58.38906347757075f;
         Ubicacion ubicacion2 = new Ubicacion(latitud2,longitud2,calle2,provincia2,localidad2,barrio2);
         ModeloDeHeladera modeloB = modelosHeladerasPorDefecto.get(1);
-        String nombreHeladera2 = "heladera 2";
-        Integer capacidadMax2 = 20;
+        String nombreHeladera2 = "Heladera Cevallos";
+        Integer capacidadMax2 = 300;
         Heladera heladera2 = new Heladera(modeloB,nombreHeladera2,ubicacion2,capacidadMax2);
+        heladera2.agregarCantViandas(200);
 
         Calle calle3 = new Calle("San José","302");
         Barrio barrio3 = new Barrio("Monserrat");
@@ -105,9 +107,10 @@ public class Initializer implements WithSimplePersistenceUnit {
         Float longitud3 = -58.38616669183467f;
         Ubicacion ubicacion3 = new Ubicacion(latitud3,longitud3,calle3,provincia3,localidad3,barrio3);
         ModeloDeHeladera modeloC = modelosHeladerasPorDefecto.get(2);
-        String nombreHeladera3 = "heladera 3";
-        Integer capacidadMax3 = 40;
+        String nombreHeladera3 = "Heladera San jose";
+        Integer capacidadMax3 = 500;
         Heladera heladera3 = new Heladera(modeloC,nombreHeladera3,ubicacion3,capacidadMax3);
+        heladera2.agregarCantViandas(100);
 
         Calle calle4 = new Calle("Piedras","1102");
         Barrio barrio4 = new Barrio("San Telmo");
@@ -117,10 +120,10 @@ public class Initializer implements WithSimplePersistenceUnit {
         Float longitud4 = -58.37723493581508f;
         Ubicacion ubicacion4 = new Ubicacion(latitud4,longitud4,calle4,provincia4,localidad4,barrio4);
         ModeloDeHeladera modeloD = modelosHeladerasPorDefecto.get(3);
-        String nombreHeladera4 = "heladera 4";
-        Integer capacidadMax4 = 60;
+        String nombreHeladera4 = "Heladera Piedras";
+        Integer capacidadMax4 = 600;
         Heladera heladera4 = new Heladera(modeloD,nombreHeladera4,ubicacion4,capacidadMax4);
-
+        heladera2.agregarCantViandas(300);
 
         repositorio.guardar(heladera1);
         repositorio.guardar(heladera2);

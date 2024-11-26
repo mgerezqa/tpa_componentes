@@ -275,9 +275,6 @@ public class Router implements SimplePersistenceTest{
 
         app.post("/canjear", (context) -> {
             Repositorio repositorio =ServiceLocator.instanceOf(Repositorio.class);
-            context.formParamMap().forEach((key, value) -> {
-                System.out.println(key + ": " + value);
-            });
             Long idOfertaElegida = Long.valueOf(Objects.requireNonNull(context.formParam("campo_tipo_canje_fisico")));
             Optional<Object> posibleOferta = repositorio.buscarPorID(Oferta.class,idOfertaElegida);
             if(posibleOferta.isPresent()){
@@ -299,9 +296,6 @@ public class Router implements SimplePersistenceTest{
                 }catch (ExcepcionCanjePuntosInsuficientes exception){
                     context.redirect("/canjes");
                 }
-
-
-
                 context.redirect("/canjes");
             }else{
                 context.status(HttpStatus.NOT_FOUND);

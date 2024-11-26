@@ -203,7 +203,20 @@ public class Heladera {
 
         }
     }
-
+    public void agregarCantViandas(Integer cantidad){
+        if(cantidad + this.capacidadActual < capacidadMax){
+            this.capacidadActual+= cantidad;
+        }else{
+            throw new RuntimeException("No se puede agregar esa cantidad porque sobrepasa la cantidad maxima");
+        }
+    }
+    public void quitarCantViandas(Integer cantidad){
+        if(this.capacidadActual - cantidad > 0){
+            this.capacidadActual-= cantidad;
+        }else{
+            throw new RuntimeException("No se puede quitar esa cantidad porque tiene menor cantidad a la especificada");
+        }
+    }
 
 }
 
