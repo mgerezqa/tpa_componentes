@@ -95,6 +95,20 @@ public class Server {
             config.validation.register(TipoDeSuscripcionENUM.class, v->  TipoDeSuscripcionENUM.valueOf(v.toUpperCase()));
             config.validation.register(TipoRazonSocial.class, v->  TipoRazonSocial.valueOf(v.toUpperCase()));
             config.validation.register(Rubro.class, v->  Rubro.valueOf(v.toUpperCase()));
+
+            // Habilitar CORS
+            config.bundledPlugins.enableCors(cors -> {
+                cors.addRule(it -> {
+                    it.allowHost("http://localhost:8081");
+                    it.allowHost("http://localhost:3000");
+                    it.anyHost();
+                    it.allowCredentials = true;
+                });
+            });
+
+
         };
+
+
     }
 }

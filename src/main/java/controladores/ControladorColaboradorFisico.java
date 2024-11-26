@@ -1,4 +1,5 @@
 package controladores;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
@@ -29,6 +30,11 @@ import utils.Broker.ServiceBroker;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
+import utils.recomendacioneDeUbicaciones.entidades.ApiKey;
+import utils.recomendacioneDeUbicaciones.entidades.ListadoDeComunidades;
+import utils.recomendacioneDeUbicaciones.servicios.RecomedacionDeUbicaciones;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Objects;
@@ -42,6 +48,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
     private RepositorioDistribuciones repositorioDistribuciones;
     private RepositorioViandas repositorioViandas;
+    private RecomedacionDeUbicaciones recomendacionDeUbicaciones;
+
 
     public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones,RepositorioViandas repositorioViandas) {
         this.repositorioColaboradores = repositorioColaboradores;
@@ -51,6 +59,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         this.repositorioRegistrosVulnerables = repositorioRegistrosVulnerables;
         this.repositorioDistribuciones = repositorioDistribuciones;
         this.repositorioViandas = repositorioViandas;
+        this.recomendacionDeUbicaciones = RecomedacionDeUbicaciones.getInstance();
+
     }
 
     @Override // funciona correctamente
@@ -488,9 +498,54 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         
         context.redirect("/donaciones");
     }
-    public void recomendarComunidades(Context context) {
-        Float latitud = Float.valueOf(Objects.requireNonNull(context.formParam("latitud")));
-        Float longitud = Float.valueOf(Objects.requireNonNull(context.formParam("longitud")));
 
+    public void recomendarComunidades(Context ctx) {
+        try {
+            // Obtener parámetros de la solicitud
+            Float latitud = Float.parseFloat(ctx.queryParam("latitud"));
+            Float longitud = Float.parseFloat(ctx.queryParam("longitud"));
+            Integer max = Integer.parseInt(ctx.queryParam("max"));
+            Float distanciaMax = Float.parseFloat(ctx.queryParam("distanciaMax"));
+
+            // Imprimir parámetros recibidos
+            System.out.println("Latitud: " + latitud);
+            System.out.println("Longitud: " + longitud);
+            System.out.println("Max: " + max);
+            System.out.println("DistanciaMax: " + distanciaMax);
+
+            // Obtener el objeto ApiKey y luego la key
+            ApiKey apiKey = recomendacionDeUbicaciones.apiKey();
+            String token = apiKey.getKey();
+            System.out.println("Token: " + token);
+
+            // Llamar al servicio de recomendaciones
+            ListadoDeComunidades comunidades = recomendacionDeUbicaciones.listadoCumunidades(token, latitud, longitud, max, distanciaMax);
+
+            // Verificar y mostrar el resultado de la llamada al servicio
+            if (comunidades != null) {
+                System.out.println("Comunidades obtenidas: " + comunidades);
+
+                // Serializar manualmente el objeto a JSON
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonResponse = objectMapper.writeValueAsString(comunidades);
+
+                // Imprimir la respuesta JSON
+                System.out.println("JSON Response: " + jsonResponse);
+
+                // Enviar la respuesta como texto plano
+                ctx.result(jsonResponse).contentType("text/plain");
+            } else {
+                System.out.println("No se encontraron comunidades");
+                ctx.status(404).result("No se encontraron comunidades");
+            }
+        } catch (IOException e) {
+            System.err.println("Error al obtener las comunidades recomendadas: " + e.getMessage());
+            ctx.status(500).result("Error al obtener las comunidades recomendadas");
+        } catch (Exception e) {
+            System.err.println("Error inesperado: " + e.getMessage());
+            ctx.status(500).result("Error inesperado");
+        }
     }
+
+
 }
