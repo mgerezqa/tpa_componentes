@@ -9,6 +9,7 @@ public class HeladeraMapper {
 
     public static HeladeraDTO toDTO(Heladera heladera) {
         HeladeraDTO dto = new HeladeraDTO();
+        dto.setId(heladera.getId());
         dto.setEstado(heladera.getEstadoHeladera().toString());
         dto.setEstacion(heladera.getNombreIdentificador());
         dto.setDireccion(heladera.getUbicacion().getCalle().obtenerFormatoCalleAltura());

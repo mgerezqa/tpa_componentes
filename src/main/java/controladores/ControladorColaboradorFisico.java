@@ -1,4 +1,5 @@
 package controladores;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
@@ -14,10 +15,7 @@ import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
 import domain.puntos.CalculadoraPuntos;
 import domain.tarjeta.TarjetaVulnerable;
-import domain.usuarios.ColaboradorFisico;
-import domain.usuarios.Rol;
-import domain.usuarios.RoleENUM;
-import domain.usuarios.Usuario;
+import domain.usuarios.*;
 import dtos.requests.ColaboradorFisicoInputDTO;
 import dtos.responses.ColaboradorFisicoOutputDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -25,11 +23,18 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
+import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
+import utils.Broker.ServiceBroker;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
+import utils.recomendacioneDeUbicaciones.entidades.ApiKey;
+import utils.recomendacioneDeUbicaciones.entidades.ListadoDeComunidades;
+import utils.recomendacioneDeUbicaciones.servicios.RecomedacionDeUbicaciones;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Objects;
@@ -42,14 +47,20 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private Repositorio repositorio;
     private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
     private RepositorioDistribuciones repositorioDistribuciones;
+    private RepositorioViandas repositorioViandas;
+    private RecomedacionDeUbicaciones recomendacionDeUbicaciones;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones) {
+
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones,RepositorioViandas repositorioViandas) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
         this.repositorio = repositorio;
         this.repositorioRegistrosVulnerables = repositorioRegistrosVulnerables;
         this.repositorioDistribuciones = repositorioDistribuciones;
+        this.repositorioViandas = repositorioViandas;
+        this.recomendacionDeUbicaciones = RecomedacionDeUbicaciones.getInstance();
+
     }
 
     @Override // funciona correctamente
@@ -378,7 +389,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         TarjetaVulnerable tarjeta= new TarjetaVulnerable();
         tarjeta.setVulnerable(personaVulnerable);
         RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable((ColaboradorFisico) colaborador.get(),tarjeta,personaVulnerable);
-
+        registroDePersonaVulnerable.completar();
         //Cuantas tarjetas repartió.
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
@@ -388,27 +399,30 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         int cantidadTarjetasRepartidas = tarjetasRepartidas.size();
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosTarjetasRepatidas(cantidadTarjetasRepartidas);
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
+        registroDePersonaVulnerable.setPuntosOtorgados(puntos);
         withTransaction(()->{
             repositorio.actualizar(colaborador.get());
+            repositorio.actualizar(registroDePersonaVulnerable);
         });
         context.redirect("/donaciones");
     }
     public void donacionDinero(Context context){
         Integer monto = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_monto_dinero")));
         FrecuenciaDeDonacion frecuenciaDeDonacion = FrecuenciaDeDonacion.valueOf(context.formParam("campo_frecuencia_dinero"));
-        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,context.sessionAttribute("id_colaborador"));
+        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(Colaborador.class,context.sessionAttribute("id_colaborador"));
 
-        Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(ColaboradorFisico) colaborador.get());
+        Dinero donacion = new Dinero(monto,frecuenciaDeDonacion,(Colaborador) colaborador.get());
         var puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosPesosDonados(donacion);
 
-        ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
-
+        ((Colaborador) colaborador.get()).sumarPuntos(puntos);
+        donacion.setPuntosOtorgados(puntos);
+        //Seteo completo, pero en deberia ir a una parasera de pago, etc.
+        donacion.completar();
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
         context.redirect("/donaciones");
     }
-
     public void distrubuirViandas(Context context){
         Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
         Long destinoReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_destino_reparto")));
@@ -425,16 +439,113 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         int viandasDistribuidas = repositorioDistribuciones
                 .buscarPorColaboradorId(((ColaboradorFisico) colaborador.get()).getId())
                 .stream()
-                .mapToInt(Distribuir::getCantidad) // Mapea cada elemento a su cantidad como un int
+                .mapToInt(Distribuir::getCantidad)
                 .sum();
 
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosViandasDistribuidas(viandasDistribuidas + nuevaDistribucion.getCantidad());
-
+        nuevaDistribucion.setPuntosOtorgados(puntos);
+        nuevaDistribucion.completar();
         ((ColaboradorFisico) colaborador.get()).sumarPuntos(puntos);
         withTransaction(()->{
             repositorio.guardar(nuevaDistribucion);
         });
         context.redirect("/donaciones");
     }
+
+    public void donarViandas(Context context) {
+        String descripcion = context.formParam("descripcion");
+        LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_vianda")));
+        Long calorias = Long.parseLong(Objects.requireNonNull(context.formParam("campo_calorias_vianda")));
+        Long peso = Long.parseLong(Objects.requireNonNull(context.formParam("campo_peso_vianda")));
+        Optional<Object> colaborador = repositorioColaboradores.buscarPorID(ColaboradorFisico.class,
+                context.sessionAttribute("id_colaborador"));
+
+        ColaboradorFisico colaboradorFisico = (ColaboradorFisico) colaborador.get();
+
+        Vianda donacion = new Vianda(descripcion, fechaVencimiento,
+                calorias, peso, colaboradorFisico);
+        if(!Objects.equals(context.formParam("heladera"), "") || context.formParam("heladera") !=null){
+            withTransaction(()->{
+                repositorio.guardar(donacion);
+            });
+            Long idHeladera = Long.parseLong(context.formParam("heladera"));
+            Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);
+            ServiceBroker serviceBroker = ServiceLocator.instanceOf(ServiceBroker.class);
+            String topic = "dds2024/heladera/autorizacion";
+            String msg = String.format("{'idH': %d,'idD': %d}", idHeladera,donacion.getId());
+            serviceBroker.publishMessage(topic, msg);
+            donacion.setHeladeraActual((Heladera) heladera.get());
+        }
+
+
+        //Esta logica de otorgale puntos solo se deberia hacer cuando realmente abrio la heladera
+        //int viandasDonadas = repositorioViandas
+        //        .buscarPorColaboradorId(colaboradorFisico.getId())
+        //        .size();
+//
+        //int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
+        //        .puntosViandasDonadas(viandasDonadas + 1);
+//
+        //donacion.setPuntosOtorgados(puntos);
+        //colaboradorFisico.sumarPuntos(puntos);
+
+        //Mandar la autorización para solicitud de apertura
+
+
+        withTransaction(() -> {
+            repositorio.guardar(donacion);
+        });
+        
+        context.redirect("/donaciones");
+    }
+
+    public void recomendarComunidades(Context ctx) {
+        try {
+            // Obtener parámetros de la solicitud
+            Float latitud = Float.parseFloat(ctx.queryParam("latitud"));
+            Float longitud = Float.parseFloat(ctx.queryParam("longitud"));
+            Integer max = Integer.parseInt(ctx.queryParam("max"));
+            Float distanciaMax = Float.parseFloat(ctx.queryParam("distanciaMax"));
+
+            // Imprimir parámetros recibidos
+            System.out.println("Latitud: " + latitud);
+            System.out.println("Longitud: " + longitud);
+            System.out.println("Max: " + max);
+            System.out.println("DistanciaMax: " + distanciaMax);
+
+            // Obtener el objeto ApiKey y luego la key
+            ApiKey apiKey = recomendacionDeUbicaciones.apiKey();
+            String token = apiKey.getKey();
+            System.out.println("Token: " + token);
+
+            // Llamar al servicio de recomendaciones
+            ListadoDeComunidades comunidades = recomendacionDeUbicaciones.listadoCumunidades(token, latitud, longitud, max, distanciaMax);
+
+            // Verificar y mostrar el resultado de la llamada al servicio
+            if (comunidades != null) {
+                System.out.println("Comunidades obtenidas: " + comunidades);
+
+                // Serializar manualmente el objeto a JSON
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonResponse = objectMapper.writeValueAsString(comunidades);
+
+                // Imprimir la respuesta JSON
+                System.out.println("JSON Response: " + jsonResponse);
+
+                // Enviar la respuesta como texto plano
+                ctx.result(jsonResponse).contentType("text/plain");
+            } else {
+                System.out.println("No se encontraron comunidades");
+                ctx.status(404).result("No se encontraron comunidades");
+            }
+        } catch (IOException e) {
+            System.err.println("Error al obtener las comunidades recomendadas: " + e.getMessage());
+            ctx.status(500).result("Error al obtener las comunidades recomendadas");
+        } catch (Exception e) {
+            System.err.println("Error inesperado: " + e.getMessage());
+            ctx.status(500).result("Error inesperado");
+        }
+    }
+
 
 }

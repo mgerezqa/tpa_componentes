@@ -20,6 +20,7 @@ import repositorios.repositoriosBDD.RepositorioTecnicos;
 import repositorios.repositoriosBDD.RepositorioUsuarios;
 import server.exceptions.CustomEnumConversionException;
 import server.handlers.AppHandlers;
+import utils.Broker.ServiceBroker;
 import utils.Initializer;
 import utils.JavalinRenderer;
 import io.javalin.Javalin;
@@ -46,7 +47,7 @@ public class Server {
             new AuthMiddleware(ServiceLocator.instanceOf(RepositorioRoles.class)).apply(app);
             AppHandlers.applyHandlers(app);
             new Router().init(app);
-
+            ServiceLocator.instanceOf(ServiceBroker.class);
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
                 Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class),ServiceLocator.instanceOf(Repositorio.class));
                 initializer.init();
@@ -94,6 +95,20 @@ public class Server {
             config.validation.register(TipoDeSuscripcionENUM.class, v->  TipoDeSuscripcionENUM.valueOf(v.toUpperCase()));
             config.validation.register(TipoRazonSocial.class, v->  TipoRazonSocial.valueOf(v.toUpperCase()));
             config.validation.register(Rubro.class, v->  Rubro.valueOf(v.toUpperCase()));
+
+            // Habilitar CORS
+            config.bundledPlugins.enableCors(cors -> {
+                cors.addRule(it -> {
+                    it.allowHost("http://localhost:8081");
+                    it.allowHost("http://localhost:3000");
+                    it.anyHost();
+                    it.allowCredentials = true;
+                });
+            });
+
+
         };
+
+
     }
 }

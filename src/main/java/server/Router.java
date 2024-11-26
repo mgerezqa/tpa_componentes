@@ -1,32 +1,23 @@
 package server;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import domain.donaciones.Donacion;
+import domain.excepciones.ExcepcionCanjePuntosInsuficientes;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.puntos.Canje;
+import domain.puntos.Oferta;
 import domain.usuarios.Colaborador;
-import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.RoleENUM;
 import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
-import io.javalin.http.UploadedFile;
+import io.javalin.http.HttpStatus;
 import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Router implements SimplePersistenceTest{
@@ -35,14 +26,6 @@ public class Router implements SimplePersistenceTest{
         app.before(ctx -> {
             entityManager().clear();
         });
-
-        //Testing sesiones basica
-        app.get("/guardar-en-sesion", ctx -> {
-            ctx.sessionAttribute("nombre", ctx.queryParam("nombre"));
-            ctx.result("Variable de sesion guardada");
-        });
-
-        app.get("/saludo-sesionado", ctx -> ctx.result("Hola " + ctx.sessionAttribute("nombre")));
 
         //Render la pagina principal
         app.get("/",(ctx)->{
@@ -72,7 +55,6 @@ public class Router implements SimplePersistenceTest{
             ctx.render("/index.hbs", model);
         });
 
-
         //Dashboard
         app.get("/dashboard",(ctx) ->{
             ctx.render("/dashboard.hbs");
@@ -89,6 +71,7 @@ public class Router implements SimplePersistenceTest{
         app.post("/dashboard/heladeras/{id}/edit",ServiceLocator.instanceOf(ControladorHeladeras.class)::update,RoleENUM.ADMIN);
         app.get("/dashboard/heladeras/{id}/delete",ServiceLocator.instanceOf(ControladorHeladeras.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/heladeras/{id}/delete",ServiceLocator.instanceOf(ControladorHeladeras.class)::remove,RoleENUM.ADMIN);
+
 
         //dashboard/fisicos
         app.get("/dashboard/fisicos",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::index,RoleENUM.ADMIN);
@@ -140,68 +123,11 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove,RoleENUM.ADMIN);
 
-        //dashboard/donaciones
-        app.get("/dashboard/donaciones/dinero", ServiceLocator.instanceOf(ControladorDonacionDinero.class)::index,RoleENUM.ADMIN);
-
-
-        // // //
-
-        // Ruta para carga masiva de donaciones
-        app.post("/dashboard/carga-masiva", ctx -> {
-            try {
-                // Obtener el archivo subido
-                UploadedFile uploadedFile = ctx.uploadedFile("file");
-
-                if (uploadedFile == null) {
-                    ctx.status(400).result("No se ha subido ningún archivo.");
-                    return;
-                }
-
-                // Crear archivo temporal con el nombre del archivo subido
-                java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("uploads");
-                File archivo = new File(tempDir.toFile(), uploadedFile.filename()); // Aquí se usa 'uploadedFile.filename'
-
-                try (InputStream inputStream = uploadedFile.content();
-                     FileOutputStream outputStream = new FileOutputStream(archivo)) {
-
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
-                    }
-                }
-
-                // Obtener colaboradores existentes
-                List<ColaboradorFisico> colaboradores = ServiceLocator.instanceOf(Repositorio.class)
-                        .buscarTodos(ColaboradorFisico.class)
-                        .stream()
-                        .map(c -> (ColaboradorFisico) c)
-                        .collect(Collectors.toList());
-
-                // Instancia del controlador
-                ControladorCargaMasiva controladorCargaMasiva = ServiceLocator.instanceOf(ControladorCargaMasiva.class);
-
-                // Procesar el archivo
-                String resultado = controladorCargaMasiva.procesarCargaMasiva(archivo, colaboradores);
-
-                // Eliminar archivo temporal
-                archivo.delete();
-                tempDir.toFile().delete(); // Elimina también el directorio temporal
-
-                // Devolver resultado
-                ctx.result(resultado);
-            } catch (Exception e) {
-                e.printStackTrace();
-                ctx.status(500).result("Error al procesar el archivo: " + e.getMessage());
-            }
-        }, RoleENUM.ADMIN);
-
-        // // //
-
 
         //signup de colaborador fisico
         app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);
         app.post("/juridico/signup", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::signup);
+
 
         // Login con usuario
         app.post("/login",ServiceLocator.instanceOf(ControladorUsuario.class)::login);
@@ -212,17 +138,8 @@ public class Router implements SimplePersistenceTest{
             ctx.redirect("/");
         });
 
-        // Creación de usuario ADMIN
-        app.get("/crear-admin", ServiceLocator.instanceOf(ControladorUsuario.class)::create);
-
-        //Rutas del dashboard de los colaboradores,tecnicos
-
-        // /Home -> Dashboard de colaboradores, tecnicos
+        // FISICO/JURIDICO/TECNICO
         app.get("/home",ServiceLocator.instanceOf(ControladorUsuario.class)::home,RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
-
-        // /profile
-        app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
-        app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
         app.get("/estaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
@@ -258,7 +175,24 @@ public class Router implements SimplePersistenceTest{
 
             ctx.render("home/estaciones/mapa.hbs", model);
         }, RoleENUM.TECNICO, RoleENUM.FISICO, RoleENUM.JURIDICO);
+        app.get("/profile", ServiceLocator.instanceOf(ControladorUsuario.class)::perfil,RoleENUM.JURIDICO,RoleENUM.FISICO,RoleENUM.TECNICO);
+        //TECNICOS
+        app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
+        app.get("/notificaciones",ServiceLocator.instanceOf(ControladorTecnicos.class)::notificaciones,RoleENUM.TECNICO);
+        app.get("/visitas",ServiceLocator.instanceOf(ControladorTecnicos.class)::visitas,RoleENUM.TECNICO);
+        //JURIDICO
+        app.get("/mis-estaciones", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::misEstaciones,RoleENUM.JURIDICO);
+        app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
+        app.post("/ofrecer-prod-servicio", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::ofrecerOferta,RoleENUM.JURIDICO);
 
+        //FISICOS
+        app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
+        app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
+        app.post("/donar-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donarViandas,RoleENUM.FISICO);
+        app.get("/recomendacion-comunidades",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::recomendarComunidades,RoleENUM.FISICO);
+
+        //FISICO E JURIDICO
+        app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO,RoleENUM.JURIDICO); //La logica es la misma para el juridico, da cosa que este en el controlador del fisico.
         app.get("/donaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
             List<String> roles = ctx.sessionAttribute("roles");
@@ -275,48 +209,98 @@ public class Router implements SimplePersistenceTest{
                         .stream()
                         .map(m -> (Heladera) m)
                         .collect(Collectors.toList());
-                model.put("heladeras", heladeras);
+
+                List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                        .map(HeladeraMapper::toDTO)
+                        .collect(Collectors.toList());
+                System.out.println(heladerasDTO);
+                model.put("heladeras", heladerasDTO);
             }
+
             List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
                     .buscarTodos(Donacion.class)
                     .stream().map(d -> (Donacion) d)
                     .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
+                    .sorted(Comparator.comparing(Donacion::getId))
                     .collect(Collectors.toList());
-            System.out.println(donaciones);
+
             model.put("donaciones", donaciones);
             model.put("fisico", esFisico);
             model.put("juridico", esJuridico);
 
             ctx.render("/home/donaciones/donaciones.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
-        app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
         app.get("/puntos", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
-            List<String> roles = ctx.sessionAttribute("roles");
 
-            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
-            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
+            Long idColaborador = ctx.sessionAttribute("id_colaborador");
+            Optional<Object> colaborador = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarPorID(Colaborador.class, idColaborador);
 
-            model.put("fisico", esFisico);
-            model.put("juridico", esJuridico);
+            List<Donacion> donaciones = ServiceLocator.instanceOf(Repositorio.class)
+                    .buscarTodos(Donacion.class)
+                    .stream().map(d -> (Donacion) d)
+                    .filter(Donacion::getCompletado)
+                    .filter(d -> d.getColaboradorQueLaDono().equals(colaborador.get()))
+                    .sorted(Comparator.comparing(Donacion::getId))
+                    .collect(Collectors.toList());
+
+            model.put("donaciones", donaciones);
+            model.put("colaborador", colaborador.get());
             ctx.render("/home/puntos/puntos.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.get("/canjes", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
-            List<String> roles = ctx.sessionAttribute("roles");
+            Repositorio repositorio = ServiceLocator.instanceOf(Repositorio.class);
+            List<Oferta> ofertasDisponibles = repositorio.buscarTodos(Oferta.class)
+                    .stream()
+                    .map(m -> (Oferta) m)
+                    .collect(Collectors.toList());
+            Long idColaborador = ctx.sessionAttribute("id_colaborador");
+            Optional<Object> colaborador = repositorio
+                    .buscarPorID(Colaborador.class, idColaborador);
+            Colaborador posibleComprador = (Colaborador) colaborador.get();
 
-            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
-            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
+            List<Canje> canjesDelColaborador = repositorio.buscarTodos(Canje.class)
+                    .stream()
+                    .map(m -> (Canje) m)
+                    .filter(c -> c.getCanjeador().getId() == posibleComprador.getId())
+                    .collect(Collectors.toList());
 
-            model.put("fisico", esFisico);
-            model.put("juridico", esJuridico);
+            model.put("canjes",canjesDelColaborador);
+            model.put("colaborador",posibleComprador);
+            model.put("ofertas",ofertasDisponibles);
             ctx.render("/home/canjes/canjes.hbs", model);
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
-        app.get("/notificaciones",ServiceLocator.instanceOf(ControladorTecnicos.class)::notificaciones,RoleENUM.TECNICO);
-        app.get("/visitas",ServiceLocator.instanceOf(ControladorTecnicos.class)::visitas,RoleENUM.TECNICO);
-        app.post("/registrarVulnerable",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::registroPersonaVulnerable,RoleENUM.FISICO);
-        app.post("/donar-dinero",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::donacionDinero,RoleENUM.FISICO);
-        app.post("/distribuir-viandas",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::distrubuirViandas,RoleENUM.FISICO);
+
+        app.post("/canjear", (context) -> {
+            Repositorio repositorio =ServiceLocator.instanceOf(Repositorio.class);
+            Long idOfertaElegida = Long.valueOf(Objects.requireNonNull(context.formParam("campo_tipo_canje_fisico")));
+            Optional<Object> posibleOferta = repositorio.buscarPorID(Oferta.class,idOfertaElegida);
+            if(posibleOferta.isPresent()){
+                Oferta ofertaElegida = (Oferta) posibleOferta.get();
+                Long idColaborador = context.sessionAttribute("id_colaborador");
+                Optional<Object> colaborador = repositorio
+                        .buscarPorID(Colaborador.class, idColaborador);
+                Colaborador comprador = (Colaborador) colaborador.get();
+                //Hacer el canje
+                try {
+                    ofertaElegida.hacerCanje(comprador,ofertaElegida);
+                    //Tengo que crear la nueva entidad "compra/factura" para despues mostrarles en sus canjes.
+                    Integer costoPuntos = ofertaElegida.getCostoPuntos(); //Se desnormalizo para consistencia de datos, y poder evitar que se tenga un precio antiguo debido a que puede cambiar la oferta
+                    Canje canje = new Canje(comprador,ofertaElegida,costoPuntos);
+                    withTransaction(()->{
+                        //Con el efecto cascada se hace la actualización de las demas entidades.
+                        repositorio.guardar(canje);
+                    });
+                }catch (ExcepcionCanjePuntosInsuficientes exception){
+                    context.redirect("/canjes");
+                }
+                context.redirect("/canjes");
+            }else{
+                context.status(HttpStatus.NOT_FOUND);
+            }
+        }, RoleENUM.JURIDICO, RoleENUM.FISICO);
 
     }
 }

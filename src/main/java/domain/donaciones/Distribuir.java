@@ -45,6 +45,8 @@ public class Distribuir extends Donacion{
         this.heladeraOrigen = heladeraOrigen;
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
+        heladeraOrigen.quitarCantViandas(cantidad); //Debe ir primero
+        heladeraDestino.agregarCantViandas(cantidad);
     }
     public Distribuir(ColaboradorFisico colaboradorQueLaDono,Integer cantidad, LocalDate fechaDeDonacion){
         super(colaboradorQueLaDono);

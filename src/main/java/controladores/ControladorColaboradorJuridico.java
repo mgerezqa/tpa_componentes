@@ -1,5 +1,6 @@
 package controladores;
 
+import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
@@ -9,11 +10,18 @@ import domain.geografia.*;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
 import domain.puntos.CalculadoraPuntos;
+import domain.puntos.CategoriaOferta;
+import domain.puntos.Oferta;
+import domain.puntos.TipoDeOferta;
 import domain.usuarios.*;
+import domain.visitas.Visita;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.validation.NullableValidator;
+import mappers.HeladeraMapper;
+import mappers.dtos.HeladeraDTO;
+import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
@@ -21,7 +29,10 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
@@ -34,7 +45,8 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     private RepositorioBarrios repositorioBarrios;
     private Repositorio repositorio;
     private CalculadoraPuntos calculadoraPuntos;
-    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios, Repositorio repositorio,CalculadoraPuntos calculadoraPuntos) {
+    private RepositorioMantenciones repositorioMantenciones;
+    public ControladorColaboradorJuridico(RepositorioColaboradores repositorioColaboradores,RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,RepositorioModeloHeladeras repositorioModeloHeladeras,RepositorioProvincias repositorioProvincias,RepositorioLocalidades repositorioLocalidades,RepositorioBarrios repositorioBarrios, Repositorio repositorio,CalculadoraPuntos calculadoraPuntos,RepositorioMantenciones repositorioMantenciones) {
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
@@ -44,6 +56,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         this.repositorioBarrios = repositorioBarrios;
         this.repositorio = repositorio;
         this.calculadoraPuntos = calculadoraPuntos;
+        this.repositorioMantenciones = repositorioMantenciones;
     }
 
     @Override //LISTO
@@ -422,10 +435,48 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
             MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera,(ColaboradorJuridico) colaboradorJuridicoPosible.get());
             //Calculo de puntos a dar al colaborador por mantener/donar la heladera
             calculadoraPuntos.puntosHeladerasActivas(mantenerHeladera);
+            mantenerHeladera.completar();
             repositorio.guardar(mantenerHeladera);
         });
 
         context.redirect("/estaciones");
     }
+    public void ofrecerOferta(Context context){
+        context.formParamMap().forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+        String nombreOferta = context.formParam("nombre_oferta");
+        String descripcion = context.formParam("descripcion_producto_servicio");
+        TipoDeOferta tipoDeOferta = TipoDeOferta.valueOf(context.formParam("tipo_producto_servicio"));
+        CategoriaOferta categoriaOferta = CategoriaOferta.valueOf(context.formParam("categoria_producto_servicio"));
+        Integer costoPuntos = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_costo_puntos")));
+        Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
+        ColaboradorJuridico ofertante = (ColaboradorJuridico) colaboradorJuridicoPosible.get();
+        Oferta oferta = new Oferta(nombreOferta,descripcion,tipoDeOferta,categoriaOferta,ofertante,costoPuntos);
+        oferta.completar();
 
+        withTransaction(()->{
+           repositorio.guardar(oferta);
+        });
+        context.redirect("/donaciones");
+    }
+
+    public void misEstaciones( Context context) {
+        Map<String, Object> model = new HashMap<>();
+
+        List<Heladera> heladeras = repositorioMantenciones
+                .buscarPorColaboradorId(context.sessionAttribute("id_colaborador"))
+                .stream()
+                .map(MantenerHeladera::getHeladera)
+                .collect(Collectors.toList());
+
+        List<HeladeraDTO> heladerasDTO = heladeras.stream()
+                .map(HeladeraMapper::toDTO)
+                .collect(Collectors.toList());
+
+
+        model.put("heladeras", heladerasDTO);
+
+        context.render("home/estaciones/misEstaciones.hbs", model);
+    }
 }

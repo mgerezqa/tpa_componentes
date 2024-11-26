@@ -20,7 +20,6 @@ import java.util.List;
 @Entity
 @Table(name = "heladeras")
 public class Heladera {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -169,8 +168,8 @@ public class Heladera {
     // ============================================================ //
 
     // Falla de temperatura
-    public Alerta fallaTemperatura() {
-        return IncidenteFactory.crearAlerta(this, "falla_temperatura");
+    public void fallaTemperatura() {
+        IncidenteFactory.crearAlerta(this, "falla_temperatura");
     }
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"
@@ -193,7 +192,7 @@ public class Heladera {
     public  void ingresarVianda(){
         if(this.capacidadActual < this.capacidadMax){
             this.capacidadActual += 1;
-            eventManager.notifyObservers();
+            //eventManager.notifyObservers(); Lo comento porque aun no se hace la funcionalidad de la suscripcion
         }
     }
 
@@ -204,7 +203,20 @@ public class Heladera {
 
         }
     }
-
+    public void agregarCantViandas(Integer cantidad){
+        if(cantidad + this.capacidadActual < capacidadMax){
+            this.capacidadActual+= cantidad;
+        }else{
+            throw new RuntimeException("No se puede agregar esa cantidad porque sobrepasa la cantidad maxima");
+        }
+    }
+    public void quitarCantViandas(Integer cantidad){
+        if(this.capacidadActual - cantidad > 0){
+            this.capacidadActual-= cantidad;
+        }else{
+            throw new RuntimeException("No se puede quitar esa cantidad porque tiene menor cantidad a la especificada");
+        }
+    }
 
 }
 

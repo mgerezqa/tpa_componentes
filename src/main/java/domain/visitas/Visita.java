@@ -2,6 +2,7 @@ package domain.visitas;
 
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
+import domain.incidentes.Incidente;
 import domain.usuarios.Tecnico;
 
 import lombok.Data;
@@ -37,9 +38,18 @@ public class Visita {
     @Column(name = "foto")
     private String foto;
 
+    //Testeo de como funcionaria el tema de mostrar al juridico las visitas vinculadas a un incidente
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "incidente_id", nullable = false)
+    private Incidente incidente;
+
+    @Column(name = "resuelto")
+    private Boolean resuelto;
+
     public void incidenteResuelto(Boolean resuelto){
         if(resuelto) {
             heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
+
         }
     }
 }
