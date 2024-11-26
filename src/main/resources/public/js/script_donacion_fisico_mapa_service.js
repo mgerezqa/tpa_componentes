@@ -1,34 +1,34 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicialización del mapa y configuración inicial
+document.addEventListener('DOMContentLoaded', async function() {
     const map2 = L.map('map-service').setView([-34.6037, -58.3816], 12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '© OpenStreetMap contributors'
     }).addTo(map2);
 
-    // Variable para el marcador seleccionado
     let selectedMarker = null;
+    let communityMarkers = [];
 
-    // Añadir evento para obtener dirección al hacer clic en el mapa
     map2.on('click', async (e) => {
         const { lat, lng } = e.latlng;
 
         try {
-            // Obtener dirección a partir de las coordenadas
             const address = await getAddressFromCoords(lat, lng);
-
-            // Actualizar campos en el panel de información
             actualizarPanelInformacion(address);
-
-            // Añadir o actualizar marcador en el mapa
             manejarMarcadorMapa(e.latlng, address.fullAddress);
+
+            // Obtener valores de los filtros
+            const maxComunidades = document.getElementById('max-comunidades').value;
+            const radioMaximo = document.getElementById('radio-maximo').value;
+
+            // Enviar coordenadas al backend para obtener comunidades recomendadas
+            const comunidades = await obtenerComunidadesRecomendadas(lat, lng, maxComunidades, radioMaximo);
+            actualizarComunidadesEnMapa(comunidades.comunidades); // Acceder a la propiedad 'comunidades'
         } catch (error) {
-            console.error('Error al obtener la dirección:', error);
-            alert('No se pudo obtener la dirección. Por favor, intenta de nuevo.');
+            console.error('Error al obtener la dirección o las comunidades:', error);
+            alert('No se pudo obtener la dirección o las comunidades. Por favor, intenta de nuevo.');
         }
     });
 
-    // Función para obtener la dirección a partir de coordenadas
     async function getAddressFromCoords(lat, lng) {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
         if (!response.ok) throw new Error('Error al obtener la dirección');
@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Función para actualizar el panel de información con la dirección obtenida
     function actualizarPanelInformacion(address) {
         document.getElementById('comunidad-direccion').value = address.fullAddress;
         document.getElementById('comunidad-barrio').value = address.neighborhood;
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('comunidad-provincia').value = address.state;
     }
 
-    // Función para manejar la creación o actualización del marcador en el mapa
     function manejarMarcadorMapa(latlng, fullAddress) {
         if (selectedMarker) {
             selectedMarker.setLatLng(latlng).bindPopup(`Dirección: ${fullAddress}`).openPopup();
@@ -60,12 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Detectar el evento de expansión del panel para recalcular el tamaño del mapa
     document.getElementById('contenedor_donar_por_ubicacion_service').addEventListener('shown.bs.collapse', function () {
         map2.invalidateSize();
     });
 
-    // Evento para el botón "Según mi ubicación actual"
     document.getElementById('btn-mi-ubicacion-actual').addEventListener('click', function() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -78,15 +74,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
-        // Usar la función existente para obtener la dirección y actualizar el panel
         getAddressFromCoords(lat, lon)
             .then(address => {
                 actualizarPanelInformacion(address);
                 manejarMarcadorMapa({ lat, lng: lon }, address.fullAddress);
+
+                // Obtener valores de los filtros
+                const maxComunidades = document.getElementById('max-comunidades').value;
+                const radioMaximo = document.getElementById('radio-maximo').value;
+
+                // Enviar coordenadas al backend para obtener comunidades recomendadas
+                obtenerComunidadesRecomendadas(lat, lon, maxComunidades, radioMaximo).then(comunidades => {
+                    actualizarComunidadesEnMapa(comunidades.comunidades); // Acceder a la propiedad 'comunidades'
+                });
             })
             .catch(error => {
-                console.error('Error al obtener la dirección:', error);
-                alert('No se pudo obtener la dirección. Por favor, intenta de nuevo.');
+                console.error('Error al obtener la dirección o las comunidades:', error);
+                alert('No se pudo obtener la dirección o las comunidades. Por favor, intenta de nuevo.');
             });
     }
 
@@ -106,4 +110,51 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
         }
     }
+
+    // Función para obtener las comunidades recomendadas desde el backend
+    async function obtenerComunidadesRecomendadas(latitud, longitud, max, distanciaMax) {
+        try {
+            const response = await fetch(`http://localhost:8081/recomendacion-comunidades?latitud=${latitud}&longitud=${longitud}&max=${max}&distanciaMax=${distanciaMax}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al obtener las comunidades recomendadas');
+            }
+
+            const textResponse = await response.text();
+            console.log("Text Response:", textResponse);
+            const data = JSON.parse(textResponse);
+            console.log("Comunidades obtenidas:", data);
+            return data;
+        } catch (error) {
+            console.error('Error al obtener las comunidades recomendadas:', error);
+        }
+    }
+
+    // Función para actualizar las comunidades en el mapa
+    function actualizarComunidadesEnMapa(comunidades) {
+        // Eliminar los marcadores anteriores
+        communityMarkers.forEach(marker => map2.removeLayer(marker));
+        communityMarkers = [];
+
+        // Agregar los nuevos marcadores
+        comunidades.forEach(comunidad => {
+            const marker = L.marker([comunidad.lat, comunidad.lon], { icon: redIcon }).addTo(map2)
+                .bindPopup(`<b>${comunidad.nombre}</b><br>${comunidad.direccion}`);
+            communityMarkers.push(marker);
+        });
+    }
+
+    // Crear un icono  para las comunidades
+    const redIcon = new L.Icon({
+        iconUrl: 'http://localhost:8081/img/assets/icon-community.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
 });
