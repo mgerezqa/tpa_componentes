@@ -95,7 +95,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         Ubicacion ubicacion2 = new Ubicacion(latitud2,longitud2,calle2,provincia2,localidad2,barrio2);
         ModeloDeHeladera modeloB = modelosHeladerasPorDefecto.get(1);
         String nombreHeladera2 = "Heladera Cevallos";
-        Integer capacidadMax2 = 300;
+        Integer capacidadMax2 = 500;
         Heladera heladera2 = new Heladera(modeloB,nombreHeladera2,ubicacion2,capacidadMax2);
         heladera2.agregarCantViandas(200);
 
@@ -110,7 +110,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         String nombreHeladera3 = "Heladera San jose";
         Integer capacidadMax3 = 500;
         Heladera heladera3 = new Heladera(modeloC,nombreHeladera3,ubicacion3,capacidadMax3);
-        heladera2.agregarCantViandas(100);
+        heladera3.agregarCantViandas(100);
 
         Calle calle4 = new Calle("Piedras","1102");
         Barrio barrio4 = new Barrio("San Telmo");
@@ -123,7 +123,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         String nombreHeladera4 = "Heladera Piedras";
         Integer capacidadMax4 = 600;
         Heladera heladera4 = new Heladera(modeloD,nombreHeladera4,ubicacion4,capacidadMax4);
-        heladera2.agregarCantViandas(300);
+        heladera4.agregarCantViandas(300);
 
         repositorio.guardar(heladera1);
         repositorio.guardar(heladera2);
