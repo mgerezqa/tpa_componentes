@@ -1,0 +1,45 @@
+{{#partial "titulo"}}
+    {{#if edit}}
+        <i class="bi bi-pencil-square"></i> Editar Donacion
+    {{else}}
+        <i class="bi bi-plus-circle-fill"></i> Crear Donacion
+    {{/if}}
+{{/partial}}
+{{#partial "form"}}
+    <form action="{{action}}" method="POST">
+        <div class="mb-3">
+            <label for="cantidadDonacionEdit" class="form-label">Cantidad</label>
+            <input type="number" class="form-control" id="nombreHeladeraEdit" placeholder="Ingrese Cantidad"
+                   name="nombreHeladera"
+                   value="{{dinero.cantidad}}"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="colaboradorDonanteEdit" class="form-label">Colaborador Donante</label>
+            <input type="text" class="form-control" id="modeloHeladeraEdit" placeholder="Ingrese Colaborador"
+                   name="colaboradorDonante"
+                   value="{{dinero.colaboradorQueLaDono}}"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="frecuenciaDonacionEdit" class="form-label">Frecuencia</label>
+            <select class="form-control" id="frecuenciaDonacionEdit" name="frecuencia" required>
+                <option value="" disabled selected>Seleccione una frecuencia</option>
+                <option value="SEMANAL">Semanal</option>
+                <option value="MENSUAL">Mensual</option>
+                <option value="ANUAL">Anual</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="fechaDonacionEdit" class="form-label">Fecha de Donacion</label>
+            <input type="date" class="form-control" id="fechaInicioFuncionamientoEdit"
+                   name="fechaInicioFuncionamiento"
+                   value="{{dinero.fechaDonacion}}"
+                   required>
+        </div>
+    </form>
+{{/partial}}
+{{> templates/dashboard/forms/base}}

@@ -22,14 +22,29 @@ import utils.Broker.receptors.ReceptorApertura;
 import utils.Broker.receptors.ReceptorAutorizacion;
 import utils.Broker.receptors.ReceptorMov;
 import utils.Broker.receptors.ReceptorTemp;
+import utils.cargaMasiva.ImportadorCSV;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceLocator {
     private static Map<String, Object> instances = new HashMap<>();
 
+    public static void close() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
+    }
 
+    private static EntityManagerFactory entityManagerFactory; // Fábrica de EntityManager
+
+    static {
+        // Crear la fábrica de EntityManager una sola vez
+        entityManagerFactory = Persistence.createEntityManagerFactory("simple-persistence-unit");
+    }
     @SuppressWarnings("unchecked")
     public static <T> T instanceOf(Class<T> componentClass) {
         String componentName = componentClass.getName();
@@ -37,6 +52,10 @@ public class ServiceLocator {
         if (!instances.containsKey(componentName)) {
             if(componentName.equals(ControladorHeladeras.class.getName())) {
                 ControladorHeladeras instance = new ControladorHeladeras(instanceOf(RepositorioHeladeras.class));
+                instances.put(componentName, instance);
+            }
+            else if (componentName.equals(EntityManager.class.getName())) {
+                EntityManager instance = entityManagerFactory.createEntityManager();
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(RepositorioHeladeras.class.getName())) {
@@ -100,6 +119,30 @@ public class ServiceLocator {
             }
             else if(componentName.equals(RepositorioRoles.class.getName())){
                 RepositorioRoles instance = new RepositorioRoles();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ControladorDonacionDinero.class.getName())){
+                ControladorDonacionDinero instance = new ControladorDonacionDinero(instanceOf(RepositorioDonacionesDinero.class), instanceOf(RepositorioColaboradores.class));
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ControladorViandas.class.getName())){
+                ControladorViandas instance = new ControladorViandas(instanceOf(RepositorioViandas.class), instanceOf(RepositorioColaboradores.class), instanceOf(RepositorioHeladeras.class));
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(RepositorioViandas.class.getName())){
+                RepositorioViandas instance = new RepositorioViandas();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(RepositorioDonacionesDinero.class.getName())){
+                RepositorioDonacionesDinero instance = new RepositorioDonacionesDinero();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ControladorCargaMasiva.class.getName())){
+                ControladorCargaMasiva instance = new ControladorCargaMasiva(instanceOf(ImportadorCSV.class));
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ImportadorCSV.class.getName())){
+                ImportadorCSV instance = new ImportadorCSV(instanceOf(RepositorioColaboradores.class));
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(RepositorioModeloHeladeras.class.getName())){

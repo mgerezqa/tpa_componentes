@@ -1,34 +1,35 @@
 package domain.reportes;
 
 import domain.heladera.Heladera.Heladera;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utils.reportador.Reportador;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@DiscriminatorValue("reporte_viandas_por_heladera")
 public class ReporteViandasHeladera extends Reporte{
-    @Getter @Setter
-    private Heladera heladera;
-    @Getter @Setter
-    private LocalDateTime fecha;
-    @Getter @Setter
-    private String id;
-    @Setter
-    private Reportador reportador;
 
-    public ReporteViandasHeladera() {
-        this.heladera = heladera;
-        this.fecha = fecha;
-        this.id = id;
-        this.reportador = reportador;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reporte_viandas_por_heladera_id")
+    private List<Heladera> heladeras;
+
     @Override
     public void reportar(){
-        Map<String, Integer> reporteViandas = reportador.generarReporteViandasPorHeladera(heladera);
-        System.out.println("\nReporte de cantidad de viandas retiradas/colocadas por heladera:");
-        reporteViandas.forEach((heladera, cantidad) -> System.out.println(heladera + ": " + cantidad));
+        for (Heladera heladera : heladeras) {
+            Map<String, Integer> reporteFallas = reportador.generarReporteViandasPorHeladera(heladera);
+            System.out.println("Reporte de cantidad de fallas por heladera: ");
+            reporteFallas.forEach((nombreHeladera, cantidad) -> System.out.println(heladera + ": " + cantidad));
+        }
     }
 
 }

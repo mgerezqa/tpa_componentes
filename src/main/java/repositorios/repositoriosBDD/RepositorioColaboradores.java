@@ -31,6 +31,10 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
         return entityManager().find(Colaborador.class, id);
     }
 
+    public ColaboradorFisico obtenerFisicoId(Long id){
+        return entityManager().find(ColaboradorFisico.class, id);
+    }
+
     @SuppressWarnings("unchecked")
     public List<Colaborador> colaboradoresActivos() {
         return entityManager()

@@ -1,11 +1,16 @@
 package repositorios.repositoriosBDD;
 
 import domain.donaciones.Vianda;
+import domain.usuarios.ColaboradorFisico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
 
 import java.util.List;
 
-public class RepositorioViandas implements WithSimplePersistenceUnit {
+import java.util.Arrays;
+import java.util.List;
+
+public class RepositorioViandas extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(Vianda vianda){
         entityManager().persist(vianda);
@@ -26,6 +31,12 @@ public class RepositorioViandas implements WithSimplePersistenceUnit {
         return entityManager()
                 .createQuery("FROM Vianda v WHERE v.colaboradorQueLaDono.id = :colaboradorId", Vianda.class)
                 .setParameter("colaboradorId", colaboradorId)
+                .getResultList();
+    }
+
+    public List<Vianda> obtenerViandas(){
+        return entityManager()
+                .createQuery("FROM Vianda", Vianda.class)
                 .getResultList();
     }
 }

@@ -1,195 +1,44 @@
-<!-- Seccion Donaciones de Viandas -->
-<section id="listado-de-donaciones-viandas" class="d-none">
-    <p class="lead">Listado de donaciones de viandas</p>
-    <hr>
+{{#partial "contenido"}}
+    <section class="mt-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1>Listado de viandas</h1>
+                <a href="/dashboard/donaciones/viandas/crear-vianda" class="btn btn-primary">Crear Vianda</a>
+            </div>
 
-    <div class="container">
-        <!-- Botón para abrir el modal de crear -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearDonacionDeVianda">Crear Donación de Vianda</button>
-
-        <!-- Tabla de Donación Vianda -->
-        <table class="table mt-3">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Colaborador id</th>
-                <th>Heladera id</th>
-                <th>Fecha de vencimiento</th>
-                <th>Fecha de donación</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Listado de Beneficiarios  -->
-            <tr>
-                <td>1</td>
-                <td>4</td>
-                <td>5</td>
-                <td>11/08/2024</td>
-                <td>11/08/2028</td>
-                <td>
-                    <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarDonacionVianda" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-
-                    <!-- Botón para baja lógica  -->
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarDonacionVianda" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
-                        <i class="bi bi-arrow-down-circle"></i>
-                    </button>
-
-                    <!-- Botón para abrir el modal de eliminación -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarDonacionVianda" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-
-
-            </tr>
-
-            <!-- Modal de edición para una vianda -->
-            <div class="modal fade" id="modalEditarDonacionVianda" tabindex="-1" aria-labelledby="modalEditarDonacionVianda" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-warning text-dark">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Donación</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <!-- Buscar colaborador -->
-                                <div class="mb-3">
-                                    <label for="editarDonacionViandaColaboradorId" class="form-label">Colaborador</label>
-                                    <select class="form-select" id="editarDonacionViandaColaboradorId" required>
-                                        <option value="" disabled>Seleccionar colaborador id...</option>
-                                        <option value="1" >1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionViandaHeladeraId" class="form-label">Heladera</label>
-                                    <select class="form-select" id="editarDonacionViandaHeladeraId" required>
-                                        <option value="" disabled>Seleccionar heladera id...</option>
-                                        <option value="1" >1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionDeViandaFecha" class="form-label">Fecha de donación</label>
-                                    <input type="date" class="form-control" id="editarDonacionDeViandaFecha" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionDeFechaVencimiento" class="form-label">Fecha de vencimiento</label>
-                                    <input type="date" class="form-control" id="editarDonacionDeFechaVencimiento" required>
-                                </div>
-
+            <!-- Tabla de Viandas -->
+            <table class="table table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Colaborador ID</th>
+                    <th>Heladera ID</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Fecha de Donación</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterar sobre las viandas registradas -->
+                {{#each viandas}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.colaboradorDonanteId}}</td>
+                        <td>{{this.heladeraActualId}}</td>
+                        <td>{{this.fechaVencimiento}}</td>
+                        <td>{{this.fechaDonacion}}</td>
+                        <td>
+                            <!-- Botones para acciones (editar, eliminar, etc.) -->
+                            <a href="/dashboard/donaciones/viandas/{{this.id}}/edit" class="btn btn-warning btn-sm">Editar</a>
+                            <form action="/dashboard/donaciones/viandas/{{this.id}}/delete" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal de eliminación para un beneficiario  -->
-            <div class="modal fade" id="modalEliminarDonacionVianda" tabindex="-1" aria-labelledby="modalEliminarDonacionVianda" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Eliminar Donación</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas eliminar a esta donación?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal de deshabilitación  -->
-            <div class="modal fade" id="modalDeshabilitarDonacionDinero" tabindex="-1" aria-labelledby="modalDeshabilitarDonacionDinero" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Desactivar Beneficiario</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal de creación -->
-    <div class="modal fade" id="modalCrearDonacionDeVianda" tabindex="-1" aria-labelledby="modalCrearDonacionDeVianda" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear donación de dinero</h5>
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <!-- Buscar colaborador -->
-                        <div class="mb-3">
-                            <label for="donacionViandaColaboradorId" class="form-label">Colaborador</label>
-                            <select class="form-select" id="donacionViandaColaboradorId" required>
-                                <option value="" disabled>Seleccionar colaborador id...</option>
-                                <option value="1" >1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionViandaHeladeraId" class="form-label">Heladera</label>
-                            <select class="form-select" id="donacionViandaHeladeraId" required>
-                                <option value="" disabled>Seleccionar heladera id...</option>
-                                <option value="1" >1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionDeViandaFecha" class="form-label">Fecha de donación</label>
-                            <input type="date" class="form-control" id="donacionDeViandaFecha" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionDeViandaFechaVencimiento" class="form-label">Fecha de vencimiento</label>
-                            <input type="date" class="form-control" id="donacionDeViandaFechaVencimiento" required>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                </div>
-            </div>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
         </div>
-    </div>
-</section>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}

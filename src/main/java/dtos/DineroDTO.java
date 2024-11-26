@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class DineroDTO {
 
     private Integer cantidad;
-    private FrecuenciaDeDonacion frecuencia;
-    private String colaboradorId;
+    private String frecuencia;
+    private Long colaboradorId;
     private LocalDate fechaDeDonacion;
 
 }
