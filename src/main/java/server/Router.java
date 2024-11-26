@@ -140,6 +140,10 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove,RoleENUM.ADMIN);
 
+        //dashboard/donaciones
+        app.get("/dashboard/donaciones/dinero", ServiceLocator.instanceOf(ControladorDonacionDinero.class)::index,RoleENUM.ADMIN);
+
+
         // // //
 
         // Ruta para carga masiva de donaciones

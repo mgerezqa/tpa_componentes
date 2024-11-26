@@ -167,6 +167,9 @@ public class ServiceLocator {
             else if (componentName.equals(ControladorCargaMasiva.class.getName())) {
                 ControladorCargaMasiva instance = new ControladorCargaMasiva(instanceOf(ImportadorCSV.class));
                 instances.put(componentName, instance);
+            }else if (componentName.equals(ControladorDonacionDinero.class.getName())) {
+                ControladorDonacionDinero instance = new ControladorDonacionDinero(instanceOf(RepositorioDonacionesDinero.class));
+                instances.put(componentName, instance);
             }
 
         }

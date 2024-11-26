@@ -1,5 +1,6 @@
 package utils.cargaMasiva;
 import domain.donaciones.*;
+import domain.puntos.CalculadoraPuntos;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorFisico;
 
@@ -16,17 +17,18 @@ public class GeneradorDonacion {
     }
 
     private static Dinero generarDinero(RegistroCSV lecturaRegistro, Colaborador colaborador) {
-        // La cantidad se toma directamente del CSV
+
         return new Dinero(
                 lecturaRegistro.getCantidad(),
                 FrecuenciaDeDonacion.FRECUENCIA_UNICA,  // Por defecto si no se especifica otra frecuencia
                 lecturaRegistro.getFechaColab(),
                 colaborador
         );
+
     }
 
     private static Vianda generarVianda(RegistroCSV lecturaRegistro, ColaboradorFisico colaborador) {
-        // Crea una donación de tipo Vianda con la cantidad especificada
+
         return new Vianda(null, lecturaRegistro.getFechaColab(), colaborador);
     }
 

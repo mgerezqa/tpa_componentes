@@ -21,81 +21,45 @@
             </thead>
             <tbody>
             <!-- Listado de Beneficiarios  -->
-            <tr>
-                <td>1</td>
-                <td>4</td>
-                <td>20500</td>
-                <td>FRECUENCIA_MENSUAL</td>
-                <td>11/08/2024</td>
+            {{#each dinero}}
+            <tbody>
+                <td>{{this.id}}</td>
+                <td>{{this.colaboradorId}}</td>
+                <td>{{this.cantidad}}</td>
+                <td>{{this.frecuencia}}</td>
+                <td>{{this.fechaDeDonacion}}</td>
                 <td>
+
                     <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarDonacionDinero" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                    <button class="btn btn-warning"
+                            hx-get="/dashboard/donaciones/dinero/{{this.id}}/edit"
+                            hx-target="#modalEditarDonacionDinero .modal-content"
+                            hx-trigger="click"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalEditarDonacionDinero"
+                            title="Editar">
                         <i class="bi bi-pencil-square"></i>
                     </button>
 
-                    <!-- Botón para baja lógica  -->
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarDonacionDinero" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
+                    <!-- Botón para baja lógica -->
+                    <button class="btn btn-outline-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalDeshabilitarDonacionDinero"
+                            data-id="{{this.id}}">
                         <i class="bi bi-arrow-down-circle"></i>
                     </button>
 
                     <!-- Botón para abrir el modal de eliminación -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarDonacionDinero" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                    <button class="btn btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalEliminarDonacionDinero"
+                            data-id="{{this.id}}">
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>
+            </tbody>
+            {{/each}}
 
-
-            </tr>
-
-            <!-- Modal de edición para donacion de dinero -->
-            <div class="modal fade" id="modalEditarDonacionDinero" tabindex="-1" aria-labelledby="modalEditarDonacionDinero" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-warning text-dark">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Donación</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <!-- Buscar colaborador -->
-                                <div class="mb-3">
-                                    <label for="editarDonacionColaboradorId" class="form-label">Colaborador</label>
-                                    <select class="form-select" id="editarDonacionColaboradorId" required>
-                                        <option value="" disabled>Seleccionar colaborador id...</option>
-                                        <option value="1" >1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editarDonacionCantidadDinero" class="form-label">Cantidad</label>
-                                    <input type="number" class="form-control" id="editarDonacionCantidadDinero" placeholder="Ingrese Cantidad" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionFrecuenciaDinero" class="form-label">Frecuencia</label>
-                                    <select class="form-select" id="editarDonacionFrecuenciaDinero" required>
-                                        <option value="" disabled>Seleccionar tipo...</option>
-                                        <option value="1" selected>MENSUAL</option> <!-- Opción seleccionada -->
-                                        <option value="2">ANUAL</option>
-                                        <option value="3">SEMANAL</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionDeDineroFecha" class="form-label">Fecha de donación</label>
-                                    <input type="date" class="form-control" id="editarDonacionDeDineroFecha" required>
-                                </div>
-
-                            </form>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Modal de eliminación donacion de dinero  -->
             <div class="modal fade" id="modalEliminarDonacionDinero" tabindex="-1" aria-labelledby="modalEliminarDonacionDinero" aria-hidden="true">

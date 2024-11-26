@@ -6,6 +6,7 @@ import domain.contacto.Email;
 import domain.donaciones.*;
 import domain.formulario.documentos.Documento;
 import domain.mensajeria.EmailSender;
+import domain.puntos.CalculadoraPuntos;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
@@ -27,6 +28,8 @@ public class ImportadorCSV {
 
     public EmailSender emailSender = EmailSender.getInstance();
 
+    static CalculadoraPuntos calculadoraPuntos = new CalculadoraPuntos();
+
     public ImportadorCSV(RepositorioColaboradores repositorioColaboradores) {
         this.repositorioColaboradores = repositorioColaboradores;
     }
@@ -42,6 +45,21 @@ public class ImportadorCSV {
                 RegistroCSV registro = new RegistroCSV(campos);
                 ColaboradorFisico colaborador = buscarOAgregarColaborador(registro, colaboradores, em, repositorioColaboradores);
                 Donacion donacion = GeneradorDonacion.generar(registro, colaborador);
+
+                int puntos = 0;
+                if (donacion instanceof Dinero) {
+                    puntos = calculadoraPuntos.puntosPesosDonados((Dinero) donacion);
+                } else if (donacion instanceof Vianda) {
+                    puntos = calculadoraPuntos.puntosViandasDonadas(1); // Asumes 1 vianda por registro
+                } else if (donacion instanceof Distribuir) {
+                    puntos = calculadoraPuntos.puntosViandasDistribuidas(((Distribuir) donacion).getCantidad());
+                } else if (donacion instanceof RegistroDePersonaVulnerable) {
+                    puntos = calculadoraPuntos.puntosTarjetasRepatidas(1); // Asumes 1 tarjeta por registro
+                }
+
+                // Registrar puntos al colaborador
+                colaborador.sumarPuntos(puntos);
+
 
                 em.getTransaction().begin();
                 em.persist(donacion); // Solo persiste la donación
