@@ -180,9 +180,10 @@ public class Initializer implements WithSimplePersistenceUnit {
         Cuil cuilTecnico = new Cuil("20", "12145678", "4");
         Tecnico tecnico = new Tecnico("nombreTecnico","apellidoTecnico",documentoTecnico,cuilTecnico);
         Provincia provinciaTecnico = new Provincia("Buenos Aires");
-        Ubicacion ubicacionTecnico = new Ubicacion(-34.6044723f, -58.3816322f, new Calle("rivadavia", "14345")); // Coordenadas de Buenos Aires
+        Ubicacion ubicacionTecnico = new Ubicacion(-34.59935470126518f, -58.41951091983598f, new Calle("rivadavia", "14345")); // Coordenadas de Buenos Aires
         ubicacionTecnico.setProvincia(provinciaTecnico);
-        AreaDeCobertura areaTecnico = new AreaDeCobertura(ubicacionTecnico, TamanioArea.MEDIANA);
+        AreaDeCobertura areaTecnico = new AreaDeCobertura(ubicacionTecnico, TamanioArea.GRANDE);
+
         Whatsapp whatsappTecnico = new Whatsapp("+5491123256789");
         Email emailTecnico = new Email("tecnico1@example.com");
         Telegram telegramTecnico = new Telegram("tecnico1_telegram");
