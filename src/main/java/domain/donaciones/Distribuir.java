@@ -20,11 +20,11 @@ import java.time.LocalDate;
 public class Distribuir extends Donacion{
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "heladera_origen_id", nullable = false)
+    @JoinColumn(name = "heladera_origen_id")
     private Heladera heladeraOrigen;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "heladera_destino_id", nullable = false)
+    @JoinColumn(name = "heladera_destino_id")
     private Heladera heladeraDestino;
 
     @Column(name = "cantidad", nullable = false)
@@ -47,6 +47,11 @@ public class Distribuir extends Donacion{
         this.cantidad = cantidad;
         heladeraOrigen.quitarCantViandas(cantidad); //Debe ir primero
         heladeraDestino.agregarCantViandas(cantidad);
+    }
+    public Distribuir(ColaboradorFisico colaboradorQueLaDono,Integer cantidad, LocalDate fechaDeDonacion){
+        super(colaboradorQueLaDono);
+        this.cantidad = cantidad;
+        this.fechaDeDonacion = fechaDeDonacion;
     }
     @Override
     public String getTipo() {

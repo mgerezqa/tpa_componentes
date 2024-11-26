@@ -1,6 +1,7 @@
 package domain.usuarios;
 
 import domain.donaciones.Vianda;
+import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.AreaDeCobertura;
 import lombok.*;
 

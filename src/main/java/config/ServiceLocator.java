@@ -1,20 +1,11 @@
 package config;
 
-
 import controladores.*;
-import controladores.ControladorBeneficiarios;
-import controladores.ControladorColaboradorFisico;
-import controladores.ControladorColaboradorJuridico;
-import controladores.ControladorHeladeras;
 import domain.Config;
 import domain.puntos.CalculadoraPuntos;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
-import repositorios.repositoriosBDD.RepositorioColaboradores;
-import repositorios.repositoriosBDD.RepositorioHeladeras;
-import repositorios.repositoriosBDD.RepositorioUsuarios;
-import repositorios.repositoriosBDD.RepositorioVulnerables;
 import utils.Broker.ClientCredentials;
 import utils.Broker.IServiceBroker;
 import utils.Broker.ServiceBroker;
@@ -22,24 +13,41 @@ import utils.Broker.receptors.ReceptorApertura;
 import utils.Broker.receptors.ReceptorAutorizacion;
 import utils.Broker.receptors.ReceptorMov;
 import utils.Broker.receptors.ReceptorTemp;
+import utils.cargaMasiva.ImportadorCSV;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ServiceLocator {
     private static Map<String, Object> instances = new HashMap<>();
+    private static EntityManagerFactory entityManagerFactory; // Fábrica de EntityManager
 
+    static {
+        // Crear la fábrica de EntityManager una sola vez
+        entityManagerFactory = Persistence.createEntityManagerFactory("simple-persistence-unit");
+    }
 
     @SuppressWarnings("unchecked")
     public static <T> T instanceOf(Class<T> componentClass) {
         String componentName = componentClass.getName();
 
         if (!instances.containsKey(componentName)) {
-            if(componentName.equals(ControladorHeladeras.class.getName())) {
+            if (componentName.equals(EntityManager.class.getName())) {
+                EntityManager instance = entityManagerFactory.createEntityManager();
+                instances.put(componentName, instance);
+            } else if (componentName.equals(ControladorHeladeras.class.getName())) {
                 ControladorHeladeras instance = new ControladorHeladeras(instanceOf(RepositorioHeladeras.class));
                 instances.put(componentName, instance);
-            }
-            else if (componentName.equals(RepositorioHeladeras.class.getName())) {
+            } else if (componentName.equals(RepositorioDonacionesDinero.class.getName())) {
+                RepositorioDonacionesDinero instance = new RepositorioDonacionesDinero();
+                instances.put(componentName, instance);
+            } else if (componentName.equals(RepositorioViandas.class.getName())) {
+                RepositorioViandas instance = new RepositorioViandas();
+                instances.put(componentName, instance);
+            } else if (componentName.equals(RepositorioHeladeras.class.getName())) {
                 RepositorioHeladeras instance = new RepositorioHeladeras();
                 instances.put(componentName, instance);
             }
@@ -59,6 +67,10 @@ public class ServiceLocator {
 
             else if(componentName.equals(Repositorio.class.getName())){
                 Repositorio instance = new Repositorio();
+                instances.put(componentName, instance);
+            } else if (componentName.equals(ImportadorCSV.class.getName())) {
+                ImportadorCSV instance = new ImportadorCSV(
+                        instanceOf(RepositorioColaboradores.class));
                 instances.put(componentName,instance);
             }
 
@@ -157,7 +169,23 @@ public class ServiceLocator {
                 RepositorioMantenciones instance = new RepositorioMantenciones();
                 instances.put(componentName, instance);
             }
+            else if (componentName.equals(ControladorCargaMasiva.class.getName())) {
+                ControladorCargaMasiva instance = new ControladorCargaMasiva(instanceOf(ImportadorCSV.class));
+                instances.put(componentName, instance);
+            }else if (componentName.equals(ControladorDonacionDinero.class.getName())) {
+                ControladorDonacionDinero instance = new ControladorDonacionDinero(instanceOf(RepositorioDonacionesDinero.class));
+                instances.put(componentName, instance);
+            }
+
         }
+
         return (T) instances.get(componentName);
+    }
+
+    // Método para cerrar la fábrica de EntityManager al final de la aplicación
+    public static void close() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 }

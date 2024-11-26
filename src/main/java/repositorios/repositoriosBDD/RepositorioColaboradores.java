@@ -12,13 +12,13 @@ import java.util.Optional;
 @Data
 public class RepositorioColaboradores extends Repositorio implements WithSimplePersistenceUnit {
 
-    public void guardar(Colaborador colaborador){
+    public void guardar(Colaborador colaborador) {
         entityManager().persist(colaborador);
     }
 
-    public void eliminarPorId(String id){
+    public void eliminarPorId(String id) {
         Colaborador colaborador = entityManager().find(Colaborador.class, id);
-        if(colaborador != null){
+        if (colaborador != null) {
             entityManager().remove(colaborador);
         }
     }
@@ -27,26 +27,26 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
         entityManager().remove(colaborador);
     }
 
-    public Colaborador obtenerPorId(Long id){
+    public Colaborador obtenerPorId(Long id) {
         return entityManager().find(Colaborador.class, id);
     }
 
     @SuppressWarnings("unchecked")
-    public List<Colaborador> colaboradoresActivos(){
+    public List<Colaborador> colaboradoresActivos() {
         return entityManager()
-                .createQuery("FROM Colaborador c WHERE c.activo = true" + Colaborador.class)
+                .createQuery("FROM Colaborador c WHERE c.activo = true", Colaborador.class)
                 .getResultList();
     }
 
-    public List<ColaboradorFisico> obtenerColaboradoresFisicos(){
+    public List<ColaboradorFisico> obtenerColaboradoresFisicos() {
         return entityManager()
                 .createQuery("FROM ColaboradorFisico", ColaboradorFisico.class)
                 .getResultList();
     }
 
-    public List<ColaboradorJuridico> obtenerColaboradoresJuridicos(){
+    public List<ColaboradorJuridico> obtenerColaboradoresJuridicos() {
         return entityManager()
-                .createQuery("FROM ColaboradorJuridico ", ColaboradorJuridico.class)
+                .createQuery("FROM ColaboradorJuridico", ColaboradorJuridico.class)
                 .getResultList();
     }
 
@@ -70,4 +70,11 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
                 .findFirst();
     }
 
+    public Optional<Colaborador> buscarPorDocumento(String numeroDocumento) {
+        return entityManager()
+                .createQuery("SELECT c FROM Colaborador c WHERE c.documento.numeroDeDocumento = :numeroDocumento", Colaborador.class)
+                .setParameter("numeroDocumento", numeroDocumento)
+                .getResultStream()
+                .findFirst();
+    }
 }

@@ -172,8 +172,23 @@
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin-rendering</artifactId>
-            <version>6.3.0</version>
+            <version>5.6.5</version>
         </dependency>
+
+
+        <!-- CSV: CARGA MASIVA -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.7.1</version> <!-- Usa la versión más reciente disponible -->
+        </dependency>
+
+        <dependency>
+            <groupId>io.javalin</groupId>
+            <artifactId>javalin</artifactId>
+            <version>6.2.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

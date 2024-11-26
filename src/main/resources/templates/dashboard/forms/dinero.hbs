@@ -1,0 +1,51 @@
+<!-- Modal de edición para donacion de dinero -->
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar donación</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+                <form action="{{action}}" method="POST">
+
+                    <!-- Buscar colaborador -->
+                    <div class="mb-3">
+                        <label for="editarDonacionColaboradorId" class="form-label">Colaborador</label>
+                        <select class="form-select" id="editarDonacionColaboradorId" required>
+                            <option value="" disabled selected>Seleccionar colaborador id...</option>
+                            {{#each colaboradores}}
+                                <option value="{{id}}">{{id}} - {{nombre}}</option> <!-- Muestra id y nombre, si existe -->
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editarDonacionCantidadDinero" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control" id="editarDonacionCantidadDinero" placeholder="Ingrese Cantidad" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editarDonacionFrecuenciaDinero" class="form-label">Frecuencia</label>
+                        <select class="form-select" id="editarDonacionFrecuenciaDinero" required>
+                            <option value="" disabled>Seleccionar tipo...</option>
+                            <option value="1" selected>MENSUAL</option> <!-- Opción seleccionada -->
+                            <option value="2">ANUAL</option>
+                            <option value="3">SEMANAL</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editarDonacionDeDineroFecha" class="form-label">Fecha de donación</label>
+                        <input type="date" class="form-control" id="editarDonacionDeDineroFecha" required>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
