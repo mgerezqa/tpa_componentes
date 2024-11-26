@@ -18,13 +18,12 @@ import config.ServiceLocator;
 import controladores.*;
 import io.javalin.Javalin;
 import io.github.flbulgarelli.jpa.extras.test.SimplePersistenceTest;
-import io.javalin.http.UploadedFile;
 import io.javalin.http.HttpStatus;
+import io.javalin.http.UploadedFile;
 import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
-import java.util.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -68,6 +67,7 @@ public class Router implements SimplePersistenceTest{
             model.put("admin", esAdmin);
             ctx.render("/index.hbs", model);
         });
+
 
         //Dashboard
         app.get("/dashboard",(ctx) ->{
@@ -139,9 +139,7 @@ public class Router implements SimplePersistenceTest{
 
         //dashboard/donaciones
         app.get("/dashboard/donaciones/dinero", ServiceLocator.instanceOf(ControladorDonacionDinero.class)::index,RoleENUM.ADMIN);
-
-
-        // // //
+        app.get("/dashboard/donaciones/viandas", ServiceLocator.instanceOf(ControladorViandas.class)::index,RoleENUM.ADMIN);
 
         // Ruta para carga masiva de donaciones
         app.post("/dashboard/carga-masiva", ctx -> {
@@ -200,7 +198,6 @@ public class Router implements SimplePersistenceTest{
         app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);
         app.post("/juridico/signup", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::signup);
 
-
         // Login con usuario
         app.post("/login",ServiceLocator.instanceOf(ControladorUsuario.class)::login);
 
@@ -210,7 +207,9 @@ public class Router implements SimplePersistenceTest{
             ctx.redirect("/");
         });
 
-        // FISICO/JURIDICO/TECNICO
+        //Rutas del dashboard de los colaboradores,tecnicos
+
+        // /Home -> Dashboard de colaboradores, tecnicos
         app.get("/home",ServiceLocator.instanceOf(ControladorUsuario.class)::home,RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
         app.get("/estaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();

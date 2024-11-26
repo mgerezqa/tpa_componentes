@@ -2,10 +2,13 @@ package controladores;
 import domain.heladera.Heladera.Heladera;
 import domain.incidentes.Incidente;
 import domain.incidentes.IncidenteFactory;
+import domain.reportes.Reporte;
+import domain.reportes.ReporteFallas;
 import domain.usuarios.Usuario;
 import dtos.FallaTecnicaDTO;
 import repositorios.interfaces.IRepositorioHeladeras;
 import repositorios.interfaces.IRepositorioIncidentes;
+import repositorios.interfaces.IRepositorioReportes;
 import repositorios.interfaces.IRepositorioUsuarios;
 
 public class ControladorFallasTecnicas {
@@ -13,6 +16,7 @@ public class ControladorFallasTecnicas {
     private IRepositorioIncidentes repositorioIncidentes;
     private IRepositorioHeladeras repositorioHeladeras;
     private IRepositorioUsuarios repositorioUsuarios;
+    private IRepositorioReportes repositorioReportes;
 
     public ControladorFallasTecnicas(IRepositorioIncidentes repositorioIncidentes, IRepositorioHeladeras repositorioHeladeras, IRepositorioUsuarios repositorioUsuarios) {
         this.repositorioIncidentes = repositorioIncidentes;

@@ -43,6 +43,8 @@ public class Vianda extends Donacion {
         this.peso = peso;
     }
 
+    private Boolean activa;
+
     // ============================================================ //
 
     // < INGRESO DE VIANDAS A UNA HELADERA > //

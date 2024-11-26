@@ -2,10 +2,11 @@ package repositorios.repositoriosBDD;
 
 import domain.donaciones.Dinero;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
 
 import java.util.List;
 
-public class RepositorioDonacionesDinero implements WithSimplePersistenceUnit {
+public class RepositorioDonacionesDinero extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(Dinero donacionDinero){
         entityManager().persist(donacionDinero);

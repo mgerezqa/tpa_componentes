@@ -1,11 +1,20 @@
 package config;
 
+
 import controladores.*;
+import controladores.ControladorBeneficiarios;
+import controladores.ControladorColaboradorFisico;
+import controladores.ControladorColaboradorJuridico;
+import controladores.ControladorHeladeras;
 import domain.Config;
 import domain.puntos.CalculadoraPuntos;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
+import repositorios.repositoriosBDD.RepositorioColaboradores;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
+import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.RepositorioVulnerables;
 import utils.Broker.ClientCredentials;
 import utils.Broker.IServiceBroker;
 import utils.Broker.ServiceBroker;
@@ -23,6 +32,13 @@ import java.util.Map;
 
 public class ServiceLocator {
     private static Map<String, Object> instances = new HashMap<>();
+
+    public static void close() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
+    }
+
     private static EntityManagerFactory entityManagerFactory; // Fábrica de EntityManager
 
     static {
@@ -47,7 +63,8 @@ public class ServiceLocator {
             } else if (componentName.equals(RepositorioViandas.class.getName())) {
                 RepositorioViandas instance = new RepositorioViandas();
                 instances.put(componentName, instance);
-            } else if (componentName.equals(RepositorioHeladeras.class.getName())) {
+            }
+            else if (componentName.equals(RepositorioHeladeras.class.getName())) {
                 RepositorioHeladeras instance = new RepositorioHeladeras();
                 instances.put(componentName, instance);
             }
@@ -73,7 +90,6 @@ public class ServiceLocator {
                         instanceOf(RepositorioColaboradores.class));
                 instances.put(componentName,instance);
             }
-
             else if(componentName.equals(ControladorColaboradorJuridico.class.getName())) {
                 ControladorColaboradorJuridico instance = new ControladorColaboradorJuridico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(RepositorioModeloHeladeras.class),instanceOf(RepositorioProvincias.class),instanceOf(RepositorioLocalidades.class),instanceOf(RepositorioBarrios.class),instanceOf(Repositorio.class),instanceOf(CalculadoraPuntos.class),instanceOf(RepositorioMantenciones.class));
                 instances.put(componentName, instance);
@@ -112,6 +128,32 @@ public class ServiceLocator {
             }
             else if(componentName.equals(RepositorioRoles.class.getName())){
                 RepositorioRoles instance = new RepositorioRoles();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(RepositorioModeloHeladeras.class.getName())){
+            }
+            else if(componentName.equals(ControladorDonacionDinero.class.getName())){
+                ControladorDonacionDinero instance = new ControladorDonacionDinero(instanceOf(RepositorioDonacionesDinero.class), instanceOf(RepositorioColaboradores.class));
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ControladorViandas.class.getName())){
+                ControladorViandas instance = new ControladorViandas(instanceOf(RepositorioViandas.class), instanceOf(RepositorioColaboradores.class), instanceOf(RepositorioHeladeras.class));
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(RepositorioViandas.class.getName())){
+                RepositorioViandas instance = new RepositorioViandas();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(RepositorioDonacionesDinero.class.getName())){
+                RepositorioDonacionesDinero instance = new RepositorioDonacionesDinero();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ControladorCargaMasiva.class.getName())){
+                ControladorCargaMasiva instance = new ControladorCargaMasiva(instanceOf(ImportadorCSV.class));
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(ImportadorCSV.class.getName())){
+                ImportadorCSV instance = new ImportadorCSV(instanceOf(RepositorioColaboradores.class));
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(RepositorioModeloHeladeras.class.getName())){
@@ -172,13 +214,8 @@ public class ServiceLocator {
             else if (componentName.equals(ControladorCargaMasiva.class.getName())) {
                 ControladorCargaMasiva instance = new ControladorCargaMasiva(instanceOf(ImportadorCSV.class));
                 instances.put(componentName, instance);
-            }else if (componentName.equals(ControladorDonacionDinero.class.getName())) {
-                ControladorDonacionDinero instance = new ControladorDonacionDinero(instanceOf(RepositorioDonacionesDinero.class));
-                instances.put(componentName, instance);
             }
-
         }
-
         return (T) instances.get(componentName);
     }
 
