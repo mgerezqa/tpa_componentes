@@ -18,6 +18,7 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.Broker.ServiceBroker;
+import utils.notificador.Notificador;
 
 import java.util.*;
 
@@ -161,11 +162,11 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorioRoles.guardar(fisico);
         repositorioRoles.guardar(tecnico);
     }
-    private void instaciarLosDistintosUsuariosRoles(){
-        Usuario admin = new Usuario("admin","admin");
-        Usuario usuarioJuridico = new Usuario("juridico","juridico");
-        Usuario usuarioFisico = new Usuario("fisico","fisico");
-        Usuario usuarioTecnico = new Usuario("tecnico","tecnico");
+    private void instaciarLosDistintosUsuariosRoles() {
+        Usuario admin = new Usuario("admin", "admin");
+        Usuario usuarioJuridico = new Usuario("juridico", "juridico");
+        Usuario usuarioFisico = new Usuario("fisico", "fisico");
+        Usuario usuarioTecnico = new Usuario("tecnico", "tecnico");
         Rol adminRol = repositorioRoles.buscarRolPorNombre(RoleENUM.ADMIN);
         Rol juridicoRol = repositorioRoles.buscarRolPorNombre(RoleENUM.JURIDICO);
         Rol fisicoRol = repositorioRoles.buscarRolPorNombre(RoleENUM.FISICO);
@@ -178,21 +179,24 @@ public class Initializer implements WithSimplePersistenceUnit {
         //Tecnico
         Documento documentoTecnico = new Documento(TipoDocumento.DNI, "12325678");
         Cuil cuilTecnico = new Cuil("20", "12145678", "4");
-        Tecnico tecnico = new Tecnico("nombreTecnico","apellidoTecnico",documentoTecnico,cuilTecnico);
+        Tecnico tecnico = new Tecnico("nombreTecnico", "apellidoTecnico", documentoTecnico, cuilTecnico);
         Provincia provinciaTecnico = new Provincia("Buenos Aires");
-        Ubicacion ubicacionTecnico = new Ubicacion(-34.6044723f, -58.3816322f, new Calle("rivadavia", "14345")); // Coordenadas de Buenos Aires
+        Ubicacion ubicacionTecnico = new Ubicacion(-34.59935470126518f, -58.41951091983598f, new Calle("Medrano", "700")); // Coordenadas de Buenos Aires
         ubicacionTecnico.setProvincia(provinciaTecnico);
-        AreaDeCobertura areaTecnico = new AreaDeCobertura(ubicacionTecnico, TamanioArea.MEDIANA);
+        AreaDeCobertura areaTecnico = new AreaDeCobertura(ubicacionTecnico, TamanioArea.GRANDE);
+
+
         Whatsapp whatsappTecnico = new Whatsapp("+5491123256789");
-        Email emailTecnico = new Email("tecnico1@example.com");
+        Email emailTecnico = new Email("nahuellucana1999@gmail.com");
         Telegram telegramTecnico = new Telegram("tecnico1_telegram");
         telegramTecnico.setNumero("+5491123256789");
-        telegramTecnico.setNotificar(true);
         tecnico.agregarMedioDeContacto(whatsappTecnico);
         tecnico.agregarMedioDeContacto(emailTecnico);
         tecnico.agregarMedioDeContacto(telegramTecnico);
         tecnico.setAreaDeCobertura(areaTecnico);
         tecnico.setUsuario(usuarioTecnico);
+        Notificador notificador = new Notificador();
+        notificador.habilitarNotificacion(tecnico, emailTecnico);
 
         //Fisico
         Localidad localidadFisico = new Localidad("Almafuerte");
