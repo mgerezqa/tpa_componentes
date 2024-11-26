@@ -219,10 +219,5 @@ public class ServiceLocator {
         return (T) instances.get(componentName);
     }
 
-    // Método para cerrar la fábrica de EntityManager al final de la aplicación
-    public static void close() {
-        if (entityManagerFactory != null) {
-            entityManagerFactory.close();
-        }
-    }
+
 }
