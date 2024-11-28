@@ -41,8 +41,7 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
 
             TarjetaColaborador tarjetaColaborador = (TarjetaColaborador) tarjetaDelColaborador.get();
             //Registro uso de la tarjeta
-            RegistroDeUso registroDeUso = new RegistroDeUso(heladeraEncontrada);
-            registroDeUso.setTarjeta(tarjetaColaborador);
+            RegistroDeUso registroDeUso = RegistroDeUso.create(heladeraEncontrada,tarjetaColaborador);
             tarjetaColaborador.usoDeTarjeta(registroDeUso);
             SolicitudApertura solicitudApertura =
                     heladeraEncontrada.getSolicitudesPendientes()

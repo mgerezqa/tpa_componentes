@@ -1,9 +1,7 @@
 package domain.tarjeta;
 
 import domain.heladera.Heladera.Heladera;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +9,9 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "registro_de_uso")
 public class RegistroDeUso {
 
@@ -20,7 +20,7 @@ public class RegistroDeUso {
     private Long id;
 
     @Column(name = "fecha_uso", nullable = false)
-    private LocalDateTime fechaDeUso;
+    private LocalDateTime fechaDeUso = LocalDateTime.now();
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_heladera", nullable = false)
@@ -35,8 +35,14 @@ public class RegistroDeUso {
         this.heladera = heladera;
         this.tarjeta = tarjeta;
     }
-    public RegistroDeUso(Heladera heladera) {
-        this.fechaDeUso = LocalDateTime.now();
-        this.heladera = heladera;
+
+
+    //Factory methods combinado con el builder, -> OJO que factory method \= simple factory pattern
+    public static RegistroDeUso create(Heladera heladeraEncontrada, TarjetaColaborador tarjetaColaborador) {
+        RegistroDeUsoBuilder registroDeUsoBuilder = RegistroDeUso.builder();
+        registroDeUsoBuilder.heladera(heladeraEncontrada);
+        registroDeUsoBuilder.fechaDeUso(LocalDateTime.now());
+        registroDeUsoBuilder.tarjeta(tarjetaColaborador);
+        return  registroDeUsoBuilder.build();
     }
 }
