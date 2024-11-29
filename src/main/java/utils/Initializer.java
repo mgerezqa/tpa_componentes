@@ -220,8 +220,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         colaboradorFisico.setZona(areaFisico);
         colaboradorFisico.setUsuario(usuarioFisico);
 
-        TarjetaColaborador tarjetaColaborador = new TarjetaColaborador();
-        tarjetaColaborador.setColaborador(colaboradorFisico);
+        TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
 
         //Juridico
         Whatsapp whatsappJuridico = new Whatsapp("+5491165419940");

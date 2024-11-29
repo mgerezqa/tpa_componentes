@@ -1,14 +1,19 @@
 package domain.tarjeta;
 
+import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorFisico;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @Entity
+@SuperBuilder
+@AllArgsConstructor
 @DiscriminatorValue("colaborador")
 public class TarjetaColaborador extends Tarjeta {
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
@@ -19,5 +24,14 @@ public class TarjetaColaborador extends Tarjeta {
     public void usoDeTarjeta(RegistroDeUso nuevoRegistro) {
         this.aumentarCantidadDeUsoEnElDia();
         this.agregarRegistroDeUso(nuevoRegistro);
+    }
+    public static TarjetaColaborador of(ColaboradorFisico colaborador){
+        return TarjetaColaborador.builder()
+                .colaborador(colaborador)
+                .fechaInicioDeFuncionamiento(LocalDate.now())
+                .cantidadUsadaEnElDia(0)
+                .registros(new ArrayList<>())
+                .estado(true)
+                .build();
     }
 }

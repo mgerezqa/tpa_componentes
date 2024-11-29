@@ -3,8 +3,10 @@ package domain.tarjeta;
 import domain.excepciones.CantidadDisponibleLimitePorDiaException;
 import domain.persona.PersonaVulnerable;
 import domain.usuarios.ColaboradorFisico;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_tarjeta")
+@SuperBuilder
 @Table(name = "tarjetas")
 public abstract class Tarjeta {
     @Id
@@ -35,7 +38,7 @@ public abstract class Tarjeta {
     @JoinColumn(name = "id_tarjeta")
     private List<RegistroDeUso> registros;//Debe quedar registrado, cuándo la usó, y en cuál heladera.
 
-    @Column(name = "fecha_inicio_funcionamiento")
+    @Column(name = "fecha_inicio_funcionamiento",columnDefinition = "DATE")
     private LocalDate fechaInicioDeFuncionamiento;
 
     public Tarjeta() {

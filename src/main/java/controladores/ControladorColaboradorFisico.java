@@ -14,6 +14,7 @@ import domain.heladera.Heladera.Heladera;
 import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
 import domain.puntos.CalculadoraPuntos;
+import domain.tarjeta.TarjetaColaborador;
 import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.*;
 import dtos.requests.ColaboradorFisicoInputDTO;
@@ -339,10 +340,11 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         Usuario nuevoUsuario = new Usuario(usuario.get(), contrasenia.get());
         colaboradorFisico.setUsuario(nuevoUsuario);
 
+        TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
         withTransaction(()->{
             Rol rolFisico = repositorioRoles.buscarRolPorNombre(RoleENUM.FISICO);
             nuevoUsuario.agregarRol(rolFisico);
-            repositorioColaboradores.guardar(colaboradorFisico);
+            repositorio.guardar(tarjetaColaborador);
         });
         ctx.redirect("/");
     }

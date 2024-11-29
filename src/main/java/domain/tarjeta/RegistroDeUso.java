@@ -20,7 +20,7 @@ public class RegistroDeUso {
     private Long id;
 
     @Column(name = "fecha_uso", nullable = false)
-    private LocalDateTime fechaDeUso = LocalDateTime.now();
+    private LocalDateTime fechaDeUso;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_heladera", nullable = false)
