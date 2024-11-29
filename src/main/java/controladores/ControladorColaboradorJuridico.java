@@ -432,9 +432,17 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
 
         withTransaction(()->{
+            ColaboradorJuridico colaboradorJuridico = (ColaboradorJuridico) colaboradorJuridicoPosible.get();
             MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera,(ColaboradorJuridico) colaboradorJuridicoPosible.get());
             //Calculo de puntos a dar al colaborador por mantener/donar la heladera
-            calculadoraPuntos.puntosHeladerasActivas(mantenerHeladera);
+            List<MantenerHeladera> mantencionesAnteriores = repositorio.buscarTodos(MantenerHeladera.class)
+                    .stream()
+                    .map(o -> (MantenerHeladera) o)
+                    .collect(Collectors.toList());
+            mantencionesAnteriores.add(mantenerHeladera);
+            int puntosOtorgados = calculadoraPuntos.puntosHeladerasActivas(mantencionesAnteriores);
+            mantenerHeladera.setPuntosOtorgados(puntosOtorgados);
+            colaboradorJuridico.sumarPuntos(puntosOtorgados);
             mantenerHeladera.completar();
             repositorio.guardar(mantenerHeladera);
         });

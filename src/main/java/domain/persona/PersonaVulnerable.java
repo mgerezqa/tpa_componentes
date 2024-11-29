@@ -2,9 +2,7 @@ package domain.persona;
 
 import domain.formulario.documentos.Documento;
 import domain.geografia.Ubicacion;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@Builder
+@AllArgsConstructor
 @Table (name = "personas_vulnerables")
 public class PersonaVulnerable {
     @Id
@@ -57,6 +57,18 @@ public class PersonaVulnerable {
         this.fechaRegitrado = LocalDate.now();
         this.activo = true;
         this.cantidadMenoresACargo = 0;
+    }
+    public static PersonaVulnerable create(String nombre,String apellido, LocalDate fechaNacimiento){
+        return PersonaVulnerable.builder()
+                .nombre(nombre)
+                .apellido(apellido)
+                .fechaNacimiento(fechaNacimiento)
+                .menoresACargo(new ArrayList<>())
+                .fechaRegitrado(LocalDate.now())
+                .activo(true)
+                .cantidadMenoresACargo(0)
+                .build();
+
     }
 
     public int cantidadDeMenoresACargo(){

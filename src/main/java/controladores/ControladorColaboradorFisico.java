@@ -331,8 +331,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         LocalDate fechaNacimientoBeneficiario = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_nacimiento_pv")));
 
 
-        PersonaVulnerable personaVulnerable = new PersonaVulnerable(nombreBeneficiario,fechaNacimientoBeneficiario);
-        personaVulnerable.setApellido(apellidoBeneficiario);
+        PersonaVulnerable personaVulnerable = PersonaVulnerable.create(nombreBeneficiario,apellidoBeneficiario,fechaNacimientoBeneficiario);
 
         Documento doc = new Documento();
         doc.setTipo(tipoDocumentoBeneficiario);
@@ -452,26 +451,10 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             serviceBroker.publishMessage(topic, msg);
             donacion.setHeladeraActual((Heladera) heladera.get());
         }
-
-
-        //Esta logica de otorgale puntos solo se deberia hacer cuando realmente abrio la heladera
-        //int viandasDonadas = repositorioViandas
-        //        .buscarPorColaboradorId(colaboradorFisico.getId())
-        //        .size();
-//
-        //int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
-        //        .puntosViandasDonadas(viandasDonadas + 1);
-//
-        //donacion.setPuntosOtorgados(puntos);
-        //colaboradorFisico.sumarPuntos(puntos);
-
-        //Mandar la autorización para solicitud de apertura
-
-
         withTransaction(() -> {
             repositorio.guardar(donacion);
         });
-        
+
         context.redirect("/donaciones");
     }
 

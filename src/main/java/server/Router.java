@@ -36,7 +36,6 @@ public class Router implements SimplePersistenceTest{
         app.before(ctx -> {
             entityManager().clear();
         });
-
         //Render la pagina principal
         app.get("/",(ctx)->{
             Map<String, Object> model = new HashMap<>();
