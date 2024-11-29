@@ -9,6 +9,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -34,6 +36,13 @@ public class Usuario {
         this.nombreUsuario = nombreUsuario;
         this.contrasenia = contrasenia;
         this.roles = new ArrayList<>();
+    }
+    public static Usuario of(String nombreUsuario, String contrasenia){
+        return Usuario.builder()
+                .roles(new ArrayList<>())
+                .nombreUsuario(nombreUsuario)
+                .contrasenia(contrasenia)
+                .build();
     }
     public void agregarRol(Rol rol) {
         this.roles.add(rol);

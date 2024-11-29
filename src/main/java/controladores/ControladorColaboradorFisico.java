@@ -312,9 +312,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         //Creación de las instacias colaborador fisico y usuario correspondiente
         ColaboradorFisico colaboradorFisico = ColaboradorFisicoFactory.create(nombre.get(),apellido.get(), domicilio.get(),nacimiento.get(),email.get(),wsp.get(),telegram.get());
 
-        Usuario nuevoUsuario = new Usuario(usuario.get(), contrasenia.get());
+        Usuario nuevoUsuario = Usuario.of(nombre.get(),contrasenia.get());
         colaboradorFisico.setUsuario(nuevoUsuario);
-
         TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
         withTransaction(()->{
             Rol rolFisico = repositorioRoles.buscarRolPorNombre(RoleENUM.FISICO);
