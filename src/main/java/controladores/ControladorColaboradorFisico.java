@@ -310,33 +310,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         }
 
         //Creación de las instacias colaborador fisico y usuario correspondiente
-        ColaboradorFisico colaboradorFisico = new ColaboradorFisico(nombre.get(),apellido.get());
+        ColaboradorFisico colaboradorFisico = ColaboradorFisicoFactory.create(nombre.get(),apellido.get(), domicilio.get(),nacimiento.get(),email.get(),wsp.get(),telegram.get());
 
-        if(email.get() != null && !email.get().trim().isEmpty()){
-            Email email1 = new Email(email.get());
-            colaboradorFisico.agregarMedioDeContacto(email1);
-        }
-        if(wsp.get() != null && !wsp.get().trim().isEmpty()){
-            Whatsapp whatsapp = new Whatsapp(wsp.get());
-            colaboradorFisico.agregarMedioDeContacto(whatsapp);
-        }
-        if(telegram.get() != null && !telegram.get().trim().isEmpty()){
-            Telegram userTelegram = new Telegram(telegram.get());
-            colaboradorFisico.agregarMedioDeContacto(userTelegram);
-        }
-        //FALTA agregar la validación de que almenos uno deba ser obligatorio, por ahora se permite la nada de los 3
-        if(domicilio.get() != null && !domicilio.get().trim().isEmpty()){
-            //Falta agregar a la interface que se particione el campo en 2 para separar el nombre y el numero
-            Calle calle = new Calle();
-            calle.setNombre(domicilio.get());
-            Ubicacion ubicacion = new Ubicacion();
-            ubicacion.setCalle(calle);
-            colaboradorFisico.agregarDireccion(ubicacion);
-        }
-        if(nacimiento.get() != null && !nacimiento.get().isEmpty()){
-            LocalDate fechaNacimiento = LocalDate.parse(nacimiento.get());
-            colaboradorFisico.setNacimiento(fechaNacimiento);
-        }
         Usuario nuevoUsuario = new Usuario(usuario.get(), contrasenia.get());
         colaboradorFisico.setUsuario(nuevoUsuario);
 
