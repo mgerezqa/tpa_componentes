@@ -14,6 +14,7 @@ import java.util.ArrayList;
 @Entity
 @SuperBuilder
 @AllArgsConstructor
+@NoArgsConstructor
 @DiscriminatorValue("colaborador")
 public class TarjetaColaborador extends Tarjeta {
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
