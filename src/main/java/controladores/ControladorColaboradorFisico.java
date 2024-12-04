@@ -379,7 +379,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             repositorio.actualizar(colaborador.get());
             repositorio.actualizar(registroDePersonaVulnerable);
         });
-        context.redirect("/donaciones");
+        context.json(Map.of("success", true));
     }
     public void donacionDinero(Context context){
         Integer monto = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_monto_dinero")));
@@ -391,12 +391,12 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
 
         ((Colaborador) colaborador.get()).sumarPuntos(puntos);
         donacion.setPuntosOtorgados(puntos);
-        //Seteo completo, pero en deberia ir a una parasera de pago, etc.
+        //Seteo completo, pero en deberia ir a una parasela de pago, etc.
         donacion.completar();
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
-        context.redirect("/donaciones");
+        context.json(Map.of("success", true));
     }
     public void distrubuirViandas(Context context){
         Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
@@ -424,9 +424,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         withTransaction(()->{
             repositorio.guardar(nuevaDistribucion);
         });
-        context.redirect("/donaciones");
+        context.json(Map.of("success", true));
     }
-
     public void donarViandas(Context context) {
         String descripcion = context.formParam("descripcion");
         LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_vianda")));
@@ -454,8 +453,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         withTransaction(() -> {
             repositorio.guardar(donacion);
         });
-
-        context.redirect("/donaciones");
+        context.json(Map.of("success", true));
     }
 
     public void recomendarComunidades(Context ctx) {

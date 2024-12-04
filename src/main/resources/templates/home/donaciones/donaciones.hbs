@@ -77,7 +77,7 @@
                                 <!-- MODALES DE DONACIONES -->
                                 <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form action="/donar-dinero" method="POST">
+                                        <form id="formDinero" action="/donar-dinero" method="POST">
                                             <div class="row g-3">
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
@@ -123,7 +123,6 @@
                                                     <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_donar_por_ubicacion_service" aria-expanded="false" aria-controls="contenedor_donar_por_ubicacion_service">RECOMENDAME UN LUGAR</a> <!-- Buscar por consultando a servicio ext -->
                                                 </div>
                                             </div>
-                                            <!-- DONAR POR SERVICIO -->
                                             <!-- DONAR POR SERVICIO -->
                                             <div id="contenedor_donar_por_ubicacion_service" class="accordion-collapse collapse" data-bs-parent="#collapse_lugar">
                                                 <div class="accordion-body contenedor_datos border border-primary rounded-5">
@@ -262,7 +261,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <form action="/donar-viandas" method="POST">
+                                                    <form id="formDonarPorHeladera" action="/donar-viandas" method="POST">
                                                         <input type="hidden" class="form-control" id="heladera" name="heladera" readonly required>
                                                         <div class="row row-cols-1 row-cols-md-2 g-3">
                                                             <div class="col-12 col-md-12">
@@ -307,7 +306,7 @@
                                 </div>
                                 <div id="contenedor_form_reparto" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form method="POST" action="distribuir-viandas">
+                                        <form id="donarPorReparto" method="POST" action="distribuir-viandas">
                                             <div class="row row-cols-1 row-cols-md-2 g-3">
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
@@ -360,7 +359,7 @@
                                 </div>
                                 <div id="contenedor_form_pv" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form action="/registrarVulnerable" method="POST">
+                                        <form id="donarPorRegistroPV" action="/registrarVulnerable" method="POST">
                                             <div class="row row-cols-1 row-cols-md-3 g-3 align-items-center">
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
@@ -464,7 +463,6 @@
                                         </form>
                                     </div>
                                 </div>
-
                                 <div id="contenedor_form_producto_servicio" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
                                         <form action="/ofrecer-prod-servicio" method="POST">
@@ -518,8 +516,6 @@
                                         </form>
                                     </div>
                                 </div>
-
-
                             </div>
                         {{/if}}
 
@@ -528,12 +524,62 @@
             </div>
         </div>
 
+        <!-- Modal de Confirmación de Donación -->
+        <div class="modal fade" id="confirmarDonacionModal" tabindex="-1" aria-labelledby="confirmarInformeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <!-- Encabezado con estilo llamativo -->
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title" id="confirmarInformeModalLabel">
+                            <i class="bi bi-question-circle-fill me-2"></i> Confirmación de Donación
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Cuerpo del modal con texto centrado -->
+                    <div class="modal-body text-center">
+                        <p class="fs-4">¿Estás seguro de que deseas realizar esta donación?</p>
+                        <p class="text-muted">Una vez enviada, no podrás realizar cambios.</p>
+                    </div>
+                    <!-- Pie del modal con botones -->
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Cancelar
+                        </button>
+                        <button type="button" class="btn btn-warning btn-lg" id="confirmarDonacionFinal">
+                            <i class="bi bi-check-circle me-1"></i> Confirmar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+
+        <!-- Modal de Éxito -->
+        <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Cambiamos a modal-lg para hacerlo más grande -->
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="modalExitoLabel">¡Donación registrada con éxito!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="mb-3 ">
+                            <!-- Ícono de éxito -->
+                            <i class="bi bi-check-circle-fill fs-1" style="color: #08972c;"></i>
+                        </div>
+                        <h3 class="text-success">¡Gracias por tu aporte!</h3>
+                        <p class="fs-5">Tu donación ha sido registrada correctamente y nos será de gran ayuda.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <!-- LISTA DE CARDS -->
         <div class="contenedor_datos container-fluid py-4">
-
             {{#each donaciones}}
                 <div class="row fila_contribucion mb-3">
                     <div class="col-12">
@@ -681,7 +727,9 @@
 {{#partial "scripts"}}
     {{#if fisico}}
         <script src = "/js/script_donacion_fisico_mapa.js"></script>
+        <script type="text/javascript" src="/js/confirmaciones/script_formulario_donacion_fisico_confirmacion.js"></script>
         <script src = "/js/scripts/script_donacion_fisico_mapa_service.js"></script>
+
         <script>
             // Referencia al contenedor de los hijos en el modal de edición
             const hijosContainerEdit = document.getElementById('hijosContainerEdit');

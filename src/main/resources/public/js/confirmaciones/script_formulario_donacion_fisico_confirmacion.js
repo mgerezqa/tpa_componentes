@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Manejar el envío del formulario de dinero
     if (formDinero) {
+    console.log(formDinero)
         formDinero.addEventListener('submit', (event) => {
             event.preventDefault();
             formularioActivo = formDinero;
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             if (formularioActivo) {
                 const formData = new FormData(formularioActivo);
-                enviarDatosFormulario(formData);
+                enviarDatosFormulario(formData,formularioActivo.action);
             }
         });
     }
@@ -60,40 +61,39 @@ function mostrarModalConfirmacion() {
 }
 
 
-function enviarDatosFormulario(datos) {
-    // Simulación de una respuesta exitosa del servidor
-    setTimeout(() => {
-        const response = { ok: true }; // Simular una respuesta con código 200
 
-        if (response.ok) {
-            const confirmarDonacionModal = bootstrap.Modal.getInstance(document.getElementById('confirmarDonacionModal'));
-            confirmarDonacionModal.hide();
+function enviarDatosFormulario(datos, action) {
+    fetch(action, {
+        method: 'POST',
+        body: datos
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data)
+        if (data.success) {
+            // Cerrar el modal de confirmación
+            const confirmarCanjeModal = bootstrap.Modal.getInstance(document.getElementById('confirmarDonacionModal'));
+            confirmarCanjeModal.hide();
 
+            // Mostrar el modal de éxito
             const modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
             modalExito.show();
+
+            // Opcional: redirigir después de mostrar el modal
+            modalExito._element.addEventListener('hidden.bs.modal', function () {
+                window.location.href = '/donaciones';
+            });
         } else {
-            alert('Error al registrar la donación. Intente nuevamente.');
+            alert(data.message || 'Error al procesar el canje');
         }
-    }, 1000); // Simular un retraso en la respuesta del servidor
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al procesar la solicitud');
+    });
 }
-
-
-
-// function enviarDatosFormulario(datos) {
-//     fetch('/ruta-para-enviar-datos', {
-//         method: 'POST',
-//         body: datos
-//     })
-//     .then(response => {
-//         if (response.ok) {
-//             const confirmarDonacionModal = bootstrap.Modal.getInstance(document.getElementById('confirmarDonacionModal'));
-//             confirmarDonacionModal.hide();
-
-//             const modalExito = new bootstrap.Modal(document.getElementById('modalExito'));
-//             modalExito.show();
-//         } else {
-//             alert('Error al registrar la donación. Intente nuevamente.');
-//         }
-//     })
-//     .catch(error => console.error('Error:', error));
-// }
