@@ -361,9 +361,13 @@ public class Router implements SimplePersistenceTest{
                         repositorio.guardar(canje);
                     });
                 }catch (ExcepcionCanjePuntosInsuficientes exception){
-                    context.redirect("/canjes");
+                    context.status(400);
+                    context.json(Map.of(
+                            "success", false,
+                            "message", "Puntos insuficientes"
+                    ));
                 }
-                context.redirect("/canjes");
+                context.json(Map.of("success", true));
             }else{
                 context.status(HttpStatus.NOT_FOUND);
             }

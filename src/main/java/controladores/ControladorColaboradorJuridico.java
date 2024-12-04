@@ -389,9 +389,6 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
     }
 
     public void mantenerHeladera(Context context){
-        context.formParamMap().forEach((key, value) -> {
-            System.out.println(key + ": " + value);
-        });
         Validator<String> nombreHeladera = context.formParamAsClass("nombreHeladera", String.class)
                 .check(v -> !v.isEmpty()  , "El nombre de la heladera es obligatorio");
         Validator<String> modeloHeladera = context.formParamAsClass("refrigeratorModel",String.class)
