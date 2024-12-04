@@ -312,7 +312,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         //Creación de las instacias colaborador fisico y usuario correspondiente
         ColaboradorFisico colaboradorFisico = ColaboradorFisicoFactory.create(nombre.get(),apellido.get(), domicilio.get(),nacimiento.get(),email.get(),wsp.get(),telegram.get());
 
-        Usuario nuevoUsuario = Usuario.of(nombre.get(),contrasenia.get());
+        Usuario nuevoUsuario = Usuario.of(usuario.get(),contrasenia.get());
         colaboradorFisico.setUsuario(nuevoUsuario);
         TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
         withTransaction(()->{
@@ -320,7 +320,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             nuevoUsuario.agregarRol(rolFisico);
             repositorio.guardar(tarjetaColaborador);
         });
-        ctx.redirect("/");
+        ctx.json(Map.of("success", true));
     }
     public void registroPersonaVulnerable(Context context) {
         String nombreBeneficiario = context.formParam("campo_nombre_pv");

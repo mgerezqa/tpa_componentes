@@ -1,6 +1,5 @@
 package controladores;
 
-import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.MedioDeContacto;
 import domain.contacto.Telegram;
@@ -14,14 +13,12 @@ import domain.puntos.CategoriaOferta;
 import domain.puntos.Oferta;
 import domain.puntos.TipoDeOferta;
 import domain.usuarios.*;
-import domain.visitas.Visita;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.validation.NullableValidator;
 import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
-import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.ICrudViewsHandler;
@@ -30,7 +27,6 @@ import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -385,7 +381,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
             repositorioColaboradores.guardar(colaborador);
         });
 
-        context.redirect("/");
+        context.json(Map.of("success", true));
     }
 
     public void mantenerHeladera(Context context){

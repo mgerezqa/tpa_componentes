@@ -511,6 +511,60 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modales de exito y confirmacion-->
+                <!-- Modal de Confirmación de registro persona fisica -->
+                <div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarInformeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <!-- Encabezado con estilo llamativo -->
+                            <div class="modal-header bg-warning text-dark">
+                                <h5 class="modal-title" id="confirmarInformeModalLabel">
+                                    <i class="bi bi-question-circle-fill me-2"></i> Confirmación de registro
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <!-- Cuerpo del modal con texto centrado -->
+                            <div class="modal-body text-center">
+                                <p class="fs-4">¿Estás seguro de confirmar el registro?</p>
+                                <p class="text-muted">Por favor confirma si los datos son correctos.</p>
+                            </div>
+                            <!-- Pie del modal con botones -->
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                                </button>
+                                <button type="button" class="btn btn-warning btn-lg" id="confirmarDonacionFinal">
+                                    <i class="bi bi-check-circle me-1"></i> Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Modal de Éxito -->
+                <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Cambiamos a modal-lg para hacerlo más grande -->
+                        <div class="modal-content">
+                            <div class="modal-header bg-success text-white">
+                                <h5 class="modal-title" id="modalExitoLabel">¡Registración con éxito!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <div class="mb-3 ">
+                                    <!-- Ícono de éxito -->
+                                    <i class="bi bi-check-circle-fill fs-1" style="color: #08972c;"></i>
+                                </div>
+                                <h3 class="text-success">¡Gracias por unirte a nuestra organización!</h3>
+                                <p class="fs-5">Tu registración fue correcta, bienvenido.</p>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -756,6 +810,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
+<script src ="/js/confirmaciones/script_formulario_confirmacion.js"></script>
 
 <script>
     {{#if showModal}}
