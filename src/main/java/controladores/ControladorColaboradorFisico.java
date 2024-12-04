@@ -396,7 +396,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         withTransaction(()->{
             repositorio.guardar(donacion);
         });
-        context.redirect("/donaciones");
+        context.json(Map.of("success", true));
     }
     public void distrubuirViandas(Context context){
         Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
