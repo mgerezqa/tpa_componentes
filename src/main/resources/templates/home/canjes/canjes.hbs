@@ -47,6 +47,8 @@
                             </a>
                         </div>
                     </div>
+                    <!-- FALTA SEPARAR LA LÓGICA IF{COL_FISICO} IF{COL_JURIDICO} -->
+                    <!-- Colaborador Fisico-->
                     <div class="modal-body">
                         <form action="/canjear" id="form_canje">
                             <!-- Sección: Datos del participante -->
@@ -54,6 +56,7 @@
                                 <div class="card-header bg-light">
                                     <h5 class="mb-0">Datos del participante</h5>
                                 </div>
+
                                 <div class="card-body">
                                     <div class="row g-4">
                                         <!-- Nombre -->
@@ -156,6 +159,133 @@
                             </div>
                         </form>
                     </div>
+                    <!-- FORMULARIO MODAL AÑADIR CANJE -->
+                    <!-- Colaborador Juridico-->
+<!--                    <div class="modal fade" id="modal_nuevo_canje" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">-->
+<!--                        <div class="modal-dialog modal-dialog-scrollable modal-xl">-->
+<!--                            <div class="modal-content">-->
+<!--                                <div class="modal-header">-->
+<!--                                    <div class="contenedor_titulo_pagina d-flex gap-4 w-100">-->
+<!--                                        <div class="titulo flex-fill">-->
+<!--                                            <span>NUEVO CANJE</span>-->
+<!--                                        </div>-->
+<!--                                        <a class="boton boton_titulo boton_rojo" data-bs-dismiss="modal">-->
+<!--                                            <i class="bi bi-x-lg"></i>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="modal-body">-->
+<!--                                    <form id="form_canje">-->
+<!--                                        &lt;!&ndash; Sección: Datos del participante &ndash;&gt;-->
+<!--                                        <div class="card mb-4">-->
+<!--                                            <div class="card-header bg-light">-->
+<!--                                                <h5 class="mb-0">Datos del participante</h5>-->
+<!--                                            </div>-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row g-4">-->
+<!--                                                    &lt;!&ndash; Nombre &ndash;&gt;-->
+<!--                                                    <div class="col-12 col-md-4">-->
+<!--                                                        <div class="form-floating">-->
+<!--                                                            <input type="text" class="entrada_form form-control shadow-none rounded-4"-->
+<!--                                                                   id="campo_nombre_fisico" value="Garbarino" placeholder="RazonSocial" disabled>-->
+<!--                                                            <label for="campo_nombre_fisico">Razon Social</label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    &lt;!&ndash; Tipo &ndash;&gt;-->
+<!--                                                    <div class="col-12 col-md-4">-->
+<!--                                                        <div class="form-floating">-->
+<!--                                                            <input type="text" class="entrada_form form-control shadow-none rounded-4"-->
+<!--                                                                   id="campo_apellido_fisico" value="Empresa" placeholder="Tipo" disabled>-->
+<!--                                                            <label for="campo_apellido_fisico">Tipo</label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    &lt;!&ndash; Rubro &ndash;&gt;-->
+<!--                                                    <div class="col-12 col-md-4">-->
+<!--                                                        <div class="form-floating">-->
+<!--                                                            <input type="text" class="entrada_form form-control shadow-none rounded-4"-->
+<!--                                                                   id="campo_nro_documento_fisico" value="Electronica" placeholder="" disabled>-->
+<!--                                                            <label for="campo_nro_documento_fisico">Rubro</label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        &lt;!&ndash; Sección: Datos del producto &ndash;&gt;-->
+<!--                                        <div class="card mb-4">-->
+<!--                                            <div class="card-header bg-light">-->
+<!--                                                <h5 class="mb-0">Datos del producto</h5>-->
+<!--                                            </div>-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row">-->
+<!--                                                    &lt;!&ndash; Columna izquierda: Selector y costo &ndash;&gt;-->
+<!--                                                    <div class="col-12 col-md-6">-->
+<!--                                                        <div class="row g-4">-->
+<!--                                                            &lt;!&ndash; Canje de producto &ndash;&gt;-->
+<!--                                                            <div class="col-12">-->
+<!--                                                                <div class="form-floating">-->
+<!--                                                                    <select class="entrada_form form-select shadow-none rounded-4" id="campo_tipo_canje_fisico">-->
+<!--                                                                        <option value="1" selected>Lavarropas</option>-->
+<!--                                                                        <option value="2">Descuento en supermercados</option>-->
+<!--                                                                        <option value="3">Viaje gratis</option>-->
+<!--                                                                    </select>-->
+<!--                                                                    <label for="campo_tipo_canje_fisico">Canje de producto</label>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                            &lt;!&ndash; Costo de puntos &ndash;&gt;-->
+<!--                                                            <div class="col-12">-->
+<!--                                                                <div class="form-floating">-->
+<!--                                                                    <input type="number" class="entrada_form form-control shadow-none rounded-4"-->
+<!--                                                                           id="campo_costo_puntos_fisico" placeholder="Costo de puntos" disabled>-->
+<!--                                                                    <label for="campo_costo_puntos_fisico">Costo de puntos</label>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    &lt;!&ndash; Columna derecha: Imagen &ndash;&gt;-->
+<!--                                                    <div class="col-12 col-md-6">-->
+<!--                                                        <div class="d-flex justify-content-center align-items-center h-100">-->
+<!--                                                            <img id="imagen_producto" src="/assets/heladera_1.jpg"-->
+<!--                                                                 class="img-fluid rounded-4" style="max-height: 200px;"-->
+<!--                                                                 alt="Imagen del producto">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        &lt;!&ndash; Sección: Puntos disponibles &ndash;&gt;-->
+<!--                                        <div class="card mb-4">-->
+<!--                                            <div class="card-header bg-light">-->
+<!--                                                <h5 class="mb-0">Puntos disponibles</h5>-->
+<!--                                            </div>-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row">-->
+<!--                                                    <div class="col-12 col-md-4">-->
+<!--                                                        <div class="form-floating">-->
+<!--                                                            <input type="text" class="entrada_form form-control shadow-none rounded-4"-->
+<!--                                                                   id="campo_puntos_acumulados" value="1500" placeholder="Puntos Acumulados" disabled>-->
+<!--                                                            <label for="campo_puntos_acumulados" class="text-success">Puntos Disponibles</label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        &lt;!&ndash; Botones de acción &ndash;&gt;-->
+<!--                                        <div class="row justify-content-around">-->
+<!--                                            <div class="col-6 col-md-4">-->
+<!--                                                <button id="btn_solicitar_canje_juridico" type="submit"-->
+<!--                                                        class="boton boton_verde py-1 w-100 fs-3" >-->
+<!--                                                    <span>SOLICITAR</span>-->
+<!--                                                </button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>

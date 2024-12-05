@@ -440,7 +440,9 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
             repositorio.guardar(mantenerHeladera);
         });
 
-        context.redirect("/estaciones");
+//        context.redirect("/estaciones");
+        context.json(Map.of("success", true));
+
     }
     public void ofrecerOferta(Context context){
         context.formParamMap().forEach((key, value) -> {
@@ -459,7 +461,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
         withTransaction(()->{
            repositorio.guardar(oferta);
         });
-        context.redirect("/donaciones");
+        context.json(Map.of("success", true));
     }
 
     public void misEstaciones( Context context) {

@@ -434,7 +434,7 @@
                                 <!-- MODALES DE DONACIONES -->
                                 <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form action="/donar-dinero" method="POST">
+                                        <form id="formDinero" action="/donar-dinero" method="POST">
                                             <div class="row g-3">
                                                 <div class="col-12 col-md">
                                                     <div class="form-floating">
@@ -463,9 +463,10 @@
                                         </form>
                                     </div>
                                 </div>
+
                                 <div id="contenedor_form_producto_servicio" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form action="/ofrecer-prod-servicio" method="POST">
+                                        <form id="formProductoServicio" action="/ofrecer-prod-servicio" method="POST">
                                             <div class="row row-cols-1 row-cols-md-3 g-3">
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-floating">
@@ -516,13 +517,18 @@
                                         </form>
                                     </div>
                                 </div>
+
                             </div>
                         {{/if}}
 
                     </div>
+
                 </div>
             </div>
         </div>
+
+
+
 
         <!-- Modal de Confirmación de Donación -->
         <div class="modal fade" id="confirmarDonacionModal" tabindex="-1" aria-labelledby="confirmarInformeModalLabel" aria-hidden="true">
@@ -576,6 +582,7 @@
                 </div>
             </div>
         </div>
+
 
 
         <!-- LISTA DE CARDS -->
@@ -769,6 +776,8 @@
 
         </script>
     {{else}}
+        <script src = "/js/confirmaciones/script_formulario_donacion_juridico_confirmacion.js"></script>
+
     {{/if}}
 {{/partial}}
 {{> templates/home/base}}
