@@ -12,6 +12,8 @@ import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.incidentes.FallaTecnica;
+import domain.incidentes.Incidente;
 import domain.tarjeta.TarjetaColaborador;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -23,18 +25,20 @@ import java.util.*;
 
 public class Initializer implements WithSimplePersistenceUnit {
     private RepositorioRoles repositorioRoles;
+    private RepositorioIncidentes repositorioIncidentes;
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioTecnicos repositorioTecnicos;
     private Repositorio repositorio;
     private List<ModeloDeHeladera> modelosHeladerasPorDefecto = new ArrayList<>();
 
-    public Initializer(RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
+    public Initializer(RepositorioIncidentes repositorioIncidentes,RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
         this.repositorioRoles = repositorioRoles;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioTecnicos = repositorioTecnicos;
         this.repositorio = repositorio;
+        this.repositorioIncidentes = repositorioIncidentes;
     }
 
     public void init() {
@@ -124,7 +128,9 @@ public class Initializer implements WithSimplePersistenceUnit {
         Integer capacidadMax4 = 600;
         Heladera heladera4 = new Heladera(modeloD,nombreHeladera4,ubicacion4,capacidadMax4);
         heladera4.agregarCantViandas(300);
+        FallaTecnica fallaTecnica = new FallaTecnica(heladera4);
 
+        repositorioIncidentes.guardar(fallaTecnica);
         repositorio.guardar(heladera1);
         repositorio.guardar(heladera2);
         repositorio.guardar(heladera3);

@@ -11,6 +11,7 @@ import domain.usuarios.Colaborador;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Getter
@@ -20,6 +21,8 @@ import java.util.Map;
 @Entity
 @DiscriminatorValue("reporte_viandas_por_colaborador")
 public class ReporteViandasColaborador extends Reporte {
+    @Transient
+    Map<String, Integer> reporteViandasPorColaborador = new HashMap<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "reporte_viandas_por_colaborador_id")
@@ -29,13 +32,17 @@ public class ReporteViandasColaborador extends Reporte {
     public void reportar() {
         for(ColaboradorFisico colaborador : colaboradores){
             Map<String, Integer> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
-            System.out.println("Reporte de cantidad de viandas donadas por colaborador: ");
-            reporteViandasPorColaborador.forEach((nombreColaborador, cantidad) -> System.out.println(colaborador + ": " + cantidad));
+
+
+            for(Map.Entry<String, Integer> entry : reporteViandasPorColaborador.entrySet()){
+                reporteViandasPorColaborador.merge(entry.getKey(), entry.getValue(), Integer::sum);
+            }
         }
+
+        String nombreArchivo = "ReporteViandas_TodosLosColaboradores.pdf";
+        reportador.generarPDFReporte(nombreArchivo, reporteViandasPorColaborador);
+
+        System.out.println("Reporte de cantidad de viandas por todos los colaboradores generado.");
     }
-
-
-
-
 
 }

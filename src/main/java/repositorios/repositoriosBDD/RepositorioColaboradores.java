@@ -81,4 +81,10 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
                 .getResultStream()
                 .findFirst();
     }
+
+    public List<Colaborador> obtenerTodosLosColaboradores() {
+        return entityManager()
+                .createQuery("FROM Colaborador", Colaborador.class)
+                .getResultList();
+    }
 }

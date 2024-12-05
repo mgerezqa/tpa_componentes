@@ -141,6 +141,10 @@ public class ServiceLocator {
                 ControladorCargaMasiva instance = new ControladorCargaMasiva(instanceOf(ImportadorCSV.class));
                 instances.put(componentName, instance);
             }
+            else if(componentName.equals(RepositorioIncidentes.class.getName())){
+                RepositorioIncidentes instance = new RepositorioIncidentes();
+                instances.put(componentName, instance);
+            }
             else if(componentName.equals(ImportadorCSV.class.getName())){
                 ImportadorCSV instance = new ImportadorCSV(instanceOf(RepositorioColaboradores.class));
                 instances.put(componentName, instance);

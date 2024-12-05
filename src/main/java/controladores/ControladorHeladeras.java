@@ -6,6 +6,7 @@ import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.reportes.ReporteFallas;
 import domain.usuarios.Tecnico;
 import dtos.HeladeraDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -16,6 +17,7 @@ import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import utils.ICrudViewsHandler;
+import utils.reportador.Reportador;
 
 import java.time.LocalDate;
 import java.util.*;

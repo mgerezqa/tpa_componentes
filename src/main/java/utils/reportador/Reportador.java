@@ -2,6 +2,8 @@ package utils.reportador;
 
 import domain.heladera.Heladera.Heladera;
 import domain.reportes.Reporte;
+import domain.reportes.ReporteFallas;
+import domain.reportes.ReporteViandasHeladera;
 import domain.usuarios.ColaboradorFisico;
 import repositorios.repositoriosBDD.RepositorioReportes;
 import com.itextpdf.text.Document;
@@ -12,7 +14,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -29,30 +34,48 @@ public class Reportador {
         this.scheduler = Executors.newScheduledThreadPool(1);
         this.repositorioReportes = repositorioReportes;
     }
-    //create method "generarReportePDF" whhere you create a PIDF file with the information of the report
-    public void generarReportePDF(Reporte reporte) {
-        String pdfDirectory = "path/to/pdf/directory"; // Set the directory path
-        String pdfFileName = "reporte_" + reporte.getId() + ".pdf";
-        String pdfFilePath = Paths.get(pdfDirectory, pdfFileName).toString();
-        Document document = new Document();
+
+    public void generarPDFReporte(String nombreArchivo, Map<String, Integer> datos) {
+        Path reportesDir = Paths.get("reportes");
+
+        // Crear el directorio "reportes" si no existe
         try {
-            PdfWriter.getInstance(document, new FileOutputStream(pdfFilePath));
-            document.open();
-            document.add(new Paragraph("Reporte de Incidentes"));
-            document.add(new Paragraph("ID del Reporte: " + reporte.getId()));
-            document.add(new Paragraph("Fecha: " + reporte.getFechaGeneracion()));
-        } catch (DocumentException | IOException e) {
+            if (!Files.exists(reportesDir)) {
+                Files.createDirectories(reportesDir);
+            }
+
+            Document document = new Document();
+            // Definir la ruta completa del archivo
+            String rutaArchivo = Paths.get(reportesDir.toString(), nombreArchivo).toString();
+
+            // Utilizar try-with-resources para asegurar que se cierre el FileOutputStream
+            try (FileOutputStream archivoOutput = new FileOutputStream(rutaArchivo)) {
+                PdfWriter.getInstance(document, archivoOutput);
+                document.open();
+                document.add(new Paragraph("Reporte generado el: " + LocalDateTime.now()));
+
+                // Añadir los datos al reporte
+                for (Map.Entry<String, Integer> entrada : datos.entrySet()) {
+                    document.add(new Paragraph(entrada.getKey() + ": " + entrada.getValue()));
+                }
+                document.close(); // Cerrar el documento
+            } catch (DocumentException | IOException e) {
+                // Manejo de excepciones de manera más robusta
+                System.err.println("Error al generar el PDF: " + e.getMessage());
+                e.printStackTrace(); // O usa un logger
+            }
+        } catch (IOException e) {
+            // Si hay un error al crear el directorio
+            System.err.println("Error al crear el directorio de reportes: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            document.close();
         }
     }
+
     public void iniciarReporteSemanal(Reporte reporte) {
         ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(() -> {
             reporte.reportar();
-            generarReportePDF(reporte);
             guardarReporte(reporte);
-        }, 0, 7, TimeUnit.DAYS);
+        }, 0, 7, TimeUnit.SECONDS);
     }
 
     public void detenerReportesSemanales(){
