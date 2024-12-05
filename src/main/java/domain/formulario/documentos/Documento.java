@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Embeddable
 public class Documento {
-    @Column(name = "numero_documento", nullable = false)
+    @Column(name = "numero_documento", nullable = true)
     private String numeroDeDocumento;
 
     @Enumerated(EnumType.STRING)

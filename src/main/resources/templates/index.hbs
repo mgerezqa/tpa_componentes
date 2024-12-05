@@ -399,12 +399,13 @@
                                         <label class="form-check-label" for="registrarConMail">¿Desea registrarse con el mismo correo?</label>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="emailUsuario" class="form-label">Correo Electrónico para Registro</label>
+                                        <label for="emailUsuario" class="form-label">Nombre de usuario</label>
                                         <input type="email" class="form-control" id="emailUsuario" name="emailUsuario" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Contraseña</label>
                                         <input type="password" class="form-control" id="password" name="password" required>
+                                        <div id="passwordErrors" class="text-danger mt-2"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="repeatPassword" class="form-label">Repetir Contraseña</label>
@@ -416,6 +417,7 @@
                                         <button type="submit" class="btn-modal btn-modal-confirm">Enviar</button>
                                     </div>
                                 </form>
+
                                 <!-- Formulario para Persona Jurídica -->
                                 <form action="/juridico/signup" method="POST" id="formularioPersonaJuridica" style="display: none;">
                                     <h3>Datos </h3>
@@ -489,12 +491,14 @@
                                             <label class="form-check-label" for="registrarConMail">¿Desea registrarse con el mismo correo?</label>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="emailUsuario" class="form-label">Correo Electrónico para Registro</label>
+                                            <label for="emailUsuario" class="form-label">Nombre de usuario</label>
                                             <input type="text" class="form-control" id="emailUsuario" name="emailUsuario" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="password" class="form-label">Contraseña</label>
                                             <input type="password" class="form-control" id="password" name="password" required>
+                                            <div id="passwordErrorsJuridico" class="text-danger mt-2"></div>
+
                                         </div>
                                         <div class="mb-3">
                                             <label for="repeatPassword" class="form-label">Repetir Contraseña</label>
@@ -765,5 +769,93 @@
         });
     {{/if}}
 </script>
+
+<script>
+    document.getElementById('formularioPersona').addEventListener('submit', function (e) {
+        e.preventDefault(); // Evitar el envío predeterminado del formulario
+        const formData = new FormData(this);
+
+        fetch('/fisico/signup', {
+            method: 'POST',
+            body: formData
+        })
+                .then(response => response.json())
+                .then(data => {
+                    const passwordErrorsContainer = document.getElementById('passwordErrors');
+
+                    if (data.error) {
+                        // Limpiar mensajes de error previos
+                        passwordErrorsContainer.innerHTML = '';
+
+                        // Verificar si hay detalles en la respuesta
+                        if (data.detalles && Array.isArray(data.detalles)) {
+                            // Mostrar cada error como una línea separada
+                            data.detalles.forEach(error => {
+                                const errorElement = document.createElement('div');
+                                errorElement.textContent = error;
+                                passwordErrorsContainer.appendChild(errorElement);
+                            });
+                        } else {
+                            // Mensaje de error genérico si no hay detalles
+                            passwordErrorsContainer.textContent = 'Ocurrió un error inesperado.';
+                        }
+                    } else {
+                        // Limpiar los errores y mostrar mensaje de éxito
+                        passwordErrorsContainer.innerHTML = '';
+                        alert('Registro exitoso');
+                        window.location.href = '/';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error procesando el registro:', err);
+                    alert('Ocurrió un error al procesar el registro.');
+                });
+    });
+</script>
+
+<script>
+    document.getElementById('formularioPersonaJuridica').addEventListener('submit', function (e) {
+        e.preventDefault(); // Evitar el envío predeterminado del formulario
+        const formData = new FormData(this);
+
+        fetch('/juridico/signup', {
+            method: 'POST',
+            body: formData
+        })
+                .then(response => response.json())
+                .then(data => {
+                    const passwordErrorsContainer = document.getElementById('passwordErrorsJuridico'); // Actualizar ID aquí
+
+                    if (data.error) {
+                        // Limpiar mensajes de error previos
+                        passwordErrorsContainer.innerHTML = '';
+
+                        // Verificar si hay detalles en la respuesta
+                        if (data.detalles && Array.isArray(data.detalles)) {
+                            // Mostrar cada error como una línea separada
+                            data.detalles.forEach(error => {
+                                const errorElement = document.createElement('div');
+                                errorElement.textContent = error;
+                                passwordErrorsContainer.appendChild(errorElement);
+                            });
+                        } else {
+                            // Mensaje de error genérico si no hay detalles
+                            passwordErrorsContainer.textContent = 'Ocurrió un error inesperado.';
+                        }
+                    } else {
+                        // Limpiar los errores y mostrar mensaje de éxito
+                        passwordErrorsContainer.innerHTML = '';
+                        alert('Registro exitoso');
+                        window.location.href = '/';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error procesando el registro:', err);
+                    alert('Ocurrió un error al procesar el registro.');
+                });
+    });
+
+</script>
+
 </body>
 </html>
