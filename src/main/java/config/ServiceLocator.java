@@ -26,6 +26,8 @@ import utils.Broker.receptors.ReceptorTemp;
 import utils.asignadorTecnicos.AsignadorDeTecnico;
 import utils.notificador.Notificador;
 import utils.cargaMasiva.ImportadorCSV;
+import utils.validadorDeContrasenias.politicas.*;
+import utils.validadorDeContrasenias.validador.Validador;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -204,6 +206,17 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }else if(componentName.equals(EmailSender.class.getName())){
                 EmailSender instance = EmailSender.getInstance();
+                instances.put(componentName, instance);
+            }
+            else if(componentName.equals(Validador.class.getName())){
+                Validador instance = new Validador();
+                instance.agregarPolitica(new CaracteresEspeciales());
+                instance.agregarPolitica(new CaracteresRepetidos());
+                instance.agregarPolitica(new DataRepetida());
+                instance.agregarPolitica(new Longitud());
+                instance.agregarPolitica(new Mayus());
+                instance.agregarPolitica(new Numeros());
+                instance.agregarPolitica(new PeoresContrasenias());
                 instances.put(componentName, instance);
             }
         }

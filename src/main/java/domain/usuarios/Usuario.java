@@ -63,4 +63,5 @@ public class Usuario {
     public void quitarRol(Rol rol) {
         this.roles.remove(rol);
     }
+
 }

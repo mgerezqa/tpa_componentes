@@ -21,24 +21,23 @@ import dtos.requests.ColaboradorFisicoInputDTO;
 import dtos.responses.ColaboradorFisicoOutputDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.HttpStatus;
-import io.javalin.validation.NullableValidator;
-import io.javalin.validation.Validation;
-import io.javalin.validation.ValidationError;
+import io.javalin.validation.*;
 import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.Broker.ServiceBroker;
 import utils.ICrudViewsHandler;
 import io.javalin.http.Context;
-import io.javalin.validation.Validator;
 import utils.recomendacioneDeUbicaciones.entidades.ApiKey;
 import utils.recomendacioneDeUbicaciones.entidades.ListadoDeComunidades;
 import utils.recomendacioneDeUbicaciones.servicios.RecomedacionDeUbicaciones;
+import utils.validadorDeContrasenias.validador.Validador;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
@@ -50,7 +49,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private RepositorioDistribuciones repositorioDistribuciones;
     private RepositorioViandas repositorioViandas;
     private RecomedacionDeUbicaciones recomendacionDeUbicaciones;
-
+    private Validador validador;
 
     public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones,RepositorioViandas repositorioViandas) {
         this.repositorioColaboradores = repositorioColaboradores;
@@ -61,7 +60,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         this.repositorioDistribuciones = repositorioDistribuciones;
         this.repositorioViandas = repositorioViandas;
         this.recomendacionDeUbicaciones = RecomedacionDeUbicaciones.getInstance();
-
+        this.validador = ServiceLocator.instanceOf(Validador.class);
     }
 
     @Override // funciona correctamente
@@ -268,60 +267,115 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     public void show(Context context) {
 
     }
-    public void signup(Context ctx){
-        Validator<String> nombre = ctx.formParamAsClass("nombre", String.class)
-                .check(v -> !v.isEmpty()  , "El nombre del colaborador es obligatorio")
-                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
-        Validator<String> apellido = ctx.formParamAsClass("apellido", String.class)
-                .check(v -> !v.isEmpty()  , "El apellido del colaborador es obligatorio")
-                .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el apellido");
-        //Opcionales, pueden llegar null, al menos uno
-        NullableValidator<String> email = ctx.formParamAsClass("user_email", String.class)
-                .allowNullable();
-        NullableValidator<String> wsp = ctx.formParamAsClass("nro_whatsapp", String.class)
-                .allowNullable();
-        NullableValidator<String> telegram = ctx.formParamAsClass("user_telegram", String.class)
-                .allowNullable();
 
-        //Opcionales (Opcional)
-        NullableValidator<String> domicilio = ctx.formParamAsClass("domicilio", String.class)
-                .allowNullable();
+    public void signup(Context ctx) throws Exception {
+        try {
+            // Validación de datos obligatorios
+            Validator<String> nombre = ctx.formParamAsClass("nombre", String.class)
+                    .check(v -> !v.isEmpty(), "El nombre del colaborador es obligatorio")
+                    .check(v -> v.chars().noneMatch(Character::isDigit), "No se permiten números en el nombre");
+            Validator<String> apellido = ctx.formParamAsClass("apellido", String.class)
+                    .check(v -> !v.isEmpty(), "El apellido del colaborador es obligatorio")
+                    .check(v -> v.chars().noneMatch(Character::isDigit), "No se permiten números en el apellido");
 
-        NullableValidator<String> nacimiento = ctx.formParamAsClass("fechaNacimiento", String.class)
-                .allowNullable();
+            // Validación de datos opcionales
+            NullableValidator<String> email = ctx.formParamAsClass("user_email", String.class).allowNullable();
+            NullableValidator<String> wsp = ctx.formParamAsClass("nro_whatsapp", String.class).allowNullable();
+            NullableValidator<String> telegram = ctx.formParamAsClass("user_telegram", String.class).allowNullable();
+            NullableValidator<String> domicilio = ctx.formParamAsClass("domicilio", String.class).allowNullable();
+            NullableValidator<String> nacimiento = ctx.formParamAsClass("fechaNacimiento", String.class).allowNullable();
 
-        //Datos para el usuario
-        Validator<String> usuario = ctx.formParamAsClass("emailUsuario", String.class)
-                .check(v -> !v.isEmpty()  , "El nombre de usuario o email del colaborador es obligatorio");
-        //Falta agregar que no se pueda crear 2 usuarios con el mismo username.
-        Validator<String> contrasenia = ctx.formParamAsClass("password", String.class)
-                .check(v -> !v.isEmpty()  , "La contraseña del colaborador es obligatorio");
+            // Validación de usuario y contraseñas
+            Validator<String> usuario = ctx.formParamAsClass("emailUsuario", String.class)
+                    .check(v -> !v.isEmpty(), "El nombre de usuario o email del colaborador es obligatorio");
+            Validator<String> contrasenia = ctx.formParamAsClass("password", String.class)
+                    .check(v -> !v.isEmpty(), "La contraseña del colaborador es obligatoria");
+            Validator<String> repContrasenia = ctx.formParamAsClass("repeatPassword", String.class)
+                    .check(v -> !v.isEmpty(), "La repetición de contraseña del colaborador es obligatoria")
+                    .check(v -> v.equals(contrasenia.get()), "Las contraseñas no son iguales");
 
-        Validator<String> repContrasenia = ctx.formParamAsClass("repeatPassword", String.class)
-                .check(v -> !v.isEmpty()  , "La repetción de contraseña del colaborador es obligatorio")
-                .check(rp -> rp.equals(contrasenia.get()),"La contraseñas no son las mismas!");
+            // Validación de medios de contacto
+            boolean mediosDeContactoVacios = (email.get() == null || email.get().trim().isEmpty()) &&
+                    (wsp.get() == null || wsp.get().trim().isEmpty()) &&
+                    (telegram.get() == null || telegram.get().trim().isEmpty());
+            if (mediosDeContactoVacios) {
+                ctx.status(400).json(Map.of(
+                        "error", "Error en los datos ingresados.",
+                        "detalles", List.of("Debe proporcionar al menos un medio de contacto")
+                ));
+                return;
+            }
 
-        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre,apellido,email,wsp,telegram,domicilio,nacimiento,usuario,contrasenia,repContrasenia);
+            // Recolectar errores de validación
+            Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(
+                    nombre, apellido, email, wsp, telegram, domicilio, nacimiento, usuario, contrasenia, repContrasenia);
 
-        if(!errors.isEmpty()){
-            System.out.println(errors);
-            ctx.redirect("/");
-            return;
+            if (!errors.isEmpty()) {
+                ctx.status(400).json(Map.of(
+                        "error", "Error en los datos ingresados.",
+                        "detalles", errors
+                ));
+                return;
+            }
+
+            // Creación del colaborador físico
+            ColaboradorFisico colaboradorFisico = new ColaboradorFisico(nombre.get(), apellido.get());
+
+            // Agregar medios de contacto
+            if (email.get() != null && !email.get().trim().isEmpty()) {
+                colaboradorFisico.agregarMedioDeContacto(new Email(email.get()));
+            }
+            if (wsp.get() != null && !wsp.get().trim().isEmpty()) {
+                colaboradorFisico.agregarMedioDeContacto(new Whatsapp(wsp.get()));
+            }
+            if (telegram.get() != null && !telegram.get().trim().isEmpty()) {
+                colaboradorFisico.agregarMedioDeContacto(new Telegram(telegram.get()));
+            }
+
+            // Agregar domicilio
+            if (domicilio.get() != null && !domicilio.get().trim().isEmpty()) {
+                Calle calle = new Calle();
+                calle.setNombre(domicilio.get());
+                Ubicacion ubicacion = new Ubicacion();
+                ubicacion.setCalle(calle);
+                colaboradorFisico.agregarDireccion(ubicacion);
+            }
+
+            // Agregar fecha de nacimiento
+            if (nacimiento.get() != null && !nacimiento.get().isEmpty()) {
+                colaboradorFisico.setNacimiento(LocalDate.parse(nacimiento.get()));
+            }
+
+            // Validar contraseña
+            if (!validador.validarContrasenia(usuario.get(), contrasenia.get())) {
+                List<String> errores = validador.getExcepciones().stream()
+                        .map(Exception::getMessage)
+                        .collect(Collectors.toList());
+                ctx.json(Map.of("error", "La validación de la contraseña falló.", "detalles", errores));
+                return;
+            }
+
+            // Crear usuario y asignar rol
+            Usuario nuevoUsuario = new Usuario(usuario.get(), contrasenia.get());
+            colaboradorFisico.setUsuario(nuevoUsuario);
+
+            withTransaction(() -> {
+                Rol rolFisico = repositorioRoles.buscarRolPorNombre(RoleENUM.FISICO);
+                nuevoUsuario.agregarRol(rolFisico);
+                repositorioColaboradores.guardar(colaboradorFisico);
+            });
+
+            // Respuesta exitosa
+            ctx.status(200).json(Map.of("message", "Registro exitoso"));
+
+        } catch (Exception e) {
+            ctx.status(500).json(Map.of(
+                    "error", "Ocurrió un error inesperado.",
+                    "detalles", e.getMessage()
+            ));
         }
-
-        //Creación de las instacias colaborador fisico y usuario correspondiente
-        ColaboradorFisico colaboradorFisico = ColaboradorFisicoFactory.create(nombre.get(),apellido.get(), domicilio.get(),nacimiento.get(),email.get(),wsp.get(),telegram.get());
-
-        Usuario nuevoUsuario = Usuario.of(usuario.get(),contrasenia.get());
-        colaboradorFisico.setUsuario(nuevoUsuario);
-        TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
-        withTransaction(()->{
-            Rol rolFisico = repositorioRoles.buscarRolPorNombre(RoleENUM.FISICO);
-            nuevoUsuario.agregarRol(rolFisico);
-            repositorio.guardar(tarjetaColaborador);
-        });
-        ctx.json(Map.of("success", true));
     }
+
     public void registroPersonaVulnerable(Context context) {
         String nombreBeneficiario = context.formParam("campo_nombre_pv");
         String apellidoBeneficiario = context.formParam("campo_apellido_pv");
@@ -331,7 +385,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         LocalDate fechaNacimientoBeneficiario = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_nacimiento_pv")));
 
 
-        PersonaVulnerable personaVulnerable = PersonaVulnerable.create(nombreBeneficiario,apellidoBeneficiario,fechaNacimientoBeneficiario);
+        PersonaVulnerable personaVulnerable = new PersonaVulnerable(nombreBeneficiario,fechaNacimientoBeneficiario);
+        personaVulnerable.setApellido(apellidoBeneficiario);
 
         Documento doc = new Documento();
         doc.setTipo(tipoDocumentoBeneficiario);
@@ -381,6 +436,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         });
         context.json(Map.of("success", true));
     }
+
     public void donacionDinero(Context context){
         Integer monto = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_monto_dinero")));
         FrecuenciaDeDonacion frecuenciaDeDonacion = FrecuenciaDeDonacion.valueOf(context.formParam("campo_frecuencia_dinero"));
