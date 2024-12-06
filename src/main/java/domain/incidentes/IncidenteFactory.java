@@ -1,6 +1,7 @@
 package domain.incidentes;
 import config.ServiceLocator;
 import domain.heladera.Heladera.Heladera;
+import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
 import dtos.FallaTecnicaDTO;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
@@ -26,11 +27,11 @@ public class IncidenteFactory {
 
     // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 
-    public static FallaTecnica crearFallaTecnica(FallaTecnicaDTO fallaTecnicaDTO, Heladera heladera, Usuario usuario){
+    public static FallaTecnica crearFallaTecnica(FallaTecnicaDTO fallaTecnicaDTO, Heladera heladera, ColaboradorFisico colaborador){
         FallaTecnica fallaTecnica = new FallaTecnica(heladera);
 
         fallaTecnica.setFechaYHora(LocalDateTime.now());
-        fallaTecnica.setReportadoPor(usuario);
+        fallaTecnica.setReportadoPor(colaborador);
         fallaTecnica.setDescripcion(fallaTecnicaDTO.getDescripcion());
         fallaTecnica.setFoto(fallaTecnicaDTO.getFoto());
 

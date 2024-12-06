@@ -4,6 +4,7 @@ import domain.incidentes.Incidente;
 import domain.incidentes.IncidenteFactory;
 import domain.reportes.Reporte;
 import domain.reportes.ReporteFallas;
+import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
 import dtos.FallaTecnicaDTO;
 import repositorios.interfaces.IRepositorioHeladeras;
@@ -30,8 +31,9 @@ public class ControladorFallasTecnicas {
         // De aca, lo envio al "factory" junto con la fallaTecnicaDTO.
         Heladera heladera = repositorioHeladeras.obtenerHeladeraPorNombre(fallaTecnicaDTO.getNombreHeladera());
         Usuario usuario = repositorioUsuarios.buscarUsuarioPorNombre(fallaTecnicaDTO.getNombreUsuario());
-
-        Incidente incidente = IncidenteFactory.crearFallaTecnica(fallaTecnicaDTO, heladera, usuario);
+        ColaboradorFisico colaboradorFisico = new ColaboradorFisico("asdwa","adsawda");
+        colaboradorFisico.setUsuario(usuario);
+        Incidente incidente = IncidenteFactory.crearFallaTecnica(fallaTecnicaDTO, heladera, colaboradorFisico);
         repositorioIncidentes.agregarIncidente(incidente);
     }
 
