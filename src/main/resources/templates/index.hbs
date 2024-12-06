@@ -517,27 +517,60 @@
                 </div>
 
                 <!-- Modales de exito y confirmacion-->
-                <div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarInformeModalLabel" aria-hidden="true">
+                <!--  Modal de confirmación-->
+                <div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarRegistroModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
+                            <style>
+                                /* Estilos específicos para botones con clase btn-rg */
+                                .btn-rg {
+                                    border: none;
+                                    font-size: 1.1rem;
+                                    padding: 10px 20px;
+                                    border-radius: 5px;
+                                    transition: all 0.3s ease-in-out;
+                                }
+
+                                .btn-rg.btn-secondary {
+                                    background-color: #6c757d;
+                                    color: #fff;
+                                }
+
+                                .btn-rg.btn-secondary:hover {
+                                    background-color: #050505;
+                                    color: #fff;
+                                    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+                                }
+
+                                .btn-rg.btn-warning {
+                                    background-color: #ffc107;
+                                    color: #000;
+                                }
+
+                                .btn-rg.btn-warning:hover {
+                                    background-color: #e78e10;
+                                    color: #fff;
+                                    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+                                }
+                            </style>
                             <!-- Encabezado con estilo llamativo -->
-                            <div class="modal-header" style="background-color: #F6E546; color: #000;">
-                                <h5 class="modal-title" id="confirmarInformeModalLabel">
-                                    <i class="bi bi-question-circle-fill me-2"></i> Confirmación de registro
+                            <div class="modal-header bg-warning text-dark">
+                                <h5 class="modal-title" id="confirmarRegistroModalLabel">
+                                    <i class="bi bi-question-circle-fill me-2"></i> Confirmación de Registro
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <!-- Cuerpo del modal con texto centrado -->
                             <div class="modal-body text-center">
-                                <p class="fs-4">¿Estás seguro de confirmar el registro?</p>
+                                <p>¿Estás seguro de que deseas confirmar este registro?</p>
                                 <p class="text-muted">Por favor confirma si los datos son correctos.</p>
                             </div>
                             <!-- Pie del modal con botones -->
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
+                                <button type="button" class="btn-rg btn-secondary" data-bs-dismiss="modal">
                                     <i class="bi bi-x-circle me-1"></i> Cancelar
                                 </button>
-                                <button type="button" class="btn btn-warning btn-lg" id="confirmarDonacionFinal" style="background-color: #F1A967; color: #000;">
+                                <button type="button" class="btn-rg btn-warning" id="confirmarDonacionFinal">
                                     <i class="bi bi-check-circle me-1"></i> Confirmar
                                 </button>
                             </div>
@@ -545,25 +578,27 @@
                     </div>
                 </div>
 
-
                 <!-- Modal de Éxito -->
                 <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header" style="background-color: #F1A967; color: #000;">
-                                <h5 class="modal-title" id="modalExitoLabel">¡Registración con éxito!</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="modal-header bg-success text-white">
+                                <h5 class="modal-title">
+                                    <i class="bi bi-check-circle-fill me-2"></i> ¡Registro exitoso!
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <div class="modal-body text-center">
                                 <div class="mb-3">
-                                    <!-- Ícono de éxito -->
-                                    <i class="bi bi-check-circle-fill fs-1" style="color: #08972c;"></i>
+                                    <i class="bi bi-check-circle-fill fs-1" style="color: #28a745;"></i>
                                 </div>
-                                <h3 class="text-success">¡Gracias por unirte a nuestra organización!</h3>
-                                <p class="fs-5">Tu registración fue correcta, bienvenido.</p>
+                                <h4 class="text-success">¡Gracias por unirte!</h4>
+                                <p class="fs-5">Tu registro fue realizado con éxito. ¡Bienvenido a nuestra comunidad!</p>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" style="background-color: #c0b6bb; color: #000;">Aceptar</button>
+                                <button type="button" class="btn-rg btn-success btn-lg" data-bs-dismiss="modal">
+                                    <i class="bi bi-check-circle me-1"></i> Aceptar
+                                </button>
                             </div>
                         </div>
                     </div>
