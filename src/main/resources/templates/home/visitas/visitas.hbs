@@ -57,10 +57,36 @@
                                 <div class="col-12 col-md-4">
                                     <div class="tag_info w-100"><i class="bi bi-chat-left"></i> Descripción: <span class="valor_info">{{this.comentario}}</span></div>
                                 </div>
+                                {{#if this.foto}}
+                                <div class="col-12 col-md-4">
+                                    <div class="tag_info w-100">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imagenModal{{@index}}">
+                                            <i class="bi bi-image"></i> Ver imagen
+                                        </button>
+                                    </div>
+                                </div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal para la imagen -->
+                {{#if this.foto}}
+                <div class="modal fade" id="imagenModal{{@index}}" tabindex="-1" aria-labelledby="imagenModalLabel{{@index}}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="imagenModalLabel{{@index}}">Imagen de la visita</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="{{this.foto}}" class="img-fluid" alt="Imagen de la visita">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
             {{/each}}
         </div>
     </div>

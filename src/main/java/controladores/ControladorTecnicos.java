@@ -331,14 +331,13 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         context.render("/home/visitas/visitas.hbs",model);
     }
 
-    public void repararHeladera( Context context) {
+    public void repararHeladera(Context context) {
         try {
-            // Obtener el archivo
-            UploadedFile imagen = context.uploadedFile("imagen-falla");
             String imagePath = null;
-
-            if (imagen != null) {
-                // Guardar la imagen y obtener la ruta
+            UploadedFile imagen = context.uploadedFile("imagen-falla");
+            
+            // Solo procesar la imagen si se subió un archivo y no está vacío
+            if (imagen != null && imagen.size() > 0) {
                 imagePath = ImageUpload.saveImage(imagen);
             }
 
@@ -362,7 +361,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
 
             Tecnico tecnico = (Tecnico) posibleTecnico.get();
             Heladera heladera = posibleHeladera.get();
-            Visita visitaTecnica = VisitaFactory.crearVisita(tecnico,heladera,descripcionFalla,imagePath,reparada);
+            Visita visitaTecnica = VisitaFactory.crearVisita(tecnico, heladera, descripcionFalla, imagePath, reparada);
 
             withTransaction(()->{
                 repositorio.guardar(visitaTecnica);

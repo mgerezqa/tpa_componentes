@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 public class ImageUpload {
     private static final String BASE_DIR = System.getProperty("user.dir");
     private static final String UPLOAD_DIR = BASE_DIR + File.separator + "uploads" + File.separator + "visitas";
-    private static final String RELATIVE_PATH = "/uploads/visitas/"; // Esta será la ruta URL para acceder a las imágenes
+    private static final String RELATIVE_PATH = "/uploads/visitas/";
 
     public static String saveImage(UploadedFile file) throws IOException {
         File uploadDir = new File(UPLOAD_DIR);
