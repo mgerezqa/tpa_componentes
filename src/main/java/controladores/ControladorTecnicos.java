@@ -323,9 +323,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
     public void visitas(@NotNull Context context) {
         Map<String, Object> model = new HashMap<>();
         Long idTecnico = context.sessionAttribute("id_colaborador");
-        System.out.println("id tecnico:"+ idTecnico);
         List<Visita> visitas = repositorioVisitasTecnicas.buscarVisitasPorTecnicoId(idTecnico);
-        System.out.println(visitas);
         Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class, idTecnico);
         Tecnico tecnico = (Tecnico) posibleTecnico.get();
 
