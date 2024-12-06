@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
+import repositorios.repositoriosBDD.RepositorioVisitasTecnicas;
 import utils.ICrudViewsHandler;
 import utils.uploadImage.ImageUpload;
 
@@ -38,11 +39,13 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
     private RepositorioTecnicos repositorioTecnicos;
     private Repositorio repositorio;
     private RepositorioHeladeras repositorioHeladeras;
+    private RepositorioVisitasTecnicas repositorioVisitasTecnicas;
 
-    public ControladorTecnicos(RepositorioTecnicos repositorioTecnicos,Repositorio repositorio, RepositorioHeladeras repositorioHeladeras) {
+    public ControladorTecnicos(RepositorioTecnicos repositorioTecnicos,Repositorio repositorio, RepositorioHeladeras repositorioHeladeras,RepositorioVisitasTecnicas repositorioVisitasTecnicas) {
         this.repositorioTecnicos = repositorioTecnicos;
         this.repositorio = repositorio;
         this.repositorioHeladeras = repositorioHeladeras;
+        this.repositorioVisitasTecnicas= repositorioVisitasTecnicas;
     }
 
     @Override
@@ -318,7 +321,16 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         context.render("/home/notificaciones/notificaciones.hbs");
     }
     public void visitas(@NotNull Context context) {
-        context.render("/home/visitas/visitas.hbs");
+        Map<String, Object> model = new HashMap<>();
+        Long idTecnico = context.sessionAttribute("id_colaborador");
+        System.out.println("id tecnico:"+ idTecnico);
+        List<Visita> visitas = repositorioVisitasTecnicas.buscarVisitasPorTecnicoId(idTecnico);
+        System.out.println(visitas);
+        Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class, idTecnico);
+        Tecnico tecnico = (Tecnico) posibleTecnico.get();
+
+        model.put("visitas",visitas);
+        context.render("/home/visitas/visitas.hbs",model);
     }
 
     public void repararHeladera( Context context) {
