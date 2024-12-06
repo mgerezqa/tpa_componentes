@@ -12,6 +12,7 @@ import domain.heladera.Heladera.EstadoHeladera;
 import domain.suscripciones.TipoDeSuscripcionENUM;
 import domain.usuarios.Rubro;
 import domain.usuarios.TipoRazonSocial;
+import io.javalin.http.staticfiles.Location;
 import middlewares.AuthMiddleware;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
@@ -60,6 +61,12 @@ public class Server {
             config.staticFiles.add(staticFiles -> {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "public";
+            });
+            // Nueva configuración para el directorio de uploads
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/uploads";  // Ruta URL base para acceder a las imágenes
+                staticFiles.directory = "uploads";     // Directorio físico donde se guardan las imágenes
+                staticFiles.location = Location.EXTERNAL;
             });
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
