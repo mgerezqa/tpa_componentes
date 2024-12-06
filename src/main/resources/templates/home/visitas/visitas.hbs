@@ -30,95 +30,7 @@
             <div class="titulo">
                 <span>Mis Visitas Técnicas</span>
             </div>
-            <!-- BOTON AÑADIR VISTA TÉCNICA -->
-            <a class="boton boton_titulo boton_verde" data-bs-toggle="modal" data-bs-target="#modal_nueva_colab">
-                <i class="bi bi-plus-lg"></i>
-            </a>
         </div>
-
-        <!-- MODAL AÑADIR VISITA TÉCNICA -->
-        <div class="modal fade" id="modal_nueva_colab" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="contenedor_titulo_pagina d-flex gap-4 w-100">
-                            <div class="titulo flex-fill">
-                                <span>NUEVA VISITA</span>
-                            </div>
-                            <a class="boton boton_titulo boton_rojo" data-bs-dismiss="modal">
-                                <i class="bi bi-x-lg"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="row justify-content-center g-3 mb-4">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="campo_estado" id="estado_activa" value="activa">
-                                            <label class="form-check-label" for="estado_activa">ACTIVA</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="campo_estado" id="estado_desperfecto" value="desperfecto">
-                                            <label class="form-check-label" for="estado_desperfecto">DESPERFECTO</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="date" class="form-control shadow-none rounded-4" id="campo_fecha_realizada" value="" placeholder="">
-                                        <label for="campo_fecha_realizada">Fecha Realizada</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <select class="form-select shadow-none rounded-4" id="campo_motivo">
-                                            <option value="0" class="d-none">Seleccione...</option>
-                                            <option value="1">FALLA APERTURA</option>
-                                            <option value="2">ALTA TEMPERATURA</option>
-                                            <option value="3">FALTA DE VIANDAS</option>
-                                        </select>
-                                        <label for="campo_motivo">Motivo</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <select class="form-select shadow-none rounded-4" id="campo_heladera_id">
-                                            <option value="0" class="d-none">Seleccione...</option>
-                                            <option value="1">Heladera 1</option>
-                                            <option value="2">Heladera 2</option>
-                                            <option value="3">Heladera 3</option>
-                                        </select>
-                                        <label for="campo_heladera_id">Heladera ID</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 d-none">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_colaborador_vianda" value="Colaborador_id" placeholder="" disabled>
-                                        <label for="campo_colaborador_vianda">Colaborador</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control shadow-none rounded-4" id="campo_descripcion_trabajo" placeholder=""></textarea>
-                                        <label for="campo_descripcion_trabajo">Descripción del Trabajo</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row justify-content-center mt-3">
-                                <div class="col-6">
-                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
 
         <!-- LISTA DE CARDS -->
         <div class="contenedor_datos container-fluid py-4">
@@ -197,7 +109,7 @@
         </div>
         <!-- boton donar de nuevo -->
         <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-agregar-donacion">
-            <a class="btn botones btn-donar" data-bs-toggle="modal" data-bs-target="#modal_nueva_colab">
+            <a href="/estaciones" class="btn botones btn-donar" >
                 <i class="bi bi-plus-circle"></i>
                 Nueva visita
             </a>

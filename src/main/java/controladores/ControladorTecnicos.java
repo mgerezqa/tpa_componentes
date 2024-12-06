@@ -16,6 +16,7 @@ import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.http.UploadedFile;
 import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
@@ -23,6 +24,7 @@ import io.javalin.validation.Validator;
 import org.jetbrains.annotations.NotNull;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
 import utils.ICrudViewsHandler;
+import utils.uploadImage.ImageUpload;
 
 import java.util.*;
 
@@ -310,6 +312,36 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
     }
     public void visitas(@NotNull Context context) {
         context.render("/home/visitas/visitas.hbs");
+    }
 
+    public void repararHeladera( Context context) {
+        context.formParamMap().forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+        try {
+            // Obtener el archivo
+            UploadedFile imagen = context.uploadedFile("imagen-falla");
+            String imagePath = null;
+
+            if (imagen != null) {
+                // Guardar la imagen y obtener la ruta
+                imagePath = ImageUpload.saveImage(imagen);
+            }
+
+            // Obtener otros parámetros del formulario
+            String nombreEstacion = context.formParam("nombre-estacion-modal");
+            String fechaAsistencia = context.formParam("fecha-asistencia");
+            String descripcionFalla = context.formParam("descripcion-falla");
+            boolean reparada = Boolean.parseBoolean(context.formParam("reparada"));
+
+            // Aquí puedes crear tu objeto de dominio y persistirlo en la base de datos
+            // incluyendo el imagePath
+
+            context.redirect("/visitas");
+        } catch (Exception e) {
+            e.printStackTrace();
+            context.status(500);
+            context.result("Error al procesar la solicitud");
+        }
     }
 }
