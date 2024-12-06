@@ -517,12 +517,11 @@
                 </div>
 
                 <!-- Modales de exito y confirmacion-->
-                <!-- Modal de Confirmación de registro persona fisica -->
                 <div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarInformeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
                             <!-- Encabezado con estilo llamativo -->
-                            <div class="modal-header bg-warning text-dark">
+                            <div class="modal-header" style="background-color: #F6E546; color: #000;">
                                 <h5 class="modal-title" id="confirmarInformeModalLabel">
                                     <i class="bi bi-question-circle-fill me-2"></i> Confirmación de registro
                                 </h5>
@@ -538,7 +537,7 @@
                                 <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
                                     <i class="bi bi-x-circle me-1"></i> Cancelar
                                 </button>
-                                <button type="button" class="btn btn-warning btn-lg" id="confirmarDonacionFinal">
+                                <button type="button" class="btn btn-warning btn-lg" id="confirmarDonacionFinal" style="background-color: #F1A967; color: #000;">
                                     <i class="bi bi-check-circle me-1"></i> Confirmar
                                 </button>
                             </div>
@@ -549,14 +548,14 @@
 
                 <!-- Modal de Éxito -->
                 <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Cambiamos a modal-lg para hacerlo más grande -->
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header bg-success text-white">
+                            <div class="modal-header" style="background-color: #F1A967; color: #000;">
                                 <h5 class="modal-title" id="modalExitoLabel">¡Registración con éxito!</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body text-center">
-                                <div class="mb-3 ">
+                                <div class="mb-3">
                                     <!-- Ícono de éxito -->
                                     <i class="bi bi-check-circle-fill fs-1" style="color: #08972c;"></i>
                                 </div>
@@ -564,7 +563,7 @@
                                 <p class="fs-5">Tu registración fue correcta, bienvenido.</p>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal">Aceptar</button>
+                                <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal" style="background-color: #c0b6bb; color: #000;">Aceptar</button>
                             </div>
                         </div>
                     </div>
@@ -814,7 +813,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
-<script src ="/js/confirmaciones/script_formulario_confirmacion.js"></script>
+<!--<script src ="/js/confirmaciones/script_formulario_confirmacion.js"></script>-->
 
 <script>
     {{#if showModal}}
@@ -825,9 +824,11 @@
     {{/if}}
 </script>
 
+
 <script>
-    document.getElementById('formularioPersona').addEventListener('submit', function (e) {
-        e.preventDefault(); // Evitar el envío predeterminado del formulario
+    // Evento para formulario físico
+    document.getElementById('formularioPersona').addEventListener('submit', function(e) {
+        e.preventDefault();
         const formData = new FormData(this);
 
         fetch('/fisico/signup', {
@@ -839,26 +840,22 @@
                     const passwordErrorsContainer = document.getElementById('passwordErrors');
 
                     if (data.error) {
-                        // Limpiar mensajes de error previos
                         passwordErrorsContainer.innerHTML = '';
-
-                        // Verificar si hay detalles en la respuesta
                         if (data.detalles && Array.isArray(data.detalles)) {
-                            // Mostrar cada error como una línea separada
                             data.detalles.forEach(error => {
                                 const errorElement = document.createElement('div');
+                                errorElement.className = 'alert alert-danger';
                                 errorElement.textContent = error;
                                 passwordErrorsContainer.appendChild(errorElement);
                             });
                         } else {
-                            // Mensaje de error genérico si no hay detalles
                             passwordErrorsContainer.textContent = 'Ocurrió un error inesperado.';
                         }
                     } else {
-                        // Limpiar los errores y mostrar mensaje de éxito
                         passwordErrorsContainer.innerHTML = '';
-                        alert('Registro exitoso');
-                        window.location.href = '/';
+                        // Mostrar modal de confirmación
+                        const confirmarModal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+                        confirmarModal.show();
                     }
                 })
                 .catch(err => {
@@ -866,11 +863,10 @@
                     alert('Ocurrió un error al procesar el registro.');
                 });
     });
-</script>
 
-<script>
-    document.getElementById('formularioPersonaJuridica').addEventListener('submit', function (e) {
-        e.preventDefault(); // Evitar el envío predeterminado del formulario
+    // Evento para formulario jurídico
+    document.getElementById('formularioPersonaJuridica').addEventListener('submit', function(e) {
+        e.preventDefault();
         const formData = new FormData(this);
 
         fetch('/juridico/signup', {
@@ -879,29 +875,25 @@
         })
                 .then(response => response.json())
                 .then(data => {
-                    const passwordErrorsContainer = document.getElementById('passwordErrorsJuridico'); // Actualizar ID aquí
+                    const passwordErrorsContainer = document.getElementById('passwordErrorsJuridico');
 
                     if (data.error) {
-                        // Limpiar mensajes de error previos
                         passwordErrorsContainer.innerHTML = '';
-
-                        // Verificar si hay detalles en la respuesta
                         if (data.detalles && Array.isArray(data.detalles)) {
-                            // Mostrar cada error como una línea separada
                             data.detalles.forEach(error => {
                                 const errorElement = document.createElement('div');
+                                errorElement.className = 'alert alert-danger';
                                 errorElement.textContent = error;
                                 passwordErrorsContainer.appendChild(errorElement);
                             });
                         } else {
-                            // Mensaje de error genérico si no hay detalles
                             passwordErrorsContainer.textContent = 'Ocurrió un error inesperado.';
                         }
                     } else {
-                        // Limpiar los errores y mostrar mensaje de éxito
                         passwordErrorsContainer.innerHTML = '';
-                        alert('Registro exitoso');
-                        window.location.href = '/';
+                        // Mostrar modal de confirmación
+                        const confirmarModal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+                        confirmarModal.show();
                     }
                 })
                 .catch(err => {
@@ -910,7 +902,24 @@
                 });
     });
 
+    // Manejar confirmación final
+    document.getElementById('confirmarDonacionFinal').addEventListener('click', function() {
+        // Mostrar modal de éxito
+        const confirmarModal = bootstrap.Modal.getInstance(document.getElementById('confirmarModal'));
+        confirmarModal.hide();
+
+        const exitoModal = new bootstrap.Modal(document.getElementById('modalExito'));
+        exitoModal.show();
+
+        // Redirigir después de mostrar el modal de éxito
+        exitoModal._element.addEventListener('hidden.bs.modal', function() {
+            window.location.href = '/';
+        });
+    });
 </script>
+
+
+
 
 </body>
 </html>
