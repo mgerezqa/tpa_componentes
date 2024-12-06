@@ -33,6 +33,7 @@ public class SensorTemperatura {
 
     public void recibirTemperaturaActual(String dato){
         Float temperaturaActual = Float.parseFloat(dato);
+        System.out.println("temperatura:"+ temperaturaActual);
         //heladera.setUltimaTemperaturaRegistrada(dato);
         heladera.setUltimaTemperaturaRegistrada(temperaturaActual, LocalDateTime.now());
         if(heladera.temperaturaFueraDeRango()){

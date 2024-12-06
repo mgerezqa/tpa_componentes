@@ -332,9 +332,6 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
     }
 
     public void repararHeladera( Context context) {
-        context.formParamMap().forEach((key, value) -> {
-            System.out.println(key + ": " + value);
-        });
         try {
             // Obtener el archivo
             UploadedFile imagen = context.uploadedFile("imagen-falla");
