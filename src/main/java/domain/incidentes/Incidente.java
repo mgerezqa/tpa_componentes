@@ -33,12 +33,17 @@ public abstract class Incidente {
     @JoinColumn(name = "tecnicoAsig_id", referencedColumnName = "id")
     private Tecnico tecnicoAsignado;
 
+    @Column(name = "resuelto")
+    private Boolean resuelto;
     public Incidente(Heladera heladera) {
         this.heladera = heladera;
+        this.resuelto = false;
         heladera.agregarIncidente(this);                     // Persistir en cada heladera.
         heladera.setEstadoHeladera(EstadoHeladera.INACTIVA); // Setear cada heladera como inactiva.
     }
-
+    public void resolverIncidente(){
+        this.resuelto = true;
+    }
     // Método para obtener la descripción del incidente
     public abstract String obtenerDescripcion();
 

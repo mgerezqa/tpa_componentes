@@ -52,6 +52,7 @@ public class Visita {
         if(resuelto) {
             heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
             heladera.setUltimaTemperaturaRegistrada(15f,LocalDateTime.now());
+            incidente.resolverIncidente();
         }
     }
 }

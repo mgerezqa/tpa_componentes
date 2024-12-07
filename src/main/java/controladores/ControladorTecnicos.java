@@ -346,7 +346,6 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             String fechaAsistencia = context.formParam("fecha-asistencia");
             String descripcionFalla = context.formParam("descripcion-falla");
             boolean reparada = Boolean.parseBoolean(context.formParam("reparada"));
-            System.out.println("reparada:"+reparada);
             Long tecnicoId = context.sessionAttribute("id_colaborador");
             Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class, tecnicoId);
             Optional<Heladera> posibleHeladera = repositorioHeladeras.obtenerHeladeraPorNombre(nombreEstacion);

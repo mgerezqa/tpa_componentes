@@ -28,7 +28,6 @@ public class VisitaFactory {
             throw new RuntimeException("La heladera no tiene incidentes vinculados");
         }
         Incidente ultimoIncidente = incidentes.get(incidentes.size() - 1);
-
         Visita visita = Visita.builder()
                 .tecnico(tecnico)
                 .incidente(ultimoIncidente)
