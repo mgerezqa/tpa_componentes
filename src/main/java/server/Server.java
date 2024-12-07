@@ -76,7 +76,7 @@ public class Server {
                 try {
                     String templatePath = path.replace(".hbs", "");
                     // La plantilla debe cargarse desde la carpeta "templates" en el classpath
-                    template = handlebars.compile("templates/" + templatePath);
+                    template = handlebars.compile("templates" + templatePath);
                     return template.apply(model);
                 } catch (IOException e) {
                     e.printStackTrace();
