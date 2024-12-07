@@ -59,36 +59,27 @@ public class Server {
 
     private static Consumer<JavalinConfig> config() {
         return config -> {
+            // Solo una configuración de archivos estáticos
             config.staticFiles.add(staticFiles -> {
                 staticFiles.hostedPath = "/";
-                staticFiles.directory = "public";
-                staticFiles.location = Location.CLASSPATH; // Añade esta línea
-
-            });
-
-            // Añade esta configuración para las plantillas
-            config.staticFiles.add(staticFiles -> {
-                staticFiles.hostedPath = "/templates";
-                staticFiles.directory = "/templates";
+                staticFiles.directory = "/public";
                 staticFiles.location = Location.CLASSPATH;
             });
 
+            // Configuración de Handlebars mejorada
+            Handlebars handlebars = new Handlebars()
+                    .with(new ClassPathTemplateLoader("/templates", ".hbs"));
+
+            handlebars.registerHelper("eq", (context, options) -> {
+                if (context == null || options.param(0) == null) {
+                    return false;
+                }
+                return context.equals(options.param(0));
+            });
+
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
-                Handlebars handlebars = new Handlebars()
-                        .with(new ClassPathTemplateLoader("/templates", ".hbs")); // Agregue esta línea
-                ;
-                handlebars.registerHelper("eq", (context1, options) -> {
-                    if (context1 == null || options.param(0) == null) {
-                        return false;
-                    }
-                    return context1.equals(options.param(0));
-                });
-
-
-                Template template = null;
                 try {
-                    template = handlebars.compile(
-                            path.replace(".hbs", ""));
+                    Template template = handlebars.compile(path.replace(".hbs", ""));
                     return template.apply(model);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -96,13 +87,7 @@ public class Server {
                     return "No se encuentra la página indicada...";
                 }
             }));
-            config.validation.register(TipoDocumento.class,  v->  {
-                try {
-                    return TipoDocumento.valueOf(v.toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    throw new CustomEnumConversionException("El valor introducido no es un valor valido!", e);
-                }
-            });
+
             config.validation.register(TamanioArea.class, v->  TamanioArea.valueOf(v.toUpperCase()));
             config.validation.register(EstadoHeladera.class, v->  EstadoHeladera.valueOf(v.toUpperCase()));
             config.validation.register(TipoDeSuscripcionENUM.class, v->  TipoDeSuscripcionENUM.valueOf(v.toUpperCase()));
