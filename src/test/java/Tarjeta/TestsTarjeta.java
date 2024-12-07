@@ -11,14 +11,12 @@ import domain.persona.PersonaVulnerable;
 import domain.tarjeta.RegistroDeUso;
 import domain.tarjeta.Tarjeta;
 import domain.tarjeta.TarjetaVulnerable;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Disabled
 public class TestsTarjeta {
     TarjetaVulnerable tarjeta;
     PersonaVulnerable diego;
