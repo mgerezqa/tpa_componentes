@@ -2,6 +2,7 @@ package server;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import config.ServiceLocator;
 import domain.Config;
 import domain.excepciones.CuilInvalidoException;
@@ -12,6 +13,7 @@ import domain.heladera.Heladera.EstadoHeladera;
 import domain.suscripciones.TipoDeSuscripcionENUM;
 import domain.usuarios.Rubro;
 import domain.usuarios.TipoRazonSocial;
+import io.javalin.http.staticfiles.Location;
 import middlewares.AuthMiddleware;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
@@ -60,10 +62,21 @@ public class Server {
             config.staticFiles.add(staticFiles -> {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "public";
+                staticFiles.location = Location.CLASSPATH; // Añade esta línea
+
+            });
+
+            // Añade esta configuración para las plantillas
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/templates";
+                staticFiles.directory = "/templates";
+                staticFiles.location = Location.CLASSPATH;
             });
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
-                Handlebars handlebars = new Handlebars();
+                Handlebars handlebars = new Handlebars()
+                        .with(new ClassPathTemplateLoader("/templates", ".hbs")); // Agregue esta línea
+                ;
                 handlebars.registerHelper("eq", (context1, options) -> {
                     if (context1 == null || options.param(0) == null) {
                         return false;
