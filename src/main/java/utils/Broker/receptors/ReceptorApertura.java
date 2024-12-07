@@ -27,6 +27,7 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) {
+        entityManager().clear();
         try {
             JsonObject jsonObject = getJsonObjectFrom(mqttMessage);
             Long idHeladera = jsonObject.get("idH").getAsLong();

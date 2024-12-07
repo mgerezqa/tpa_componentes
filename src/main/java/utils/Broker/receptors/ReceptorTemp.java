@@ -19,6 +19,7 @@ public class ReceptorTemp extends Receptor implements WithSimplePersistenceUnit 
     }
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) {
+        entityManager().clear();
         JsonObject jsonObject = getJsonObjectFrom(mqttMessage);
         Long idHeladera = Long.parseLong(jsonObject.get("id").getAsString());
         String temperatura = jsonObject.get("temp").getAsString();

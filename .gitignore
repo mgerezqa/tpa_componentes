@@ -14,6 +14,8 @@ target/
 *.iml
 *.ipr
 
+/uploads
+
 ### Eclipse ###
 .apt_generated
 .classpath

@@ -1,5 +1,6 @@
 package domain.incidentes;
 import domain.heladera.Heladera.Heladera;
+import domain.usuarios.ColaboradorFisico;
 import domain.usuarios.Usuario;
 import lombok.*;
 
@@ -13,8 +14,8 @@ import java.time.LocalDateTime;
 public class FallaTecnica extends Incidente {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
-    private Usuario reportadoPor;
+    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
+    private ColaboradorFisico reportadoPor;
 
     @Column(name = "descripcion")
     private String descripcion;
@@ -29,5 +30,8 @@ public class FallaTecnica extends Incidente {
     @Override
     public String obtenerDescripcion() {
         return "Falla Técnica: " + this.descripcion;
+    }
+    public String getTipo(){
+        return "FALLA TECNICA";
     }
 }

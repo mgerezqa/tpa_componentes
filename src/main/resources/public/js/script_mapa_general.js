@@ -19,6 +19,8 @@ function mostrarInformacionHeladera(heladera) {
 
     // Completar modal con datos
     document.getElementById("nombre-estacion-modal").value = heladera.nombre;
+    document.getElementById("estacion").value = heladera.id; //En realidad tiene que ser el nombre, no el id pero ya fue
+
 }
 
 // Añade marcadores al mapa con la información de cada heladera

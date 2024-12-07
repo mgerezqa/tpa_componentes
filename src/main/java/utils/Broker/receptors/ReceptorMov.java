@@ -17,6 +17,7 @@ public class ReceptorMov extends Receptor implements WithSimplePersistenceUnit {
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) {
+        entityManager().clear();
         JsonObject jsonObject = getJsonObjectFrom(mqttMessage);
         Long idHeladera = Long.parseLong(jsonObject.get("id").getAsString());
         Optional<Object> heladera = repositorioHeladeras.buscarPorID(Heladera.class,idHeladera); //Se obtiene a la heladera ,y al ser un objeto no es necesario hacer una actualización para la persitencia en memoria.

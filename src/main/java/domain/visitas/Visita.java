@@ -5,20 +5,22 @@ import domain.heladera.Heladera.Heladera;
 import domain.incidentes.Incidente;
 import domain.usuarios.Tecnico;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "visitas")
 public class Visita {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -29,7 +31,7 @@ public class Visita {
     @JoinColumn(name = "heladera_id", nullable = false)
     private Heladera heladera;
 
-    @Column(name = "fechaVisita", columnDefinition = "DATE")
+    @Column(name = "fechaVisita", columnDefinition = "DATETIME")
     private LocalDateTime fechaVisita;
 
     @Column(name = "comentario")
@@ -49,7 +51,7 @@ public class Visita {
     public void incidenteResuelto(Boolean resuelto){
         if(resuelto) {
             heladera.setEstadoHeladera(EstadoHeladera.ACTIVA);
-
+            heladera.setUltimaTemperaturaRegistrada(15f,LocalDateTime.now());
         }
     }
 }

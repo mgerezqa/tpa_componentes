@@ -2,11 +2,11 @@ package repositorios.repositoriosBDD;
 
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
-import domain.usuarios.Tecnico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RepositorioHeladeras extends Repositorio implements WithSimplePersistenceUnit {
 
@@ -42,5 +42,12 @@ public class RepositorioHeladeras extends Repositorio implements WithSimplePersi
                 .createQuery("SELECT h FROM Heladera h WHERE h.estadoHeladera =:estado ", Heladera.class)
                 .setParameter("estado", EstadoHeladera.ACTIVA)
                 .getResultList();
+    }
+    public Optional<Heladera> obtenerHeladeraPorNombre(String nombre) {
+        return entityManager()
+                .createQuery("SELECT h FROM Heladera h WHERE h.nombreIdentificador =:nombre ", Heladera.class)
+                .setParameter("nombre", nombre)
+                .getResultStream()
+                .findFirst();
     }
 }
