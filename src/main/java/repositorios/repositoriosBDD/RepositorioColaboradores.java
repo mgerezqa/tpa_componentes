@@ -81,4 +81,20 @@ public class RepositorioColaboradores extends Repositorio implements WithSimpleP
                 .getResultStream()
                 .findFirst();
     }
+
+    public String obtenerNombreORazonSocialPorId(Long id) {
+        ColaboradorFisico colaboradorFisico = entityManager().find(ColaboradorFisico.class, id);
+        if (colaboradorFisico != null) {
+            return colaboradorFisico.getNombre() + " " + colaboradorFisico.getApellido();
+        }
+
+        ColaboradorJuridico colaboradorJuridico = entityManager().find(ColaboradorJuridico.class, id);
+        if (colaboradorJuridico != null) {
+            return colaboradorJuridico.getRazonSocial();
+        }
+
+        throw new IllegalArgumentException("No se encontró un colaborador con el ID proporcionado: " + id);
+    }
+
+
 }

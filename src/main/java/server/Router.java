@@ -2,8 +2,6 @@ package server;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import domain.donaciones.Donacion;
 import domain.excepciones.ExcepcionCanjePuntosInsuficientes;
@@ -24,9 +22,6 @@ import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -133,10 +128,21 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove,RoleENUM.ADMIN);
 
-
         //dashboard/donaciones
         app.get("/dashboard/donaciones/dinero", ServiceLocator.instanceOf(ControladorDonacionDinero.class)::index,RoleENUM.ADMIN);
-        app.get("/dashboard/donaciones/viandas", ServiceLocator.instanceOf(ControladorViandas.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/dinero/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionDinero.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/viandas", ServiceLocator.instanceOf(ControladorDonacionViandas.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/viandas/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionViandas.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/repartos", ServiceLocator.instanceOf(ControladorDonacionRepartos.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/repartos/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionRepartos.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/mantenimientos", ServiceLocator.instanceOf(ControladorDonacionMantenimiento.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/mantenimientos/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionMantenimiento.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/registroPV", ServiceLocator.instanceOf(ControladorDonacionRegistroPersonaVulnerable.class)::index, RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/registroPV/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionRegistroPersonaVulnerable.class)::delete, RoleENUM.ADMIN);
 
         // Ruta para carga masiva de donaciones
         app.post("/dashboard/carga-masiva", ctx -> {
@@ -187,9 +193,7 @@ public class Router implements SimplePersistenceTest{
                 ctx.status(500).result("Error al procesar el archivo: " + e.getMessage());
             }
         }, RoleENUM.ADMIN);
-
         // // //
-
 
         //signup de colaborador fisico
         app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);

@@ -1,18 +1,15 @@
 package dtos;
-
-import domain.donaciones.FrecuenciaDeDonacion;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class DineroDTO {
-
+public class MantenimientoDTO {
     private Long id;
-    private Integer cantidad;
-    private String frecuencia;
+    private Long colaboradorID;
+    private Long heladeraID;
     private String nombreColaborador;
-    private Long colaboradorId;
+    private String heladeraOrigen;
+    private Integer mesesPuntuados;
     private LocalDate fechaDeDonacion;
-
 }

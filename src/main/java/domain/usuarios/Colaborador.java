@@ -58,11 +58,13 @@ public abstract class Colaborador {
     public void darDeBaja(){ this.activo = false; }
 
     public void sumarPuntos(int puntos) {
-        this.puntosAcumulados += puntos;
+        this.puntosAcumulados += Math.round(puntos);
     }
+
     public void restarPuntos(int puntos) {
-        this.puntosAcumulados -= puntos;
+        this.puntosAcumulados -= Math.round(puntos);
     }
+
 
     public String email() {
         for (MedioDeContacto medio : this.getMediosDeContacto()) {

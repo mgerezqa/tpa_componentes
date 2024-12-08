@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; }
+        .container {
+            padding: 20px;
+            background-color: #000000; /* Borde exterior negro */
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+        .container-inner {
+            padding: 20px;
+            background-color: #ffc107; /* Recuadro amarillo huevo */
+            border-radius: 8px;
+            border: 2px solid #ff007f; /* Borde interior rosa/fucsia */
+        }
+        .content {
+            padding: 20px;
+            background-color: #ffffff; /* Fondo blanco del texto */
+            border-radius: 6px;
+        }
+        h1 { color: #000000; text-align: center; } /* Título en negro y centrado */
+        p { color: #000000; } /* Texto en negro */
+        .highlight { color: #ff007f; font-weight: bold; } /* Texto destacado en rosa/fucsia */
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .emoji {
+            text-shadow: 1px 1px 2px #000000; /* Sombras a los emojis */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="container-inner">
+        <div class="content">
+            <h1>¡Bienvenido al sistema HOPEONG! 🎉</h1>
+            <p>¡Hola <span class="highlight">{{name}}</span>! <span class="emoji">🎉</span></p>
+            <p>Nos complace darte la bienvenida a nuestro sistema. Aquí están tus credenciales de acceso:</p>
+            <ul>
+                <li>Usuario: <span class="highlight">{{username}}</span></li>
+                <li>Contraseña: <span class="highlight">{{password}}</span></li>
+            </ul>
+            <p>Recuerda modificar tu contraseña para garantizar la seguridad de tu cuenta. <span class="emoji">🔒</span></p>
+            <p>¡Gracias por unirte a nosotros y hacer la diferencia! <span class="emoji">🌟</span></p>
+            <p>Atentamente,<br>El equipo de HOPEONG <span class="emoji">💖</span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

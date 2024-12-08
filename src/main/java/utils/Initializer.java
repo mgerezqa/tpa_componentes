@@ -4,6 +4,8 @@ import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
+import domain.donaciones.MantenerHeladera;
+import domain.donaciones.RegistroDePersonaVulnerable;
 import domain.formulario.documentos.Cuil;
 import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;
@@ -20,6 +22,7 @@ import repositorios.repositoriosBDD.*;
 import utils.Broker.ServiceBroker;
 import utils.notificador.Notificador;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Initializer implements WithSimplePersistenceUnit {
@@ -29,8 +32,10 @@ public class Initializer implements WithSimplePersistenceUnit {
     private RepositorioTecnicos repositorioTecnicos;
     private Repositorio repositorio;
     private List<ModeloDeHeladera> modelosHeladerasPorDefecto = new ArrayList<>();
+    private RepositorioMantenciones repositorioDonaciones;
 
-    public Initializer(RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
+    public Initializer(RepositorioMantenciones repositorioDonaciones, RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
+        this.repositorioDonaciones = repositorioDonaciones;
         this.repositorioRoles = repositorioRoles;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioColaboradores = repositorioColaboradores;
@@ -131,6 +136,37 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorio.guardar(heladera3);
         repositorio.guardar(heladera4);
 
+        MantenerHeladera mantenerHeladera = new MantenerHeladera();
+        mantenerHeladera.setHeladera(heladera1);
+        mantenerHeladera.setMesesPuntarizados(5);
+        mantenerHeladera.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
+        mantenerHeladera.setFechaDeDonacion(LocalDate.now());
+
+        mantenerHeladera.setPuntosOtorgados(5);
+
+        MantenerHeladera mantenerHeladera2 = new MantenerHeladera();
+        mantenerHeladera2.setHeladera(heladera2);
+        mantenerHeladera2.setMesesPuntarizados(3);
+        mantenerHeladera2.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
+        mantenerHeladera2.setFechaDeDonacion(LocalDate.now());
+
+        mantenerHeladera2.setPuntosOtorgados(3);
+
+        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(5);
+        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(3);
+
+        repositorio.guardar(mantenerHeladera);
+        repositorio.guardar(mantenerHeladera2);
+
+        RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable();
+        registroDePersonaVulnerable.setCantidad(2);
+        registroDePersonaVulnerable.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
+        registroDePersonaVulnerable.setPuntosOtorgados(10);
+        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(10);
+        registroDePersonaVulnerable.setFechaDeDonacion(LocalDate.now());
+
+        repositorio.guardar(registroDePersonaVulnerable);
+
     }
 
     private void instanciarDistintosModelosDeHeladeras() {
@@ -162,6 +198,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorioRoles.guardar(fisico);
         repositorioRoles.guardar(tecnico);
     }
+
     private void instaciarLosDistintosUsuariosRoles() {
         Usuario admin = new Usuario("admin", "admin");
         Usuario usuarioJuridico = new Usuario("juridico", "juridico");

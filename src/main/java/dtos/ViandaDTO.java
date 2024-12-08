@@ -15,5 +15,7 @@ public class ViandaDTO {
     private LocalDate fechaDonacion;
     private LocalDate fechaVencimiento;
     private Long colaboradorDonanteId;
+    private String nombreColaborador;
     private Long heladeraActualId;
+    private Integer cantidad;
 }
