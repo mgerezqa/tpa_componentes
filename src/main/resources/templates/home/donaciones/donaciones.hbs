@@ -466,7 +466,7 @@
 
                                 <div id="contenedor_form_producto_servicio" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
-                                        <form id="formProductoServicio" action="/ofrecer-prod-servicio" method="POST">
+                                        <form id="formProductoServicio" action="/ofrecer-prod-servicio" method="POST" enctype="multipart/form-data">
                                             <div class="row row-cols-1 row-cols-md-3 g-3">
                                                 <div class="col-6 col-md-4">
                                                     <div class="form-floating">
@@ -506,6 +506,10 @@
                                                         <input type="number" class="form-control shadow-none rounded-4" id="campo_costo_puntos" name="campo_costo_puntos" placeholder="campo_costo_puntos" required>
                                                         <label for="campo_costo_puntos">Costo de puntos</label>
                                                     </div>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <label>Subir imagen:</label>
+                                                    <input type="file" class="form-control" id="imagen-falla" accept="image/*" name="imagen-falla">
                                                 </div>
 
                                             </div>
@@ -703,16 +707,39 @@
                                     <div class="col-12 col-md-4">
                                         <div class="tag_info w-100"><i class="bi bi-credit-card-2-front"></i> Costo puntos: <span class="valor_info">{{this.costoPuntos}}</span></div>
                                     </div>
+                                    {{#if this.foto}}
+                                        <div class="col-12 col-md-4">
+                                            <div class="tag_info w-100">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imagenModal{{@index}}">
+                                                    <i class="bi bi-image"></i> Ver imagen
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {{/if}}
                                 {{/if}}
-
                             </div>
                         </div>
                     </div>
                 </div>
+                {{#if this.foto}}
+                    <div class="modal fade" id="imagenModal{{@index}}" tabindex="-1" aria-labelledby="imagenModalLabel{{@index}}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imagenModalLabel{{@index}}">Imagen de la visita</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img src="{{this.foto}}" class="img-fluid" alt="Imagen de la visita">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
             {{/each}}
         </div>
     </div>
-
+    <!-- Modal para la imagen -->
     <!-- Botones volver al menu , recomendar lugar para donar y quiero donar -->
     <div class="flex row col-12 ">
         <!-- boton volver al menu principal -->
