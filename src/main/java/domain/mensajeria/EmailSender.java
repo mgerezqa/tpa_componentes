@@ -40,6 +40,7 @@ public class EmailSender {
         Transport.send(message);
     }
 
+
     private Session getEmailSession() {
         return Session.getInstance(getGmailProperties(), new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {

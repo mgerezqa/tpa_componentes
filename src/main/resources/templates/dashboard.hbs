@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- <Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Dashboard admin</title>
+    <link rel="stylesheet" href="/css/style_dashboard.css">
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto px-0">
+            <div id="sidebar" class="collapse collapse-horizontal show border-end" > <!--collapse-horizontal-->
+                <div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start min-vh-100" > <!-- Menu -->
+                    <a href="/dashboard/fisicos" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5 " id="colaboradores-fisicos"  style="margin-top: 3rem;">
+                        <i class="bi bi-people-fill"></i> <span>Colaboradores físicos</span>
+                    </a>
+                    <a href="/dashboard/juridicos" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="colaboradores-juridicos" data-bs-parent="#sidebar" data-section="listado-colaboradores-juridicos">
+                        <i class="bi bi-building"></i> <span>Colaboradores jurídicos</span>
+                    </a>
+                    <a href="/dashboard/heladeras" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="heladeras" >
+                        <i class="bi bi-pc"></i> <span>Heladeras</span>
+                    </a>
+                    <a href="/dashboard/tecnicos" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="tecnicos" >
+                        <i class="bi bi-tools"></i> <span>Técnicos</span>
+                    </a>
+                    <div class="dropdown dropend">
+                        <a href="#" class=" d-flex list-group-item  border-end-0 d-inline-block text-truncate py-4 fs-5"id="donaciones" data-bs-parent="#sidebar" data-bs-toggle="dropdown"  aria-expanded="false" >
+                            <i class="bi bi-tools"></i> <span class="ms-2">Donaciones</span>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow " aria-labelledby="dropdown">
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/dinero" >Dinero</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/viandas" >Viandas</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/repartos" >Repartos</a></li>
+                            <li><a class="dropdown-item" href="/dashboard/donaciones/mantenimientos" >Mantenimiento</a></li>
+                        </ul>
+                    </div>
+
+                    <a href="/dashboard/suscripciones" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="suscripciones" data-bs-parent="#sidebar" >
+                        <i class="bi bi-bell-fill"></i> <span>Suscripciones</span>
+                    </a>
+                    <a href="/dashboard/beneficiarios" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="beneficiarios" data-bs-parent="#sidebar" >
+                        <i class="bi bi-person-badge-fill"></i> <span>Beneficiarios</span>
+                    </a>
+                    <a href="/dashboard/tarjetas" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5" id="tarjetas-beneficiarios" data-bs-parent="#sidebar" >
+                        <i class="bi bi-credit-card-2-back-fill"></i> <span>Tarjetas Beneficiarios</span>
+                    </a>
+
+
+
+
+
+
+                    <div class="card text-center mt-5 mx-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Carga Masiva</h5>
+                            <form id="formCargaMasiva" enctype="multipart/form-data">
+                                <input type="file" id="fileInput" name="file" class="form-control mb-3" accept=".csv, .txt" required>
+                                <button type="submit" id="submitButton" class="btn btn-primary">Subir Archivo</button>
+                                <div id="responseMessage" class="mt-3"></div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById("formCargaMasiva").addEventListener("submit", async function (event) {
+                            event.preventDefault();
+
+                            const fileInput = document.getElementById("fileInput");
+                            const submitButton = document.getElementById("submitButton");
+                            const responseMessage = document.getElementById("responseMessage");
+
+                            responseMessage.textContent = ""; // Limpia mensajes anteriores
+
+                            // Validar que se haya seleccionado un archivo
+                            if (!fileInput.files.length) {
+                                responseMessage.textContent = "Por favor, selecciona un archivo.";
+                                responseMessage.style.color = "red";
+                                return;
+                            }
+
+                            // Validar extensión del archivo
+                            const file = fileInput.files[0];
+                            const validExtensions = ['csv', 'txt'];
+                            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                            if (!validExtensions.includes(fileExtension)) {
+                                responseMessage.textContent = "El archivo debe ser .csv o .txt.";
+                                responseMessage.style.color = "red";
+                                return;
+                            }
+
+                            const formData = new FormData(this);
+                            submitButton.disabled = true; // Deshabilita el botón mientras se procesa
+
+                            try {
+                                const response = await fetch('/dashboard/carga-masiva', {
+                                    method: 'POST',
+                                    body: formData
+                                });
+
+                                if (response.ok) {
+                                    const result = await response.text();
+                                    responseMessage.textContent = result;
+                                    responseMessage.style.color = "green";
+                                } else {
+                                    const errorText = await response.text();
+                                    responseMessage.textContent = `Error al procesar el archivo: ${errorText}`;
+                                    responseMessage.style.color = "red";
+                                }
+                            } catch (error) {
+                                console.error("Error:", error);
+                                responseMessage.textContent = "Error inesperado al procesar el archivo.";
+                                responseMessage.style.color = "red";
+                            } finally {
+                                submitButton.disabled = false; // Habilita el botón nuevamente
+                            }
+                        });
+
+                    </script>
+
+
+
+
+
+
+
+                    <div class="dropdown dropend">
+                        <a href="#" class="d-flex flex-column align-items-center justify-content-center p-4 link-dark text-decoration-none" id="ajustesDeUsuario" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-person-circle h2"></i>
+                            <span class="d-block">Perfil </span>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+                            <li><a class="dropdown-item" href="/dashboard/ajustes" >Ajustes</a></li>
+                            <li>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="dropdown-item" >Cerrar Sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <main class="col ps-md-2 pt-2 ">
+            <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none" id="menuDesplegable"> <i class="bi bi-list bi-lg py-2 p-1"></i> Menu</a>
+            <div class="page-header pt-3 text-center ">
+                <h2>Sistema de Gestión Hope ONG</h2>
+            </div>
+            <div class="row">
+                <div class="col-12 ">
+                    <!-- Contenido -->
+                    {{#block "contenido"}}
+                    {{/block}}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
+<script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+
+
+
+<!-- Inicializar y habilitar tooltips -->
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+</body>
+</html>

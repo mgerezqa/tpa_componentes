@@ -1,15 +1,29 @@
 package domain.suscripciones;
 
 import domain.heladera.Heladera.Heladera;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@DiscriminatorValue("suscripcion_cantidad_viandas_max")
 public class SuscripcionPorCantidadDeViandasHastaAlcMax extends TipoDeSuscripcion {
 
-    @Getter @Setter
+
+    @Column(name = "cantidad_viandas_hasta_max")
     private int cantidadDeViandasHastaAlcMax;
 
-    private final String descripcion = "CANTIDAD_DE_VIANDAS_HASTA_ALCANZAR_MAX";
+
+    @Column(name = "descripcion")
+    public final String descripcion = " tiene " + cantidadDeViandasHastaAlcMax + " viandas hasta alcanzar el máximo.";
 
 
     @Override

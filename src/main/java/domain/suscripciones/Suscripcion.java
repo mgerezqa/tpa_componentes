@@ -3,17 +3,34 @@ package domain.suscripciones;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "Suscripciones")
 public class Suscripcion {
-    @Setter @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Transient
     private EventManager eventManager;
-    @Setter @Getter
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id")
     private Heladera heladera;
-    @Setter @Getter
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
     private ColaboradorFisico colaboradorFisico;
-    @Setter @Getter
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "tipo_id", referencedColumnName = "id")
     private TipoDeSuscripcion tipoDeSuscripcion;
 
 
@@ -28,8 +45,4 @@ public class Suscripcion {
         this.eventManager = heladera.getEventManager();
         this.eventManager.suscribe(this);
     }
-
-
-
-
 }

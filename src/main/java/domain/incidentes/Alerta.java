@@ -1,16 +1,27 @@
 package domain.incidentes;
 import domain.heladera.Heladera.Heladera;
-import domain.incidentes.Incidente;
-import lombok.Getter;
-import lombok.Setter;
-import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Data
+@NoArgsConstructor
+@Entity
+@DiscriminatorValue("alerta")
 public class Alerta extends Incidente {
+
+    @Column(name = "tipoAlerta")
     private String tipoAlerta;
 
     public Alerta(Heladera heladera) {
         super(heladera);
+    }
+
+    @Override
+    public String obtenerDescripcion() {
+        return "Alerta: " + this.tipoAlerta;
     }
 }

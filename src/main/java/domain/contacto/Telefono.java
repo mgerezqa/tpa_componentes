@@ -1,43 +1,33 @@
 package domain.contacto;
 
 import domain.heladera.Heladera.Heladera;
+import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
+import javax.persistence.*;
+
+@NoArgsConstructor
+@Getter @Setter
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "telefonos")
+@DiscriminatorColumn(name = "tipo")
 public abstract class Telefono extends MedioDeContacto {
-    @Setter
+
+    @Column(name = "numero")
     private String numero;
-
-    public Telefono(String numero) {
-        //Como las validaciones de formato para whatsapp y telegram son las mismas, se dejan en la clase padre.
-        validarNumero(numero);
-        this.numero = numero;
-    }
-
-
-    private void validarNumero(String numero) {
-        if (numero == null) {
-            throw new IllegalArgumentException("El número no puede ser nulo");
-        }
-
-        if (!numero.startsWith("+")) {
-            throw new IllegalArgumentException("El número debe comenzar con un '+'");
-        }
-
-        if (numero.length() < 13 || numero.length() > 14) {
-            throw new IllegalArgumentException("El número debe tener entre 13 y 14 caracteres");
-        }
-    }
+    @Column(name = "username")
+    private String username;
 
     public abstract String tipoMedioDeContacto();
 
     public abstract String informacionDeMedioDeContacto();
 
-    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera){
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion){
 
 
     }
-
 }

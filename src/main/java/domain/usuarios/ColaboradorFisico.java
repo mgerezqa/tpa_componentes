@@ -1,26 +1,42 @@
 package domain.usuarios;
 
-import domain.contacto.MedioDeContacto;
 import domain.donaciones.Vianda;
+import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.AreaDeCobertura;
-import domain.heladera.Heladera.Heladera;
-import domain.suscripciones.iSuscriptor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@SuperBuilder
+@Table(name = "colaboradores_fisicos")
 public class ColaboradorFisico extends Colaborador {
 
+    @Column(name = "nombre", nullable = false)
     private String nombre;
+    @Column(name = "apellido", nullable = false)
     private String apellido;
 
+    @Column(name = "nacimiento",columnDefinition = "DATE")
+    private LocalDate nacimiento;
+
+    @OneToMany(mappedBy = "colaboradorQueLaDono", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Vianda> viandasDonadas;
 
+    @Transient
     private boolean notificacionRecibida;
-    @Getter
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "area_id")
     private AreaDeCobertura zona;
     // ============================================================ //
     // Constructor //
@@ -31,13 +47,12 @@ public class ColaboradorFisico extends Colaborador {
         this.apellido = apellido;
         this.activo = true;
         this.mediosDeContacto = new HashSet<>();
+        this.viandasDonadas = new ArrayList<>();
     }
 
-    // ============================================================ //
-    // Metodos //
-    // ============================================================ //
-
-
+    public void agregarVianda(Vianda vianda){
+        this.getViandasDonadas().add(vianda);
+    }
 
 
 

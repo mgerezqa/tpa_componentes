@@ -9,6 +9,4 @@ public interface IRepositorioIncidentes {
     List<Incidente> obtenerTodasLosIncidentes();
     List<Incidente> buscarPorHeladera(Heladera heladera);
     Incidente obtenerIncidentePorId(String id);
-    void setId(Incidente incidente);
-
 }

@@ -1,20 +1,34 @@
 package domain.heladera.Heladera;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Setter @Getter
+import javax.persistence.*;
+
+@NoArgsConstructor
+@Data
+@Entity
+@Table(name = "modelos_de_heladera")
 public class ModeloDeHeladera {
 
-    @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "nombre")
     private String nombreModelo;
-    @Setter @Getter
+    @Column(name = "temperaturaMin")
     private Float temperaturaMinima;
-    @Setter @Getter
+    @Column(name = "temperaturaMax")
     private Float temperaturaMaxima;
 
     public ModeloDeHeladera(String nombreModelo) {
         this.nombreModelo = nombreModelo;
+    }
+    public ModeloDeHeladera(String nombreModelo, Float temperaturaMin, Float temperaturaMax) {
+        this.nombreModelo = nombreModelo;
+        this.temperaturaMinima = temperaturaMin;
+        this.temperaturaMaxima = temperaturaMax;
     }
 
 }

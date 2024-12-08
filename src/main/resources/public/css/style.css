@@ -1,0 +1,771 @@
+
+/* #Propiedad de clase */
+.container{
+    max-width: 1100px;
+}
+
+/* ----------------------------------------------------------- */
+/* ------------------------- Header- Navbar ------------------------- */
+/* ----------------------------------------------------------- */
+
+.header .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-container {
+    position: relative;
+    z-index: 1;
+}
+
+.navbar-nav {
+    background-color:linear-gradient(to bottom, #F6E546, #F1A967, #c0b6bb);  ; /* Color de fondo */
+    border-radius: 30px; /* Borde redondeado */
+    padding: 0.625rem 1.25rem; /* Espaciado interno */
+    border: 1px solid #e2dcdc; /* Borde */
+    box-shadow: 0 0 10px rgba(104, 104, 100, 0.5); /* Sombra */
+    display: flex;
+    justify-content: center;
+
+}
+
+.navbar-nav .nav-link {
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+/* background: Color del subrayado */
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 4px;
+    display: block;
+    margin-top: 5px;
+    right: 0;
+    background: #ffffff;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Efecto de subrayado en hover */
+/* Color del subrayado en hover */
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link:focus::after {
+    width: 100%;
+    left: 0;
+    background: #ffffff;
+}
+
+/* Nav-item tecnico */
+.nav-item-login {
+    background-color: hsla(0, 4%, 5%, 0.973); /* Color de fondo */
+    border-radius: 30px;
+    border: 1px solid #e6ad12;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    box-shadow: 0 0 10px rgba(104, 104, 100, 0.5); /* Sombra */
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave */
+}
+
+.nav-item-login button {
+    background: none;
+    border: none;
+    text-decoration: none;
+    color: #e6ad12; /* Color del texto */
+    transition: color 0.3s ease; /* Transición suave */
+    font-size: inherit;
+    cursor: pointer;
+}
+
+.nav-item-login button:focus {
+    outline: none;
+}
+
+.nav-item-login:hover {
+    background-color: #e6ad12;  /* Cambia el fondo */
+    border: 1px solid #000000; /* Cambia el borde */
+}
+
+.nav-item-login:hover button {
+    color: #fff; /* Cambia el color del texto */
+}
+
+
+
+#login-placeholder {
+    position: absolute;
+    transform: translateX(370%); /* Desplaza el login-placeholder a la derecha del navbar */
+    margin-left: 20px; /* Espacio entre el navbar y el login-placeholder */
+}
+
+/*Modal Register*/
+
+
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+    .container-fluid {
+        flex-direction: column-reverse; /* Invierte la disposición de los elementos */
+        align-items: stretch;
+    }
+
+    #login-placeholder {
+        position: relative;
+        transform: translateX(0);
+        margin-left: 0;
+        margin-bottom: 10px; /* Espacio entre el login y el navbar en pantallas pequeñas */
+        right: auto;
+    }
+
+    #navbar-container {
+        justify-content: center;
+        margin-top: 10px;
+    }
+}
+
+/* ----------------------------------------------------------- */
+/* ------------------------- Modal - Login ------------------------- */
+/* ----------------------------------------------------------- */
+
+
+
+/* Si deseas cambiar también el color del icono 'X' del botón de cierre */
+#loginModal .btn-close::before {
+  content: '\2715'; /* Unicode de la X */
+  font-size: 1.2rem; /* Ajusta el tamaño del icono */
+  /* grosor icono */
+    font-weight: bold;
+
+  color:  #FFA500; /* Color del ícono */
+  display: block;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#loginModal .modal-content {
+    width: 80%;
+    margin: 0 auto;
+    border: none;
+
+  }
+  #loginModal .modal-body {
+    padding: 0;
+    border: none;
+
+  }
+  #loginModal .btn-close {
+    position: absolute;
+    right: 0;
+    padding: 1em;
+  }
+  #loginModal h1 {
+    font-size: 2.3em;
+    font-weight: bold;
+  }
+  #loginModal .myform {
+    /*eliminar estilo*/
+    padding: 2em;
+    max-width: 100%;
+    /* color: #fff;
+    box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18); */
+  }
+  @media (max-width: 576px) {
+    .myform {
+      max-width: 90%;
+      margin: 0 auto;
+    }
+  }
+  #loginModal .form-control:focus {
+    box-shadow: inset 0 -1px 0 #7e7e7e;
+  }
+  #loginModal .form-control {
+    background-color: inherit;
+    color: #fff;
+    padding-left: 0;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #F1A967;
+  }
+  #loginModal #btn-modal {
+    width: 100%;
+    font-weight: 800;
+    background-color: #fff;
+    border-radius: 0;
+    padding: 0.5em 0;
+  }
+  #loginModal .myform .btn:hover {
+    background-color: inherit;
+    color: #fff;
+    border-color: #fff;
+  }
+  #loginModal p {
+    text-align: center;
+    padding-top: 2em;
+    color: grey;
+  }
+  #loginModal p a {
+    color: #e1e1e1;
+    text-decoration: none;
+  }
+  #loginModal p a:hover {
+    color: #fff;
+  }
+
+
+
+/* ----------------------------------------------------------- */
+/* ------------------------- Header ------------------------- */
+/* ----------------------------------------------------------- */
+
+/* El titulo para pantallas pequeñas sigue siendo de 40px */
+header .title{
+    font-size: 40px; /* Tamaño base para pantallas pequeñas */
+}
+
+header{
+    /* background: linear-gradient(to bottom, #F6E546, #F1A967, #E85197);   */
+
+    background: linear-gradient(to bottom, #F1A967, #F1A967,#F6E546 );
+    background-size: cover; /* La imagen se redimensiona para cubrir todo*/
+    background-position: center; /* La imagen se centra en el header */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    padding: 30px; /* Espacio interno para el contenido del header */
+    color: white; /* Color del texto */
+}
+.title{
+    font-size: 50px; /* Tamaño de la fuente */
+    font-weight: bold; /* Peso de la fuente */
+    text-align: center; /* Alineación del texto */
+    margin-top: 6.25rem; /* Margen superior */
+     /* Decoración del texto */
+    text-shadow: 1px 1px 2px black; /* Sombra del texto */
+    text-decoration-color: black; /* Color de la decoración del texto */
+}
+
+
+.btn {
+    background-color: hsl(27, 89%, 44%);
+    color: white;
+    border-radius: 30px;
+    margin-top: 6.25rem;
+    padding: 10px 20px;
+    font-size: 40px;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.3);
+    background-color: hsl(27, 89%, 44%);
+}
+
+header #navbar-placeholder {
+    display: flex; /* Muestra los elementos en línea */
+    justify-content: center; /* Alinea los elementos al centro */
+    margin-top: 10px; /* Margen superior */
+}
+
+header #navbar-placeholder .nav-link {
+    color: white; /* Color del texto */
+    margin: 0 10px; /* Margen */
+    text-decoration: bold; /* Decoración del texto */
+    text-shadow: 1px 1px 2px black; /* Sombra del texto */
+}
+
+/* ---------------------------------------------------------------------*/
+/*------------------------- Main - Presentation ------------------------*/
+/* ---------------------------------------------------------------------*/
+
+
+.presentation{
+    padding-top: 1.875rem;
+    padding-bottom: 1.875rem;
+    background-image:url(../img/assets/img_back_6.png);
+    background-size: cover; /* La imagen se redimensiona para cubrir todo*/
+    background-position: center; /* La imagen se centra en el header */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+.presentation #presentation-info{
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 1.875rem;
+    padding-left: 3.125rem;
+    padding-right: 3.125rem;
+    padding-bottom: 3.125rem;
+    /* border: 2px solid #E6419F; */
+}
+
+/*Diseño interesante se agrega una capa
+mas para darle profunidad*/
+/* .presentation .container{
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 30px;
+    padding: 20px;
+} */
+
+
+/*Estilo para botones de acción*/
+.presentation a{
+    /*eliminar borde  */
+    border: none;
+}
+
+/*Todos los botones de la pagina comparten el mismo estilo*/
+.btn{
+    background-color: hsl(27, 89%, 44%);
+    color: white; /* Color del texto */
+    border-radius: 1.875rem;
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 40px; /* Tamaño de la fuente */
+    margin-top: 20px; /* Margen superior */
+    display: inline-block; /* Muestra el botón en línea */
+    text-decoration: none; /* Decoración del texto */
+
+}
+
+.btn:hover {
+    background-color:#ffffff; /* Color de fondo al pasar el mouse */
+    color: hsl(27, 89%, 44%); /* Cambia el color del texto */
+}
+
+
+.presentation .img {
+    width: 400px;
+}
+
+/*-----------------------------------------------------------------------------*/
+/*------------------------- Main - Info - Refrigeration -------------------------*/
+/*-----------------------------------------------------------------------------*/
+
+.refrigeration-info {
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+    background: linear-gradient(to bottom, #F6E546, #F1A967);
+}
+
+.refrigeration-info #info-refrigerators-placeholder{
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3.125rem;
+    padding-left: 3.125rem;
+    padding-right: 3.125rem;
+    padding-bottom: 3.125rem;
+}
+
+.refrigeration-info .title{
+    /* padding-top: 2rem; */
+    padding-bottom: 3rem;
+}
+
+
+.refrigeration-info .container .carousel-inner {
+    border-radius: 3.125rem; /*para ocultar bordes en la transición*/
+    overflow: hidden;
+}
+
+
+.refrigeration-info .container .carousel-item img {
+    width: 100%;
+    border-radius: 3.125rem;
+    object-fit: cover; /* Ajusta la imagen para que llene el contenedor sin distorsionar la relación de aspecto */
+}
+
+.refrigeration-info .container .carousel-item h5 {
+    font-weight: bold; /* Peso de la fuente */
+    text-align: center; /* Alineación del texto */
+    text-shadow: 2px 2px 2px black; /* Sombra del texto */
+    text-decoration-color: black; /* Color de la decoración del texto */
+    color: white;
+}
+
+.refrigeration-info .container .carousel-item p {
+    font-weight: light; /* Peso de la fuente */
+    text-align: center; /* Alineación del texto */
+    text-shadow: 1px 1px 2px black; /* Sombra del texto */
+    text-decoration-color: black; /* Color de la decoración del texto */
+    color: white;
+}
+
+
+.refrigeration-info .container .carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 4rem;  /* Cambia el tamaño de las controles del carrusel  */
+    height: 4rem; /* Cambia el tamaño de las controles del carrusel  */
+    background-size: 100%; /* Asegura que el icono se ajuste al nuevo tamaño */
+}
+
+/*--------------------------------------------------------------------------------------*/
+/*------------------------- Main - Info - I Want to colaborate -------------------------*/
+/*--------------------------------------------------------------------------------------*/
+
+.i-want-to-colaborate{
+    padding-top: 1.875rem;
+    padding-bottom: 1.875rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    background: linear-gradient(to bottom,#F1A967,#F6E546);
+
+}
+
+.i-want-to-colaborate h1 {
+    width: 100%; /* Ancho total para evitar que el texto se desborde */
+    min-width: 15rem;
+    max-width: 30rem; /* Máximo ancho para pantallas grandes */
+    padding: 2rem; /* Espacio alrededor del texto */
+    background-color: #ffffff;
+    color: hsl(27, 89%, 44%);
+    margin: 0 auto; /* Centrado horizontal */
+    border: #e2dcdc 1px solid;
+    border-radius: 1.875rem;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0px 10px 10px hsl(27, 89%, 44%);
+    box-sizing: border-box;
+    font-size: 2rem; /* Tamaño inicial de la fuente */
+
+}
+
+.i-want-to-colaborate .card{
+    background-color: transparent;
+    padding: 0; /* Eliminado padding extra */
+    border: none;
+}
+
+/* Estilos para el botón circular */
+.circle-button {
+    border-radius: 100%;
+    border:none;
+    width: 18rem;
+    height: 18rem;
+    background-color: hsl(27, 89%, 44%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+}
+
+
+/* Estilo para el icono */
+.i-want-to-colaborate .circle-button i {
+    font-size: 6rem;
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+/* Estilo para el texto dentro del círculo */
+.i-want-to-colaborate .circle-text {
+    font-size: 1.7rem;
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+
+.circle-button.selected {
+    border-color: white;
+    border-width: 0.3rem;
+}
+
+
+/* Efecto de hover */
+.i-want-to-colaborate .circle-button:hover {
+    transform: scale(1.1); /* Aumenta el tamaño */
+    background-color: #ffffff; /* Cambia el fondo */
+}
+
+.i-want-to-colaborate .circle-button:hover i {
+    color: hsl(27, 89%, 44%); /* Cambia el color del icono */
+}
+
+.i-want-to-colaborate .circle-button:hover .circle-text {
+    color: hsl(27, 89%, 44%); /* Cambia el color del texto */
+}
+
+
+/* Estilo para el botón seleccionado */
+.i-want-to-colaborate .circle-button.selected {
+    background-color: hsl(27, 89%, 44%);
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.i-want-to-colaborate .circle-button.selected i,
+.i-want-to-colaborate .circle-button.selected .circle-text {
+    color: #ffffff;
+}
+
+.selected {
+    background-color: #ffffff; /* Cambia el color de fondo */
+    color: hsl(27, 89%, 44%); /* Cambia el color del texto */
+    border: 2px solid hsl(27, 89%, 44%); /* Cambia el color del borde */
+}
+
+
+.tooltip-container {
+    padding: 1rem;
+    margin: 5rem;
+    background-color:#ffffff;
+    /* border: 1px solid #ddd; */
+    width: auto;
+    text-align: center;
+    border-radius: 3rem;
+
+}
+
+.tooltip-text  h2 {
+    border-bottom: hsl(27, 89%, 44%) 2px solid;
+    min-width: 15rem;
+    max-width: 30rem; /* Máximo ancho para pantallas grandes */
+    padding: 2rem; /* Espacio alrededor del texto */
+    color: hsl(27, 89%, 44%);
+    margin: 0 auto; /* Centrado horizontal */
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem; /* Tamaño inicial de la fuente */
+
+}
+
+.tooltip-text {
+    margin-top: 20px;
+    font-size: 1rem;
+    text-align: center;
+    box-shadow: 0px 20px 20px hsl(27, 89%, 44%);
+}
+
+.tooltip-text ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.tooltip-text ul li {
+    padding: 10px;
+    margin-bottom: 10px;
+    color:hsl(0, 0%, 6%);
+    box-shadow: 0px 2px 0px hsl(0, 8%, 91%);
+
+}
+
+.center {
+    text-align: center;
+    width: 200px;
+}
+
+
+.i-want-to-colaborate .btn{
+    background-color: hsl(27, 89%, 44%);
+    color: white; /* Color del texto */
+    border-radius: 1.875rem;
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 35px; /* Tamaño de la fuente */
+    margin-top: 20px; /* Margen superior */
+    display: inline-block; /* Muestra el botón en línea */
+    text-decoration: none; /* Decoración del texto */
+    width: 20rem;
+
+}
+
+.i-want-to-colaborate .btn:hover {
+    background-color:#ffffff; /* Color de fondo al pasar el mouse */
+    color: hsl(27, 89%, 44%); /* Cambia el color del texto */
+}
+
+.i-want-to-colaborate .btn[disabled] {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+
+
+/*--------------------------------------------------------------------------------------*/
+/*------------------------- Main - Station-Map -------------------------*/
+/*--------------------------------------------------------------------------------------*/
+
+.stations-map{
+    background: linear-gradient(#F6E347,#F1A967);
+    padding-top: 10rem;
+}
+
+.stations-map #stations-map-placeholder{
+    padding-top: 3.125rem;
+    padding-bottom: 3.125rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3rem;
+}
+
+.stations-map .col-lg-4{
+    background-color: #ffffff;
+    border-radius: 3rem;
+}
+
+/*--------------------------------------------------------------------------------------*/
+/*------------------------- Main -  FAQ -------------------------*/
+/*--------------------------------------------------------------------------------------*/
+.faq{
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+    background: linear-gradient(#F1A967,#F6E347);
+}
+
+.faq .title{
+    padding-top: 3.125rem;
+    padding-bottom: 3.125rem;
+}
+
+.faq #faq-placeholder{
+    /* padding-top: 3.125rem; */
+    padding-left: 3.125rem;
+    padding-right: 3.125rem;
+    padding-bottom: 3.125rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3rem;
+}
+
+.faq .accordion .accordion-item {
+    background: none;
+    border-bottom: 1px solid #E6419F;
+}
+
+/* Cambiar el fondo del header */
+.faq .accordion-header .accordion-button {
+    background-color: transparent;
+    color: #000000; /* Color para el texto */
+    border-radius: 5rem; /*afecta la descripcion*/
+}
+
+/* Cambiar el fondo cuando el acordeón está activo */
+.faq .accordion-header .accordion-button:not(.collapsed) {
+    background-color: #dd7a09; /* Naranja cuando está expandido */
+    color: #f8f1f5; /* Texto blanco */
+}
+
+.faq .accordion-header .accordion-button::before{
+    color:#E6419F;
+}
+
+.element-noselect {
+    user-select: none; /* Evita que el icono sea seleccionable */
+}
+
+/*--------------------------------------------------------------------------------------*/
+/*------------------------- Main -  Contact -------------------------*/
+/*--------------------------------------------------------------------------------------*/
+
+.contact{
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+    background: linear-gradient(#F6E347,#F1A967);
+
+}
+
+
+.contact .container #contact-placeholder{
+    padding-top: 3.125rem;
+    padding-left: 3.125rem;
+    padding-right: 3.125rem;
+    padding-bottom: 3.125rem;
+    background-image: url(../img/assets/hands.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 3rem;
+    /* border: 3px solid #E6419F; */
+}
+
+
+/* modifica el estilo de todo el footer */
+footer{
+
+    background-color: hsl(27, 92%, 40%);
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+
+@media(max-width: 576px){
+    .dropdown-item::before{
+        transform:rotate(-90deg);
+    }
+}
+
+.title {
+    font-size: 30px; /* Tamaño base para pantallas pequeñas */
+  }
+
+
+  @media (min-width: 768px) {
+    .title {
+      font-size: 32px; /* Tamaño para pantallas medianas */
+    }
+  }
+
+  @media (min-width: 992px) {
+    .title {
+      font-size: 40px; /* Tamaño para pantallas grandes */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .title {
+      font-size: 48px; /* Tamaño para pantallas extra grandes */
+    }
+  }
+
+
+
+/*--------------------------------------------------------------------------------------*/
+/*------------------------- Formulario -------------------------*/
+/*--------------------------------------------------------------------------------------*/
+
+/* Estilos personalizados para los botones del modal */
+.modal-footer .btn-modal {
+    margin-right: 10px; /* Espaciado entre botones */
+    padding: 10px 20px; /* Tamaño personalizado */
+    border-radius: 5px; /* Bordes redondeados */
+  }
+
+  .btn-modal-cancel {
+    background-color: #f8f9fa;
+    color: #000;
+  }
+
+  .btn-modal-clear {
+    background-color: #ffc107;
+    color: #fff;
+  }
+
+  .btn-modal-confirm {
+    background-color: #28a745;
+    color: #fff;
+  }
+
+/* Estilos personalizados para el formulario */
+form h3 {
+    border-bottom: 2px solid #F1A967;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    color: #F1A967;
+}
+
+#passwordErrors div {
+    font-size: 0.9em;
+    margin-top: 0.5em;
+}
+.text-danger {
+    color: red;
+}

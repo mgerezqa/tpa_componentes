@@ -4,10 +4,10 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
-import repositorios.reposEnMemoria.RepositorioHeladeras;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
 import domain.heladera.Sensores.SensorTemperatura;
 import domain.incidentes.Incidente;
-import utils.temperatura.VerificadorTemperaturas;
+import domain.temperatura.VerificadorTemperaturas;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -38,9 +38,9 @@ public class RandomVerificadorTemperaturas {
         SensorTemperatura sensorTemperaturaC = new SensorTemperatura(heladeraC);
         heladeraC.setSensorTemperatura(sensorTemperaturaC);
 
-        heladeras.darDeAlta(heladeraA);
-        heladeras.darDeAlta(heladeraB);
-        heladeras.darDeAlta(heladeraC);
+        heladeras.guardar(heladeraA);
+        heladeras.guardar(heladeraB);
+        heladeras.guardar(heladeraC);
 
         heladeraA.getIncidentes().clear();
         heladeraB.getIncidentes().clear();

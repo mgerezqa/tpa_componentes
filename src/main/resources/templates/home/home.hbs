@@ -1,0 +1,89 @@
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/css/usuarios/usuarios.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/menu_colaborador.css">
+{{/partial}}
+{{#partial "title"}}
+    Home
+{{/partial}}
+{{#partial "contenido"}}
+    <div id="contenedor_principal" class="p-4 container">
+        <div class="contenedor_titulo text-center fw-bold">
+            <div>BIENVENIDO</div>
+            <div>SELECCIONE UNA OPERACION</div>
+        </div>
+        <div class="container-fluid px-0 text-center" id = "contenedor_operaciones">
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                <div class="col mt-3 px-3">
+                    <a href="/profile" class="boton link_operacion" >
+                        <i class="bi bi-person-circle"></i> <!-- Ícono de perfil -->
+                        <span>MI PERFIL</span>
+                    </a>
+                </div>
+                {{#if tecnico}}
+                {{else}}
+                    <div class="col mt-3 px-3">
+                        <a href="/donaciones" class="boton link_operacion" >
+                            <i class="bi bi-basket"></i>
+                            <span>MIS DONACIONES</span>
+                        </a>
+                    </div>
+                    <div class="col mt-3 px-3">
+                        <a href="/puntos" class="boton link_operacion" >
+                            <i class="bi bi-gear"></i> <!-- Ícono de operaciones -->
+                            <span>MIS PUNTOS </span>
+                        </a>
+                    </div>
+                    <div class="col mt-3 px-3">
+                        <a href="/canjes" class="boton link_operacion" >
+                            <i class="bi bi-gift"></i> <!-- Ícono de canjes -->
+                            <span>MIS CANJES</span>
+                        </a>
+                    </div>
+                {{/if}}
+
+                {{#if tecnico}}
+                    <div class="col mt-3 px-3">
+                        <a href="/visitas" class="boton link_operacion" >
+                            <i class="bi bi-wrench-adjustable"></i>
+                            <span>MIS VISITAS</span>
+                        </a>
+                    </div>
+                    <div class="col mt-3 px-3">
+                        <a href="/notificaciones" class="boton link_operacion" >
+                            <i class="bi bi-envelope-fill"></i>
+                            <span>NOTIFICACIONES</span>
+                        </a>
+                    </div>
+                {{/if}}
+                <div class="col mt-3 px-3">
+                    <a href="/estaciones" class="boton link_operacion" >
+                        <i class="bi bi-geo-alt"></i>
+                        <span>MAPA ESTACIONES</span>
+                    </a>
+                </div>
+                {{#if juridico}}
+                    <div class="col mt-3 px-3">
+                        <a href="/mis-estaciones" class="boton link_operacion" >
+                            <i class="bi bi-pc"></i> <!-- Ícono de heladeras -->
+                            <span>MIS ESTACIONES</span>
+                        </a>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- Botón de cierre de sesión -->
+        <div class="text-center mt-4" id="btn-cerrar-sesion">
+            <form action="/logout" method="POST">
+                <button class="btn btn-danger d-inline-flex align-items-center" type="submit">
+                    <i class="bi bi-power me-2"></i> <!-- Ícono de logout -->
+                    <span>Cerrar sesión</span>
+                </button>
+            </form>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+    <script type="text/javascript" src="../js/usuarios/colaboradores/menu_colaborador.js"></script>
+{{/partial}}
+{{> templates/home/base}}

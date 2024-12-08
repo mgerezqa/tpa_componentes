@@ -1,0 +1,114 @@
+<!-- Seccion Heladeras -->
+{{#partial "contenido"}}
+    <section id="listado-heladeras">
+        <p class="lead">Listado de heladeras</p>
+        <hr>
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary"
+                    hx-get='/dashboard/heladeras/create'
+                    hx-target="#modalGeneral"
+                    hx-trigger="click"
+                    data-bs-toggle="modal"
+                    data-bs-toggle="tooltip"
+                    data-bs-target="#modalGeneral"
+                    data-bs-placement="bottom"
+            >
+                Crear Heladera
+            </button>
+            <!-- Tabla de heladeras -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Modelo </th>
+                    <th>Ubicacion</th>
+                    <th>Capacidad actual</th>
+                    <th>Capacidad máxima </th>
+                    <th>Fecha inicio funcionamiento</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de heladeras  -->
+                {{#each heladeras}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.estadoHeladera}}</td>
+                        <td>{{this.nombreIdentificador}}</td>
+                        <td>{{this.modeloDeHeladera}}</td>
+                        <td>Almagro</td>
+                        <td>{{this.capacidadActual}}</td>
+                        <td>{{this.capacidadMax}}</td>
+                        <td>{{this.fechaInicioFuncionamiento}}</td>
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning"
+                                    hx-get='/dashboard/heladeras/{{this.id}}/edit'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <!-- Botón para baja lógica  -->
+                            <button class="btn btn-outline-danger"
+                                    hx-get='/dashboard/heladeras/{{this.id}}/delete'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Deshabilitar">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
+
+
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarHeladera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+
+                <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de eliminación  -->
+                <div class="modal fade" id="modalEliminarHeladera" tabindex="-1" aria-labelledby="modalEliminarHeladera" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eliminar Heladera</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar esta heladera?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+{{/partial}}
+{{> templates/dashboard}}

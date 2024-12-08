@@ -1,15 +1,40 @@
 package domain.geografia;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
+
+@NoArgsConstructor
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor
+@Entity
+@Table(name = "ubicaciones")
 public class Ubicacion {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "latitud")
     private Float latitud;
+
+    @Column(name = "longitud")
     private Float longitud;
+
+    @Embedded
     private Calle calle;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "provincia_id")
     private Provincia provincia;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "localidad_id")
     private Localidad localidad;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "barrio_id")
     private Barrio barrio;
 
     public Ubicacion(Float latitud, Float longitud, Calle calle) {
@@ -17,6 +42,7 @@ public class Ubicacion {
         this.longitud = longitud;
         this.calle = calle;
     }
+
 
     public double calcularDistanciaKmA(Ubicacion ubicacion1) {
         double latitud1 = ubicacion1.getLatitud();
@@ -54,7 +80,12 @@ public class Ubicacion {
         this.localidad = localidad;
         this.barrio = barrio;
     }
-
-
-
+    public Ubicacion(Float latitud, Float longitud, Calle calle,Provincia provincia, Localidad localidad, Barrio barrio) {
+        this.provincia = provincia;
+        this.localidad = localidad;
+        this.barrio = barrio;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.calle = calle;
+    }
 }

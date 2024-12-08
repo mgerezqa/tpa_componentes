@@ -1,41 +1,37 @@
 package domain.reportes;
 
 import domain.usuarios.ColaboradorFisico;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utils.reportador.Reportador;
 
 import domain.usuarios.Colaborador;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@DiscriminatorValue("reporte_viandas_por_colaborador")
 public class ReporteViandasColaborador extends Reporte {
 
-    @Getter
-    @Setter
-    private ColaboradorFisico colaborador;
-    @Getter
-    @Setter
-    private LocalDateTime fecha;
-    @Getter
-    @Setter
-    private String id;
-    @Setter
-    private Reportador reportador;
-
-    public ReporteViandasColaborador() {
-        this.colaborador = colaborador;
-        this.id = id;
-        this.fecha = fecha;
-        this.reportador = reportador;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "reporte_viandas_por_colaborador_id")
+    private List<ColaboradorFisico>  colaboradores;
 
     @Override
     public void reportar() {
-        Map<String, Integer> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
-        System.out.println("Reporte de cantidad de viandas donadas por colaborador: ");
-        reporteViandasPorColaborador.forEach((colaborador, cantidad) -> System.out.println(colaborador + ": " + cantidad));
+        for(ColaboradorFisico colaborador : colaboradores){
+            Map<String, Integer> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
+            System.out.println("Reporte de cantidad de viandas donadas por colaborador: ");
+            reporteViandasPorColaborador.forEach((nombreColaborador, cantidad) -> System.out.println(colaborador + ": " + cantidad));
+        }
     }
 
 

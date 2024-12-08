@@ -67,7 +67,6 @@ public class Formulario {
         return this.getCampo(label.name()).getValor();
     }
 
-
     public Integer cantCampos(){
         return campos.size();
     }

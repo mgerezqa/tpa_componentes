@@ -2,34 +2,44 @@ package domain.incidentes;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Tecnico;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import utils.notificador.INotificadorIncidentes;
-import utils.notificador.NotificadorIncidentes;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
-@Setter
+@NoArgsConstructor
+@Data
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_incidente")
+@Table(name = "incidentes")
 public abstract class Incidente {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "heladera_id", referencedColumnName = "id", nullable = false)
     private Heladera heladera;
+
+    @Column(name = "fechaYHora", columnDefinition = "DATETIME")
     private LocalDateTime fechaYHora;
-    private String id;
-    private INotificadorIncidentes notificador;
 
-    // tecnico asignado
-
-    // TODO: si no inicializo el notificador de esta manera, no corre el test.
-    private List<Tecnico> tecnicos = new ArrayList<>();
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "tecnicoAsig_id", referencedColumnName = "id")
+    private Tecnico tecnicoAsignado;
 
     public Incidente(Heladera heladera) {
-        this.notificador = new NotificadorIncidentes(tecnicos);
         this.heladera = heladera;
-
-        heladera.agregarIncidente(this); // Persistir en cada heladera
-        heladera.setEstadoHeladera(EstadoHeladera.INACTIVA); // Setear cada heladera como inactiva
-        notificador.notificarTecnico(this);
+        heladera.agregarIncidente(this);                     // Persistir en cada heladera.
+        heladera.setEstadoHeladera(EstadoHeladera.INACTIVA); // Setear cada heladera como inactiva.
     }
+
+    // Método para obtener la descripción del incidente
+    public abstract String obtenerDescripcion();
+
 }

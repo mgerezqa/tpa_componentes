@@ -1,19 +1,26 @@
 package domain.usuarios;
-
-import domain.contacto.MedioDeContacto;
-import domain.formulario.Campo;
-import domain.formulario.eTipoCampo;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.HashSet;
 
-@Setter @Getter
-public class ColaboradorJuridico extends Colaborador{
-    private String razonSocial;
-    private TipoRazonSocial tipoRazonSocial;
-    private Rubro tipoDeRubro;
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "colaboradores_juridicos")
+public class ColaboradorJuridico extends Colaborador {
 
+    @Column(name = "razonSocial")
+    private String razonSocial;
+
+    @Enumerated(EnumType.STRING)
+    private TipoRazonSocial tipoRazonSocial;
+
+    @Enumerated(EnumType.STRING)
+    private Rubro tipoDeRubro;
 
     public ColaboradorJuridico(String razonSocial, TipoRazonSocial tipoRazonSocial, Rubro rubro) {
         this.razonSocial = razonSocial;
@@ -33,7 +40,6 @@ public class ColaboradorJuridico extends Colaborador{
 
     }
 
-
-    }
+}
 
 

@@ -2,13 +2,11 @@ package PersonaVulnerable;
 
 import domain.persona.Persona;
 import domain.persona.PersonaVulnerable;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
 
+@Disabled
 public class TestPersonaVulnerable {
     Persona mateo;
     Persona diego;

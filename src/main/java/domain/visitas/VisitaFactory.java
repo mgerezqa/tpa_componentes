@@ -11,7 +11,7 @@ public class VisitaFactory {
             visita.setTecnico(tecnico);
             visita.setHeladera(incidente.getHeladera());
             visita.setComentario(visitaTecnicaDTO.getComentario());
-            visita.setFoto(visita.getFoto());
+            visita.setFoto(visitaTecnicaDTO.getFoto());
             visita.setFechaVisita(visitaTecnicaDTO.getFechaYhora());
             visita.incidenteResuelto(visitaTecnicaDTO.isSolucionado());
 

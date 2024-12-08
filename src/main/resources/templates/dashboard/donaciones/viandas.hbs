@@ -1,0 +1,44 @@
+{{#partial "contenido"}}
+    <section class="mt-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1>Listado de viandas</h1>
+                <a href="/dashboard/donaciones/viandas/crear-vianda" class="btn btn-primary">Crear Vianda</a>
+            </div>
+
+            <!-- Tabla de Viandas -->
+            <table class="table table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Colaborador ID</th>
+                    <th>Heladera ID</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Fecha de Donación</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterar sobre las viandas registradas -->
+                {{#each viandas}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.colaboradorDonanteId}}</td>
+                        <td>{{this.heladeraActualId}}</td>
+                        <td>{{this.fechaVencimiento}}</td>
+                        <td>{{this.fechaDonacion}}</td>
+                        <td>
+                            <!-- Botones para acciones (editar, eliminar, etc.) -->
+                            <a href="/dashboard/donaciones/viandas/{{this.id}}/edit" class="btn btn-warning btn-sm">Editar</a>
+                            <form action="/dashboard/donaciones/viandas/{{this.id}}/delete" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}

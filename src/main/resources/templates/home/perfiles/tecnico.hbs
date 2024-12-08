@@ -1,0 +1,127 @@
+{{#partial "formulario"}}
+    <form action="/profile" id="form_tecnico" method="POST">
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_nombre_tecnico"
+                           name="campo_nombre_tecnico" value="{{datos.nombre}}" placeholder="Nombre" disabled>
+                    <label for="campo_nombre_tecnico">Nombre</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_apellido_tecnico"
+                           name="campo_apellido_tecnico" value="{{datos.apellido}}" placeholder="Apellido" disabled>
+                    <label for="campo_apellido_tecnico">Apellido</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <select class="entrada_form form-select shadow-none rounded-4"  name="campo_tipo_documento_tecnico" id="campo_tipo_documento_tecnico" disabled>
+                        <option value="DNI" {{#if (eq datos.tipoDocumento 'DNI')}}selected{{/if}}>DNI</option>
+                        <option value="LC" {{#if (eq datos.tipoDocumento 'LC')}}selected{{/if}}>LC</option>
+                        <option value="LE" {{#if (eq datos.tipoDocumento 'LE')}}selected{{/if}}>LE</option>
+                    </select>
+                    <label for="campo_tipo_documento_tecnico">Tipo Documento</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_nro_documento_tecnico"
+                           name="campo_nro_documento_tecnico" value="{{datos.nroDocumento}}" placeholder="Nro Documento" disabled>
+                    <label for="campo_nro_documento_tecnico">Nro Documento</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4"
+                           name="campo_cuil_tecnico" id="campo_cuil_tecnico" value="{{datos.cuil}}" placeholder="CUIL" disabled>
+                    <label for="campo_cuil_tecnico">CUIL</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!--<div class="form-floating">
+                    <input type="text" class="entrada_form form-control shadow-none rounded-4" id="campo_area_de_cobertura_tecnico"
+                           value="{{datos.areaDeCobertura}}" placeholder="Area de cobertura" disabled>
+                    <label for="campo_area_de_cobertura_tecnico">Area de cobertura</label>
+                </div>-->
+            </div>
+        </div>
+
+        <div class="mt-3 mb-2 fst-italic text-muted text-center">- Seleccione la forma de contacto principal -</div>
+
+        <div class="row g-3 mb-4 text-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-text rounded-start-4">
+                        <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
+                               name="campo_contacto_preferido_tecnico" value="notificarWhatsapp"
+                               {{#if datos.whatsapp.notificar}}checked{{/if}} disabled>
+                    </div>
+                    <div class="form-floating flex-grow-1">
+                        <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
+                               name="campo_whatsapp_tecnico" id="campo_whatsapp_tecnico" value="{{datos.whatsapp.valor}}" placeholder="WhatsApp" disabled>
+                        <label for="campo_whatsapp_tecnico">WhatsApp</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-text rounded-start-4">
+                        <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
+                               name="campo_contacto_preferido_tecnico" value="notificarTelegram"
+                               {{#if datos.telegram.notificar}}checked{{/if}} disabled>
+                    </div>
+                    <div class="form-floating flex-grow-1">
+                        <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
+                               name="campo_telegram_tecnico" id="campo_telegram_tecnico" value="{{datos.telegram.valor}}" placeholder="Telegram" disabled>
+                        <label for="campo_telegram_tecnico">Telegram</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-text rounded-start-4">
+                        <input class="entrada_form form-check-input mt-0 shadow-none" type="radio"
+                               name="campo_contacto_preferido_tecnico" value="notificarEmail"
+                               {{#if datos.email.notificar}}checked{{/if}} disabled>
+                    </div>
+                    <div class="form-floating flex-grow-1">
+                        <input type="text" class="entrada_form form-control shadow-none rounded-end-4"
+                               name="campo_email_tecnico" id="campo_email_tecnico" value="{{datos.email.valor}}" placeholder="Email" disabled>
+                        <label for="campo_email_tecnico">Email</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cont_editar_form_tecnico" class="row justify-content-center mb-4 py-4">
+            <div class="col-6 col-md-4">
+                <button id="btn_editar_form_tecnico" type="button" class="boton py-1 w-100"><span>EDITAR</span></button>
+            </div>
+        </div>
+
+        <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <strong>Atención:</strong> El medio seleccionado como principal será utilizado para recibir todas las notificaciones.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div id="cont_cancelar_guardar_form_tecnico" class="row justify-content-around d-none mb-4">
+            <div class="col-6 col-md-4">
+                <button id="btn_cancelar_form_tecnico" type="button" class="boton boton_rojo py-1 w-100"><span>CANCELAR</span></button>
+            </div>
+            <div class="col-6 col-md-4">
+                <button id="btn_guardar_form_tecnico" type="submit" class="boton boton_verde py-1 w-100"><span>GUARDAR</span></button>
+            </div>
+        </div>
+    </form>
+{{/partial}}
+{{#partial "script"}}perfil_tecnico{{/partial}}
+{{> templates/home/perfiles/perfil}}

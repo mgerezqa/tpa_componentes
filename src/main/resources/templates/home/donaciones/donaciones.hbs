@@ -1,0 +1,783 @@
+{{#partial "styles"}}
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/usuarios/usuarios.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/donaciones.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/nueva_donacion.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    {{#if fisico}}
+        <script>
+            var heladeras = [];
+            {{#each heladeras}}
+                heladeras.push({
+                    id: "{{this.id}}",
+                    nombre: "{{estacion}}",
+                    coordenadas: [{{latitud}}, {{longitud}}],
+                    estado: "{{estado}}",
+                    direccion: "{{direccion}}",
+                    temperatura: "{{temperatura}}",
+                    capacidad: "{{capacidadMax}}",
+                    viandas: "{{viandasDisponibles}}",
+                    inicioOperacion: "{{inicioOperacion}}",
+                });
+            {{/each}}
+        </script>
+    {{/if}}
+{{/partial}}
+{{#partial "title"}}
+    Donaciones
+{{/partial}}
+{{#partial "contenido"}}
+    <div id="contenedor_principal_donaciones " class="p-4 container ">
+        <div class="contenedor_titulo_pagina d-flex gap-4 mb-4 container">
+            <div class="titulo">
+                <span>Mis Donaciones</span>
+            </div>
+            <!-- BOTON AÑADIR DONACIÓN -->
+            <a class="boton boton_titulo boton_verde" data-bs-toggle="modal" data-bs-target="#modal_nueva_colab">
+                <i class="bi bi-plus-lg"></i>
+            </a>
+        </div>
+        <!-- MODAL AÑADIR DONACIÓN -->
+        <div class="modal fade" id="modal_nueva_colab" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="contenedor_titulo_pagina d-flex gap-4 w-100">
+                            <div class="titulo flex-fill">
+                                <span>NUEVA DONACIÓN</span>
+                            </div>
+                            <a class="boton boton_titulo boton_rojo" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="text-center fs-3 p-3 mb-2 bg-primary-subtle text-primary-emphasis ">
+                            <span>SELECCIONE EL TIPO DE DONACION</span>
+                        </div>
+                        <br>
+                        {{#if fisico}}
+                            <div class="accordion" id="collapse_registro">
+                                <div class="row row-cols-3 gx-3 gy-2 mb-3">
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_dinero" aria-expanded="false" aria-controls="contenedor_form_dinero">DINERO</a>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_vianda" aria-expanded="false" aria-controls="contenedor_form_vianda">VIANDA</a>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_reparto" aria-expanded="false" aria-controls="contenedor_form_reparto">REPARTO</a>
+                                    </div>
+                                    <div class="col-6 col-md-4">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_pv" aria-expanded="false" aria-controls="contenedor_form_pv">REGISTRO P.V.</a>
+                                    </div>
+                                </div>
+
+                                <!-- MODALES DE DONACIONES -->
+                                <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form id="formDinero" action="/donar-dinero" method="POST">
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_dinero" name="campo_monto_dinero" value="" placeholder="">
+                                                        <label for="campo_monto_dinero">Monto</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" name="campo_frecuencia_dinero" id="campo_frecuencia_dinero">
+                                                            <option value="" class="d-none">Seleccione...</option>
+                                                            <option value="FRECUENCIA_DIARIA">FRECUENCIA DIARIA</option>
+                                                            <option value="FRECUENCIA_SEMANAL">FRECUENCIA SEMANAL</option>
+                                                            <option value="FRECUENCIA_MENSUAL">FRECUENCIA MENSUAL</option>
+                                                            <option value="FRECUENCIA_ANUAL">FRECUENCIA ANUAL</option>
+                                                        </select>
+                                                        <label for="campo_frecuencia_dinero">Frecuencia</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center mt-3">
+                                                    <div class="col-6">
+                                                        <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="contenedor_form_vianda" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+
+                                    <div class="accordion-body contenedor_datos">
+                                        <div class="text-center fs-3 mb-2 bg-primary-subtle text-primary-emphasis text-white rounded-4 ">
+                                            <span>SELECCIONE EL MODO </span>
+                                        </div>
+                                        <br>
+
+                                        <div class="accordion" id="collapse_lugar">
+                                            <div class="row row-cols-3 gx-3 gy-2 mb-3">
+                                                <div class="col-6 col-md-6">
+                                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_donar_por_heladera" aria-expanded="false" aria-controls="contenedor_donar_por_heladera">POR HELADERA</a> <!-- Donación tradicional -->
+                                                </div>
+                                                <div class="col-6 col-md-6">
+                                                    <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_donar_por_ubicacion_service" aria-expanded="false" aria-controls="contenedor_donar_por_ubicacion_service">RECOMENDAME UN LUGAR</a> <!-- Buscar por consultando a servicio ext -->
+                                                </div>
+                                            </div>
+                                            <!-- DONAR POR SERVICIO -->
+                                            <div id="contenedor_donar_por_ubicacion_service" class="accordion-collapse collapse" data-bs-parent="#collapse_lugar">
+                                                <div class="accordion-body contenedor_datos border border-primary rounded-5">
+                                                    <!-- Sección: Ubicación -->
+                                                    <div id="stations-map-placeholder">
+                                                        <div class="row p-5 ">
+                                                            <!-- Columna del mapa -->
+                                                            <div class="col-lg-8 mb-4 p-0">
+                                                                <div class="p-lg-3 p-0 m-0">
+                                                                    <h2 class="text-center mb-4">Comunidades</h2>
+                                                                    <div class="text-center fs-3 mb-2 bg-primary-subtle text-primary-emphasis text-white rounded-4 ">
+                                                                        <span>PODRAS ACERCAR TU DONACIÓN A LAS SIGUIENTES COMUNIDADES</span>
+                                                                    </div>
+                                                                    <div id="map-service" class="rounded-5 " style="width: 100%; height: 500px;">
+                                                                        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
+                                                                        <script src="/js/script_donacion_fisico_mapa_service.js"></script>
+                                                                    </div>
+                                                                    <!-- Msg indicador -->
+                                                                    <div class="m-4 text-center fs-5 mb-2 bg-warning-subtle text-primary-emphasis text-white rounded-4 ">
+                                                                        <span>HACE CLICK EN TU UBICACIÓN SOBRE EL MAPA </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Columna de la barra de ubicación -->
+                                                            <div class="col-lg-4">
+                                                                <div class="rounded pt-1 mt-3 px-3">
+                                                                    <!-- Información de la posición -->
+                                                                    <div id="container-information-refrigerator" class="mt-5 px-3 pb-4 bg-light bg-gradient border rounded-5">
+                                                                        <h2 class="text-center mb-5 pt-3">Ubicación</h2>
+                                                                        <div id="information-ubicacion">
+                                                                            <form id="form-info-ubicacion">
+                                                                                <div class="mb-3">
+                                                                                    <label for="comunidad-direccion" class="form-label">Dirección </label>
+                                                                                    <input type="text" class="form-control" id="comunidad-direccion" name="comunidad-direccion" readonly required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="comunidad-barrio" class="form-label">Barrio</label>
+                                                                                    <input type="text" class="form-control" id="comunidad-barrio" name="comunidad-barrio" readonly required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="comunidad-ciudad" class="form-label">Localidad</label>
+                                                                                    <input type="text" class="form-control" id="comunidad-ciudad" name="comunidad-ciudad" readonly required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="comunidad-provincia" class="form-label">Provincia</label>
+                                                                                    <input type="text" class="form-control" id="comunidad-provincia" name="comunidad-provincia" readonly required>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                        <h2 class="text-center mb-5 pt-3">Filtro de comunidades</h2>
+                                                                        <div id="information-filtro-comunidades">
+                                                                            <!-- Filtros -->
+                                                                            <div class="mb-3">
+                                                                                <label for="max-comunidades" class="form-label">Máximo de Comunidades</label>
+                                                                                <input type="number" class="form-control" id="max-comunidades" name="max-comunidades" value="10" min="1" required>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="radio-maximo" class="form-label">Radio Máximo (km)</label>
+                                                                                <input type="number" class="form-control" id="radio-maximo" name="radio-maximo" value="5.0" min="0.1" step="0.1" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-center w-100 align-items-center col-12 col-md-12 mt-4 gap-5">
+                                                                            <button href="" class="btn btn-primary botones" id="btn-mi-ubicacion-actual">
+                                                                                <i class="bi bi-geo-alt"></i>
+                                                                                Según mi ubicación actual
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- DONAR POR HELADERA -->
+                                            <div id="contenedor_donar_por_heladera" class="accordion-collapse collapse" data-bs-parent="#collapse_lugar">
+                                                <div class="accordion-body contenedor_datos border border-primary rounded-5">
+                                                    <div id="stations-map-placeholder">
+                                                        <div class="row p-5 ">
+                                                            <!-- Columna del mapa -->
+                                                            <div class="col-lg-8 mb-4 p-0">
+                                                                <div class="p-lg-3 p-0 m-0">
+                                                                    <h2 class="text-center mb-4">Estaciones</h2>
+                                                                    <div id="map" class="rounded-5 " style="width: 100%; height: 800px;">
+                                                                        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="crossorigin=""></script>
+                                                                        <script src="/js/script_donacion_fisico_mapa.js"></script>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <!-- Columna de la barra de búsqueda e información -->
+                                                            <div class="col-lg-4">
+                                                                <div class="rounded pt-1 mt-3 px-3">
+                                                                    <!-- Información de la heladera -->
+                                                                    <div id="container-information-refrigerator" class="mt-5 px-3 rounded-5 pb-4">
+                                                                        <h2 class="text-center mb-5 pt-3">Información</h2>
+                                                                        <div id="information-refrigerators">
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="estado"> <i class="bi bi-clipboard2-pulse"></i> Estado: </label>
+                                                                                <input placeholder="Activa/NO" class="form-control form-control-sm w-50" name="estado" type="text" id="estado" disabled>
+                                                                            </div>
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="estacion"><i class="bi bi-bookmark"></i> Estación: </label>
+                                                                                <input placeholder="Nombre de estación" class="form-control form-control-sm w-50" name="estacion" type="text" id="estacion-name" disabled>
+                                                                            </div>
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="direccion"><i class="bi bi-geo-alt"></i> Dirección: </label>
+                                                                                <input placeholder="Dirección" class="form-control form-control-sm w-50" name="direccion" type="text" id="direccion" disabled>
+                                                                            </div>
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="temperatura"><i class="bi bi-thermometer"></i> Temperatura: </label>
+                                                                                <input placeholder="Temperatura" class="form-control form-control-sm w-50" name="temperatura" type="text" id="temperatura" disabled>
+                                                                            </div>
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="capacidad-total"><i class="bi bi-box-seam"></i> Capacidad : </label>
+                                                                                <input placeholder="Capacidad Total" class="form-control form-control-sm w-50" name="capacidad-total" type="text" id="capacidad-total" disabled>
+                                                                            </div>
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="viandas-disponibles"><i class="bi bi-basket2"></i> Viandas Disponibles: </label>
+                                                                                <input placeholder="Viandas Disponibles" class="form-control form-control-sm w-50" name="viandas-disponibles" type="text" id="viandas-disponibles" disabled>
+                                                                            </div>
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="inicio-operacion"><i class="bi bi-calendar"></i> Inicio de Operación: </label>
+                                                                                <input placeholder="Fecha de Inicio" class="form-control form-control-sm w-50" name="inicio-operacion" type="text" id="inicio-operacion" disabled>
+                                                                            </div>
+
+                                                                            <div class="d-flex mb-3">
+                                                                                <label class="form-label w-50" for="descripcion"><i class="bi bi-journal-text"></i> Descripción: </label>
+                                                                                <input placeholder="Descripcion" class="form-control form-control-sm w-50" name="descripcion" type="text" id="descripcion" disabled>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <form id="formDonarPorHeladera" action="/donar-viandas" method="POST">
+                                                        <input type="hidden" class="form-control" id="heladera" name="heladera" readonly required>
+                                                        <div class="row row-cols-1 row-cols-md-2 g-3">
+                                                            <div class="col-12 col-md-12">
+                                                                <div class="form-floating">
+                                                                    <input type="text" class="form-control shadow-none rounded-4" id="descripcion" name="descripcion"  placeholder="">
+                                                                    <label for="descripcion">Descripcion</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md">
+                                                                <div class="form-floating">
+                                                                    <input type="date" class="form-control shadow-none rounded-4" id="campo_vencimiento_vianda" name="campo_vencimiento_vianda" placeholder="">
+                                                                    <label for="campo_vencimiento_vianda">Fecha de vencimiento</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md">
+                                                                <div class="form-floating">
+                                                                    <input type="number" class="form-control shadow-none rounded-4" id="campo_calorias_vianda" name="campo_calorias_vianda" placeholder="">
+                                                                    <label for="campo_calorias_vianda">Calorias</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md">
+                                                                <div class="form-floating">
+                                                                    <input type="number" class="form-control shadow-none rounded-4" id="campo_peso_vianda" name="campo_peso_vianda" placeholder="">
+                                                                    <label for="campo_peso_vianda">Peso</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row justify-content-center mt-3">
+                                                            <div class="col-6">
+                                                                <button type="submit" class="boton boton_enviar_form">DONAR</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div id="contenedor_form_reparto" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form id="donarPorReparto" method="POST" action="distribuir-viandas">
+                                            <div class="row row-cols-1 row-cols-md-2 g-3">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_origen_reparto" name="campo_origen_reparto">
+                                                            <option value="" class="d-none">Seleccione...</option>
+                                                            {{#each heladeras}}
+                                                                <option value="{{this.id}}">{{this.estacion}}</option>
+                                                            {{/each}}
+                                                        </select>
+                                                        <label for="campo_origen_reparto">Heladera de origen</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_destino_reparto" name="campo_destino_reparto">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            {{#each heladeras}}
+                                                                <option value="{{this.id}}">{{this.estacion}}</option>
+                                                            {{/each}}
+                                                        </select>
+                                                        <label for="campo_destino_reparto">Heladera de destino</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_cantidad_reparto" name="campo_cantidad_reparto" value="0" placeholder="">
+                                                        <label for="campo_calorias_reparto">Ingrese cantidad</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-12">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_motivo_reparto" name="campo_motivo_reparto">
+                                                            <option value="0" class="d-none">Seleccione...</option>
+                                                            <option value="DESPERFECTO_HELADERA">DESPERFECTO_HELADERA</option>
+                                                            <option value="FALTA_DE_VIANDAS">FALTA_DE_VIANDAS</option>
+                                                            <option value="OTROS">OTROS</option>
+
+                                                        </select>
+                                                        <label for="campo_motivo_reparto">Motivo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="contenedor_form_pv" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form id="donarPorRegistroPV" action="/registrarVulnerable" method="POST">
+                                            <div class="row row-cols-1 row-cols-md-3 g-3 align-items-center">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nombre_pv" name="campo_nombre_pv" placeholder="">
+                                                        <label for="campo_nombre_pv">Nombre(s)</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_apellido_pv" name="campo_apellido_pv" placeholder="">
+                                                        <label for="campo_apellido_pv">Apellido(s)</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_direccion_pv" name="campo_direccion_pv" placeholder="">
+                                                        <label for="campo_direccion_pv">Direccion</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="campo_tipo_documento_pv" name="campo_tipo_documento_pv">
+                                                            <option value="0" class="d-none">...</option>
+                                                            <option value="DNI" >DNI</option>
+                                                            <option value="LE" >LE</option>
+                                                            <option value="PASAPORTE">PASAPORTE</option>
+                                                        </select>
+                                                        <label for="campo_tipo_documento_pv">Tipo</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8 col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nro_documento_pv" name="campo_nro_documento_pv" placeholder="">
+                                                        <label for="campo_nro_documento_pv">Numero</label>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="campo_nacimiento_pv" class="form-label">Fecha de Nacimiento</label>
+                                                    <input type="date" class="form-control" id="campo_nacimiento_pv"
+                                                           name="campo_nacimiento_pv"
+                                                           required>
+                                                </div>
+                                                <div class="container-hijos">
+                                                    <h5 class="mt-4">Información de los Hijos</h5>
+                                                    <div id="hijosContainerEdit"></div>
+                                                    <button type="button" class="btn btn-success" id="agregarHijoEditBtn"><i class="bi bi-plus-circle"></i> Agregar Hijo</button>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="accordion" id="collapse_registro">
+                                <div class="row row-cols-3 gx-3 gy-2 mb-3">
+                                    <div class="col-6 col-md-6">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_dinero" aria-expanded="false" aria-controls="contenedor_form_dinero">DINERO</a>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <a class="boton btn_seleccion_contribucion collapsed" data-bs-toggle="collapse" data-bs-target="#contenedor_form_producto_servicio" aria-expanded="false" aria-controls="contenedor_form_producto_servicio">OFRECER PRODUCTO/SERVICIO</a>
+                                    </div>
+
+                                </div>
+
+                                <!-- MODALES DE DONACIONES -->
+                                <div id="contenedor_form_dinero" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form id="formDinero" action="/donar-dinero" method="POST">
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_monto_dinero" name="campo_monto_dinero" placeholder="">
+                                                        <label for="campo_monto_dinero">Monto</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" name="campo_frecuencia_dinero" id="campo_frecuencia_dinero">
+                                                            <option value="" class="d-none">Seleccione...</option>
+                                                            <option value="FRECUENCIA_DIARIA">FRECUENCIA DIARIA</option>
+                                                            <option value="FRECUENCIA_SEMANAL">FRECUENCIA SEMANAL</option>
+                                                            <option value="FRECUENCIA_MENSUAL">FRECUENCIA MENSUAL</option>
+                                                            <option value="FRECUENCIA_ANUAL">FRECUENCIA ANUAL</option>
+                                                        </select>
+                                                        <label for="campo_frecuencia_dinero">Frecuencia</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="contenedor_form_producto_servicio" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
+                                    <div class="accordion-body contenedor_datos">
+                                        <form id="formProductoServicio" action="/ofrecer-prod-servicio" method="POST">
+                                            <div class="row row-cols-1 row-cols-md-3 g-3">
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="nombre_oferta" name="nombre_oferta" placeholder="nombre_oferta" required>
+                                                        <label for="nombre_oferta">Nombre</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="descripcion_producto_servicio" name="descripcion_producto_servicio" placeholder="descripcion_producto_servicio" required>
+                                                        <label for="descripcion_producto_servicio">Descripción</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="tipo_producto_servicio" name="tipo_producto_servicio" required>
+                                                            <option value="PRODUCTO">PRODUCTO</option>
+                                                            <option value="SERVICIO">SERVICIO</option>
+                                                        </select>
+                                                        <label for="tipo_producto_servicio">Tipo</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <select class="form-select shadow-none rounded-4" id="categoria_producto_servicio" name="categoria_producto_servicio" required>
+                                                            <option value="GASTRONOMIA">GASTRONOMIA</option>
+                                                            <option value="ELECTRONICA">ELECTRONICA</option>
+                                                            <option value="ARTICULOS_HOGAR">ARTICULOS_HOGAR</option>
+                                                            <option value="OTROS">OTROS</option>
+                                                        </select>
+                                                        <label for="campo_tipo_producto_servicio">Categoría</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6 col-md-4">
+                                                    <div class="form-floating">
+                                                        <input type="number" class="form-control shadow-none rounded-4" id="campo_costo_puntos" name="campo_costo_puntos" placeholder="campo_costo_puntos" required>
+                                                        <label for="campo_costo_puntos">Costo de puntos</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row justify-content-center mt-3">
+                                                <div class="col-6">
+                                                    <button type="submit" class="boton boton_enviar_form">REGISTRAR</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        {{/if}}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Modal de Confirmación de Donación -->
+        <div class="modal fade" id="confirmarDonacionModal" tabindex="-1" aria-labelledby="confirmarInformeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <!-- Encabezado con estilo llamativo -->
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title" id="confirmarInformeModalLabel">
+                            <i class="bi bi-question-circle-fill me-2"></i> Confirmación de Donación
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Cuerpo del modal con texto centrado -->
+                    <div class="modal-body text-center">
+                        <p class="fs-4">¿Estás seguro de que deseas realizar esta donación?</p>
+                        <p class="text-muted">Una vez enviada, no podrás realizar cambios.</p>
+                    </div>
+                    <!-- Pie del modal con botones -->
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Cancelar
+                        </button>
+                        <button type="button" class="btn btn-warning btn-lg" id="confirmarDonacionFinal">
+                            <i class="bi bi-check-circle me-1"></i> Confirmar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal de Éxito -->
+        <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Cambiamos a modal-lg para hacerlo más grande -->
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="modalExitoLabel">¡Donación registrada con éxito!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="mb-3 ">
+                            <!-- Ícono de éxito -->
+                            <i class="bi bi-check-circle-fill fs-1" style="color: #08972c;"></i>
+                        </div>
+                        <h3 class="text-success">¡Gracias por tu aporte!</h3>
+                        <p class="fs-5">Tu donación ha sido registrada correctamente y nos será de gran ayuda.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- LISTA DE CARDS -->
+        <div class="contenedor_datos container-fluid py-4">
+            {{#each donaciones}}
+                <div class="row fila_contribucion mb-3">
+                    <div class="col-12">
+                        <div class="scrollable-card p-3">
+                            <div class="row">
+                                {{#if (eq this.getTipo "Dinero")}}
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-cash-stack"></i> DINERO</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-currency-dollar"></i> Monto: <span class="valor_info">${{this.cantidad}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Frecuencia: <span class="valor_info">{{this.frecuencia}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Estado: <span class="valor_info">{{#if completado}}Completado{{else}}Pendiente{{/if}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "Vianda")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-box-seam"></i> VIANDA</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-door-closed"></i> Heladera: <span class="valor_info">{{this.heladeraActual.nombreIdentificador}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">{{this.descripcion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-bag"></i> Peso: <span class="valor_info">{{this.peso}}kg</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-bag"></i> Calorias: <span class="valor_info">{{this.calorias}}kg</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-exclamation-triangle"></i> Fecha de vencimiento: <span class="valor_info">{{this.fechaVencimiento}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Estado: <span class="valor_info">{{#if completado}}Completado{{else}}Pendiente{{/if}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "Distribuir")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-truck"></i> REPARTO</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-arrow-repeat"></i> Motivo: <span class="valor_info">{{this.motivo}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-repeat"></i> Estado: <span class="valor_info">{{#if completado}}Completado{{else}}Pendiente{{/if}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "MantenerHeladera")}}
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-tools"></i> MANTENER ESTACIÓN	</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-door-open"></i> Heladera: <span class="valor_info">{{this.heladera.nombreIdentificador}}</span></div>
+                                    </div>
+
+                                {{else if (eq this.getTipo "Producto")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-box-seam"></i> Producto</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2024-09-05</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-clipboard"></i> Descripción: <span class="valor_info">Playstation 5</span>
+                                        </div>
+                                    </div>
+                                {{else if (eq this.getTipo "RegistroDePersonaVulnerable")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> REGISTRO P.V.</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre completo: <span class="valor_info">{{this.personaVulnerable.nombre}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-card-list"></i> Tipo Documento: <span class="valor_info">{{this.personaVulnerable.documento.tipo}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-credit-card-2-front"></i> Nro Documento: <span class="valor_info">{{this.personaVulnerable.documento.numeroDeDocumento}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-people-fill"></i> Cantidad de hijos: <span class="valor_info">{{this.personaVulnerable.cantidadMenoresACargo}}</span></div>
+                                    </div>
+                                {{else if (eq this.getTipo "Oferta")}}
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person-lines-fill"></i> OFERTA</div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaDeDonacion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-person"></i> Nombre <span class="valor_info">{{this.nombre}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-card-list"></i> Categoria  <span class="valor_info">{{this.categoria}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="tag_info w-100"><i class="bi bi-credit-card-2-front"></i> Costo puntos: <span class="valor_info">{{this.costoPuntos}}</span></div>
+                                    </div>
+                                {{/if}}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <!-- Botones volver al menu , recomendar lugar para donar y quiero donar -->
+    <div class="flex row col-12 ">
+        <!-- boton volver al menu principal -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-home">
+            <a href="/home" class="btn btn-primary botones" >
+                <i class="bi bi-house-door-fill"></i>
+                Volver al menú
+            </a>
+        </div>
+        <!-- boton donar de nuevo -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-agregar-donacion">
+            <a class="btn botones btn-donar" data-bs-toggle="modal" data-bs-target="#modal_nueva_colab">
+                <i class="bi bi-plus-circle"></i>
+                Quiero donar
+            </a>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+    {{#if fisico}}
+        <script src = "/js/script_donacion_fisico_mapa.js"></script>
+        <script type="text/javascript" src="/js/confirmaciones/script_formulario_donacion_fisico_confirmacion.js"></script>
+        <script src = "/js/scripts/script_donacion_fisico_mapa_service.js"></script>
+
+        <script>
+            // Referencia al contenedor de los hijos en el modal de edición
+            const hijosContainerEdit = document.getElementById('hijosContainerEdit');
+            let hijoEditIndex = 0;
+
+            // Función para agregar un nuevo hijo en el modal de edición
+            document.getElementById('agregarHijoEditBtn').addEventListener('click', function () {
+                hijoEditIndex++; // Incrementar el índice de los hijos
+                const hijoHtml = `
+                <div class="mb-3 border p-3" id="hijo-edit-${hijoEditIndex}">
+                    <h6>Hijo ${hijoEditIndex}</h6>
+                    <div class="mb-3">
+                        <label for="nombreHijoEdit${hijoEditIndex}" class="form-label">Nombre del Hijo</label>
+                        <input type="text" class="form-control" id="nombreHijoEdit${hijoEditIndex}" name="nombreHijo${hijoEditIndex}" placeholder="Ingrese Nombre del Hijo" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidoHijoEdit${hijoEditIndex}" class="form-label">Apellido del Hijo</label>
+                        <input type="text" class="form-control" id="apellidoHijoEdit${hijoEditIndex}" name="apellidoHijo${hijoEditIndex}" placeholder="Ingrese Apellido del Hijo" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaNacimientoHijoEdit${hijoEditIndex}" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="fechaNacimientoHijoEdit${hijoEditIndex}" name="fechaNacimientoHijo${hijoEditIndex}" required>
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="eliminarHijoEdit(${hijoEditIndex})"><i class="bi bi-trash"></i> Eliminar Hijo</button>
+                </div>`;
+                hijosContainerEdit.insertAdjacentHTML('beforeend', hijoHtml);
+            });
+
+
+            // Función para eliminar un hijo en el modal de edición
+            function eliminarHijoEdit(index) {
+                const hijoElement = document.getElementById(`hijo-edit-${index}`);
+                hijoElement.remove();
+            }
+
+        </script>
+    {{else}}
+        <script src = "/js/confirmaciones/script_formulario_donacion_juridico_confirmacion.js"></script>
+
+    {{/if}}
+{{/partial}}
+{{> templates/home/base}}

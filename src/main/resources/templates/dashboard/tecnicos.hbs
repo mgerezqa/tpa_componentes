@@ -1,0 +1,120 @@
+<!-- Seccion Técnicos -->
+{{#partial "contenido"}}
+    <section id="listado-tecnicos" >
+        <p class="lead">Listado de técnicos</p>
+        <hr>
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary"
+                    hx-get='/dashboard/tecnicos/create'
+                    hx-target="#modalGeneral"
+                    hx-trigger="click"
+                    data-bs-toggle="modal"
+                    data-bs-toggle="tooltip"
+                    data-bs-target="#modalGeneral"
+                    data-bs-placement="bottom"
+            >
+                Crear Tecnico
+            </button>
+
+            <!-- Tabla de tecnicos -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Apellido </th>
+                    <th>Tipo Documento</th>
+                    <th>Nro Documento</th>
+                    <th>Calle</th>
+                    <th>Altura</th>
+                    <th>Tamaño de area</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de heladeras  -->
+                {{#each tecnicos}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{#if this.activo}}
+                            ACTIVO
+                        {{else}}
+                            INACTIVO
+                        {{/if}}</td>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.apellido}}</td>
+                        <td>{{this.tipoDocumento}}</td>
+                        <td>{{this.nroDocumento}}</td>
+                        <td>{{this.calle}}</td>
+                        <td>{{this.altura}}</td>
+                        <td>{{this.tamanioArea}}</td>
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning"
+                                    hx-get='/dashboard/tecnicos/{{this.id}}/edit'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <!-- Botón para baja lógica  -->
+                            <button class="btn btn-outline-danger"
+                                    hx-get='/dashboard/tecnicos/{{this.id}}/delete'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom"
+                                    title="Deshabilitar">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
+
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarTecnico" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+
+                <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de eliminación  -->
+                <div class="modal fade" id="modalEliminarTecnico" tabindex="-1" aria-labelledby="modalEliminarTecnico" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eliminar Tecnico</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </tbody>
+            </table>
+        </div>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}

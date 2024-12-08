@@ -1,0 +1,264 @@
+<!-- Sección Beneficiarios -->
+{{#partial "contenido"}}
+    <section id="listado-beneficiarios" class="d-block">
+        <p class="lead">Listado de beneficiarios</p>
+        <hr>
+
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearBeneficiario">
+                Crear Beneficiario
+            </button>
+
+            <!-- Tabla de Beneficiarios -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Tipo Documento</th>
+                    <th>Nro Documento</th>
+                    <th>Cantidad de hijos</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>Fecha de registro</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each beneficiarios}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{#if this.activo}}Activo{{else}}Inactivo{{/if}}</td>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.apellido}}</td>
+                        <td>{{this.tipoDocumento}}</td>
+                        <td>{{this.numeroDocumento}}</td>
+                        <td>{{this.cantidadHijos}}</td>
+                        <td>{{this.fechaNacimiento}}</td>
+                        <td>{{this.fechaRegistro}}</td>
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning"
+                                    hx-get="/dashboard/beneficiarios/{{this.id}}/edit"
+                                    hx-target="#modalEditarBeneficiario .modal-content"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarBeneficiario"
+                                    title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <!-- Botón para abrir el modal de baja lógica -->
+                            <button class="btn btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalDeshabilitarBeneficiario"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
+
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarBeneficiario"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal de edición -->
+        <div class="modal fade" id="modalEditarBeneficiario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content"></div> <!-- Contenido cargado dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Modal de baja lógica -->
+        <div class="modal fade" id="modalDeshabilitarBeneficiario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Deshabilitar Beneficiario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas deshabilitar este beneficiario?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form id="formDeshabilitar" method="POST">
+                            <button type="submit" class="btn btn-outline-danger">Deshabilitar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de eliminación -->
+        <div class="modal fade" id="modalEliminarBeneficiario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar Beneficiario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas eliminar este beneficiario?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form id="formEliminar" method="GET">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal de creación -->
+        <div class="modal fade" id="modalCrearBeneficiario" tabindex="-1" aria-labelledby="modalCrearBeneficiario" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Crear Beneficiario</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="beneficiarioForm" action="/dashboard/beneficiarios" method="POST">
+
+                            <div class="form-group">
+                                <label for="nombreBeneficiario" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombreBeneficiario" name="nombreBeneficiario" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="apellidoBeneficiario" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="apellidoBeneficiario" name="apellidoBeneficiario" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tipoDocumentoBeneficiario" class="form-label">Tipo de Documento</label>
+                                <select class="form-select" id="tipoDocumentoBeneficiario" name="tipoDocumentoBeneficiario" required>
+                                    <option value="" disabled>Seleccionar tipo...</option>
+                                    <option value="DNI" selected>DNI</option>
+                                    <option value="PASAPORTE">PASAPORTE</option>
+                                    <option value="LE">LE</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="numeroDocumentoBeneficiario" class="form-label">Nro Documento</label>
+                                <input type="text" class="form-control" id="numeroDocumentoBeneficiario" name="numeroDocumentoBeneficiario" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fechaNacimientoBeneficiario" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="fechaNacimientoBeneficiario" name="fechaNacimientoBeneficiario" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="fechaRegistroBeneficiario" class="form-label">Fecha de Registro</label>
+                                <input type="date" class="form-control" id="fechaRegistroBeneficiario" name="fechaRegistroBeneficiario" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="estadoBeneficiario" name="estadoBeneficiario" checked>
+                                    <label class="form-check-label" for="estadoBeneficiario">Activo</label>
+                                </div>
+                            </div>
+
+                            <!-- Sección para ingresar datos de hijos -->
+                            <h5 class="mt-4">Información de los Hijos</h5>
+                            <div id="hijosContainer"></div>
+                            <button type="button" class="btn btn-success mt-2" id="agregarHijoBtn">
+                                <i class="bi bi-plus-circle"></i> Agregar Hijo
+                            </button>
+
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incluir el script al final del body -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const modalEliminar = document.getElementById('modalEliminarBeneficiario');
+                const formEliminar = document.getElementById('formEliminar');
+
+                modalEliminar.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const id = button.getAttribute('data-id');
+                    formEliminar.setAttribute('action', `/dashboard/beneficiarios/${id}/delete`);
+                });
+
+                const modalDeshabilitar = document.getElementById('modalDeshabilitarBeneficiario');
+                const formDeshabilitar = document.getElementById('formDeshabilitar');
+
+                modalDeshabilitar.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const id = button.getAttribute('data-id');
+                    formDeshabilitar.setAttribute('action', `/dashboard/beneficiarios/${id}/delete`);
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const agregarHijoBtn = document.getElementById("agregarHijoBtn");
+                const hijosContainer = document.getElementById("hijosContainer");
+                let index = 1; // Índice para los hijos
+
+                // Al hacer clic en el botón "Agregar Hijo"
+                agregarHijoBtn.addEventListener("click", function() {
+                    const hijoDiv = document.createElement("div");
+                    hijoDiv.classList.add("hijo");
+                    hijoDiv.setAttribute("id", `hijo${index}`);
+
+                    hijoDiv.innerHTML = `
+                <div class="form-group mt-3">
+                    <label for="nombreHijo${index}">Nombre del Hijo ${index}</label>
+                    <input type="text" class="form-control" id="nombreHijo${index}" name="nombreHijo${index}" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="apellidoHijo${index}">Apellido del Hijo ${index}</label>
+                    <input type="text" class="form-control" id="apellidoHijo${index}" name="apellidoHijo${index}" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="fechaNacimientoHijo${index}">Fecha de Nacimiento del Hijo ${index}</label>
+                    <input type="date" class="form-control" id="fechaNacimientoHijo${index}" name="fechaNacimientoHijo${index}" required>
+                </div>
+                <button type="button" class="btn btn-danger btn-sm mt-2 eliminarHijoBtn">
+                    <i class="bi bi-trash"></i> Eliminar Hijo
+                </button>
+                <hr>
+            `;
+
+                    hijosContainer.appendChild(hijoDiv);
+                    index++; // Incrementamos el índice para el siguiente hijo
+
+                    // Añadir funcionalidad para eliminar el hijo
+                    hijoDiv.querySelector('.eliminarHijoBtn').addEventListener('click', function() {
+                        hijoDiv.remove(); // Elimina este hijo específico
+                    });
+                });
+            });
+        </script>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}

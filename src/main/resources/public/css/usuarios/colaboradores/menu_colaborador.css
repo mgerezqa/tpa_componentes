@@ -1,0 +1,94 @@
+body {
+    background: linear-gradient(#f07605,#F6E347);
+}
+
+header{
+    background: #C45D08;
+    color: white;
+    padding: 10px;
+    border-bottom: #d9800c 5px solid;
+}
+
+.contenedor_titulo{
+    padding: 1.5rem;
+
+    font-size: 2rem;
+    color: hsl(27, 89%, 44%);
+    border: #e2dcdc 1px solid;
+    border-radius: 1.875rem;
+    background-color: #ffffff;
+    box-shadow: 0px 10px 10px hsl(27, 89%, 44%);
+    box-sizing: border-box;
+    border-radius: 1rem;
+    margin: 0 auto; /* Centrado horizontal */
+    width: 100%; /* Ancho total para evitar que el texto se desborde */
+    min-width: 15rem;
+    max-width: 40rem; /* Máximo ancho para pantallas grandes */
+
+}
+
+
+
+#contenedor_principal {
+    margin: 0 auto;
+    background-color: transparent;
+    border-radius: 10px;
+}
+
+#contenedor_operaciones{
+    display: flex;
+    padding:5rem;
+
+}
+
+main {
+    padding: 20px;
+}
+
+
+.link_operacion{
+    display: inline-block;
+    text-align: center;
+    align-content: center;
+    text-decoration: none;
+    font-size: 2.5rem;
+    width: 100%;
+    height: 10rem;
+}
+
+
+.link_operacion:hover {
+    border: 8px solid ; /* Borde al hacer hover */
+    border-color: whitesmoke; /* Color del borde al hacer hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.link_operacion:hover text {
+    font-size:5rem;
+
+}
+
+footer {
+    background-color: #C45D08;
+    color: white;
+    padding: 3rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+#btn-cerrar-sesion button {
+    font-size: 2rem;
+    padding: 15px 30px;
+    border-radius: 8px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#btn-cerrar-sesion i {
+    font-size: 2rem;
+}
+
+#btn-cerrar-sesion button:hover {
+    background-color: #c82333;
+    transform: scale(1.2);
+}

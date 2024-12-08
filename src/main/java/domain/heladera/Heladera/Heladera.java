@@ -1,64 +1,98 @@
 package domain.heladera.Heladera;
-import domain.geografia.Calle;
-import domain.donaciones.Vianda;
 import domain.geografia.Ubicacion;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.incidentes.Alerta;
 import domain.incidentes.IncidenteFactory;
 import domain.incidentes.Incidente;
 import domain.suscripciones.EventManager;
-import utils.temperatura.Temperatura;
-import lombok.Getter;
-import lombok.Setter;
+import domain.temperatura.Temperatura;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "heladeras")
 public class Heladera {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Getter @Setter
+    @Transient
     private EventManager eventManager;
 
-
-    @Setter @Getter
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "ubicacion_id", referencedColumnName = "id")
     private Ubicacion ubicacion;
-    @Setter @Getter
+
+    @Column(name = "nombre", nullable = false)
     private String nombreIdentificador;
-    @Setter @Getter
+
+    @Column(name = "capacidadMax")
     private Integer capacidadMax; // (se mide en numero de viandas)
-    @Setter @Getter
+
+    @Column(name = "capacidadActual")
     private Integer capacidadActual;
-    @Setter @Getter // ojo con el setter, creo q no va
+
+    @Column(name = "fechaInicioFunc", columnDefinition = "DATE")
     private LocalDate fechaInicioFuncionamiento;
-    @Setter @Getter
+
+    @Enumerated(EnumType.STRING)
     private EstadoHeladera estadoHeladera;
-    @Getter
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "modeloDeHeladera_id", referencedColumnName = "id", nullable = false)
     private ModeloDeHeladera modelo;
-    @Setter @Getter
+
+    @Transient
     private SensorMovimiento sensorMovimiento;
-    @Setter @Getter
+
+    @Transient
     private SensorTemperatura sensorTemperatura;
-    @Setter @Getter
+
+    @ElementCollection
+    @CollectionTable(name = "historial_estados_heladeras", joinColumns = @JoinColumn(name = "heladera_id"))
+    @Column(name = "historial_heladera")
     private List<String> historialDeEstados;
+
+    @Embedded
     public Temperatura ultimaTemperaturaRegistrada;
-    @Setter @Getter
+
+    @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     public List<Incidente> incidentes;
+
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_heladera")
+    private List<SolicitudApertura> solicitudesPendientes;
 
     // ============================================================ //
     // < CONSTRUCTOR > //
-    // ============================================================ //
-
     public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion){
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
         this.modelo = modelo;
         this.nombreIdentificador = nombreIdentificador;
         this.darDeAltaHeladera();
+        this.solicitudesPendientes = new ArrayList<>();
+        this.fechaInicioFuncionamiento = LocalDate.now();
         this.eventManager = new EventManager();
-
-
+    }
+    public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion,Integer capacidadMax){
+        this.ubicacion = ubicacion;
+        this.capacidadActual = 0;
+        this.modelo = modelo;
+        this.nombreIdentificador = nombreIdentificador;
+        this.darDeAltaHeladera();
+        this.solicitudesPendientes = new ArrayList<>();
+        this.fechaInicioFuncionamiento = LocalDate.now();
+        this.eventManager = new EventManager();
+        this.capacidadMax = capacidadMax;
     }
 
     // ============================================================ //
@@ -135,11 +169,19 @@ public class Heladera {
 
     // Falla de temperatura
     public void fallaTemperatura() {
-        IncidenteFactory.crearAlerta(this, "falla_temperatura");
+       IncidenteFactory.crearAlerta(this, "falla_temperatura");
     }
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"
 
+    public void registrarSolicitud(SolicitudApertura solicitudApertura) {
+        solicitudesPendientes.add(solicitudApertura);
+    }
+
+    public void registrarApertura(SolicitudApertura solicitudApertura) {
+        solicitudApertura.completarSolicitud(LocalDateTime.now());
+        solicitudesPendientes.remove(solicitudApertura);
+    }
 
     // ============================================================ //
     // Gestion de viandas (SOLO PARA TEST)
@@ -150,7 +192,7 @@ public class Heladera {
     public  void ingresarVianda(){
         if(this.capacidadActual < this.capacidadMax){
             this.capacidadActual += 1;
-            eventManager.notifyObservers();
+            //eventManager.notifyObservers(); Lo comento porque aun no se hace la funcionalidad de la suscripcion
         }
     }
 
@@ -161,7 +203,20 @@ public class Heladera {
 
         }
     }
-
+    public void agregarCantViandas(Integer cantidad){
+        if(cantidad + this.capacidadActual < capacidadMax){
+            this.capacidadActual+= cantidad;
+        }else{
+            throw new RuntimeException("No se puede agregar esa cantidad porque sobrepasa la cantidad maxima");
+        }
+    }
+    public void quitarCantViandas(Integer cantidad){
+        if(this.capacidadActual - cantidad > 0){
+            this.capacidadActual-= cantidad;
+        }else{
+            throw new RuntimeException("No se puede quitar esa cantidad porque tiene menor cantidad a la especificada");
+        }
+    }
 
 }
 

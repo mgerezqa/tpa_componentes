@@ -1,18 +1,24 @@
 package domain;
+import domain.contacto.Email;
 import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.heladera.Heladera.EstadoHeladera;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.heladera.Heladera.SolicitudApertura;
 import domain.heladera.Sensores.SensorMovimiento;
 import domain.heladera.Sensores.SensorTemperatura;
+import domain.usuarios.ColaboradorFisico;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HeladerasTests {
 
@@ -27,6 +33,8 @@ public class HeladerasTests {
     private Float tempMin;
     private Float tempMax;
     private List<String> historialDeEstados;
+    private ColaboradorFisico lalo;
+    private Config config;
 
     @BeforeEach
     public void setUp(){
@@ -36,11 +44,23 @@ public class HeladerasTests {
         fechaInicio = LocalDate.now();
         sensorMovimiento = new SensorMovimiento(heladera);
         sensorTemperatura = new SensorTemperatura(heladera);
+
         modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
         tempMin = modeloHeladera.getTemperaturaMinima();
         tempMax = modeloHeladera.getTemperaturaMaxima();
 
         heladera = new Heladera(modeloHeladera,nombre,ubicacion);
+        heladera = new Heladera(modeloHeladera,nombre,ubicacion);
+        sensorMovimiento = new SensorMovimiento(heladera);
+        sensorTemperatura = new SensorTemperatura(heladera);
+
+        lalo = new ColaboradorFisico("Lalo", "Menz");
+
+        try {
+            config = Config.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -89,6 +109,23 @@ public class HeladerasTests {
             System.out.println(estado);
         }
 
+    }
+
+    @Test
+    public void aperturaHeladeraHabilitada() {
+        SolicitudApertura solicitud = new SolicitudApertura(LocalDateTime.now(), "Apertura heladera para ingresar vianda.", lalo);
+        heladera.registrarSolicitud(solicitud);
+
+        assertDoesNotThrow(() -> heladera.registrarApertura(solicitud));
+        assertNotNull(solicitud.getFechaHoraConcretado());
+    }
+
+    @Test
+    public void aperturaHeladeraInhabilitada() {
+        SolicitudApertura solicitud = new SolicitudApertura(LocalDateTime.now().minusMinutes(181), "Apertura heladera para ingresar vianda.", lalo);
+        heladera.registrarSolicitud(solicitud);
+
+        assertThrows(Exception.class, () -> heladera.registrarApertura(solicitud));
     }
 
 }

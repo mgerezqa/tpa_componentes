@@ -1,0 +1,208 @@
+<!-- Seccion Colaboradores Juridicos -->
+{{#partial "contenido"}}
+    <section id="listado-colaboradores-juridicos" class="d-block">
+        <p class="lead">Listado de colaboradores jurídicos</p>
+        <hr>
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearColaboradorJuridico">Crear Colaborador Jurídico</button>
+            <!-- Tabla de colaboradores -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Razón Social</th>
+                    <th>Tipo Razón Social</th>
+                    <th>Rubro</th>
+                    <th>Email</th>
+                    <th>Puntos Acumulados</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each colaboradoresJuridicos}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{#if this.activo}}Activo{{else}}Inactivo{{/if}}</td>
+                        <td>{{this.razonSocial}}</td>
+                        <td>{{this.tipoRazonSocial}}</td>
+                        <td>{{this.rubro}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.puntosAcumulados}}</td>
+
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning"
+                                    hx-get="/dashboard/juridicos/{{this.id}}/edit"
+                                    hx-target="#modalEditarColaboradorJuridico .modal-content"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarColaboradorJuridico"
+                                    title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <!-- Botón para baja lógica -->
+                            <button class="btn btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalDeshabilitarColaboradorJuridico"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
+
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarColaboradorJuridico"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="modalEditarColaboradorJuridico" tabindex="-1" aria-labelledby="modalEditarColaboradorJuridico" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content"></div> <!-- Aquí HTMX insertará el formulario de edición -->
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalEliminarColaboradorJuridico" tabindex="-1" aria-labelledby="modalEliminarColaboradorJuridico" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="formEliminarUsuario" method="GET">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalDeshabilitarColaboradorJuridico" tabindex="-1" aria-labelledby="modalDeshabilitarColaboradorJuridico" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Desactivar Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <form id="formDeshabilitarUsuario" method="POST">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-outline-danger">Deshabilitar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- Modal de creación -->
+        <div class="modal fade" id="modalCrearColaboradorJuridico" tabindex="-1" aria-labelledby="modalCrearColaboradorJuridico" aria-hidden="true">
+            <div class="modal-dialog modal-lg"> <!-- modal-lg para hacerlo más amplio -->
+                <div class="modal-content">
+
+                    <!-- Cabecera del modal -->
+                    <div class="modal-header bg-primary text-white"> <!-- Fondo colorido para mayor contraste -->
+                        <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Crear Usuario</h5> <!-- Icono añadido -->
+                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Cuerpo del modal con formulario -->
+                    <div class="modal-body">
+                        <form id="formCrearColaboradorJuridico" action="/dashboard/juridicos" method="POST">
+
+                            <div class="form-group">
+                                <label for="razonSocial" class="form-label">Razón Social</label>
+                                <input type="text" class="form-control" id="razonSocial" name="razonSocial" placeholder="Ingrese Razón Social" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rubro" class="form-label">Rubro</label>
+                                <select class="form-select" id="rubro" name="rubro" required>
+                                    <option value="" disabled selected>Seleccionar rubro...</option>
+                                    <option value="EDUCACION">Educación</option>
+                                    <option value="SALUD">Salud</option>
+                                    <option value="TECNOLOGIA">Tecnología</option>
+                                    <option value="ENERGIA">Energía</option>
+                                    <option value="PRODUCCION">Producción</option>
+                                    <option value="FINANZAS">Finanzas</option>
+                                    <option value="COMERCIO">Comercio</option>
+                                    <option value="SERVICIOS">Servicios</option>
+                                    <option value="CONSTRUCCION">Construcción</option>
+                                    <option value="OTRO">Otro</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tipoRazonSocial" class="form-label">Tipo de Razón Social</label>
+                                <select class="form-select" id="tipoRazonSocial" name="tipoRazonSocial" required>
+                                    <option value="" disabled selected>Seleccionar tipo...</option>
+                                    <option value="GUBERNAMENTAL">Gubernamental</option>
+                                    <option value="ONG">ONG</option>
+                                    <option value="EMPRESA">Empresa</option>
+                                    <option value="INSTITUCION">Institución</option>
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="estadoJuridico" name="estadoJuridico" checked>
+                                    <label class="form-check-label" for="estadoJuridico">Activo</label>
+                                </div>
+                            </div>
+
+                            <!-- Pie del modal -->
+                            <div class="modal-footer d-flex justify-content-between"> <!-- Distribuir botones a los lados -->
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{{/partial}}
+{{> templates/dashboard}}
+
+<script>
+    document.querySelectorAll('[data-bs-target="#modalEliminarColaboradorJuridico"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('formEliminarUsuario').action = `/dashboard/juridicos/${id}/delete`;
+        });
+    });
+
+    document.querySelectorAll('[data-bs-target="#modalDeshabilitarColaboradorJuridico"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('formDeshabilitarUsuario').action = `/dashboard/juridicos/${id}/delete`;
+        });
+    });
+</script>
+

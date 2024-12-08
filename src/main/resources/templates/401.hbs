@@ -1,0 +1,34 @@
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/menu_colaborador.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+{{/partial}}
+{{#partial "title"}}
+    Acceso denegado
+{{/partial}}
+{{#partial "contenido"}}
+    <div id="contenedor_principal" class="p-4 container">
+        <img src="/img/401.jpg" alt="Error 401 - Acceso Denegado">
+        <!-- Botón de cierre de sesión -->
+        <div class="text-center mt-4" id="btn-cerrar-sesion">
+            <form action="/" method="GET">
+                <button class="btn btn-danger d-inline-flex align-items-center" type="submit">
+                    <span>Volver a pagina principal</span>
+                </button>
+            </form>
+        </div>
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+{{/partial}}
+{{> templates/home/base}}

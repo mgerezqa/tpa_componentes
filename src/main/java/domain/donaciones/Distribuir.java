@@ -2,29 +2,60 @@ package domain.donaciones;
 
 import domain.heladera.Heladera.Heladera;
 import domain.usuarios.ColaboradorFisico;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-public class Distribuir  {
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "donaciones_distribuir")
+public class Distribuir extends Donacion{
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "heladera_origen_id")
     private Heladera heladeraOrigen;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "heladera_destino_id")
     private Heladera heladeraDestino;
-    @Getter private Integer cantidad;
+
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "motivo")
     private Motivo motivo;
-    private LocalDate fechaDeDonacion;
-    @Getter ColaboradorFisico colaboradorQueLaDono;
 
-
-
-    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, Motivo motivo, LocalDate fechaDeDonacion, ColaboradorFisico colaboradorQuelaDono){
+    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino, Integer cantidad, LocalDate fechaDeDonacion, ColaboradorFisico colaboradorQueLaDono) {
+        super(fechaDeDonacion, colaboradorQueLaDono);
         this.heladeraOrigen = heladeraOrigen;
         this.heladeraDestino = heladeraDestino;
         this.cantidad = cantidad;
-        this.motivo = motivo;
+    }
+    public Distribuir(Heladera heladeraOrigen, Heladera heladeraDestino,Integer cantidad,ColaboradorFisico colaboradorQueLaDono){
+        super(colaboradorQueLaDono);
+        this.heladeraOrigen = heladeraOrigen;
+        this.heladeraDestino = heladeraDestino;
+        this.cantidad = cantidad;
+        heladeraOrigen.quitarCantViandas(cantidad); //Debe ir primero
+        heladeraDestino.agregarCantViandas(cantidad);
+    }
+    public Distribuir(ColaboradorFisico colaboradorQueLaDono,Integer cantidad, LocalDate fechaDeDonacion){
+        super(colaboradorQueLaDono);
+        this.cantidad = cantidad;
         this.fechaDeDonacion = fechaDeDonacion;
-        this.colaboradorQueLaDono = colaboradorQuelaDono;
-
-
+    }
+    @Override
+    public String getTipo() {
+        return "Distribuir";
     }
 
 

@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import repositorios.Repositorio;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -26,9 +27,10 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class PuntosTests {
-
+    private Long id;
     private CalculadoraPuntos calculadoraPuntos;
     private ColaboradorFisico lalo;
     private ColaboradorJuridico restaurant;
@@ -40,17 +42,23 @@ public class PuntosTests {
     private Heladera heladeraPalermo;
     private Heladera heladeraMedrano;
     private Config config;
+    private PersonaVulnerable carlos;
+    private PersonaVulnerable marcos;
 
     @BeforeEach
     public void setUp() throws IOException {
 
         config = Config.getInstance();
+        this.carlos = new PersonaVulnerable("Carlos", LocalDate.of(1960, 5, 12));
+        this.marcos = new PersonaVulnerable("Marcos", LocalDate.of(1976, 6, 3));
 
         this.calculadoraPuntos = new CalculadoraPuntos();
 
-        this.laloEmail = new Email("lalo@gmail.com");
+        this.laloEmail = mock(Email.class);
         this.lalo = new ColaboradorFisico("Lalo", "Menz");
         this.restaurant = new ColaboradorJuridico("Restaurant", TipoRazonSocial.EMPRESA, Rubro.SERVICIOS);
+
+        this.id = 564564L;
 
         this.ubicacion = new Ubicacion(-54F, -48F, new Calle("Av. Rivadavia", "1234"));
         this.modeloHeladera = new ModeloDeHeladera("Modelo X-R98");
@@ -91,7 +99,7 @@ public class PuntosTests {
     @DisplayName("Controlar puntos que se otorgan")
     public void controlCalculosPuntos() {
         Dinero donacion = new Dinero(4000, FrecuenciaDeDonacion.FRECUENCIA_ANUAL, LocalDate.now(), lalo);
-        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10, Motivo.FALTA_DE_VIANDAS, LocalDate.now(),lalo);
+        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10,LocalDate.now(),lalo);
         MantenerHeladera mantenerHeladera = new MantenerHeladera(heladeraMedrano, LocalDate.now().minusMonths(3), restaurant);
 
         assertEquals(2000, calculadoraPuntos.puntosPesosDonados(donacion));
@@ -121,7 +129,7 @@ public class PuntosTests {
     @Test
     @DisplayName("Se otorga puntos por viandas distribuidas")
     public void puntosDistribuirViandas() {
-        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10, Motivo.FALTA_DE_VIANDAS, LocalDate.now(),lalo);
+        Distribuir distribucionViandas = new Distribuir(heladeraMedrano, heladeraPalermo,10,LocalDate.now(), lalo);
         int puntos = calculadoraPuntos.puntosViandasDistribuidas(distribucionViandas);
         lalo.sumarPuntos(puntos);
 
@@ -143,10 +151,10 @@ public class PuntosTests {
     @DisplayName("Se otorga puntos por tarjetas repartidas")
     public void donacionTarjetas() {
 
-        Tarjeta tarjetaPablo = new Tarjeta(new PersonaVulnerable("Pablo", LocalDate.parse("2023-01-01")));
-        Tarjeta tarjetaMarcos = new Tarjeta(new PersonaVulnerable("Marcos", LocalDate.parse("2024-01-01")));
-        RegistroDePersonaVulnerable entregaTarjetaPablo = new RegistroDePersonaVulnerable(lalo, tarjetaPablo);
-        RegistroDePersonaVulnerable entregaTarjetaMarcos = new RegistroDePersonaVulnerable(lalo, tarjetaMarcos);
+        Tarjeta tarjetaCarlos = new Tarjeta();
+        Tarjeta tarjetaMarcos = new Tarjeta();
+        RegistroDePersonaVulnerable entregaTarjetaPablo = new RegistroDePersonaVulnerable(lalo, tarjetaCarlos, carlos, LocalDate.now());
+        RegistroDePersonaVulnerable entregaTarjetaMarcos = new RegistroDePersonaVulnerable(lalo, tarjetaMarcos, marcos, LocalDate.now());
 
         int puntos = calculadoraPuntos.puntosTarjetasRepatidas(2);
         lalo.sumarPuntos(puntos);

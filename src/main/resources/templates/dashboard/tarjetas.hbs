@@ -1,0 +1,117 @@
+<!-- Seccion Tarjetas Beneficiarios -->
+{{#partial "contenido"}}
+    <section id="listado-tarjetas-beneficiarios">
+        <p class="lead">Listado de tarjetas de beneficiarios</p>
+        <hr>
+
+        <div class="container">
+            <!-- Botón para abrir el modal de crear -->
+            <button class="btn btn-primary"
+                    hx-get='/dashboard/tarjetas/create'
+                    hx-target="#modalGeneral"
+                    hx-trigger="click"
+                    data-bs-toggle="modal"
+                    data-bs-toggle="tooltip"
+                    data-bs-target="#modalGeneral"
+                    data-bs-placement="bottom"
+            >
+                Crear Tarjeta
+            </button>
+            <!-- Tabla de Tarjeta Beneficiario -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>Codigo identificador</th>
+                    <th>Usos por dia</th>
+                    <th>Cantidad usada</th>
+                    <th>Fecha de inicio </th>
+                    <th>Colaborador id </th>
+                    <th>Beneficiario id</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de Beneficiarios  -->
+                {{#each tarjetas}}
+                    <tr>
+                        <td>{{this.estado}}</td>
+                        <td>{{this.codigoIdentificador}}</td>
+                        <td>{{this.cantidadMaxDeUso}}</td>
+                        <td>{{this.cantidadUsadaEnElDia}}</td>
+                        <td>{{this.fechaInicioDeFuncionamiento}}</td>
+                        <td>{{this.idColaborador}}</td>
+                        <td>{{this.idBeneficiario}}</td>
+                        <td>
+                            <!-- Botón para abrir el modal de edición -->
+                            <button class="btn btn-warning"
+                                    hx-get='/dashboard/tarjetas/{{this.codigoIdentificador}}/edit'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-placement="bottom"
+                                    title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <!-- Botón para baja lógica  -->
+                            <button
+                                    class="btn btn-outline-danger"
+                                    hx-get='/dashboard/tarjetas/{{this.codigoIdentificador}}/delete'
+                                    hx-target="#modalGeneral"
+                                    hx-trigger="click"
+                                    data-bs-toggle="modal"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-target="#modalGeneral"
+                                    data-bs-placement="bottom"
+                                    title="Deshabilitar">
+                                <i class="bi bi-arrow-down-circle"></i>
+                            </button>
+
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarTarjetaBeneficiario" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+
+                <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Modal de eliminación para un beneficiario  -->
+                <div class="modal fade" id="modalEliminarTarjetaBeneficiario" tabindex="-1" aria-labelledby="modalEliminarTarjetaBeneficiario" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Eliminar Beneficiario</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+{{/partial}}
+{{> templates/dashboard}}
+

@@ -1,0 +1,53 @@
+<!-- Modal para Crear Vianda -->
+<div class="modal fade" id="modalCrearVianda" tabindex="-1" role="dialog" aria-labelledby="modalCrearViandaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalCrearViandaLabel"><i class="bi bi-plus-circle-fill"></i> Crear Vianda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/dashboard/donaciones/viandas" method="POST">
+                    <!-- Seleccionar Colaborador -->
+                    <div class="form-group mb-3">
+                        <label for="colaboradorId">Colaborador</label>
+                        <select class="form-select" id="colaboradorId" name="colaboradorId" required>
+                            <option value="" disabled selected>Seleccionar colaborador...</option>
+                            {{#each colaboradores}}
+                                <option value="{{this.id}}">{{this.nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <!-- Seleccionar Heladera -->
+                    <div class="form-group mb-3">
+                        <label for="heladeraId">Heladera</label>
+                        <select class="form-select" id="heladeraId" name="heladeraId" required>
+                            <option value="" disabled selected>Seleccionar heladera...</option>
+                            {{#each heladeras}}
+                                <option value="{{this.id}}">{{this.nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <!-- Fecha de Donación -->
+                    <div class="form-group mb-3">
+                        <label for="fechaDonacion">Fecha de Donación</label>
+                        <input type="date" class="form-control" id="fechaDonacion" name="fechaDonacion" required>
+                    </div>
+
+                    <!-- Fecha de Vencimiento -->
+                    <div class="form-group mb-3">
+                        <label for="fechaVencimiento">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,37 @@
 package domain.contacto;
 
 import domain.heladera.Heladera.Heladera;
+import domain.suscripciones.TipoDeSuscripcion;
 import domain.usuarios.ColaboradorFisico;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@NoArgsConstructor
+@Getter
+@Entity
+@DiscriminatorValue("whatsapp")
 public class Whatsapp extends Telefono{
 
     public Whatsapp(String numero){
-        super(numero);
+        this.setNumero(numero);
+        validarNumero(numero);
+    }
+
+    private void validarNumero(String numero) {
+        if (numero == null) {
+            throw new IllegalArgumentException("El número no puede ser nulo");
+        }
+
+        if (!numero.startsWith("+")) {
+            throw new IllegalArgumentException("El número debe comenzar con un '+'");
+        }
+
+        if (numero.length() < 13 || numero.length() > 14) {
+            throw new IllegalArgumentException("El número debe tener entre 13 y 14 caracteres");
+        }
     }
 
     @Override
@@ -20,7 +45,7 @@ public class Whatsapp extends Telefono{
     }
 
     @Override
-    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera) {
+    public void enviarMensaje(ColaboradorFisico colaborador, Heladera heladera, TipoDeSuscripcion tipoDeSuscripcion) {
         //TODO: Implementar envío de mensaje por Whatsapp
         System.out.println("Enviando mensaje por Whatsapp a " + getNumero());
     }

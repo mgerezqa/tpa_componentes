@@ -1,0 +1,49 @@
+<!-- Sección Ajustes de Usuario -->
+{{#partial "contenido"}}
+
+{{/partial}}
+{{> templates/dashboard}}
+
+<section id="ajustes-de-usuario" class="d-none">
+    <p class="lead">Ajustes de usuario</p>
+    <hr>
+
+    <div class="container d-flex justify-content-center">
+        <!-- Caja más compacta para los inputs -->
+        <div class="col-md-6">
+            <!-- Campos de ajustes de usuario -->
+            <form id="formulario-ajustes-de-usuario">
+                <div class="mb-3">
+                    <label for="ajustesUsuarioNombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="ajustesUsuarioNombre" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="ajustesUsuarioApellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="ajustesUsuarioApellido" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="ajustesUsuarioEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="ajustesUsuarioEmail" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="ajustesUsuarioPassword" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="ajustesUsuarioPassword" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="ajustesUsuarioPasswordConfirm" class="form-label">Confirmar contraseña</label>
+                    <input type="password" class="form-control" id="ajustesUsuarioPasswordConfirm" required>
+                </div>
+
+                <!-- Botones centrados para Guardar y Limpiar -->
+                <div class="d-flex justify-content-between">
+                    <button type="reset" class="btn btn-secondary">Limpiar datos</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

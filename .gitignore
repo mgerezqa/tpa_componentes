@@ -2,8 +2,10 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+.codebuddy/
+/src/main/resources/config.properties
 ### IntelliJ IDEA ###
+.idea/
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
@@ -36,3 +38,14 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/src/main/resources/META-INF/MANIFEST.MF
+/.idea/artifacts/tpa_componentes_jar.xml
+
+###Persistencia
+
+src/main/resources/META-INF/persistence.xml
+
+##files
+diagramaDeComponentesYDespliegueServicio2.drawio
+servicio.plantuml
+tpa_componentes.iml

@@ -1,0 +1,22 @@
+
+/*Map  Leaflet*/
+#map {
+    height: 50rem;
+    width: 100%;
+}
+
+.tooltip-map {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: antiquewhite;
+    background: black;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
+    display: none;
+    z-index: 1000;
+    text-align: center;
+}

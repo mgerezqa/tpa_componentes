@@ -2,16 +2,21 @@ package domain.puntos;
 
 import domain.donaciones.*;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import domain.Config;
+import domain.heladera.Heladera.Heladera;
+
 public class CalculadoraPuntos {
     private static CalculadoraPuntos instancia;
     private Config config;
 
-    public CalculadoraPuntos() throws IOException {
+    public CalculadoraPuntos() {
             config = Config.getInstance();
     }
 
-    public static CalculadoraPuntos obtenerInstancia() throws IOException {
+    public static CalculadoraPuntos obtenerInstancia(){
         if (instancia == null) {
             instancia = new CalculadoraPuntos();
         }
@@ -26,6 +31,10 @@ public class CalculadoraPuntos {
     public int puntosViandasDistribuidas (Distribuir viandasDistribuidas) {
         double coeficiente = Double.parseDouble(config.getProperty("puntos.coefViandasDistribuidas"));
         return (int) Math.round(viandasDistribuidas.getCantidad() * coeficiente);
+    }
+    public int puntosViandasDistribuidas (Integer viandasDistribuidas) {
+        double coeficiente = Double.parseDouble(config.getProperty("puntos.coefViandasDistribuidas"));
+        return (int) Math.round(viandasDistribuidas * coeficiente);
     }
 
     public int puntosViandasDonadas (int viandasDonadas) {
@@ -43,6 +52,15 @@ public class CalculadoraPuntos {
         int puntos = (int) Math.round((heladera.mesesMantenida()-heladera.getMesesPuntarizados()) * coeficiente);
 
         heladera.setMesesPuntarizados(heladera.mesesMantenida());
+        return puntos;
+    }
+    public int puntosHeladerasActivas (List<MantenerHeladera> mantenciones) {
+        double coeficiente = Double.parseDouble(config.getProperty("puntos.coefHeladerasActivas"));
+        List<Heladera> heladeras = mantenciones.stream().map(MantenerHeladera::getHeladera).collect(Collectors.toList());
+        int cantActivas  = (int) heladeras.stream().filter(Heladera::estaActivaHeladera).count();
+        int meses = mantenciones.stream().mapToInt(MantenerHeladera::mesesMantenida).sum();
+        int puntos = (int) Math.round(cantActivas *meses *coeficiente);
+
         return puntos;
     }
 }

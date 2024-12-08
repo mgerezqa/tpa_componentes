@@ -83,9 +83,9 @@ public class SuscripcionTests {
         config = Config.getInstance();
 
         //Medios de contacto
-        this.laloEmail = new Email("mgerez@frba.utn.edu.ar");
-        this.laloTelegram = new Telegram("+5491165974084");
-        this.laloWhatsapp = new Whatsapp("+5491165974084");
+        this.laloEmail = new Email("bbattagliese@frba.utn.edu.ar");
+        this.laloTelegram = new Telegram("NOfdsfafsT");
+        this.laloWhatsapp = new Whatsapp("+5491161964086");
         this.colaborador = new ColaboradorFisico("Lalo", "Menz");
         this.otroColaborador = new ColaboradorFisico("Pepe","Argento");
         this.areaDeCobertura = new AreaDeCobertura(colaborador);
