@@ -33,6 +33,7 @@ import utils.ICrudViewsHandler;
 import utils.uploadImage.ImageUpload;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersistenceUnit {
@@ -343,7 +344,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
 
             // Obtener otros parámetros del formulario
             String nombreEstacion = context.formParam("nombre-estacion-modal");
-            String fechaAsistencia = context.formParam("fecha-asistencia");
+            LocalDateTime fechaAsistencia = LocalDateTime.parse(Objects.requireNonNull(context.formParam("fecha-asistencia")));
             String descripcionFalla = context.formParam("descripcion-falla");
             boolean reparada = Boolean.parseBoolean(context.formParam("reparada"));
             Long tecnicoId = context.sessionAttribute("id_colaborador");
@@ -360,7 +361,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
 
             Tecnico tecnico = (Tecnico) posibleTecnico.get();
             Heladera heladera = posibleHeladera.get();
-            Visita visitaTecnica = VisitaFactory.crearVisita(tecnico, heladera, descripcionFalla, imagePath, reparada);
+            Visita visitaTecnica = VisitaFactory.crearVisita(tecnico, heladera, descripcionFalla, imagePath, reparada,fechaAsistencia);
 
             withTransaction(()->{
                 repositorio.guardar(visitaTecnica);

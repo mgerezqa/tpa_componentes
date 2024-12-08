@@ -17,6 +17,10 @@ function mostrarInformacionHeladera(heladera) {
     document.getElementById("inicio-operacion").value = heladera.inicioOperacion;
     document.getElementById("boton-informe-reparacion").disabled = false;
 
+    // Habilitar el botón solo si la heladera NO está ACTIVA
+    const botonInforme = document.getElementById("boton-informe-reparacion");
+    botonInforme.disabled = heladera.estado === "ACTIVA";
+    
     // Completar modal con datos
     document.getElementById("nombre-estacion-modal").value = heladera.nombre;
     document.getElementById("estacion").value = heladera.id; //En realidad tiene que ser el nombre, no el id pero ya fue

@@ -17,7 +17,7 @@ function mostrarInformacionHeladera(heladera) {
     document.getElementById("capacidad-total").value = heladera.capacidad;
     document.getElementById("viandas-disponibles").value = heladera.viandas;
     document.getElementById("inicio-operacion").value = heladera.inicioOperacion;
-    document.getElementById("boton-informe-reparacion").disabled = false;
+    
 
     // Completar modal con datos
     document.getElementById("nombre-estacion-modal").value = heladera.nombre;
