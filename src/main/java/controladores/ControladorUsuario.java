@@ -127,7 +127,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
             "juridico", tieneRol(roles, RoleENUM.JURIDICO)
         );
 
-        ctx.render("home/home.hbs", model);
+        ctx.render("/home/home.hbs", model);
     }
 
     public void perfil(Context ctx) {
@@ -146,7 +146,7 @@ public class ControladorUsuario implements ICrudViewsHandler, WithSimplePersiste
         if (datos != null) {
             model.put("datos", datos);
         }
-        ctx.render(String.format("home/perfiles/%s.hbs", rolPrincipal.toLowerCase()), model);
+        ctx.render(String.format("/home/perfiles/%s.hbs", rolPrincipal.toLowerCase()), model);
     }
 
 

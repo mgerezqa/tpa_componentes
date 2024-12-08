@@ -66,7 +66,8 @@ public class Server {
 
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
-                Handlebars handlebars = new Handlebars();
+                Handlebars handlebars = new Handlebars()
+                        .with(new ClassPathTemplateLoader("/templates", ".hbs")); // Añade esta línea
                 handlebars.registerHelper("eq", (context1, options) -> {
                     if (context1 == null || options.param(0) == null) {
                         return false;
@@ -75,10 +76,8 @@ public class Server {
                 });
 
 
-                Template template = null;
                 try {
-                    template = handlebars.compile(
-                            "/templates" + path.replace(".hbs", ""));
+                    Template template = handlebars.compile(path.replace(".hbs", ""));
                     return template.apply(model);
                 } catch (IOException e) {
                     e.printStackTrace();
