@@ -67,23 +67,25 @@ public class Server {
 
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
-                Handlebars handlebars = new Handlebars();
+                // Crear el loader para templates y partials
+                TemplateLoader loader = new ClassPathTemplateLoader();
+                loader.setPrefix("/templates");
+                loader.setSuffix(".hbs");
 
+                // Configurar Handlebars con el loader
+                Handlebars handlebars = new Handlebars(loader);
+
+                // Registrar el helper eq
                 handlebars.registerHelper("eq", (context1, options) -> {
                     if (context1 == null || options.param(0) == null) {
                         return false;
                     }
                     return context1.equals(options.param(0));
                 });
-                // Configure the template loader to look in the correct directory
-                TemplateLoader loader = new ClassPathTemplateLoader("/templates", ".hbs");
-                handlebars.with(loader);
 
-                Template template = null;
                 try {
-                    // Remove the /templates prefix since it's already configured in the loader
-                    String templatePath = path.replace(".hbs", "");
-                    template = handlebars.compile(templatePath);
+                    // Compilar y aplicar el template
+                    Template template = handlebars.compile(path.replace(".hbs", ""));
                     return template.apply(model);
                 } catch (IOException e) {
                     e.printStackTrace();
