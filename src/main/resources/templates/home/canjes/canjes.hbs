@@ -59,30 +59,57 @@
 
                                 <div class="card-body">
                                     <div class="row g-4">
-                                        <!-- Nombre -->
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-floating">
-                                                <input type="text" class="entrada_form form-control shadow-none rounded-4"
-                                                       id="campo_nombre_fisico" value="Pepe" placeholder="Nombre" disabled>
-                                                <label for="campo_nombre_fisico">Nombre</label>
+                                        {{#if fisico}}
+                                            <!-- Nombre -->
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="entrada_form form-control shadow-none rounded-4"
+                                                           id="campo_nombre_fisico" value="{{colaborador.nombre}}" placeholder="Nombre" disabled>
+                                                    <label for="campo_nombre_fisico">Nombre</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <!-- Apellido -->
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-floating">
-                                                <input type="text" class="entrada_form form-control shadow-none rounded-4"
-                                                       id="campo_apellido_fisico" value="Argento" placeholder="Apellido" disabled>
-                                                <label for="campo_apellido_fisico">Apellido</label>
+                                            <!-- Apellido -->
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="entrada_form form-control shadow-none rounded-4"
+                                                           id="campo_apellido_fisico" value="{{colaborador.apellido}}" placeholder="Apellido" disabled>
+                                                    <label for="campo_apellido_fisico">Apellido</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <!-- Nro Documento -->
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-floating">
-                                                <input type="text" class="entrada_form form-control shadow-none rounded-4"
-                                                       id="campo_nro_documento_fisico" value="123456789" placeholder="Nro Documento" disabled>
-                                                <label for="campo_nro_documento_fisico">Nro Documento</label>
+                                            <!-- Nro Documento -->
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="entrada_form form-control shadow-none rounded-4"
+                                                           id="campo_nro_documento_fisico" value="colaborador.documento.numeroDeDocumento" placeholder="Nro Documento" disabled>
+                                                    <label for="campo_nro_documento_fisico">Nro Documento</label>
+                                                </div>
                                             </div>
-                                        </div>
+                                        {{else}}
+                                            <!-- Nombre -->
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="entrada_form form-control shadow-none rounded-4"
+                                                           id="campo_razon_social" value="{{colaborador.razonSocial}}" placeholder="razonSocial" disabled>
+                                                    <label for="campo_razon_social">Razon Social</label>
+                                                </div>
+                                            </div>
+                                            <!-- Apellido -->
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="entrada_form form-control shadow-none rounded-4"
+                                                           id="campo_tipo_razon_social" value="{{colaborador.tipoRazonSocial}}" placeholder="tipoRazonSocial" disabled>
+                                                    <label for="campo_tipo_razon_social">Tipo</label>
+                                                </div>
+                                            </div>
+                                            <!-- Nro Documento -->
+                                            <div class="col-12 col-md-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="entrada_form form-control shadow-none rounded-4"
+                                                           id="campo_rubro" value="{{colaborador.tipoDeRubro}}" placeholder="rubro" disabled>
+                                                    <label for="campo_rubro">Rubro</label>
+                                                </div>
+                                            </div>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>

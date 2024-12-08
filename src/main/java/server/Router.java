@@ -317,6 +317,10 @@ public class Router implements SimplePersistenceTest{
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.get("/canjes", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
+            List<String> roles = ctx.sessionAttribute("roles");
+
+            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
+            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
             Repositorio repositorio = ServiceLocator.instanceOf(Repositorio.class);
             List<Oferta> ofertasDisponibles = repositorio.buscarTodos(Oferta.class)
                     .stream()
@@ -333,6 +337,8 @@ public class Router implements SimplePersistenceTest{
                     .filter(c -> c.getCanjeador().getId() == posibleComprador.getId())
                     .collect(Collectors.toList());
 
+            model.put("fisico", esFisico);
+            model.put("juridico", esJuridico);
             model.put("canjes",canjesDelColaborador);
             model.put("colaborador",posibleComprador);
             model.put("ofertas",ofertasDisponibles);
