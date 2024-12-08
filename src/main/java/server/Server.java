@@ -3,6 +3,7 @@ package server;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
 import config.ServiceLocator;
 import domain.Config;
 import domain.excepciones.CuilInvalidoException;
@@ -66,18 +67,23 @@ public class Server {
 
 
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
-                Handlebars handlebars = new Handlebars()
-                        .with(new ClassPathTemplateLoader("/templates", ".hbs")); // Añade esta línea
+                Handlebars handlebars = new Handlebars();
+
                 handlebars.registerHelper("eq", (context1, options) -> {
                     if (context1 == null || options.param(0) == null) {
                         return false;
                     }
                     return context1.equals(options.param(0));
                 });
+                // Configure the template loader to look in the correct directory
+                TemplateLoader loader = new ClassPathTemplateLoader("/templates", ".hbs");
+                handlebars.with(loader);
 
-
+                Template template = null;
                 try {
-                    Template template = handlebars.compile(path.replace(".hbs", ""));
+                    // Remove the /templates prefix since it's already configured in the loader
+                    String templatePath = path.replace(".hbs", "");
+                    template = handlebars.compile(templatePath);
                     return template.apply(model);
                 } catch (IOException e) {
                     e.printStackTrace();
