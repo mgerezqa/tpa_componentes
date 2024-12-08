@@ -480,7 +480,7 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
             // Solo procesar la imagen si se subió un archivo y no está vacío
             if (imagen != null && imagen.size() > 0) {
-                imagePath = ImageUpload.saveImage(imagen);
+                imagePath = ImageUpload.saveImage(imagen, "ofertas");
             }
             String nombreOferta = context.formParam("nombre_oferta");
             String descripcion = context.formParam("descripcion_producto_servicio");

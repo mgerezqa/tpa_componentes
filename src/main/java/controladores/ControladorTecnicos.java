@@ -339,7 +339,7 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
             
             // Solo procesar la imagen si se subió un archivo y no está vacío
             if (imagen != null && imagen.size() > 0) {
-                imagePath = ImageUpload.saveImage(imagen);
+                imagePath = ImageUpload.saveImage(imagen, "visitas");
             }
 
             // Obtener otros parámetros del formulario
