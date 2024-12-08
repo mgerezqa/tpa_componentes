@@ -129,7 +129,11 @@
                                                     <div class="form-floating">
                                                         <select class="entrada_form form-select shadow-none rounded-4" id="campo_tipo_canje_fisico" name="campo_tipo_canje_fisico">
                                                             {{#each ofertas}}
-                                                                <option value="{{this.id}}" selected>{{this.nombre}}</option>
+                                                                <option value="{{this.id}}" 
+                                                                        data-puntos="{{this.costoPuntos}}"
+                                                                        data-imagen="{{this.foto}}">
+                                                                    {{this.nombre}}
+                                                                </option>
                                                             {{/each}}
                                                         </select>
                                                         <label for="campo_tipo_canje_fisico">Canje de producto</label>
@@ -148,7 +152,7 @@
                                         <!-- Columna derecha: Imagen -->
                                         <div class="col-12 col-md-6">
                                             <div class="d-flex justify-content-center align-items-center h-100">
-                                                <img id="imagen_producto" src="/assets/heladera_1.jpg"
+                                                <img id="imagen_producto"
                                                      class="img-fluid rounded-4" style="max-height: 200px;"
                                                      alt="Imagen del producto">
                                             </div>
@@ -419,6 +423,6 @@
 {{/partial}}
 {{#partial "scripts"}}
     <script type="text/javascript" src="/js/confirmaciones/script_canje_fisico_confirmacion.js"></script>
-
+    <script type="text/javascript" src="/js/canjes/actualizarOferta.js"></script>
 {{/partial}}
 {{> templates/home/base}}
