@@ -78,7 +78,7 @@ public class Server {
                 Template template = null;
                 try {
                     template = handlebars.compile(
-                            "templates/" + path.replace(".hbs", ""));
+                            "/templates" + path.replace(".hbs", ""));
                     return template.apply(model);
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -13,7 +13,7 @@ target/
 *.iws
 *.iml
 *.ipr
-
+/uploads
 ### Eclipse ###
 .apt_generated
 .classpath
