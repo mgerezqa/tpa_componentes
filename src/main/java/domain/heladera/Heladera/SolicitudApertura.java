@@ -32,7 +32,7 @@ public class SolicitudApertura {
     @JoinColumn(name = "colaborador_id")
     private Colaborador colaborador;
 
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
     private Donacion donacionVinculada;
 
     @Column(name = "fecha_concrecion",columnDefinition = "DATETIME")
