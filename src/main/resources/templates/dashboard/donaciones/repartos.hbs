@@ -1,239 +1,93 @@
 <!-- Seccion Donaciones de Repartos -->
-<section id="listado-de-donaciones-repartos" class="d-none">
-    <p class="lead">Listado de repartos</p>
-    <hr>
+{{#partial "contenido"}}
+    <section id="listado-heladeras">
+        <p class="lead">Listado de repartos de viandas</p>
+        <hr>
+        <div class="container">
+            <!-- Botón para abrir el modal de crear
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearDonacionDeReparto">Crear Donacion de Reparto</button>-->
 
-    <div class="container">
-        <!-- Botón para abrir el modal de crear -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearDonacionDeReparto">Crear Donacion de Reparto</button>
+            <!-- Tabla de Donación Reparto -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Colaborador ID</th>
+                    <th>Nombre colaborador donante</th>
+                    <th>Heladera Origen id</th>
+                    <th>Heladera Destino id</th>
+                    <th>Fecha de donación</th>
+                    <th>Motivo</th>
+                    <th>Cantidad</th>
+                </tr>
+                </thead>
 
-        <!-- Tabla de Donación Reparto -->
-        <table class="table mt-3">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Colaborador id</th>
-                <th>Heladera Origen id</th>
-                <th>Heladera Destino id</th>
-                <th>Fecha de donacion</th>
-                <th>Motivo</th>
-                <th>Cantidad</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Listado de Repartos  -->
-            <tr>
-                <td>1</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>11/08/2024</td>
-                <td>FALTA_DE_VIANDAS</td>
-                <td>200</td>
-                <td>
-                    <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarDonacionReparto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
+                <!-- Listado de Repartos  -->
+                <tbody>
+                {{#each repartos}}
+                <tr>
+                    <td>{{this.id}}</td>
+                    <td>{{this.colaboradorDonanteId}}</td>
+                    <td>{{this.nombreColaborador}}</td>
+                    <td>{{#if this.heladeraOrigenId}}{{this.heladeraOrigenId}}{{else}}-{{/if}}</td>
+                    <td>{{#if this.heladeraDestinoId}}{{this.heladeraDestinoId}}{{else}}-{{/if}}</td>
+                    <td>{{this.fechaDonacion}}</td>
+                    <td>{{#if this.motivo}}{{this.motivo}}{{else}}-{{/if}}</td>
+                    <td>{{this.cantidad}}</td>
+                    <td>
+                        <!-- Botón para abrir el modal de eliminación -->
+                        <button class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEliminarDonacionReparto"
+                                data-id="{{this.id}}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
 
-                    <!-- Botón para baja lógica  -->
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarDonacionReparto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
-                        <i class="bi bi-arrow-down-circle"></i>
-                    </button>
-
-                    <!-- Botón para abrir el modal de eliminación -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarDonacionReparto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-
-
-            </tr>
-
-            <!-- Modal de edición para una vianda -->
-            <div class="modal fade" id="modalEditarDonacionReparto" tabindex="-1" aria-labelledby="modalEditarDonacionReparto" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+        <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content">
-                        <div class="modal-header bg-warning text-dark">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Donacion</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <!-- Buscar colaborador -->
-                                <div class="mb-3">
-                                    <label for="editarDonacionRepartoColaboradorId" class="form-label">Colaborador</label>
-                                    <select class="form-select" id="editarDonacionRepartoColaboradorId" required>
-                                        <option value="" disabled>Seleccionar colaborador id...</option>
-                                        <option value="1">1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionRepartoOrigenHeladeraId" class="form-label">Heladera Origen</label>
-                                    <select class="form-select" id="editarDonacionRepartoOrigenHeladeraId" required>
-                                        <option value="" disabled>Seleccionar heladera id...</option>
-                                        <option value="1">1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionRepartoDestinoHeladeraId" class="form-label">Heladera Destino</label>
-                                    <select class="form-select" id="editarDonacionRepartoDestinoHeladeraId" required>
-                                        <option value="" disabled>Seleccionar heladera id...</option>
-                                        <option value="1">1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionMotivoReparto" class="form-label">Motivo</label>
-                                    <select class="form-select" id="editarDonacionMotivoReparto" required>
-                                        <option value="" disabled>Seleccionar heladera id...</option>
-                                        <option value="1" >Falta de viandas</option> <!-- Opción seleccionada -->
-                                        <option value="2">Otra razón</option>
-                                        <option value="3">Otra razón</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionDeRepartoCantidad" class="form-label">Cantidad</label>
-                                    <input type="number" class="form-control" id="editarDonacionDeRepartoCantidad" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionDeRepartoFecha" class="form-label">Fecha de donacion</label>
-                                    <input type="date" class="form-control" id="editarDonacionDeRepartoFecha" required>
-                                </div>
-
-                            </form>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal de eliminación para un reparto  -->
-            <div class="modal fade" id="modalEliminarDonacionReparto" tabindex="-1" aria-labelledby="modalEliminarDonacionReparto" aria-hidden="true">
+        <!-- Modal de eliminación  -->
+        <div class="modal fade" id="modalEliminarDonacionReparto" tabindex="-1" aria-labelledby="modalEliminarDonacionReparto" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Eliminar Donacion</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>¿Estás seguro de que deseas eliminar a esta donacion?</p>
+                            <p>¿Estás seguro de que deseas eliminar esta donación?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
+                            <form id="formEliminarDonacionReparto" method="GET">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal de deshabilitación  -->
-            <div class="modal fade" id="modalDeshabilitarDonacionDeReparto" tabindex="-1" aria-labelledby="modalDeshabilitarDonacionDeReparto" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Desactivar Beneficiario</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas dar de baja a este usuario?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal de creación -->
-    <div class="modal fade" id="modalCrearDonacionDeReparto" tabindex="-1" aria-labelledby="modalCrearDonacionDeReparto" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear donacion de reparto</h5>
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <!-- Buscar colaborador -->
-                        <div class="mb-3">
-                            <label for="donacionRepartoColaboradorId" class="form-label">Colaborador</label>
-                            <select class="form-select" id="donacionRepartoColaboradorId" required>
-                                <option value="" disabled>Seleccionar colaborador id...</option>
-                                <option value="1" >1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionRepartoOrigenHeladeraId" class="form-label">Heladera Origen</label>
-                            <select class="form-select" id="donacionRepartoOrigenHeladeraId" required>
-                                <option value="" disabled>Seleccionar heladera id...</option>
-                                <option value="1" >1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionRepartoDestinoHeladeraId" class="form-label">Heladera Destino</label>
-                            <select class="form-select" id="donacionRepartoDestinoHeladeraId" required>
-                                <option value="" disabled>Seleccionar heladera id...</option>
-                                <option value="1" >1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionMotivoReparto" class="form-label">Motivo</label>
-                            <select class="form-select" id="donacionMotivoReparto" required>
-                                <option value="" disabled>Seleccionar heladera id...</option>
-                                <option value="1" >Falta de viandas</option> <!-- Opción seleccionada -->
-                                <option value="2">Otra razón</option>
-                                <option value="3">Otra razón</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionDeRepartoCantidad" class="form-label"> Cantidad</label>
-                            <input type="number" class="form-control" id="donacionDeRepartoCantidad" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionDeRepartoFecha" class="form-label">Fecha de donacion</label>
-                            <input type="date" class="form-control" id="donacionDeRepartoFecha" required>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                </div>
-            </div>
         </div>
-    </div>
-</section>
+    </section>
+
+{{/partial}}
+{{> templates/dashboard}}
+
+<script>
+    document.querySelectorAll('[data-bs-target="#modalEliminarDonacionReparto"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('formEliminarDonacionReparto').action = `/dashboard/donaciones/repartos/${id}/delete`;
+        });
+    });
+</script>

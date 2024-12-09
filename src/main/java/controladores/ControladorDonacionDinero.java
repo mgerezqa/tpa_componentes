@@ -1,13 +1,7 @@
 package controladores;
 import domain.donaciones.Dinero;
 import domain.donaciones.FrecuenciaDeDonacion;
-import domain.heladera.Heladera.EstadoHeladera;
-import domain.heladera.Heladera.Heladera;
-import domain.heladera.Heladera.ModeloDeHeladera;
-import domain.usuarios.Colaborador;
-import domain.usuarios.ColaboradorJuridico;
-import domain.usuarios.Rubro;
-import domain.usuarios.TipoRazonSocial;
+import domain.usuarios.*;
 import dtos.DineroDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
@@ -22,6 +16,7 @@ import utils.ICrudViewsHandler;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControladorDonacionDinero implements ICrudViewsHandler, WithSimplePersistenceUnit {
 
@@ -41,10 +36,17 @@ public class ControladorDonacionDinero implements ICrudViewsHandler, WithSimpleP
         for(Dinero donacionDinero : donacionesDinero){
             try {
                 DineroDTO dineroDTO = new DineroDTO();
+                dineroDTO.setId(donacionDinero.getId());
                 dineroDTO.setCantidad(donacionDinero.getCantidad());
                 dineroDTO.setFrecuencia(String.valueOf(donacionDinero.getFrecuencia()));
                 dineroDTO.setFechaDeDonacion(donacionDinero.getFechaDeDonacion());
-                dineroDTO.setColaboradorId(Long.valueOf(String.valueOf(donacionDinero.getColaboradorQueLaDono().getId())));
+
+                Long colaboradorId = donacionDinero.getColaboradorQueLaDono().getId();
+                String nombreColaborador = repositorioColaboradores.obtenerNombreORazonSocialPorId(colaboradorId);
+
+                dineroDTO.setNombreColaborador(nombreColaborador);
+                dineroDTO.setColaboradorId(colaboradorId);
+
                 donacionDineroDTO.add(dineroDTO);
             }catch (Exception e){
                 System.out.println(e.getMessage());
@@ -63,10 +65,11 @@ public class ControladorDonacionDinero implements ICrudViewsHandler, WithSimpleP
 
     @Override
     public void create(Context context) {
-        Map<String,Object> modal = new HashMap<>();
-        modal.put("action","/dashboard/donaciones/dinero/create");
-        modal.put("edit",false);
-        context.render("/dashboard/forms/dineroForm.hbs",modal);
+
+        List<ColaboradorFisico> colaboradoresPosibles = repositorioColaboradores.obtenerColaboradoresFisicosActivos();
+
+        context.attribute("colaboradores", colaboradoresPosibles);
+        context.render("/dashboard/donaciones/dinero.hbs");
     }
 
     @Override
@@ -129,7 +132,7 @@ public class ControladorDonacionDinero implements ICrudViewsHandler, WithSimpleP
             withTransaction(()->{
                 repositorioDonacionesDinero.actualizar(donacionDinero);
             });
-            context.redirect("/dashboard/donaciones/dinero"); //TODO pantalla de exito al actualizar!
+            context.redirect("/dashboard/donaciones/dinero");
         }else{
             context.status(HttpStatus.NOT_FOUND);
         }
@@ -138,7 +141,27 @@ public class ControladorDonacionDinero implements ICrudViewsHandler, WithSimpleP
 
     @Override
     public void delete(Context context) {
+        Optional<Object> posibleDonacion =
+                this.repositorioDonacionesDinero.buscarPorID(Dinero.class, Long.valueOf(context.pathParam("id")));
 
+        if (posibleDonacion.isEmpty()) {
+            context.status(HttpStatus.NOT_FOUND);
+            return;
+        }
+
+        Dinero dinero = (Dinero) posibleDonacion.get();
+
+        dinero.getColaboradorQueLaDono().restarPuntos(dinero.getPuntosOtorgados());
+        if(dinero.getPuntosOtorgados() %2 != 0){
+            dinero.getColaboradorQueLaDono().restarPuntos(1);
+        }
+
+        withTransaction(() -> {
+            repositorioDonacionesDinero.eliminarPorId(dinero.getId());
+            System.out.println("Donacion de dinero eliminada: " + dinero.getId());
+        });
+
+        context.redirect("/dashboard/donaciones/dinero");
     }
 
     @Override

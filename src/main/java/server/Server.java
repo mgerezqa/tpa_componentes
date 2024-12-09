@@ -17,10 +17,7 @@ import domain.usuarios.TipoRazonSocial;
 import io.javalin.http.staticfiles.Location;
 import middlewares.AuthMiddleware;
 import repositorios.Repositorio;
-import repositorios.repositoriosBDD.RepositorioColaboradores;
-import repositorios.repositoriosBDD.RepositorioRoles;
-import repositorios.repositoriosBDD.RepositorioTecnicos;
-import repositorios.repositoriosBDD.RepositorioUsuarios;
+import repositorios.repositoriosBDD.*;
 import server.exceptions.CustomEnumConversionException;
 import server.handlers.AppHandlers;
 import utils.Broker.ServiceBroker;
@@ -52,7 +49,7 @@ public class Server {
             new Router().init(app);
             ServiceLocator.instanceOf(ServiceBroker.class);
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
-                Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class),ServiceLocator.instanceOf(Repositorio.class));
+                Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioMantenciones.class),ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class),ServiceLocator.instanceOf(Repositorio.class));
                 initializer.init();
             }
         }
@@ -64,6 +61,13 @@ public class Server {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "public";
             });
+            // Nueva configuración para el directorio de uploads
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/uploads";  // Ruta URL base para acceder a las imágenes
+                staticFiles.directory = "uploads";     // Directorio físico donde se guardan las imágenes
+                staticFiles.location = Location.EXTERNAL;
+            });
+
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 // Crear el loader para templates y partials
                 TemplateLoader loader = new ClassPathTemplateLoader();

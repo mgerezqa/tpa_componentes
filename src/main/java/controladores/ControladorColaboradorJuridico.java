@@ -18,6 +18,7 @@ import domain.visitas.Visita;
 import dtos.ColaboradorJuridicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
+import io.javalin.http.UploadedFile;
 import io.javalin.validation.NullableValidator;
 import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
@@ -29,6 +30,7 @@ import io.javalin.http.HttpStatus;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
+import utils.uploadImage.ImageUpload;
 import utils.validadorDeContrasenias.validador.Validador;
 
 import java.util.*;
@@ -472,23 +474,33 @@ public class ControladorColaboradorJuridico implements ICrudViewsHandler, WithSi
 
     }
     public void ofrecerOferta(Context context){
-        context.formParamMap().forEach((key, value) -> {
-            System.out.println(key + ": " + value);
-        });
-        String nombreOferta = context.formParam("nombre_oferta");
-        String descripcion = context.formParam("descripcion_producto_servicio");
-        TipoDeOferta tipoDeOferta = TipoDeOferta.valueOf(context.formParam("tipo_producto_servicio"));
-        CategoriaOferta categoriaOferta = CategoriaOferta.valueOf(context.formParam("categoria_producto_servicio"));
-        Integer costoPuntos = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_costo_puntos")));
-        Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
-        ColaboradorJuridico ofertante = (ColaboradorJuridico) colaboradorJuridicoPosible.get();
-        Oferta oferta = new Oferta(nombreOferta,descripcion,tipoDeOferta,categoriaOferta,ofertante,costoPuntos);
-        oferta.completar();
+        try{
+            String imagePath = null;
+            UploadedFile imagen = context.uploadedFile("imagen-falla");
 
-        withTransaction(()->{
-           repositorio.guardar(oferta);
-        });
-        context.json(Map.of("success", true));
+            // Solo procesar la imagen si se subió un archivo y no está vacío
+            if (imagen != null && imagen.size() > 0) {
+                imagePath = ImageUpload.saveImage(imagen, "ofertas");
+            }
+            String nombreOferta = context.formParam("nombre_oferta");
+            String descripcion = context.formParam("descripcion_producto_servicio");
+            TipoDeOferta tipoDeOferta = TipoDeOferta.valueOf(context.formParam("tipo_producto_servicio"));
+            CategoriaOferta categoriaOferta = CategoriaOferta.valueOf(context.formParam("categoria_producto_servicio"));
+            Integer costoPuntos = Integer.parseInt(Objects.requireNonNull(context.formParam("campo_costo_puntos")));
+            Optional<Object> colaboradorJuridicoPosible = repositorioColaboradores.buscarPorID(ColaboradorJuridico.class,context.sessionAttribute("id_colaborador"));
+            ColaboradorJuridico ofertante = (ColaboradorJuridico) colaboradorJuridicoPosible.get();
+            Oferta oferta = new Oferta(nombreOferta,descripcion,tipoDeOferta,categoriaOferta,ofertante,costoPuntos);
+            oferta.setFoto(imagePath);
+            oferta.completar();
+
+            withTransaction(()->{
+                repositorio.guardar(oferta);
+            });
+            context.json(Map.of("success", true));
+        } catch (Exception e) {
+            context.status(500);
+            context.result("Error al procesar la solicitud");
+        }
     }
 
     public void misEstaciones( Context context) {

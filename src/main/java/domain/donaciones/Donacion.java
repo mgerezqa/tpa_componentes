@@ -50,4 +50,5 @@ public abstract class Donacion {
         this.completado = true;
     }
     public abstract String getTipo();
+
 }

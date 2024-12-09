@@ -11,26 +11,42 @@ import domain.geografia.Calle;
 import domain.geografia.Ubicacion;
 import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
+import domain.heladera.Heladera.Heladera;
 import domain.usuarios.Tecnico;
+import domain.visitas.Visita;
+import domain.visitas.VisitaFactory;
 import dtos.TecnicoDTO;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.http.UploadedFile;
 import io.javalin.validation.NullableValidator;
 import io.javalin.validation.Validation;
 import io.javalin.validation.ValidationError;
 import io.javalin.validation.Validator;
 import org.jetbrains.annotations.NotNull;
+import repositorios.Repositorio;
+import repositorios.repositoriosBDD.RepositorioHeladeras;
 import repositorios.repositoriosBDD.RepositorioTecnicos;
+import repositorios.repositoriosBDD.RepositorioVisitasTecnicas;
 import utils.ICrudViewsHandler;
+import utils.uploadImage.ImageUpload;
 
+import javax.swing.text.html.Option;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioTecnicos repositorioTecnicos;
+    private Repositorio repositorio;
+    private RepositorioHeladeras repositorioHeladeras;
+    private RepositorioVisitasTecnicas repositorioVisitasTecnicas;
 
-    public ControladorTecnicos(RepositorioTecnicos repositorioTecnicos) {
+    public ControladorTecnicos(RepositorioTecnicos repositorioTecnicos,Repositorio repositorio, RepositorioHeladeras repositorioHeladeras,RepositorioVisitasTecnicas repositorioVisitasTecnicas) {
         this.repositorioTecnicos = repositorioTecnicos;
+        this.repositorio = repositorio;
+        this.repositorioHeladeras = repositorioHeladeras;
+        this.repositorioVisitasTecnicas= repositorioVisitasTecnicas;
     }
 
     @Override
@@ -225,9 +241,6 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
     }
 
     public void actualizar(Context context) {
-        context.formParamMap().forEach((key, value) -> {
-            System.out.println(key + ": " + value);
-        });
         Validator<String> nombreTecnico = context.formParamAsClass("campo_nombre_tecnico", String.class)
                 .check(v -> !v.isEmpty()  , "El nombre es obligatorio")
                 .check(v -> v.chars().noneMatch(Character::isDigit),"No se permite numeros en el nombre");
@@ -309,7 +322,54 @@ public class ControladorTecnicos implements ICrudViewsHandler, WithSimplePersist
         context.render("/home/notificaciones/notificaciones.hbs");
     }
     public void visitas(@NotNull Context context) {
-        context.render("/home/visitas/visitas.hbs");
+        Map<String, Object> model = new HashMap<>();
+        Long idTecnico = context.sessionAttribute("id_colaborador");
+        List<Visita> visitas = repositorioVisitasTecnicas.buscarVisitasPorTecnicoId(idTecnico);
+        Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class, idTecnico);
+        Tecnico tecnico = (Tecnico) posibleTecnico.get();
 
+        model.put("visitas",visitas);
+        context.render("/home/visitas/visitas.hbs",model);
+    }
+
+    public void repararHeladera(Context context) {
+        try {
+            String imagePath = null;
+            UploadedFile imagen = context.uploadedFile("imagen-falla");
+            
+            // Solo procesar la imagen si se subió un archivo y no está vacío
+            if (imagen != null && imagen.size() > 0) {
+                imagePath = ImageUpload.saveImage(imagen, "visitas");
+            }
+
+            // Obtener otros parámetros del formulario
+            String nombreEstacion = context.formParam("nombre-estacion-modal");
+            LocalDateTime fechaAsistencia = LocalDateTime.parse(Objects.requireNonNull(context.formParam("fecha-asistencia")));
+            String descripcionFalla = context.formParam("descripcion-falla");
+            boolean reparada = Boolean.parseBoolean(context.formParam("reparada"));
+            Long tecnicoId = context.sessionAttribute("id_colaborador");
+            Optional<Object> posibleTecnico = repositorioTecnicos.buscarPorID(Tecnico.class, tecnicoId);
+            Optional<Heladera> posibleHeladera = repositorioHeladeras.obtenerHeladeraPorNombre(nombreEstacion);
+            if(posibleTecnico.isEmpty()){
+                System.out.println("No existe el tecnico");
+                context.redirect("/visitas");
+            }
+            if(posibleHeladera.isEmpty()){
+                System.out.println("No existe la heladera");
+                context.redirect("/visitas");
+            }
+
+            Tecnico tecnico = (Tecnico) posibleTecnico.get();
+            Heladera heladera = posibleHeladera.get();
+            Visita visitaTecnica = VisitaFactory.crearVisita(tecnico, heladera, descripcionFalla, imagePath, reparada,fechaAsistencia);
+
+            withTransaction(()->{
+                repositorio.guardar(visitaTecnica);
+            });
+            context.redirect("/visitas");
+        } catch (Exception e) {
+            context.status(500);
+            context.result("Error al procesar la solicitud");
+        }
     }
 }
