@@ -57,14 +57,9 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
             if(solicitudApertura == null){
                 throw new RuntimeException("No tienes permisos para realizar la apertura");
             }
-            System.out.println(solicitudApertura);
             //Por ahora solo funciona con viandas
-            //Busco la donacion vincula, y lo completo.
-            Optional<Object> donacionVinculada = repositorio.buscarPorID(Donacion.class,solicitudApertura.getDonacionVinculada().getId());
-            if(donacionVinculada.isEmpty()){
-                throw new RuntimeException("No se encuentra la vienda vinculada a la sol de apertura, por favor vefique que tenga la donación como pendiente en las donaciones");
-            }
-            Donacion donacion = (Donacion) donacionVinculada.get();
+
+            Donacion donacion = solicitudApertura.getDonacionVinculada();
             donacion.completar();
             //Agrego los puntos al colaborador segun si es donar vianda o distribuir
             if(donacion instanceof Vianda){
@@ -77,7 +72,6 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
                         .filter(d -> d instanceof Vianda)
                         .filter(v -> ((Vianda) v).getColaboradorQueLaDono() == colaboradorFisico)
                         .count();
-                System.out.println("Vianda donadas previamente: "+ viandasDonadas);
                 int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
                         .puntosViandasDonadas(viandasDonadas + 1);
                 donacion.setPuntosOtorgados(puntos);
