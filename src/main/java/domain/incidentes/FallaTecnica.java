@@ -31,7 +31,6 @@ public class FallaTecnica extends Incidente {
     public String obtenerDescripcion() {
         return "Falla Técnica: " + this.descripcion;
     }
-    public String getTipo(){
-        return "FALLA TECNICA";
-    }
+    @Override
+    public String getTipo(){ return "FALLA TECNICA"; }
 }

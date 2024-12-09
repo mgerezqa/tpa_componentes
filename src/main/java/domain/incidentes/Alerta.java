@@ -24,7 +24,6 @@ public class Alerta extends Incidente {
     public String obtenerDescripcion() {
         return "Alerta: " + this.tipoAlerta;
     }
-    public String getTipo(){
-        return this.tipoAlerta;
-    }
+    @Override
+    public String getTipo(){ return "ALERTA: " + this.tipoAlerta; }
 }
