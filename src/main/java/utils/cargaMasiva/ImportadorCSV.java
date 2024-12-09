@@ -11,9 +11,7 @@ import domain.donaciones.*;
 import domain.formulario.documentos.Documento;
 import domain.mensajeria.EmailSender;
 import domain.puntos.CalculadoraPuntos;
-import domain.usuarios.Colaborador;
-import domain.usuarios.ColaboradorFisico;
-import domain.usuarios.Usuario;
+import domain.usuarios.*;
 import jakarta.mail.MessagingException;
 import repositorios.repositoriosBDD.*;
 
@@ -110,6 +108,10 @@ public class ImportadorCSV {
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombreUsuario(nuevoColaborador.getDocumento().getNumeroDeDocumento());
         nuevoUsuario.setContrasenia(nuevoColaborador.getDocumento().getNumeroDeDocumento());
+
+        Rol rol = new Rol(RoleENUM.FISICO);
+        nuevoUsuario.agregarRol(rol);
+
         nuevoColaborador.setUsuario(nuevoUsuario);
 
         // Persistir en la base de datos
