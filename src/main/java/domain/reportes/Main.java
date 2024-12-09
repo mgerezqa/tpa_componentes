@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) {
         RepositorioReportes repositorioReportes = new RepositorioReportes();
         // Crear un Reportador
-        Reportador reportador = new Reportador(repositorioReportes);
+        Reportador reportador = new Reportador();
 
         RepositorioHeladeras repositorioHeladeras = new RepositorioHeladeras();
         RepositorioColaboradores repositorioColaboradores = new RepositorioColaboradores();
@@ -46,20 +46,13 @@ public class Main {
         reporteViandasHeladera.setHeladeras(heladeras);
         reporteViandasHeladera.setReportador(reportador);
 
-        // Iniciar reportes semanales (cada 7 segundos para pruebas)
+        reportador.generarReporte(reporteFallas);
+        reportador.generarReporte(reporteViandasColaborador);
+        reportador.generarReporte(reporteViandasHeladera);
 
-        reportador.iniciarReporteSemanal(reporteFallas);
-        reportador.iniciarReporteSemanal(reporteViandasColaborador);
-        reportador.iniciarReporteSemanal(reporteViandasHeladera);
+        repositorioReportes.guardar(reporteFallas);
+        repositorioReportes.guardar(reporteViandasColaborador);
+        repositorioReportes.guardar(reporteViandasHeladera);
 
-        // Mantener el programa corriendo para observar la generación de reportes
-        try {
-            Thread.sleep(30000); // Mantén el programa activo durante 30 segundos
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Detener el scheduler después de la prueba
-        reportador.detenerReportesSemanales();
     }
 }

@@ -1,5 +1,6 @@
 package server;
 
+import com.fasterxml.jackson.databind.BeanProperty;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
@@ -16,8 +17,11 @@ import domain.usuarios.Rubro;
 import domain.usuarios.TipoRazonSocial;
 import io.javalin.http.staticfiles.Location;
 import middlewares.AuthMiddleware;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
+import scheduler.CrearReporteJob;
 import server.exceptions.CustomEnumConversionException;
 import server.handlers.AppHandlers;
 import utils.Broker.ServiceBroker;
@@ -53,6 +57,7 @@ public class Server {
                 initializer.init();
             }
         }
+        startScheduler();
     }
 
     private static Consumer<JavalinConfig> config() {
@@ -117,5 +122,33 @@ public class Server {
         };
 
 
+    }
+
+    private static void startScheduler() {
+        try{
+            SchedulerFactory sf = new StdSchedulerFactory();
+            Scheduler scheduler = sf.getScheduler();
+
+
+            JobDetail job1 = JobBuilder.newJob(CrearReporteJob.class)
+                    .withIdentity("reportesJob", "moduloReportes")
+                    .build();
+
+
+            Trigger trigger1 = TriggerBuilder.newTrigger()
+                    .withIdentity("trigger1", "moduloReportes")
+                    .startNow()
+                    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                            .withIntervalInSeconds(10)
+                            .repeatForever())
+                    .build();
+
+
+            scheduler.scheduleJob(job1, trigger1);
+
+            scheduler.start();
+        }catch (SchedulerException e){
+            e.printStackTrace();
+        }
     }
 }

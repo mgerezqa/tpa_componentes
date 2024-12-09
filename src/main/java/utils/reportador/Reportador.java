@@ -27,12 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Reportador {
 
-    private final ScheduledExecutorService scheduler;
-    private RepositorioReportes repositorioReportes;
 
-    public Reportador(RepositorioReportes repositorioReportes){
-        this.scheduler = Executors.newScheduledThreadPool(1);
-        this.repositorioReportes = repositorioReportes;
+    public Reportador(){
     }
 
     public void generarPDFReporte(String nombreArchivo, Map<String, Integer> datos) {
@@ -71,19 +67,8 @@ public class Reportador {
         }
     }
 
-    public void iniciarReporteSemanal(Reporte reporte) {
-        ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(() -> {
+    public void generarReporte(Reporte reporte) {
             reporte.reportar();
-            guardarReporte(reporte);
-        }, 0, 7, TimeUnit.SECONDS);
-    }
-
-    public void detenerReportesSemanales(){
-        scheduler.shutdown();
-    }
-
-    public void guardarReporte(Reporte reporte){
-        repositorioReportes.guardar(reporte);
     }
 
     public Map<String, Integer> generarReporteFallasPorHeladera(Heladera heladera) {

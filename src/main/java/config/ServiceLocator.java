@@ -25,6 +25,7 @@ import utils.Broker.receptors.ReceptorTemp;
 import utils.asignadorTecnicos.AsignadorDeTecnico;
 import utils.notificador.Notificador;
 import utils.cargaMasiva.ImportadorCSV;
+import utils.reportador.Reportador;
 import utils.validadorDeContrasenias.politicas.*;
 import utils.validadorDeContrasenias.validador.Validador;
 
@@ -239,7 +240,11 @@ public class ServiceLocator {
                 instances.put(componentName,instance);
             }
             else if(componentName.equals(ControladorReportes.class.getName())){
-                ControladorReportes instance = new ControladorReportes(instanceOf(RepositorioReportes.class));
+                ControladorReportes instance = new ControladorReportes(instanceOf(RepositorioReportes.class), instanceOf(RepositorioHeladeras.class), instanceOf(RepositorioColaboradores.class), instanceOf(Reportador.class));
+                instances.put(componentName,instance);
+            }
+            else if(componentName.equals(Reportador.class.getName())){
+                Reportador instance = new Reportador();
                 instances.put(componentName,instance);
             }
             else if(componentName.equals(RepositorioReportes.class.getName())){
