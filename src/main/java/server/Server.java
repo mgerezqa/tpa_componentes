@@ -26,6 +26,7 @@ import utils.JavalinRenderer;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
+import utils.uploadImage.ImageUpload;
 
 import javax.xml.bind.ValidationException;
 import java.io.IOException;
@@ -61,13 +62,11 @@ public class Server {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "public";
             });
-            // Nueva configuración para el directorio de uploads
-//            config.staticFiles.add(staticFiles -> {
-//                staticFiles.hostedPath = "/uploads";  // Ruta URL base para acceder a las imágenes
-//                staticFiles.directory = "uploads";     // Directorio físico donde se guardan las imágenes
-//                staticFiles.location = Location.EXTERNAL;
-//            });
-
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/";
+                staticFiles.directory = ImageUpload.getUploadsDirectory();
+                staticFiles.location = Location.EXTERNAL;
+            });
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 // Crear el loader para templates y partials
                 TemplateLoader loader = new ClassPathTemplateLoader();
