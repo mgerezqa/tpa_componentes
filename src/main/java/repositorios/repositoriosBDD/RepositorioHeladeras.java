@@ -14,6 +14,10 @@ public class RepositorioHeladeras extends Repositorio implements WithSimplePersi
         return entityManager().find(Heladera.class, id);
     }
 
+    public String obtenerNombreHeladeraPorID(Long id) {
+        return entityManager().find(Heladera.class, id).getNombreIdentificador();
+    }
+
     public void guardar(Heladera heladera) {
         if (entityManager().contains(heladera)) {
             entityManager().merge(heladera);

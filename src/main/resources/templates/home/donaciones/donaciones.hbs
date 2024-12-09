@@ -357,58 +357,73 @@
                                         </form>
                                     </div>
                                 </div>
+
                                 <div id="contenedor_form_pv" class="accordion-collapse collapse" data-bs-parent="#collapse_registro">
                                     <div class="accordion-body contenedor_datos">
                                         <form id="donarPorRegistroPV" action="/registrarVulnerable" method="POST">
                                             <div class="row row-cols-1 row-cols-md-3 g-3 align-items-center">
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nombre_pv" name="campo_nombre_pv" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nombre_pv" name="campo_nombre_pv" placeholder="" required>
                                                         <label for="campo_nombre_pv">Nombre(s)</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_apellido_pv" name="campo_apellido_pv" placeholder="">
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_apellido_pv" name="campo_apellido_pv" placeholder="" required>
                                                         <label for="campo_apellido_pv">Apellido(s)</label>
                                                     </div>
                                                 </div>
+                                                <!-- Checkbox para habilitar Dirección -->
                                                 <div class="col-12 col-md-6">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="tieneDireccion" name="tieneDireccion" onchange="toggleField('tieneDireccion', 'campo_direccion_pv')">
+                                                        <label class="form-check-label" for="tieneDireccion">
+                                                            Tiene Dirección
+                                                        </label>
+                                                    </div>
                                                     <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_direccion_pv" name="campo_direccion_pv" placeholder="">
-                                                        <label for="campo_direccion_pv">Direccion</label>
+                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_direccion_pv" name="campo_direccion_pv" placeholder="" disabled>
+                                                        <label for="campo_direccion_pv">Dirección</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-4 col-md-2">
-                                                    <div class="form-floating">
-                                                        <select class="form-select shadow-none rounded-4" id="campo_tipo_documento_pv" name="campo_tipo_documento_pv">
-                                                            <option value="0" class="d-none">...</option>
-                                                            <option value="DNI" >DNI</option>
-                                                            <option value="LE" >LE</option>
-                                                            <option value="PASAPORTE">PASAPORTE</option>
-                                                        </select>
-                                                        <label for="campo_tipo_documento_pv">Tipo</label>
+                                                <!-- Checkbox para habilitar Documento -->
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="tieneDocumento" name="tieneDocumento" onchange="toggleField('tieneDocumento', 'campo_tipo_documento_pv', 'campo_nro_documento_pv')">
+                                                        <label class="form-check-label" for="tieneDocumento">
+                                                            Tiene Documento
+                                                        </label>
                                                     </div>
-                                                </div>
-                                                <div class="col-8 col-md-4">
-                                                    <div class="form-floating">
-                                                        <input type="text" class="form-control shadow-none rounded-4" id="campo_nro_documento_pv" name="campo_nro_documento_pv" placeholder="">
-                                                        <label for="campo_nro_documento_pv">Numero</label>
+                                                    <div class="row">
+                                                        <div class="col-4 col-md-4">
+                                                            <div class="form-floating">
+                                                                <select class="form-select shadow-none rounded-4" id="campo_tipo_documento_pv" name="campo_tipo_documento_pv" disabled>
+                                                                    <option value="0" class="d-none">...</option>
+                                                                    <option value="DNI">DNI</option>
+                                                                    <option value="LE">LE</option>
+                                                                    <option value="PASAPORTE">PASAPORTE</option>
+                                                                </select>
+                                                                <label for="campo_tipo_documento_pv">Tipo</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-8 col-md-8">
+                                                            <div class="form-floating">
+                                                                <input type="text" class="form-control shadow-none rounded-4" id="campo_nro_documento_pv" name="campo_nro_documento_pv" placeholder="" disabled>
+                                                                <label for="campo_nro_documento_pv">Número</label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="campo_nacimiento_pv" class="form-label">Fecha de Nacimiento</label>
-                                                    <input type="date" class="form-control" id="campo_nacimiento_pv"
-                                                           name="campo_nacimiento_pv"
-                                                           required>
+                                                    <input type="date" class="form-control" id="campo_nacimiento_pv" name="campo_nacimiento_pv" required>
                                                 </div>
                                                 <div class="container-hijos">
                                                     <h5 class="mt-4">Información de los Hijos</h5>
                                                     <div id="hijosContainerEdit"></div>
                                                     <button type="button" class="btn btn-success" id="agregarHijoEditBtn"><i class="bi bi-plus-circle"></i> Agregar Hijo</button>
                                                 </div>
-
-
                                             </div>
                                             <div class="row justify-content-center mt-3">
                                                 <div class="col-6">
@@ -418,6 +433,7 @@
                                         </form>
                                     </div>
                                 </div>
+
                             </div>
                         {{else}}
                             <div class="accordion" id="collapse_registro">
@@ -802,6 +818,30 @@
             }
 
         </script>
+
+        <script>
+            function toggleField(checkboxId, ...fieldIds) {
+                const checkbox = document.getElementById(checkboxId);
+                fieldIds.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (checkbox.checked) {
+                        field.removeAttribute('disabled');
+                        field.setAttribute('required', 'required');
+                    } else {
+                        field.setAttribute('disabled', 'disabled');
+                        field.removeAttribute('required');
+                    }
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                // Initialize the fields based on their checkboxes
+                toggleField('tieneDireccion', 'campo_direccion_pv');
+                toggleField('tieneDocumento', 'campo_tipo_documento_pv', 'campo_nro_documento_pv');
+            });
+        </script>
+
+
     {{else}}
         <script src = "/js/confirmaciones/script_formulario_donacion_juridico_confirmacion.js"></script>
 

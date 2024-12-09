@@ -28,6 +28,8 @@ public class Vianda extends Donacion {
     private Long peso;
     @Column(name = "descripcion")
     private String descripcion;
+    @Column(name = "cantidad")
+    private Integer cantidad;
     // ============================================================ //
 
     // < CONSTRUCTOR > //

@@ -40,6 +40,14 @@ public class EmailSender {
         Transport.send(message);
     }
 
+    public void sendHtmlEmail(String asunto, String cuerpoHtml, String receptor) throws MessagingException {
+        Message message = new MimeMessage(getEmailSession());
+        message.setFrom(new InternetAddress(EMAIL_FROM));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receptor));
+        message.setSubject(asunto);
+        message.setContent(cuerpoHtml, "text/html; charset=utf-8");
+        Transport.send(message);
+    }
 
     private Session getEmailSession() {
         return Session.getInstance(getGmailProperties(), new Authenticator() {
