@@ -14,7 +14,10 @@ target/
 *.iml
 *.ipr
 
+#imagenes
 /uploads
+src/main/resources/public/img/ofertas
+src/main/resources/public/img/visitas
 
 ### Eclipse ###
 .apt_generated

@@ -62,13 +62,6 @@ public class Server {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "public";
             });
-            // Nueva configuración para el directorio de uploads
-            config.staticFiles.add(staticFiles -> {
-                staticFiles.hostedPath = "/uploads";  // Ruta URL base para acceder a las imágenes
-                staticFiles.directory = "uploads";     // Directorio físico donde se guardan las imágenes
-                staticFiles.location = Location.EXTERNAL;
-            });
-
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 Handlebars handlebars = new Handlebars();
                 handlebars.registerHelper("eq", (context1, options) -> {

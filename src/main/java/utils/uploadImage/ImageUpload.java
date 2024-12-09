@@ -11,14 +11,11 @@ import java.nio.file.StandardCopyOption;
 
 public class ImageUpload {
     private static final String BASE_DIR = System.getProperty("user.dir");
-    
-    // Definimos las rutas para diferentes tipos de uploads
-    private static final String VISITAS_DIR = "visitas";
-    private static final String OFERTAS_DIR = "ofertas";
+    private static final String RESOURCES_PATH = "/src/main/resources/public/img";    
     
     public static String saveImage(UploadedFile file, String tipo) throws IOException {
-        String uploadDir = BASE_DIR + File.separator + "uploads" + File.separator + tipo;
-        String relativePath = "/uploads/" + tipo + "/";
+        String uploadDir = BASE_DIR + RESOURCES_PATH + File.separator + tipo;
+        String relativePath = "/img/" + tipo + "/";
         
         File uploadDirFile = new File(uploadDir);
         if (!uploadDirFile.exists()) {
