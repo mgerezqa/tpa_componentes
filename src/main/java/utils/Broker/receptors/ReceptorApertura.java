@@ -14,6 +14,7 @@ import domain.tarjeta.TarjetaColaborador;
 import domain.usuarios.ColaboradorFisico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.hibernate.Hibernate;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioTarjetas;
 
@@ -63,7 +64,7 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
             if(donacionVinculada.isEmpty()){
                 throw new RuntimeException("No se encuentra la vienda vinculada a la sol de apertura, por favor vefique que tenga la donación como pendiente en las donaciones");
             }
-            Donacion donacion = (Donacion) donacionVinculada.get();
+            Donacion donacion = (Donacion) Hibernate.unproxy(donacionVinculada.get());
             donacion.completar();
             //Agrego los puntos al colaborador segun si es donar vianda o distribuir
             if(donacion instanceof Vianda){
