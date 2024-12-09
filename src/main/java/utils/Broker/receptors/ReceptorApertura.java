@@ -64,8 +64,7 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
             if(donacionVinculada.isEmpty()){
                 throw new RuntimeException("No se encuentra la vienda vinculada a la sol de apertura, por favor vefique que tenga la donación como pendiente en las donaciones");
             }
-            Donacion donacion = (Donacion) Hibernate.unproxy(donacionVinculada.get());
-            System.out.println(donacion.getClass().getName());
+            Donacion donacion = (Donacion) donacionVinculada.get();
             donacion.completar();
             //Agrego los puntos al colaborador segun si es donar vianda o distribuir
             if(donacion instanceof Vianda){
