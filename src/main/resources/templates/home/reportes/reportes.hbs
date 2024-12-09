@@ -1,114 +1,191 @@
-{> templates/home/base}}
-
-{{#*inline "styles"}}
-    <link rel="stylesheet" href="/css/style_dashboard.css">
-{{/inline}}
-
-{{#*inline "title"}}
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/css/usuarios/usuarios.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/donaciones.css">
+    <link rel="stylesheet" href="/css/usuarios/colaboradores/nueva_donacion.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+{{/partial}}
+{{#partial "title"}}
     Reportes
-{{/inline}}
+{{/partial}}
+{{#partial "contenido"}}
+    <!-- REPORTES GENERADOS -->
+    <div id="contenedor_principal_puntos " class="p-4 container ">
+        <div class="contenedor_titulo_pagina d-flex gap-4 mb-4 container">
+            <div class="titulo">
+                <span>REPORTES </span>
+            </div>
+        </div>
+        <!-- LISTA DE CARDS DE REPORTES SEGUN FECHA -->
+        <div class="contenedor_datos container-fluid py-4">
 
-{{#*inline "contenido"}}
-    <div class="container-fluid">
-        <div class="row flex-nowrap">
-            <div class="col-auto px-0">
-                <div id="sidebar" class="collapse collapse-horizontal show border-end">
-                    <div id="sidebar-nav" class="list-group border-0 rounded-0 text-sm-start min-vh-100">
-                        <a href="/dashboard/fisicos" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5">
-                            <i class="bi bi-people-fill"></i> <span>Colaboradores físicos</span>
-                        </a>
-                        <a href="/dashboard/juridicos" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5">
-                            <i class="bi bi-building"></i> <span>Colaboradores jurídicos</span>
-                        </a>
-                        <a href="/dashboard/heladeras" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5">
-                            <i class="bi bi-pc"></i> <span>Heladeras</span>
-                        </a>
-                        <a href="/dashboard/tecnicos" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5">
-                            <i class="bi bi-tools"></i> <span>Técnicos</span>
-                        </a>
-                        <a href="/dashboard/reportes" class="list-group-item border-end-0 d-inline-block text-truncate py-4 fs-5 active">
-                            <i class="bi bi-file-earmark-text"></i> <span>Reportes</span>
-                        </a>
+            <!-- Card 1: VIANDAS POR COLABORADOR -->
+            <div class="row fila_contribucion mb-3" data-descripcion="VIANDAS DONADAS POR PERSONA" data-fecha="2024-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-box2-fill"></i>
+                                    VIANDAS DONADAS POR PERSONA
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-calendar"></i>
+                                    Fecha realizada: <span class="valor_info">2024-09-01</span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-list-ol"></i>
+                                    Total: <span class="valor_info">150</span>
+                                </div>
+                            </div>
+                            <!-- REPORTE -->
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-file-earmark-arrow-down"></i>
+                                    <a href="/reporte/viandas-persona-2024-09-01.pdf" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
+                                        Descargar reporte
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <main class="col ps-md-2 pt-2">
-                <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none">
-                    <i class="bi bi-list bi-lg py-2 p-1"></i> Menu
-                </a>
-                <div class="page-header pt-3 text-center">
-                    <h2>Lista de Reportes</h2>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <ul class="list-group">
-                            {{#each reportes}}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{this.nombre}} - {{this.fechaGeneracion}}</span>
-                                    <div>
-                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVerReporte{{this.id}}">
-                                            Ver
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarReporte{{this.id}}">
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                </li>
-                            {{/each}}
-                        </ul>
+
+            <!-- Card 2: VIANDA POR HELADERA -->
+            <div class="row fila_contribucion mb-3" data-descripcion="VIANDAS RETIRADAS/COLOCADAS EN HELADERA" data-fecha="2023-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-pc"></i>
+                                    VIANDAS RETIRADAS/COLOCADAS EN HELADERA</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2023-09-01</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-list-ol"></i>
+                                    Total: <span class="valor_info">150</span>
+                                </div>
+                            </div>
+                            <!-- REPORTE -->
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-file-earmark-arrow-down"></i>
+                                    <a href="/reporte/viandas-persona-2024-09-01.pdf" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
+                                        Descargar reporte
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </main>
+            </div>
+
+            <!-- Card 3: FALLAS POR HELADERA -->
+            <div class="row fila_contribucion mb-3" data-descripcion="FALLAS POR HELADERA" data-fecha="2022-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
+                <div class="col-12">
+                    <div class="scrollable-card p-3">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-tools"></i> FALLAS POR HELADERA</div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2022-09-10</span></div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-list-ol"></i>
+                                    Total: <span class="valor_info">150</span>
+                                </div>
+                            </div>
+                            <!-- REPORTE -->
+                            <div class="col-12 col-md-3">
+                                <div class="tag_info w-100">
+                                    <i class="bi bi-file-earmark-arrow-down"></i>
+                                    <a href="/reporte/viandas-persona-2024-09-01.pdf" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
+                                        Descargar reporte
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="container my-4">
+                <div class="filter-section">
+                    <h4 class="mb-3">Filtros</h4>
+                    <form id="filterForm" class="row g-3">
+                        <!-- Selector de descripción -->
+                        <div class="col-md-6">
+                            <label for="descripcion" class="form-label">Descripción del reporte:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="VIANDAS DONADAS POR PERSONA" id="viandasPersona" name="descripcion">
+                                <label class="form-check-label" for="viandasPersona">
+                                    Viandas donadas por persona
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="VIANDAS RETIRADAS/COLOCADAS EN HELADERA" id="viandasHeladera" name="descripcion">
+                                <label class="form-check-label" for="viandasHeladera">
+                                    Viandas retiradas/colocadas en heladera
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="FALLAS POR HELADERA" id="fallasHeladera" name="descripcion">
+                                <label class="form-check-label" for="fallasHeladera">
+                                    Fallas por heladera
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Selector de fecha -->
+                        <div class="col-md-6">
+                            <label for="fecha" class="form-label">Fecha:</label>
+                            <input type="date" id="fecha" class="form-control" name="fecha">
+                        </div>
+
+                        <!-- Botón para aplicar filtro -->
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary" id="applyFilter">
+                                <i class="bi bi-funnel-fill"></i> Aplicar filtro
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
         </div>
     </div>
-
-    {{#each reportes}}
-        <!-- Modal Ver Reporte -->
-        <div class="modal fade" id="modalVerReporte{{this.id}}" tabindex="-1" aria-labelledby="modalVerReporteLabel{{this.id}}" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalVerReporteLabel{{this.id}}">Reporte: {{this.nombre}}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Fecha de Generación: {{this.fechaGeneracion}}</p>
-                        <p>Detalles: {{this.detalles}}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
+    <!-- Botones volver al menu y quiero donar -->
+    <div class="flex row col-12 ">
+        <!-- boton volver al menu principal -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-home">
+            <a href="/home" class="btn btn-primary botones" >
+                <i class="bi bi-house-door-fill"></i>
+                Volver al menú
+            </a>
         </div>
-
-        <!-- Modal Eliminar Reporte -->
-        <div class="modal fade" id="modalEliminarReporte{{this.id}}" tabindex="-1" aria-labelledby="modalEliminarReporteLabel{{this.id}}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminarReporteLabel{{this.id}}">Eliminar Reporte</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>¿Estás seguro de que deseas eliminar este reporte?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <form action="/dashboard/reportes/{{this.id}}/delete" method="POST">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <!-- boton donar de nuevo -->
+        <div class="d-flex col-12 col-md-6 justify-content-center mb-4" id="boton-agregar-donacion">
+            <a class="btn btn-primary botones bg-primary text-white" href="/donaciones">
+                <i class="bi bi-basket"></i>
+                Ir a donaciones
+            </a>
         </div>
-    {{/each}}
-{{/inline}}
-
-{{#*inline "scripts"}}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
-{{/inline}}
+    </div>
+{{/partial}}
+{{#partial "scripts"}}
+    <script type="text/javascript" src="src/script_reportes.js"></script>
+{{/partial}}
+{{> home/base}}

@@ -238,6 +238,14 @@ public class ServiceLocator {
                 RepositorioVisitasTecnicas instance = new RepositorioVisitasTecnicas();
                 instances.put(componentName,instance);
             }
+            else if(componentName.equals(ControladorReportes.class.getName())){
+                ControladorReportes instance = new ControladorReportes(instanceOf(RepositorioReportes.class));
+                instances.put(componentName,instance);
+            }
+            else if(componentName.equals(RepositorioReportes.class.getName())){
+                RepositorioReportes instance = new RepositorioReportes();
+                instances.put(componentName,instance);
+            }
         }
         return (T) instances.get(componentName);
     }

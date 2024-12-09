@@ -1,5 +1,6 @@
 package controladores;
 
+import config.ServiceLocator;
 import domain.reportes.Reporte;
 import io.javalin.http.Context;
 import repositorios.repositoriosBDD.RepositorioReportes;
@@ -18,13 +19,8 @@ public class ControladorReportes implements ICrudViewsHandler {
 
     @Override
     public void index(Context context) {
-        List<Reporte> reportes = this.repositorioReportes.obtenerTodos();
 
-        Map<String, Object> model = new HashMap<>();
-        model.put("reportes", reportes);
-
-        context.render("reportes/reportes.hbs", model);
-
+        context.render("/home/reportes/reportes.hbs");
     }
 
     @Override
@@ -54,12 +50,10 @@ public class ControladorReportes implements ICrudViewsHandler {
 
     @Override
     public void delete(Context context) {
-
     }
 
     @Override
     public void remove(Context context) {
-
     }
 
 }

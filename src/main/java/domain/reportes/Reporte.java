@@ -26,7 +26,8 @@ public abstract class Reporte {
     @Transient
     protected Reportador reportador;
 
-
+    @Column(name = "pdf")
+    protected String pdf;
 
     public abstract void reportar();
 }
