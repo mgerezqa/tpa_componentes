@@ -138,29 +138,33 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorio.guardar(heladera3);
         repositorio.guardar(heladera4);
 
-        Colaborador colaborador = repositorioColaboradores.obtenerPorId(2L);
-        MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera1,colaborador);
+        Colaborador colaboradorFisico = repositorioColaboradores.obtenerPorId(2L);
+        Colaborador colaboradorJuridico = repositorioColaboradores.obtenerPorId(1L);
+        MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera1,colaboradorJuridico);
         mantenerHeladera.setMesesPuntarizados(5);
         mantenerHeladera.setPuntosOtorgados(5);
 
-        MantenerHeladera mantenerHeladera2 = new MantenerHeladera(heladera2,colaborador);
+        MantenerHeladera mantenerHeladera2 = new MantenerHeladera(heladera2,colaboradorJuridico);
         mantenerHeladera2.setMesesPuntarizados(3);
         mantenerHeladera2.setPuntosOtorgados(3);
 
-        colaborador.sumarPuntos(5);
-        colaborador.sumarPuntos(3);
+        colaboradorJuridico.sumarPuntos(5);
+        colaboradorJuridico.sumarPuntos(3);
 
+        mantenerHeladera.completar();
+        mantenerHeladera2.completar();
         repositorio.guardar(mantenerHeladera);
         repositorio.guardar(mantenerHeladera2);
 
         TarjetaVulnerable tarjetaVulnerable = new TarjetaVulnerable();
         PersonaVulnerable personaVulnerable = PersonaVulnerable.create("kevin","durant",LocalDate.of(2001,5,24));
         tarjetaVulnerable.setVulnerable(personaVulnerable);
-        RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable(colaborador,tarjetaVulnerable,personaVulnerable);
+        RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable(colaboradorFisico,tarjetaVulnerable,personaVulnerable);
         registroDePersonaVulnerable.setCantidad(2);
         registroDePersonaVulnerable.setPuntosOtorgados(10);
-        colaborador.sumarPuntos(10);
+        colaboradorFisico.sumarPuntos(10);
 
+        registroDePersonaVulnerable.completar();
         repositorio.guardar(registroDePersonaVulnerable);
     }
 
