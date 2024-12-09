@@ -50,4 +50,9 @@ public class ReporteFallas extends Reporte{
         System.out.println("Reporte de cantidad de fallas por todas las heladeras generado.");
     }
 
+    @Override
+    public String getTipo() {
+        return "REPORTE_FALLA";
+    }
+
 }

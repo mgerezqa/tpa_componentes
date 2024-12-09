@@ -18,107 +18,115 @@
         <!-- LISTA DE CARDS DE REPORTES SEGUN FECHA -->
         <div class="contenedor_datos container-fluid py-4">
 
-            <!-- Card 1: VIANDAS POR COLABORADOR -->
-            <div class="row fila_contribucion mb-3" data-descripcion="VIANDAS DONADAS POR PERSONA" data-fecha="2024-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-box2-fill"></i>
-                                    VIANDAS DONADAS POR PERSONA
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-calendar"></i>
-                                    Fecha realizada: <span class="valor_info">2024-09-01</span>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-list-ol"></i>
-                                    Total: <span class="valor_info">150</span>
-                                </div>
-                            </div>
-                            <!-- REPORTE -->
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-file-earmark-arrow-down"></i>
-                                    <a href="/reporte/viandas-persona-2024-09-01.pdf" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
-                                        Descargar reporte
-                                    </a>
+
+
+
+            {{#each reportes}}
+                {{#if (eq this.getTipo "REPORTE_VIANDAS_COLABORADOR")}}
+                    <!-- Card 1: VIANDAS POR COLABORADOR -->
+                    <div class="row fila_contribucion mb-3" data-descripcion="VIANDAS DONADAS POR PERSONA" data-fecha="2024-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
+                        <div class="col-12">
+                            <div class="scrollable-card p-3">
+                                <div class="row">
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-box2-fill"></i>
+                                            VIANDAS DONADAS POR PERSONA
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-calendar"></i>
+                                            Fecha realizada: <span class="valor_info">{{this.fechaGeneracion}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-list-ol"></i>
+                                            Total: <span class="valor_info">150</span>
+                                        </div>
+                                    </div>
+                                    <!-- REPORTE -->
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-file-earmark-arrow-down"></i>
+                                            <a href="{{this.pdf}}" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
+                                                Descargar reporte
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Card 2: VIANDA POR HELADERA -->
-            <div class="row fila_contribucion mb-3" data-descripcion="VIANDAS RETIRADAS/COLOCADAS EN HELADERA" data-fecha="2023-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-pc"></i>
-                                    VIANDAS RETIRADAS/COLOCADAS EN HELADERA</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2023-09-01</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-list-ol"></i>
-                                    Total: <span class="valor_info">150</span>
-                                </div>
-                            </div>
-                            <!-- REPORTE -->
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-file-earmark-arrow-down"></i>
-                                    <a href="/reporte/viandas-persona-2024-09-01.pdf" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
-                                        Descargar reporte
-                                    </a>
+                {{else if (eq this.getTipo "REPORTE_VIANDAS_HELADERA")}}
+                    <!-- Card 2: VIANDA POR HELADERA -->
+                    <div class="row fila_contribucion mb-3" data-descripcion="VIANDAS RETIRADAS/COLOCADAS EN HELADERA" data-fecha="2023-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
+                        <div class="col-12">
+                            <div class="scrollable-card p-3">
+                                <div class="row">
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-pc"></i>
+                                            VIANDAS RETIRADAS/COLOCADAS EN HELADERA</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaGeneracion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-list-ol"></i>
+                                            Total: <span class="valor_info">150</span>
+                                        </div>
+                                    </div>
+                                    <!-- REPORTE -->
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-file-earmark-arrow-down"></i>
+                                            <a href="{{this.pdf}}" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
+                                                Descargar reporte
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                {{else if (eq this.getTipo "REPORTE_FALLA")}}
+                    <!-- Card 3: FALLAS POR HELADERA -->
+                    <div class="row fila_contribucion mb-3" data-descripcion="FALLAS POR HELADERA" data-fecha="2022-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
+                        <div class="col-12">
+                            <div class="scrollable-card p-3">
+                                <div class="row">
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-tools"></i> FALLAS POR HELADERA</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">{{this.fechaGeneracion}}</span></div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-list-ol"></i>
+                                            Total: <span class="valor_info">150</span>
+                                        </div>
+                                    </div>
+                                    <!-- REPORTE -->
+                                    <div class="col-12 col-md-3">
+                                        <div class="tag_info w-100">
+                                            <i class="bi bi-file-earmark-arrow-down"></i>
+                                            <a href="{{this.pdf}}" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
+                                                Descargar reporte
+                                            </a>
+                                        </div>
+                                    </div>
 
-            <!-- Card 3: FALLAS POR HELADERA -->
-            <div class="row fila_contribucion mb-3" data-descripcion="FALLAS POR HELADERA" data-fecha="2022-09-01"> <!-- Card 1: data-fecha debería ser obtenido de la card -->
-                <div class="col-12">
-                    <div class="scrollable-card p-3">
-                        <div class="row">
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-tools"></i> FALLAS POR HELADERA</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100"><i class="bi bi-calendar"></i> Fecha realizada: <span class="valor_info">2022-09-10</span></div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-list-ol"></i>
-                                    Total: <span class="valor_info">150</span>
                                 </div>
                             </div>
-                            <!-- REPORTE -->
-                            <div class="col-12 col-md-3">
-                                <div class="tag_info w-100">
-                                    <i class="bi bi-file-earmark-arrow-down"></i>
-                                    <a href="/reporte/viandas-persona-2024-09-01.pdf" download="Reporte_Viandas_2024-09-01" class="text-decoration-none">
-                                        Descargar reporte
-                                    </a>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
-                </div>
-            </div>
+                {{/if}}
+
+            {{/each}}
 
             <!-- FILTROS -->
             <div class="container my-4">

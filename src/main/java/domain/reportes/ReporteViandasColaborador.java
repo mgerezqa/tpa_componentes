@@ -44,5 +44,7 @@ public class ReporteViandasColaborador extends Reporte {
 
         System.out.println("Reporte de cantidad de viandas por todos los colaboradores generado.");
     }
-
+    public String getTipo(){
+        return "REPORTE_VIANDAS_COLABORADOR";
+    }
 }

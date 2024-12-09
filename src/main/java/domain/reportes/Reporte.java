@@ -30,4 +30,5 @@ public abstract class Reporte {
     protected String pdf;
 
     public abstract void reportar();
+    public abstract String getTipo();
 }
