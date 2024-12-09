@@ -1,14 +1,13 @@
 package domain.geografia;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "ubicaciones")
 public class Ubicacion {

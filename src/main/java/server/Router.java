@@ -1,4 +1,7 @@
 package server;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 import domain.donaciones.Donacion;
 import domain.excepciones.ExcepcionCanjePuntosInsuficientes;
@@ -19,9 +22,6 @@ import mappers.HeladeraMapper;
 import mappers.dtos.HeladeraDTO;
 import repositorios.Repositorio;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,7 +31,6 @@ public class Router implements SimplePersistenceTest{
         app.before(ctx -> {
             entityManager().clear();
         });
-
         //Render la pagina principal
         app.get("/",(ctx)->{
             Map<String, Object> model = new HashMap<>();
@@ -60,6 +59,7 @@ public class Router implements SimplePersistenceTest{
             ctx.render("/index.hbs", model);
         });
 
+
         //Dashboard
         app.get("/dashboard",(ctx) ->{
             ctx.render("/dashboard.hbs");
@@ -76,7 +76,6 @@ public class Router implements SimplePersistenceTest{
         app.post("/dashboard/heladeras/{id}/edit",ServiceLocator.instanceOf(ControladorHeladeras.class)::update,RoleENUM.ADMIN);
         app.get("/dashboard/heladeras/{id}/delete",ServiceLocator.instanceOf(ControladorHeladeras.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/heladeras/{id}/delete",ServiceLocator.instanceOf(ControladorHeladeras.class)::remove,RoleENUM.ADMIN);
-
 
         //dashboard/fisicos
         app.get("/dashboard/fisicos",ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::index,RoleENUM.ADMIN);
@@ -128,8 +127,21 @@ public class Router implements SimplePersistenceTest{
         app.get("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::delete,RoleENUM.ADMIN);
         app.post("/dashboard/tarjetas/{id}/delete", ServiceLocator.instanceOf(ControladorTarjetas.class)::remove,RoleENUM.ADMIN);
 
+        //dashboard/donaciones
         app.get("/dashboard/donaciones/dinero", ServiceLocator.instanceOf(ControladorDonacionDinero.class)::index,RoleENUM.ADMIN);
-        app.get("/dashboard/donaciones/viandas", ServiceLocator.instanceOf(ControladorViandas.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/dinero/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionDinero.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/viandas", ServiceLocator.instanceOf(ControladorDonacionViandas.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/viandas/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionViandas.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/repartos", ServiceLocator.instanceOf(ControladorDonacionRepartos.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/repartos/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionRepartos.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/mantenimientos", ServiceLocator.instanceOf(ControladorDonacionMantenimiento.class)::index,RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/mantenimientos/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionMantenimiento.class)::delete,RoleENUM.ADMIN);
+
+        app.get("/dashboard/donaciones/registroPV", ServiceLocator.instanceOf(ControladorDonacionRegistroPersonaVulnerable.class)::index, RoleENUM.ADMIN);
+        app.get("/dashboard/donaciones/registroPV/{id}/delete", ServiceLocator.instanceOf(ControladorDonacionRegistroPersonaVulnerable.class)::delete, RoleENUM.ADMIN);
 
         // Ruta para carga masiva de donaciones
         app.post("/dashboard/carga-masiva", ctx -> {
@@ -180,14 +192,11 @@ public class Router implements SimplePersistenceTest{
                 ctx.status(500).result("Error al procesar el archivo: " + e.getMessage());
             }
         }, RoleENUM.ADMIN);
-
         // // //
-
 
         //signup de colaborador fisico
         app.post("/fisico/signup", ServiceLocator.instanceOf(ControladorColaboradorFisico.class)::signup);
         app.post("/juridico/signup", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::signup);
-
 
         // Login con usuario
         app.post("/login",ServiceLocator.instanceOf(ControladorUsuario.class)::login);
@@ -198,8 +207,9 @@ public class Router implements SimplePersistenceTest{
             ctx.redirect("/");
         });
 
+        //Rutas del dashboard de los colaboradores,tecnicos
 
-        // FISICO/JURIDICO/TECNICO
+        // /Home -> Dashboard de colaboradores, tecnicos
         app.get("/home",ServiceLocator.instanceOf(ControladorUsuario.class)::home,RoleENUM.TECNICO,RoleENUM.FISICO,RoleENUM.JURIDICO);
         app.get("/estaciones", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
@@ -241,6 +251,8 @@ public class Router implements SimplePersistenceTest{
         app.post("/profile", ServiceLocator.instanceOf(ControladorTecnicos.class)::actualizar);
         app.get("/notificaciones",ServiceLocator.instanceOf(ControladorTecnicos.class)::notificaciones,RoleENUM.TECNICO);
         app.get("/visitas",ServiceLocator.instanceOf(ControladorTecnicos.class)::visitas,RoleENUM.TECNICO);
+        app.post("/reparacion-heladera",ServiceLocator.instanceOf(ControladorTecnicos.class)::repararHeladera,RoleENUM.TECNICO);
+
         //JURIDICO
         app.get("/mis-estaciones", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::misEstaciones,RoleENUM.JURIDICO);
         app.post("/mantenerHeladera", ServiceLocator.instanceOf(ControladorColaboradorJuridico.class)::mantenerHeladera,RoleENUM.JURIDICO);
@@ -312,6 +324,10 @@ public class Router implements SimplePersistenceTest{
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
         app.get("/canjes", (ctx) -> {
             Map<String, Object> model = new HashMap<>();
+            List<String> roles = ctx.sessionAttribute("roles");
+
+            boolean esFisico = roles.contains(RoleENUM.FISICO.toString());
+            boolean esJuridico = roles.contains(RoleENUM.JURIDICO.toString());
             Repositorio repositorio = ServiceLocator.instanceOf(Repositorio.class);
             List<Oferta> ofertasDisponibles = repositorio.buscarTodos(Oferta.class)
                     .stream()
@@ -328,6 +344,8 @@ public class Router implements SimplePersistenceTest{
                     .filter(c -> c.getCanjeador().getId() == posibleComprador.getId())
                     .collect(Collectors.toList());
 
+            model.put("fisico", esFisico);
+            model.put("juridico", esJuridico);
             model.put("canjes",canjesDelColaborador);
             model.put("colaborador",posibleComprador);
             model.put("ofertas",ofertasDisponibles);
@@ -355,9 +373,13 @@ public class Router implements SimplePersistenceTest{
                         repositorio.guardar(canje);
                     });
                 }catch (ExcepcionCanjePuntosInsuficientes exception){
-                    context.redirect("/canjes");
+                    context.status(400);
+                    context.json(Map.of(
+                            "success", false,
+                            "message", "Puntos insuficientes"
+                    ));
                 }
-                context.redirect("/canjes");
+                context.json(Map.of("success", true));
             }else{
                 context.status(HttpStatus.NOT_FOUND);
             }

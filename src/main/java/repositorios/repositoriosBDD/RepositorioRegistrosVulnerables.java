@@ -1,12 +1,14 @@
 package repositorios.repositoriosBDD;
 
+import domain.donaciones.Dinero;
 import domain.donaciones.RegistroDePersonaVulnerable;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+import repositorios.Repositorio;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-public class RepositorioRegistrosVulnerables implements WithSimplePersistenceUnit {
+public class RepositorioRegistrosVulnerables extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(RegistroDePersonaVulnerable registro){
         entityManager().persist(registro);
@@ -21,6 +23,12 @@ public class RepositorioRegistrosVulnerables implements WithSimplePersistenceUni
 
     public RegistroDePersonaVulnerable obtenerPorId(Long id){
         return entityManager().find(RegistroDePersonaVulnerable.class, id);
+    }
+
+    public List<RegistroDePersonaVulnerable> obtenerTodos() {
+        return entityManager()
+                .createQuery("FROM RegistroDePersonaVulnerable", RegistroDePersonaVulnerable.class)
+                .getResultList();
     }
 
     public List<RegistroDePersonaVulnerable> buscarPorColaboradorId(Long colaboradId) {

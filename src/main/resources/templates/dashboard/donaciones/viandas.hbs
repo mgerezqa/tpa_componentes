@@ -1,44 +1,95 @@
 {{#partial "contenido"}}
-    <section class="mt-5">
+
+    <section id="listado-heladeras">
+        <p class="lead">Listado de donaciones de viandas</p>
+        <hr>
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h1>Listado de viandas</h1>
-                <a href="/dashboard/donaciones/viandas/crear-vianda" class="btn btn-primary">Crear Vianda</a>
-            </div>
+            <!-- Botón para abrir el modal de crear
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearDonacionVianda">Crear Donación de vianda</button> -->
 
             <!-- Tabla de Viandas -->
             <table class="table table-hover">
+
                 <thead class="thead-light">
+
                 <tr>
                     <th>ID</th>
                     <th>Colaborador ID</th>
+                    <th>Nombre colaborador donante</th>
                     <th>Heladera ID</th>
                     <th>Fecha de Vencimiento</th>
                     <th>Fecha de Donación</th>
-                    <th>Acciones</th>
+                    <th>Cantidad</th>
+
                 </tr>
                 </thead>
+
                 <tbody>
                 <!-- Iterar sobre las viandas registradas -->
                 {{#each viandas}}
                     <tr>
                         <td>{{this.id}}</td>
                         <td>{{this.colaboradorDonanteId}}</td>
-                        <td>{{this.heladeraActualId}}</td>
-                        <td>{{this.fechaVencimiento}}</td>
+                        <td>{{this.nombreColaborador}}</td>
+                        <td>{{#if this.heladeraActualId}}{{this.heladeraActualId}}{{else}}-{{/if}}</td>
+                        <td>{{#if this.fechaVencimiento}}{{this.fechaVencimiento}}{{else}}-{{/if}}</td>
                         <td>{{this.fechaDonacion}}</td>
+                        <td>{{this.cantidad}}</td>
                         <td>
-                            <!-- Botones para acciones (editar, eliminar, etc.) -->
-                            <a href="/dashboard/donaciones/viandas/{{this.id}}/edit" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="/dashboard/donaciones/viandas/{{this.id}}/delete" method="POST" style="display:inline;">
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarDonacionVianda"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 {{/each}}
                 </tbody>
+
             </table>
+
+            <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de eliminación  -->
+            <div class="modal fade" id="modalEliminarDonacionVianda" tabindex="-1" aria-labelledby="modalEliminarDonacionVianda" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Donacion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que deseas eliminar esta donación?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form id="formEliminarDonacionVianda" method="GET">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
+
 {{/partial}}
-{{> templates/dashboard}}
+{{> dashboard}}
+
+<script>
+    document.querySelectorAll('[data-bs-target="#modalEliminarDonacionVianda"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('formEliminarDonacionVianda').action = `/dashboard/donaciones/viandas/${id}/delete`;
+        });
+    });
+</script>

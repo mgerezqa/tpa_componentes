@@ -3,6 +3,8 @@ import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.formulario.documentos.Documento;
 import domain.usuarios.ColaboradorFisico;
+import domain.usuarios.Rol;
+import domain.usuarios.RoleENUM;
 import domain.usuarios.Usuario;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 

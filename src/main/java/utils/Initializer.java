@@ -4,6 +4,8 @@ import config.ServiceLocator;
 import domain.contacto.Email;
 import domain.contacto.Telegram;
 import domain.contacto.Whatsapp;
+import domain.donaciones.MantenerHeladera;
+import domain.donaciones.RegistroDePersonaVulnerable;
 import domain.formulario.documentos.Cuil;
 import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;
@@ -12,33 +14,33 @@ import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
-import domain.incidentes.FallaTecnica;
-import domain.incidentes.Incidente;
 import domain.tarjeta.TarjetaColaborador;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
 import utils.Broker.ServiceBroker;
+import utils.notificador.Notificador;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Initializer implements WithSimplePersistenceUnit {
     private RepositorioRoles repositorioRoles;
-    private RepositorioIncidentes repositorioIncidentes;
     private RepositorioUsuarios repositorioUsuarios;
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioTecnicos repositorioTecnicos;
     private Repositorio repositorio;
     private List<ModeloDeHeladera> modelosHeladerasPorDefecto = new ArrayList<>();
+    private RepositorioMantenciones repositorioDonaciones;
 
-    public Initializer(RepositorioIncidentes repositorioIncidentes,RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
+    public Initializer(RepositorioMantenciones repositorioDonaciones, RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
+        this.repositorioDonaciones = repositorioDonaciones;
         this.repositorioRoles = repositorioRoles;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioTecnicos = repositorioTecnicos;
         this.repositorio = repositorio;
-        this.repositorioIncidentes = repositorioIncidentes;
     }
 
     public void init() {
@@ -128,13 +130,42 @@ public class Initializer implements WithSimplePersistenceUnit {
         Integer capacidadMax4 = 600;
         Heladera heladera4 = new Heladera(modeloD,nombreHeladera4,ubicacion4,capacidadMax4);
         heladera4.agregarCantViandas(300);
-        FallaTecnica fallaTecnica = new FallaTecnica(heladera4);
 
-        repositorioIncidentes.guardar(fallaTecnica);
         repositorio.guardar(heladera1);
         repositorio.guardar(heladera2);
         repositorio.guardar(heladera3);
         repositorio.guardar(heladera4);
+
+        MantenerHeladera mantenerHeladera = new MantenerHeladera();
+        mantenerHeladera.setHeladera(heladera1);
+        mantenerHeladera.setMesesPuntarizados(5);
+        mantenerHeladera.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
+        mantenerHeladera.setFechaDeDonacion(LocalDate.now());
+
+        mantenerHeladera.setPuntosOtorgados(5);
+
+        MantenerHeladera mantenerHeladera2 = new MantenerHeladera();
+        mantenerHeladera2.setHeladera(heladera2);
+        mantenerHeladera2.setMesesPuntarizados(3);
+        mantenerHeladera2.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
+        mantenerHeladera2.setFechaDeDonacion(LocalDate.now());
+
+        mantenerHeladera2.setPuntosOtorgados(3);
+
+        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(5);
+        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(3);
+
+        repositorio.guardar(mantenerHeladera);
+        repositorio.guardar(mantenerHeladera2);
+
+        RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable();
+        registroDePersonaVulnerable.setCantidad(2);
+        registroDePersonaVulnerable.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
+        registroDePersonaVulnerable.setPuntosOtorgados(10);
+        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(10);
+        registroDePersonaVulnerable.setFechaDeDonacion(LocalDate.now());
+
+        repositorio.guardar(registroDePersonaVulnerable);
 
     }
 
@@ -167,11 +198,12 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorioRoles.guardar(fisico);
         repositorioRoles.guardar(tecnico);
     }
-    private void instaciarLosDistintosUsuariosRoles(){
-        Usuario admin = new Usuario("admin","admin");
-        Usuario usuarioJuridico = new Usuario("juridico","juridico");
-        Usuario usuarioFisico = new Usuario("fisico","fisico");
-        Usuario usuarioTecnico = new Usuario("tecnico","tecnico");
+
+    private void instaciarLosDistintosUsuariosRoles() {
+        Usuario admin = new Usuario("admin", "admin");
+        Usuario usuarioJuridico = new Usuario("juridico", "juridico");
+        Usuario usuarioFisico = new Usuario("fisico", "fisico");
+        Usuario usuarioTecnico = new Usuario("tecnico", "tecnico");
         Rol adminRol = repositorioRoles.buscarRolPorNombre(RoleENUM.ADMIN);
         Rol juridicoRol = repositorioRoles.buscarRolPorNombre(RoleENUM.JURIDICO);
         Rol fisicoRol = repositorioRoles.buscarRolPorNombre(RoleENUM.FISICO);
@@ -184,21 +216,24 @@ public class Initializer implements WithSimplePersistenceUnit {
         //Tecnico
         Documento documentoTecnico = new Documento(TipoDocumento.DNI, "12325678");
         Cuil cuilTecnico = new Cuil("20", "12145678", "4");
-        Tecnico tecnico = new Tecnico("nombreTecnico","apellidoTecnico",documentoTecnico,cuilTecnico);
+        Tecnico tecnico = new Tecnico("nombreTecnico", "apellidoTecnico", documentoTecnico, cuilTecnico);
         Provincia provinciaTecnico = new Provincia("Buenos Aires");
-        Ubicacion ubicacionTecnico = new Ubicacion(-34.6044723f, -58.3816322f, new Calle("rivadavia", "14345")); // Coordenadas de Buenos Aires
+        Ubicacion ubicacionTecnico = new Ubicacion(-34.59935470126518f, -58.41951091983598f, new Calle("Medrano", "700")); // Coordenadas de Buenos Aires
         ubicacionTecnico.setProvincia(provinciaTecnico);
-        AreaDeCobertura areaTecnico = new AreaDeCobertura(ubicacionTecnico, TamanioArea.MEDIANA);
+        AreaDeCobertura areaTecnico = new AreaDeCobertura(ubicacionTecnico, TamanioArea.GRANDE);
+
+
         Whatsapp whatsappTecnico = new Whatsapp("+5491123256789");
-        Email emailTecnico = new Email("tecnico1@example.com");
+        Email emailTecnico = new Email("nahuellucana1999@gmail.com");
         Telegram telegramTecnico = new Telegram("tecnico1_telegram");
         telegramTecnico.setNumero("+5491123256789");
-        telegramTecnico.setNotificar(true);
         tecnico.agregarMedioDeContacto(whatsappTecnico);
         tecnico.agregarMedioDeContacto(emailTecnico);
         tecnico.agregarMedioDeContacto(telegramTecnico);
         tecnico.setAreaDeCobertura(areaTecnico);
         tecnico.setUsuario(usuarioTecnico);
+        Notificador notificador = new Notificador();
+        notificador.habilitarNotificacion(tecnico, emailTecnico);
 
         //Fisico
         Localidad localidadFisico = new Localidad("Almafuerte");
@@ -222,8 +257,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         colaboradorFisico.setZona(areaFisico);
         colaboradorFisico.setUsuario(usuarioFisico);
 
-        TarjetaColaborador tarjetaColaborador = new TarjetaColaborador();
-        tarjetaColaborador.setColaborador(colaboradorFisico);
+        TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
 
         //Juridico
         Whatsapp whatsappJuridico = new Whatsapp("+5491165419940");

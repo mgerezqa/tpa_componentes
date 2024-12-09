@@ -2,7 +2,12 @@ package domain.puntos;
 
 import domain.donaciones.*;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import domain.Config;
+import domain.heladera.Heladera.Heladera;
+
 public class CalculadoraPuntos {
     private static CalculadoraPuntos instancia;
     private Config config;
@@ -47,6 +52,15 @@ public class CalculadoraPuntos {
         int puntos = (int) Math.round((heladera.mesesMantenida()-heladera.getMesesPuntarizados()) * coeficiente);
 
         heladera.setMesesPuntarizados(heladera.mesesMantenida());
+        return puntos;
+    }
+    public int puntosHeladerasActivas (List<MantenerHeladera> mantenciones) {
+        double coeficiente = Double.parseDouble(config.getProperty("puntos.coefHeladerasActivas"));
+        List<Heladera> heladeras = mantenciones.stream().map(MantenerHeladera::getHeladera).collect(Collectors.toList());
+        int cantActivas  = (int) heladeras.stream().filter(Heladera::estaActivaHeladera).count();
+        int meses = mantenciones.stream().mapToInt(MantenerHeladera::mesesMantenida).sum();
+        int puntos = (int) Math.round(cantActivas *meses *coeficiente);
+
         return puntos;
     }
 }

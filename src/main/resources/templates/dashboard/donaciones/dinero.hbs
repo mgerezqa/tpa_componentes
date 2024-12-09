@@ -1,27 +1,19 @@
 {{#partial "contenido"}}
     <section id="listado-heladeras">
-        <p class="lead">Listado de donaciones</p>
+        <p class="lead">Listado de donaciones de dinero</p>
         <hr>
         <div class="container">
-            <!-- Botón para abrir el modal de crear -->
-            <button class="btn btn-primary"
-                    hx-get='/dashboard/donaciones/create'
-                    hx-target="#modalGeneral"
-                    hx-trigger="click"
-                    data-bs-toggle="modal"
-                    data-bs-toggle="tooltip"
-                    data-bs-target="#modalGeneral"
-                    data-bs-placement="bottom"
-            >
-                Crear Donacion
-            </button>
+            <!-- Botón para abrir el modal de crear
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearDonacionDinero">Crear Donación de dinero</button> -->
+
             <!-- Tabla de donaciones -->
             <table class="table mt-3">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Colaborador Donante</th>
-                    <th>Fecha de donacion</th>
+                    <th>Colaborador ID</th>
+                    <th>Nombre colaborador donante</th>
+                    <th>Fecha de donación</th>
                     <th>Cantidad </th>
                     <th>Frecuencia</th>
                 </tr>
@@ -32,75 +24,126 @@
                     <tr>
                         <td>{{this.id}}</td>
                         <td>{{this.colaboradorId}}</td>
+                        <td>{{this.nombreColaborador}}</td>
                         <td>{{this.fechaDeDonacion}}</td>
                         <td>{{this.cantidad}}</td>
                         <td>{{this.frecuencia}}</td>
                         <td>
-                            <!-- Botón para abrir el modal de edición -->
-                            <button class="btn btn-warning"
-                                    hx-get='/dashboard/donaciones/{{this.id}}/edit'
-                                    hx-target="#modalGeneral"
-                                    hx-trigger="click"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalGeneral"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom"
-                                    title="Editar">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            <!-- Botón para baja lógica  -->
-                            <button class="btn btn-outline-danger"
-                                    hx-get='/dashboard/donaciones/{{this.id}}/delete'
-                                    hx-target="#modalGeneral"
-                                    hx-trigger="click"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalGeneral"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom"
-                                    title="Deshabilitar">
-                                <i class="bi bi-arrow-down-circle"></i>
-                            </button>
-
-
                             <!-- Botón para abrir el modal de eliminación -->
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarHeladera" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
+                            <button class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarDonacionDinero"
+                                    data-id="{{this.id}}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </td>
                     </tr>
                 {{/each}}
-
-                <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal de eliminación  -->
-                <div class="modal fade" id="modalEliminarHeladera" tabindex="-1" aria-labelledby="modalEliminarHeladera" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Eliminar Donacion</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Estás seguro de que deseas eliminar esta donacion?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 </tbody>
             </table>
+
+            <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de eliminación  -->
+            <div class="modal fade" id="modalEliminarDonacionDinero" tabindex="-1" aria-labelledby="modalEliminarDonacionDinero" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Eliminar Donacion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que deseas eliminar esta donación?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form id="formEliminarDonacionDinero" method="GET">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de creación -->
+            <div class="modal fade" id="modalCrearDonacionDinero" tabindex="-1" aria-labelledby="modalCrearDonacionDinero" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <!-- Cabecera del modal -->
+                        <div class="modal-header bg-primary text-white"> <!-- Fondo colorido para mayor contraste -->
+                            <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Crear donación de dinero</h5> <!-- Icono añadido -->
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <!-- Formulario para crear donación de dinero -->
+                            <form action="{{action}}" method="POST">
+                                <div class="mb-3">
+                                    <label for="cantidadDonacionEdit" class="form-label">Cantidad</label>
+                                    <input type="number" class="form-control" id="cantidad" placeholder="Ingrese Cantidad"
+                                           name="cantidad"
+                                           value="{{dinero.cantidad}}"
+                                           required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="idColaborador" class="form-label">Colaborador</label>
+                                    <select class="form-select" id="idColaborador" name="idColaborador" required>
+                                        <option value="" disabled>Seleccionar colaborador...</option>
+                                        {{#each colaboradoresFisicos}}
+                                            <option value="{{this.id}}">{{this.nombre}} {{this.apellido}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+
+                                <!-- Frecuencia -->
+                                <div class="mb-3">
+                                    <label for="frecuencia" class="form-label">Frecuencia</label>
+                                    <select class="form-select" id="frecuencia" name="frecuencia" required>
+                                        <option value="" disabled selected>Seleccionar frecuencia...</option>
+                                        <option value="mensual">Mensual</option>
+                                        <option value="anual">Anual</option>
+                                        <option value="unica">Única</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="fechaDonacionEdit" class="form-label">Fecha de Donacion</label>
+                                    <input type="date" class="form-control" id="fechaDonacion"
+                                           name="fechaDonacion"
+                                           value="{{dinero.fechaDonacion}}"
+                                           required>
+                                </div>
+
+                                <!-- Pie del modal -->
+                                <div class="modal-footer d-flex justify-content-between"> <!-- Distribuir botones a los lados -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
+                                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </section>
 {{/partial}}
-{{> templates/dashboard}}
+{{> dashboard}}
+<script>
+    document.querySelectorAll('[data-bs-target="#modalEliminarDonacionDinero"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            document.getElementById('formEliminarDonacionDinero').action = `/dashboard/donaciones/dinero/${id}/delete`;
+        });
+    });
+</script>

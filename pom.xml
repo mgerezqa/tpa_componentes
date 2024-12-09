@@ -115,7 +115,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.17</version>
+            <version>8.0.31</version> <!-- 8.0.17 ES LA QUE FUNCIONA CORRECTAMENTE -->
         </dependency>
 
         <!-- hsqldb -->
@@ -197,7 +197,14 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <!-- Plugin para compilar el código fuente -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -207,6 +214,8 @@
                     <target>14</target>
                 </configuration>
             </plugin>
+
+            <!-- Plugin para generar el archivo JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -214,12 +223,31 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>main_tests.cron_verificador_temperaturas.MainTemperaturas</mainClass>
+                            <!-- Clase principal de la aplicación -->
+                            <mainClass>server.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+
+            <!-- Plugin para incluir dependencias en el JAR ejecutable -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>false</minimizeJar>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
 </project>

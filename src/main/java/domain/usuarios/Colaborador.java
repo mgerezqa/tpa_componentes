@@ -6,7 +6,9 @@ import domain.formulario.documentos.Documento;
 import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.Ubicacion;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@SuperBuilder
+@NoArgsConstructor
 // USE ESTA STRATEGY Y NO MAPPED SUPERCLASS, SOLO POR SI ES NECESARIO "RECUPERAR" A TODOS LOS COLABORADORES!
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Colaborador {
@@ -58,11 +62,13 @@ public abstract class Colaborador {
     public void darDeBaja(){ this.activo = false; }
 
     public void sumarPuntos(int puntos) {
-        this.puntosAcumulados += puntos;
+        this.puntosAcumulados += Math.round(puntos);
     }
+
     public void restarPuntos(int puntos) {
-        this.puntosAcumulados -= puntos;
+        this.puntosAcumulados -= Math.round(puntos);
     }
+
 
     public String email() {
         for (MedioDeContacto medio : this.getMediosDeContacto()) {

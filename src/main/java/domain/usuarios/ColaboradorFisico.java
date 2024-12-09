@@ -4,6 +4,7 @@ import domain.donaciones.Vianda;
 import domain.formulario.documentos.TipoDocumento;
 import domain.geografia.area.AreaDeCobertura;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,10 +14,10 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@SuperBuilder
 @Table(name = "colaboradores_fisicos")
 public class ColaboradorFisico extends Colaborador {
 

@@ -2,6 +2,8 @@ package server;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
 import config.ServiceLocator;
 import domain.Config;
 import domain.excepciones.CuilInvalidoException;
@@ -12,6 +14,7 @@ import domain.heladera.Heladera.EstadoHeladera;
 import domain.suscripciones.TipoDeSuscripcionENUM;
 import domain.usuarios.Rubro;
 import domain.usuarios.TipoRazonSocial;
+import io.javalin.http.staticfiles.Location;
 import middlewares.AuthMiddleware;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.*;
@@ -46,7 +49,7 @@ public class Server {
             new Router().init(app);
             ServiceLocator.instanceOf(ServiceBroker.class);
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
-                Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioIncidentes.class),ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class),ServiceLocator.instanceOf(Repositorio.class));
+                Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioMantenciones.class),ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class),ServiceLocator.instanceOf(Repositorio.class));
                 initializer.init();
             }
         }
@@ -59,8 +62,17 @@ public class Server {
                 staticFiles.directory = "public";
             });
 
+
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
-                Handlebars handlebars = new Handlebars();
+                // Crear el loader para templates y partials
+                TemplateLoader loader = new ClassPathTemplateLoader();
+                loader.setPrefix("/templates");
+                loader.setSuffix(".hbs");
+
+                // Configurar Handlebars con el loader
+                Handlebars handlebars = new Handlebars(loader);
+
+                // Registrar el helper eq
                 handlebars.registerHelper("eq", (context1, options) -> {
                     if (context1 == null || options.param(0) == null) {
                         return false;
@@ -68,11 +80,9 @@ public class Server {
                     return context1.equals(options.param(0));
                 });
 
-
-                Template template = null;
                 try {
-                    template = handlebars.compile(
-                            "templates/" + path.replace(".hbs", ""));
+                    // Compilar y aplicar el template
+                    Template template = handlebars.compile(path.replace(".hbs", ""));
                     return template.apply(model);
                 } catch (IOException e) {
                     e.printStackTrace();

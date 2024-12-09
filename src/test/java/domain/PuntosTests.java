@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import repositorios.Repositorio;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -48,7 +49,6 @@ public class PuntosTests {
     public void setUp() throws IOException {
 
         config = Config.getInstance();
-
         this.carlos = new PersonaVulnerable("Carlos", LocalDate.of(1960, 5, 12));
         this.marcos = new PersonaVulnerable("Marcos", LocalDate.of(1976, 6, 3));
 

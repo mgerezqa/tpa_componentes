@@ -20,6 +20,7 @@ public class ReceptorAutorizacion extends Receptor implements WithSimplePersiste
 
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) {
+        entityManager().clear();
         JsonObject jsonObject = getJsonObjectFrom(mqttMessage);
         Long idHeladera = jsonObject.get("idH").getAsLong();
         Optional<Object> heladera = repositorio.buscarPorID(Heladera.class,idHeladera);

@@ -2,10 +2,12 @@ package domain.heladera.Sensores;
 import config.ServiceLocator;
 import domain.heladera.Heladera.Heladera;
 
+import domain.incidentes.Incidente;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import repositorios.repositoriosBDD.RepositorioTecnicos;
 import utils.asignadorTecnicos.AsignadorDeTecnico;
 
 import javax.persistence.*;
@@ -31,6 +33,7 @@ public class SensorTemperatura {
 
     public void recibirTemperaturaActual(String dato){
         Float temperaturaActual = Float.parseFloat(dato);
+        System.out.println("temperatura:"+ temperaturaActual);
         //heladera.setUltimaTemperaturaRegistrada(dato);
         heladera.setUltimaTemperaturaRegistrada(temperaturaActual, LocalDateTime.now());
         if(heladera.temperaturaFueraDeRango()){

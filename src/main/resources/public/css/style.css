@@ -761,3 +761,11 @@ form h3 {
     margin-bottom: 20px;
     color: #F1A967;
 }
+
+#passwordErrors div {
+    font-size: 0.9em;
+    margin-top: 0.5em;
+}
+.text-danger {
+    color: red;
+}

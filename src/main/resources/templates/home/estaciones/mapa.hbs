@@ -124,7 +124,7 @@
                                         <div class="d-flex justify-content-evenly col-12 col-md-12  mt-4 gap-4" >
 
                                             <!-- Botón "Informe de reparación" con data-target actualizado -->
-                                            <button href="#" class="btn btn-success botones" id="boton-informe-reparacion" data-bs-toggle="modal" data-bs-target="#reparacionModal" disabled>
+                                            <button class="btn btn-success botones" id="boton-informe-reparacion" data-bs-toggle="modal" data-bs-target="#reparacionModal" disabled>
                                                 <i class="bi bi-bell-fill"></i> Informe de reparación
                                             </button>
                                         </div>
@@ -155,33 +155,35 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <div>
-                                            <label>Nombre de la estación:</label>
-                                            <input type="text" class="form-control" id="nombre-estacion-modal" disabled>
-                                        </div>
-                                        <div class="mt-3">
-                                            <label>Fecha y hora de asistencia técnica:</label>
-                                            <input type="datetime-local" class="form-control" id="fecha-asistencia">
-                                        </div>
-                                        <div class="mt-3">
-                                            <label>Descripción de la falla:</label>
-                                            <textarea class="form-control" placeholder="Describe el problema aquí..." id="descripcion-falla"></textarea>
-                                        </div>
-                                        <div class="mt-3">
-                                            <label>Subir imagen:</label>
-                                            <input type="file" class="form-control" id="imagen-falla" accept="image/*">
-                                        </div>
-                                        <div class="mt-3">
-                                            <label>¿Reparada?</label>
-                                            <select class="form-control" id="reparada">
-                                                <option value="si">Sí</option>
-                                                <option value="no">No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-danger">Enviar informe</button>
+                                        <form action="/reparacion-heladera" method="POST" enctype="multipart/form-data">
+                                            <div>
+                                                <label>Nombre de la estación:</label>
+                                                <input type="text" class="form-control" id="nombre-estacion-modal" name="nombre-estacion-modal" readonly>
+                                            </div>
+                                            <div class="mt-3">
+                                                <label>Fecha y hora de asistencia técnica:</label>
+                                                <input type="datetime-local" class="form-control" id="fecha-asistencia" name="fecha-asistencia">
+                                            </div>
+                                            <div class="mt-3">
+                                                <label>Descripción de la falla:</label>
+                                                <textarea class="form-control" placeholder="Describe el problema aquí..." id="descripcion-falla" name="descripcion-falla" required></textarea>
+                                            </div>
+                                            <div class="mt-3">
+                                                <label>Subir imagen:</label>
+                                                <input type="file" class="form-control" id="imagen-falla" accept="image/*" name="imagen-falla">
+                                            </div>
+                                            <div class="mt-3">
+                                                <label>¿Reparada?</label>
+                                                <select class="form-control" id="reparada" name="reparada" required>
+                                                    <option value="true">Sí</option>
+                                                    <option value="false">No</option>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-danger">Enviar informe</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +198,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <!-- Formulario para donar heladera -->
-                                        <form action="/mantenerHeladera" method="POST" id="donationForm">
+                                        <form id="donationForm" action="/mantenerHeladera" method="POST" id="donationForm">
                                             <div class="mb-3">
                                                 <label for="nombreHeladera" class="form-label">Nombre de la heladera</label>
                                                 <input type="text" class="form-control" id="nombreHeladera" name="nombreHeladera" required>
@@ -288,6 +290,60 @@
             </div>
         </section>
     </div>
+
+    <!-- Modal de Confirmación de Donación -->
+    <div class="modal fade" id="confirmarDonacionModal" tabindex="-1" aria-labelledby="confirmarInformeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <!-- Encabezado con estilo llamativo -->
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="confirmarInformeModalLabel">
+                        <i class="bi bi-question-circle-fill me-2"></i> Confirmación de Donación
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Cuerpo del modal con texto centrado -->
+                <div class="modal-body text-center">
+                    <p class="fs-4">¿Estás seguro de que deseas realizar esta donación?</p>
+                    <p class="text-muted">Una vez enviada, no podrás realizar cambios.</p>
+                </div>
+                <!-- Pie del modal con botones -->
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary btn-lg" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-warning btn-lg" id="confirmarDonacionFinal">
+                        <i class="bi bi-check-circle me-1"></i> Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de Éxito -->
+    <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Cambiamos a modal-lg para hacerlo más grande -->
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalExitoLabel">¡Donación registrada con éxito!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="mb-3 ">
+                        <!-- Ícono de éxito -->
+                        <i class="bi bi-check-circle-fill fs-1" style="color: #08972c;"></i>
+                    </div>
+                    <h3 class="text-success">¡Gracias por tu aporte!</h3>
+                    <p class="fs-5">Tu donación ha sido registrada correctamente y nos será de gran ayuda.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Botones volver al menu  -->
     <div class="flex row col-12">
         <!-- boton volver al menu principal -->
@@ -302,8 +358,10 @@
 {{#partial "scripts"}}
     {{#if juridico}}
         <script src="/js/script_mapa_colaborador_juridico.js"></script>
+        <script src="/js/confirmaciones/script_donacion_heladera_juridico_confirmacion.js"></script>
+
     {{else}}
         <script src="/js/script_mapa_general.js"></script>
     {{/if}}
 {{/partial}}
-{{> templates/home/base}}
+{{> home/base}}

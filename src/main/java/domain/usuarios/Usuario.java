@@ -9,6 +9,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -28,12 +30,19 @@ public class Usuario {
         joinColumns = @JoinColumn(name = "usuario_id"),
         inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
-    private List<Rol> roles;
+    private List<Rol> roles = new ArrayList<>();
 
     public Usuario(String nombreUsuario, String contrasenia) {
         this.nombreUsuario = nombreUsuario;
         this.contrasenia = contrasenia;
         this.roles = new ArrayList<>();
+    }
+    public static Usuario of(String nombreUsuario, String contrasenia){
+        return Usuario.builder()
+                .roles(new ArrayList<>())
+                .nombreUsuario(nombreUsuario)
+                .contrasenia(contrasenia)
+                .build();
     }
     public void agregarRol(Rol rol) {
         this.roles.add(rol);
@@ -54,4 +63,5 @@ public class Usuario {
     public void quitarRol(Rol rol) {
         this.roles.remove(rol);
     }
+
 }

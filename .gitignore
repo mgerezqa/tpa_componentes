@@ -14,6 +14,9 @@ target/
 *.iml
 *.ipr
 
+/uploads
+src/main/resources/public/img/ofertas/
+src/main/resources/public/img/visitas/
 ### Eclipse ###
 .apt_generated
 .classpath

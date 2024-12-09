@@ -164,8 +164,9 @@ public class MainExamplePersistence implements WithSimplePersistenceUnit {
         FallaTecnicaDTO dto = new FallaTecnicaDTO();
         dto.setDescripcion("cuando fui a la heladera me encontre con esta falla . . .");
         dto.setFoto("https//:foto.png");
-
-        Incidente incidenteC = IncidenteFactory.crearFallaTecnica(dto, heladeraB, userA);
+        ColaboradorFisico colaborador1 = new ColaboradorFisico("Valentin", "Griggio");
+        colaborador1.setUsuario(userA);
+        Incidente incidenteC = IncidenteFactory.crearFallaTecnica(dto, heladeraB, colaborador1);
         incidenteC.setTecnicoAsignado(tecnico2);
         repositorioIncidentes.guardar(incidenteC);
 

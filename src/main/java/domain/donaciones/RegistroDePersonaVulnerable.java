@@ -26,6 +26,9 @@ public class RegistroDePersonaVulnerable extends Donacion{
     @JoinColumn(name = "tarjeta_uuid")
     private TarjetaVulnerable tarjeta;
 
+    @Column(name = "cantidad")
+    private Integer cantidad;
+
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "vulnerable_id")
     private PersonaVulnerable personaVulnerable;

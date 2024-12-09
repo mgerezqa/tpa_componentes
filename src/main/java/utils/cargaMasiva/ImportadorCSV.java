@@ -1,15 +1,17 @@
 package utils.cargaMasiva;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import config.ServiceLocator;
+import domain.Config;
 import domain.contacto.Email;
 import domain.donaciones.*;
 import domain.formulario.documentos.Documento;
 import domain.mensajeria.EmailSender;
 import domain.puntos.CalculadoraPuntos;
-import domain.usuarios.Colaborador;
-import domain.usuarios.ColaboradorFisico;
-import domain.usuarios.Usuario;
+import domain.usuarios.*;
 import jakarta.mail.MessagingException;
 import repositorios.repositoriosBDD.*;
 
@@ -18,9 +20,7 @@ import javax.persistence.EntityManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ImportadorCSV {
 
@@ -50,16 +50,15 @@ public class ImportadorCSV {
                 if (donacion instanceof Dinero) {
                     puntos = calculadoraPuntos.puntosPesosDonados((Dinero) donacion);
                 } else if (donacion instanceof Vianda) {
-                    puntos = calculadoraPuntos.puntosViandasDonadas(1); // Asumes 1 vianda por registro
+                    puntos = calculadoraPuntos.puntosViandasDonadas(registro.getCantidad());
                 } else if (donacion instanceof Distribuir) {
                     puntos = calculadoraPuntos.puntosViandasDistribuidas(((Distribuir) donacion).getCantidad());
                 } else if (donacion instanceof RegistroDePersonaVulnerable) {
-                    puntos = calculadoraPuntos.puntosTarjetasRepatidas(1); // Asumes 1 tarjeta por registro
+                    puntos = calculadoraPuntos.puntosTarjetasRepatidas(registro.getCantidad());
                 }
 
                 // Registrar puntos al colaborador
                 colaborador.sumarPuntos(puntos);
-
 
                 em.getTransaction().begin();
                 em.persist(donacion); // Solo persiste la donación
@@ -109,6 +108,10 @@ public class ImportadorCSV {
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombreUsuario(nuevoColaborador.getDocumento().getNumeroDeDocumento());
         nuevoUsuario.setContrasenia(nuevoColaborador.getDocumento().getNumeroDeDocumento());
+
+        Rol rol = new Rol(RoleENUM.FISICO);
+        nuevoUsuario.agregarRol(rol);
+
         nuevoColaborador.setUsuario(nuevoUsuario);
 
         // Persistir en la base de datos
@@ -117,18 +120,41 @@ public class ImportadorCSV {
         // Agregar el nuevo colaborador a la lista temporal
         colaboradores.add(nuevoColaborador);
 
-        // Notificar por email al nuevo colaborador
-        try {
-            emailSender.sendEmail(
-                    "Bienvenido al sistema HOPEONG",
-                    "¡Hola " + nuevoColaborador.getNombre() + "! Te has registrado exitosamente en nuestro sistema. " +
-                            "Tu usuario y clave de acceso es tu número de documento :). Por favor, modifícalo para tu seguridad.",
-                    registro.getMail()
-            );
-        } catch (MessagingException e) {
-            System.err.println("Error al enviar email al nuevo colaborador: " + e.getMessage());
-        }
+            // Configurar Handlebars
+            ClassPathTemplateLoader loader = new ClassPathTemplateLoader("/templates", ".hbs");
+            Handlebars handlebars = new Handlebars(loader);
+            Template template = null; try {
+                template = handlebars.compile("email");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        return nuevoColaborador;
+            // Crear el modelo de datos
+            Map<String, Object> model = new HashMap<>();
+            model.put("name", nuevoColaborador.getNombre());
+            model.put("username", nuevoColaborador.getDocumento().getNumeroDeDocumento());
+            model.put("password", nuevoColaborador.getDocumento().getNumeroDeDocumento());
+
+            // Renderizar el contenido HTML del email
+            String htmlContent = null;
+            try {
+                htmlContent = template.apply(model);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Notificar por email al nuevo colaborador
+            try {
+                EmailSender emailSender = EmailSender.getInstance();
+                emailSender.sendHtmlEmail(
+                        "Bienvenido al sistema HOPEONG",
+                        htmlContent,
+                        registro.getMail()
+                );
+            } catch (MessagingException e) {
+                System.err.println("Error al enviar email al nuevo colaborador: " + e.getMessage());
+            }
+
+            return nuevoColaborador;
+        }
     }
-}

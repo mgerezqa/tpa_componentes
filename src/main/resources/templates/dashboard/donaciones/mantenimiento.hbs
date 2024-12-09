@@ -1,193 +1,86 @@
-<!-- Seccion Donaciones de Mantenimientos -->
-<section id="listado-de-donaciones-mantenimientos" class="d-none">
-    <p class="lead">Listado de mantenimientos</p>
-    <hr>
+{{#partial "contenido"}}
+    <!-- Seccion Donaciones de Mantenimientos -->
+    <section id="listado-heladeras">
+        <p class="lead">Listado de mantenimientos</p>
+        <hr>
+        <div class="container">
+            <!-- Tabla de Donacion Mantenimientos -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Colaborador ID</th>
+                    <th>Nombre colaborador donante</th>
+                    <th>Heladera ID</th>
+                    <th>Nombre de heladera</th>
+                    <th>Meses puntuados</th>
+                    <th>Fecha de donación</th>
+                    <th>Acciones</th> <!-- Nueva columna para acciones -->
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Listado de Mantenimientos -->
+                {{#each mantenimientos}}
+                    <tr>
+                        <td>{{this.id}}</td>
+                        <td>{{this.colaboradorID}}</td>
+                        <td>{{this.nombreColaborador}}</td>
+                        <td>{{this.heladeraID}}</td>
+                        <td>{{this.heladeraOrigen}}</td>
+                        <td>{{this.mesesPuntuados}}</td>
+                        <td>{{this.fechaDeDonacion}}</td>
+                        <td>
+                            <!-- Botón para abrir el modal de eliminación -->
+                            <button class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEliminarDonacionMantenimiento"
+                                    data-id="{{this.id}}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
 
-    <div class="container">
-        <!-- Botón para abrir el modal de crear -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearDonacionDeMantenimiento">Crear Donación de Mantenimiento</button>
-
-        <!-- Tabla de Donacion Mantenimientos -->
-        <table class="table mt-3">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Colaborador id</th>
-                <th>Heladera Origen id</th>
-                <th>Meses puntarizados</th>
-                <th>Fecha de donacion</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Listado de Mantenimientos  -->
-            <tr>
-                <td>1</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>11/08/2024</td>
-                <td>
-                    <!-- Botón para abrir el modal de edición -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#modalEditarDonacionMantenimiento" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-
-                    <!-- Botón para baja lógica  -->
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modalDeshabilitarDonacionMantenimiento" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Deshabilitar">
-                        <i class="bi bi-arrow-down-circle"></i>
-                    </button>
-
-                    <!-- Botón para abrir el modal de eliminación -->
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#modalEliminarDonacionMantenimiento" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-
-
-            </tr>
-
-            <!-- Modal de edición para una vianda -->
-            <div class="modal fade" id="modalEditarDonacionMantenimiento" tabindex="-1" aria-labelledby="modalEditarDonacionMantenimiento" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+            <div class="modal fade" id="modalGeneral" tabindex="-1" aria-labelledby="modalGeneral" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content">
-                        <div class="modal-header bg-warning text-dark">
-                            <h5 class="modal-title"><i class="bi bi-pencil-square"></i> Editar Donacion</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <!-- Buscar colaborador -->
-                                <div class="mb-3">
-                                    <label for="editarDonacionMantenimientoColaboradorId" class="form-label">Colaborador</label>
-                                    <select class="form-select" id="editarDonacionMantenimientoColaboradorId" required>
-                                        <option value="" disabled>Seleccionar colaborador id...</option>
-                                        <option value="1">1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionMantenimientoHeladeraId" class="form-label">Heladera </label>
-                                    <select class="form-select" id="editarDonacionMantenimientoHeladeraId" required>
-                                        <option value="" disabled>Seleccionar heladera id...</option>
-                                        <option value="1" >1</option> <!-- Opción seleccionada -->
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionDeMantenimientoCantidadDeMeses" class="form-label"> Meses puntarizados</label>
-                                    <input type="number" class="form-control" id="editarDonacionDeMantenimientoCantidadDeMeses" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="editarDonacionDeMantenimientoFecha" class="form-label">Fecha de donacion</label>
-                                    <input type="date" class="form-control" id="editarDonacionDeMantenimientoFecha" required>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                            <button type="button" class="btn btn-warning"><i class="bi bi-save"></i> Guardar Cambios</button>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal de eliminación para un mantenimiento  -->
+            <!-- Modal de eliminación -->
             <div class="modal fade" id="modalEliminarDonacionMantenimiento" tabindex="-1" aria-labelledby="modalEliminarDonacionMantenimiento" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Eliminar Donacion</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>¿Estás seguro de que deseas eliminar a esta donacion?</p>
+                            <p>¿Estás seguro de que deseas eliminar esta donación?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-danger">Eliminar</button>
+                            <form id="formEliminarDonacionMantenimiento" method="GET">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal de deshabilitación  -->
-            <div class="modal fade" id="modalDeshabilitarDonacionMantenimiento" tabindex="-1" aria-labelledby="modalDeshabilitarDonacionMantenimiento" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Desactivar Donacion</h5>
-                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>¿Estás seguro de que deseas dar de baja a esta donacion?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-outline-danger">Deshabilitar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal de creación -->
-    <div class="modal fade" id="modalCrearDonacionDeMantenimiento" tabindex="-1" aria-labelledby="modalCrearDonacionDeMantenimiento" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle-fill"></i> Crear donacion de reparto</h5>
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <!-- Buscar colaborador -->
-                        <div class="mb-3">
-                            <label for="donacionMantenimientoColaboradorId" class="form-label">Colaborador</label>
-                            <select class="form-select" id="donacionMantenimientoColaboradorId" required>
-                                <option value="" disabled>Seleccionar colaborador id...</option>
-                                <option value="1">1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionMantenimientoHeladeraId" class="form-label">Heladera </label>
-                            <select class="form-select" id="donacionMantenimientoHeladeraId" required>
-                                <option value="" disabled>Seleccionar heladera id...</option>
-                                <option value="1" >1</option> <!-- Opción seleccionada -->
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionDeMantenimientoCantidadDeMeses" class="form-label"> Meses puntarizados</label>
-                            <input type="number" class="form-control" id="donacionDeMantenimientoCantidadDeMeses" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="donacionDeMantenimientoFecha" class="form-label">Fecha de donacion</label>
-                            <input type="date" class="form-control" id="donacionDeMantenimientoFecha" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="bi bi-x-circle"></i> Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="bi bi-check-circle"></i> Crear</button>
-                </div>
-            </div>
         </div>
-    </div>
-</section>
+    </section>
+{{/partial}}
+{{> dashboard}}
+<script>
+    document.querySelectorAll('[data-bs-target="#modalEliminarDonacionMantenimiento"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            const form = document.getElementById('formEliminarDonacionMantenimiento');
+            form.action = `/dashboard/donaciones/mantenimientos/${id}/delete`;
+        });
+    });
+</script>

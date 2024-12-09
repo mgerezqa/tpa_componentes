@@ -1,12 +1,7 @@
 package controladores;
 
-import domain.donaciones.Dinero;
-import domain.donaciones.FrecuenciaDeDonacion;
 import domain.donaciones.Vianda;
-import domain.formulario.documentos.Documento;
-import domain.formulario.documentos.TipoDocumento;
 import domain.heladera.Heladera.Heladera;
-import domain.persona.PersonaVulnerable;
 import domain.usuarios.Colaborador;
 import domain.usuarios.ColaboradorFisico;
 import dtos.ViandaDTO;
@@ -25,12 +20,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class ControladorViandas implements ICrudViewsHandler, WithSimplePersistenceUnit {
+public class ControladorDonacionViandas implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioViandas repositorioViandas;
     private RepositorioColaboradores repositorioColaboradores;
     private RepositorioHeladeras repositorioHeladeras;
 
-    public ControladorViandas(RepositorioViandas repositorioViandas, RepositorioColaboradores repositorioColaboradores, RepositorioHeladeras repositorioHeladeras){
+    public ControladorDonacionViandas(RepositorioViandas repositorioViandas, RepositorioColaboradores repositorioColaboradores, RepositorioHeladeras repositorioHeladeras){
         this.repositorioViandas = repositorioViandas;
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioHeladeras = repositorioHeladeras;
@@ -42,13 +37,26 @@ public class ControladorViandas implements ICrudViewsHandler, WithSimplePersiste
         List<ViandaDTO> viandasDTO = new ArrayList<>();
 
         for(Vianda vianda : viandas){
-            ViandaDTO viandaDTO= new ViandaDTO();
+            try {
+                ViandaDTO viandaDTO = new ViandaDTO();
 
-            viandaDTO.setId(vianda.getId());
-            viandaDTO.setFechaDonacion(vianda.getFechaDeDonacion());
-            viandaDTO.setColaboradorDonanteId(Long.valueOf(String.valueOf(vianda.getColaboradorQueLaDono().getId())));
-            viandaDTO.setFechaVencimiento(vianda.getFechaVencimiento());
-            viandasDTO.add(viandaDTO);
+                viandaDTO.setHeladeraActualId(null);
+                viandaDTO.setFechaVencimiento(null);
+                viandaDTO.setFechaDonacion(vianda.getFechaDeDonacion());
+                viandaDTO.setCantidad(vianda.getCantidad());
+
+                viandaDTO.setId(vianda.getId());
+
+                Long colaboradorId = vianda.getColaboradorQueLaDono().getId();
+                String nombreColaborador = repositorioColaboradores.obtenerNombreORazonSocialPorId(colaboradorId);
+
+                viandaDTO.setNombreColaborador(nombreColaborador);
+                viandaDTO.setColaboradorDonanteId(colaboradorId);
+
+                viandasDTO.add(viandaDTO);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
         Map<String, Object> model = new HashMap<>();
         model.put("viandas", viandasDTO);
@@ -146,10 +154,6 @@ public class ControladorViandas implements ICrudViewsHandler, WithSimplePersiste
 
     }
 
-
-
-
-
     @Override
     public void delete(Context context) {
         Long viandaId = Long.valueOf(context.pathParam("id"));
@@ -158,6 +162,9 @@ public class ControladorViandas implements ICrudViewsHandler, WithSimplePersiste
             context.status(HttpStatus.NOT_FOUND);
             return;
         }
+
+        vianda.getColaboradorQueLaDono().restarPuntos(vianda.getPuntosOtorgados());
+
         withTransaction(()->{
             repositorioViandas.eliminarPorId(viandaId);
         });

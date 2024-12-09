@@ -181,8 +181,7 @@ public class ControladorTarjetas implements ICrudViewsHandler, WithSimplePersist
                 .map(ColaboradorFisico.class::cast)
                 .orElseThrow(() -> new TarjetasException("Colaborador no encontrado"));
 
-        TarjetaColaborador tarjeta = new TarjetaColaborador();
-        tarjeta.setColaborador(colaborador);
+        TarjetaColaborador tarjeta = TarjetaColaborador.of(colaborador);
         return tarjeta;
     }
     private TarjetaVulnerable crearTarjetaVulnerable(Long idBeneficiario) {

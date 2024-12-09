@@ -1,7 +1,7 @@
 package domain;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
@@ -24,10 +24,14 @@ public class Config {
     }
 
     private void init() throws IOException { //Carga el archivo de configuración
-        try (FileReader reader = new FileReader("src/main/resources/config.properties")) {
-            properties.load(reader);
+        // Utiliza ClassLoader para cargar el archivo desde el classpath
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+            if (inputStream == null) {
+                throw new IOException("No se pudo cargar el archivo config.");
+            }
+            properties.load(inputStream); // Carga las propiedades desde el archivo
         } catch (IOException e) {
-            throw new IOException("No se pudo cargar el archivo config.");
+            throw new IOException("No se pudo cargar el archivo config.", e);
         }
     }
 
@@ -47,4 +51,3 @@ public class Config {
         throw new IllegalArgumentException();
     }
 }
-

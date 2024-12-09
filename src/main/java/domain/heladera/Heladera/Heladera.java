@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -169,7 +170,7 @@ public class Heladera {
 
     // Falla de temperatura
     public void fallaTemperatura() {
-        IncidenteFactory.crearAlerta(this, "falla_temperatura");
+       IncidenteFactory.crearAlerta(this, "falla_temperatura");
     }
     // Falla de conexion: se encarga el "VerificadorTemperatura"
     // Falla de fraude  : se encarga el "SensorMovimiento"

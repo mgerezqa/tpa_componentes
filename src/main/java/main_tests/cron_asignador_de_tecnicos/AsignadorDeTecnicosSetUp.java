@@ -42,7 +42,7 @@ public class AsignadorDeTecnicosSetUp {
         Ubicacion ubicacionA = new Ubicacion((-34.650832f), (-58.440309f), new Calle("Avenida ABC", "3526"));
 
         AreaDeCobertura areaA = new AreaDeCobertura(ubicacionA,TamanioArea.MEDIANA);
-        MedioDeContacto emailA = new Email("bryanbattagliese@gmail.com");
+        MedioDeContacto emailA = new Email("nahuellucana1999@gmail.com");
 
         tecnicoA = new Tecnico("Roberto", "Martinez", documentoA, cuilA);
         tecnicoA.setAreaDeCobertura(areaA);
@@ -57,7 +57,7 @@ public class AsignadorDeTecnicosSetUp {
         Ubicacion ubicacionB = new Ubicacion((-34.582835f), (-58.408439f), new Calle("Avenida DEFE", "1030"));
 
         AreaDeCobertura areaB = new AreaDeCobertura(ubicacionB,TamanioArea.MEDIANA);
-        MedioDeContacto emailB = new Email("bryanbattagliese@gmail.com");
+        MedioDeContacto emailB = new Email("nahuellucana1999@gmail.com");
 
         tecnicoB = new Tecnico("Eduardo", "Lopez", documentoB, cuilB);
         tecnicoB.setAreaDeCobertura(areaB);
@@ -114,7 +114,7 @@ public class AsignadorDeTecnicosSetUp {
         Ubicacion ubicacionA = new Ubicacion((-34.650832f), (-58.440309f), new Calle("Avenida ABC", "3526"));
 
         AreaDeCobertura areaA = new AreaDeCobertura(ubicacionA,TamanioArea.MEDIANA);
-        MedioDeContacto emailA = new Email("bryanbattagliese@gmail.com");
+        MedioDeContacto emailA = new Email("nahuellucana1999@gmail.com");
 
         tecnicoA = new Tecnico("Roberto", "Martinez", documentoA, cuilA);
         tecnicoA.setAreaDeCobertura(areaA);
@@ -130,7 +130,7 @@ public class AsignadorDeTecnicosSetUp {
         Ubicacion ubicacionB = new Ubicacion((-34.582835f), (-58.408439f), new Calle("Avenida DEFE", "1030"));
 
         AreaDeCobertura areaB = new AreaDeCobertura(ubicacionA,TamanioArea.MEDIANA);
-        MedioDeContacto emailB = new Email("bryanbattagliese@gmail.com");
+        MedioDeContacto emailB = new Email("nahuellucana1999@gmail.com");
 
         tecnicoB = new Tecnico("Eduardo", "Lopez", documentoA, cuilA);
         tecnicoB.setAreaDeCobertura(areaA);
