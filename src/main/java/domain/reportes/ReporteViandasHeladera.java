@@ -44,6 +44,7 @@ public class ReporteViandasHeladera extends Reporte{
         System.out.println("Reporte de cantidad de viandas por todas las heladeras generado.");
     }
 
-
-
+    public String getTipo(){
+        return "REPORTE_VIANDAS_HELADERA";
+    }
 }

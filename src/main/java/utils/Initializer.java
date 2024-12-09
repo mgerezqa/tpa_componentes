@@ -14,6 +14,9 @@ import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.reportes.ReporteFallas;
+import domain.reportes.ReporteViandasColaborador;
+import domain.reportes.ReporteViandasHeladera;
 import domain.tarjeta.TarjetaColaborador;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
@@ -23,6 +26,7 @@ import utils.Broker.ServiceBroker;
 import utils.notificador.Notificador;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Initializer implements WithSimplePersistenceUnit {
@@ -33,14 +37,16 @@ public class Initializer implements WithSimplePersistenceUnit {
     private Repositorio repositorio;
     private List<ModeloDeHeladera> modelosHeladerasPorDefecto = new ArrayList<>();
     private RepositorioMantenciones repositorioDonaciones;
+    private RepositorioReportes repositorioReportes;
 
-    public Initializer(RepositorioMantenciones repositorioDonaciones, RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio) {
+    public Initializer(RepositorioMantenciones repositorioDonaciones, RepositorioRoles repositorioRoles, RepositorioUsuarios repositorioUsuarios, RepositorioColaboradores repositorioColaboradores, RepositorioTecnicos repositorioTecnicos,Repositorio repositorio,RepositorioReportes repositorioReportes) {
         this.repositorioDonaciones = repositorioDonaciones;
         this.repositorioRoles = repositorioRoles;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioTecnicos = repositorioTecnicos;
         this.repositorio = repositorio;
+        this.repositorioReportes = repositorioReportes;
     }
 
     public void init() {
@@ -52,6 +58,24 @@ public class Initializer implements WithSimplePersistenceUnit {
             //Test especifico para simular sensor de temperatura de las heladeras activas, y generé eventualmente una falla
             //this.instanciarTestParaBroker();
         });
+    }
+
+    private void instaciarReportes(Heladera heladera) {
+        ReporteFallas reporteFallas = new ReporteFallas();
+        List<Heladera> heladeras = new ArrayList<>();
+        heladeras.add(heladera);
+        reporteFallas.setHeladeras(heladeras);
+        reporteFallas.setFechaGeneracion(LocalDateTime.now());
+        reporteFallas.setPdf("/pdfs/dawdasd1.pdf");
+        ReporteViandasColaborador reporteViandasColaborador = new ReporteViandasColaborador();
+        reporteViandasColaborador.setFechaGeneracion(LocalDateTime.now());
+        reporteViandasColaborador.setPdf("/pdfs/dawdasd2.pdf");
+        ReporteViandasHeladera reporteViandasHeladera = new ReporteViandasHeladera();
+        reporteViandasHeladera.setFechaGeneracion(LocalDateTime.now());
+        reporteViandasHeladera.setPdf("/pdfs/dawdasd3.pdf");
+        repositorioReportes.guardar(reporteFallas);
+        repositorioReportes.guardar(reporteViandasColaborador);
+        repositorioReportes.guardar(reporteViandasHeladera);
     }
 
     private void instanciarTestParaBroker() {
@@ -165,6 +189,7 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorioColaboradores.obtenerPorId(2L).sumarPuntos(10);
         registroDePersonaVulnerable.setFechaDeDonacion(LocalDate.now());
 
+        this.instaciarReportes(heladera1);
         repositorio.guardar(registroDePersonaVulnerable);
 
     }
