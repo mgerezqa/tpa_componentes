@@ -29,7 +29,7 @@ public class RepositorioReportes extends Repositorio implements WithSimplePersis
 
     public List<Reporte> obtenerTodos() {
         return entityManager()
-                .createQuery("FROM Reportes", Reporte.class)
+                .createQuery("FROM Reporte", Reporte.class)
                 .getResultList();
     }
 

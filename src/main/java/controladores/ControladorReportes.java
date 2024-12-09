@@ -19,8 +19,12 @@ public class ControladorReportes implements ICrudViewsHandler {
 
     @Override
     public void index(Context context) {
+        List<Reporte> reportes = this.repositorioReportes.obtenerTodos();
 
-        context.render("/home/reportes/reportes.hbs");
+        Map<String, Object> model = new HashMap<>();
+        model.put("reportes", reportes);
+
+        context.render("home/reportes/reportes.hbs", model);
     }
 
     @Override
