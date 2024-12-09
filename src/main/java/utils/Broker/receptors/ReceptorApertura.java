@@ -14,6 +14,7 @@ import domain.tarjeta.TarjetaColaborador;
 import domain.usuarios.ColaboradorFisico;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.hibernate.Hibernate;
 import repositorios.Repositorio;
 import repositorios.repositoriosBDD.RepositorioTarjetas;
 
@@ -56,19 +57,17 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
             if(solicitudApertura == null){
                 throw new RuntimeException("No tienes permisos para realizar la apertura");
             }
-            System.out.println(solicitudApertura);
             //Por ahora solo funciona con viandas
             //Busco la donacion vincula, y lo completo.
             Optional<Object> donacionVinculada = repositorio.buscarPorID(Donacion.class,solicitudApertura.getDonacionVinculada().getId());
             if(donacionVinculada.isEmpty()){
                 throw new RuntimeException("No se encuentra la vienda vinculada a la sol de apertura, por favor vefique que tenga la donación como pendiente en las donaciones");
             }
-            Donacion donacion = (Donacion) donacionVinculada.get();
+            Donacion donacion = (Donacion) Hibernate.unproxy(donacionVinculada.get());
             donacion.completar();
             //Agrego los puntos al colaborador segun si es donar vianda o distribuir
             if(donacion instanceof Vianda){
                 ColaboradorFisico colaboradorFisico = (ColaboradorFisico) donacion.getColaboradorQueLaDono();
-
                 //Lo correcto seria ir directamente a buscar a repo de viandas, y no traer todas las donaciones, y este calculo deberia
                 //ir al calculador de puntos, ya que asi funciona con todas las donaciones de este tipo.
                 int viandasDonadas = (int) repositorio.buscarTodos(Donacion.class)
@@ -82,8 +81,9 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
                 donacion.setPuntosOtorgados(puntos);
                 colaboradorFisico.sumarPuntos(puntos);
                 heladeraEncontrada.ingresarVianda();
-            } else if (donacion instanceof Distribuir) {
-                //TODO otra logica de calculo
+            } else {
+                //Aca va la de distribuir viandas.
+                System.out.println("La donación no es una instancia de Vianda");
             }
 
             heladeraEncontrada.registrarApertura(solicitudApertura);
