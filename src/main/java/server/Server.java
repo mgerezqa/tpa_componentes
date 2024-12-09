@@ -27,6 +27,7 @@ import utils.JavalinRenderer;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
+import utils.uploadImage.ImageUpload;
 
 import javax.xml.bind.ValidationException;
 import java.io.IOException;
@@ -61,6 +62,11 @@ public class Server {
             config.staticFiles.add(staticFiles -> {
                 staticFiles.hostedPath = "/";
                 staticFiles.directory = "public";
+            });
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/";
+                staticFiles.directory = ImageUpload.getUploadsDirectory();
+                staticFiles.location = Location.EXTERNAL;
             });
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 Handlebars handlebars = new Handlebars();
