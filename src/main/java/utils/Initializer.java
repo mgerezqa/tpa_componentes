@@ -14,7 +14,9 @@ import domain.geografia.area.AreaDeCobertura;
 import domain.geografia.area.TamanioArea;
 import domain.heladera.Heladera.Heladera;
 import domain.heladera.Heladera.ModeloDeHeladera;
+import domain.persona.PersonaVulnerable;
 import domain.tarjeta.TarjetaColaborador;
+import domain.tarjeta.TarjetaVulnerable;
 import domain.usuarios.*;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
@@ -136,35 +138,33 @@ public class Initializer implements WithSimplePersistenceUnit {
         repositorio.guardar(heladera3);
         repositorio.guardar(heladera4);
 
-        MantenerHeladera mantenerHeladera = new MantenerHeladera();
-        mantenerHeladera.setHeladera(heladera1);
+        Colaborador colaboradorFisico = repositorioColaboradores.obtenerPorId(2L);
+        Colaborador colaboradorJuridico = repositorioColaboradores.obtenerPorId(1L);
+        MantenerHeladera mantenerHeladera = new MantenerHeladera(heladera1,colaboradorJuridico);
         mantenerHeladera.setMesesPuntarizados(5);
-        mantenerHeladera.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
-        mantenerHeladera.setFechaDeDonacion(LocalDate.now());
-
         mantenerHeladera.setPuntosOtorgados(5);
 
-        MantenerHeladera mantenerHeladera2 = new MantenerHeladera();
-        mantenerHeladera2.setHeladera(heladera2);
+        MantenerHeladera mantenerHeladera2 = new MantenerHeladera(heladera2,colaboradorJuridico);
         mantenerHeladera2.setMesesPuntarizados(3);
-        mantenerHeladera2.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
-        mantenerHeladera2.setFechaDeDonacion(LocalDate.now());
-
         mantenerHeladera2.setPuntosOtorgados(3);
 
-        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(5);
-        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(3);
+        colaboradorJuridico.sumarPuntos(5);
+        colaboradorJuridico.sumarPuntos(3);
 
+        mantenerHeladera.completar();
+        mantenerHeladera2.completar();
         repositorio.guardar(mantenerHeladera);
         repositorio.guardar(mantenerHeladera2);
 
-        RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable();
+        TarjetaVulnerable tarjetaVulnerable = new TarjetaVulnerable();
+        PersonaVulnerable personaVulnerable = PersonaVulnerable.create("kevin","durant",LocalDate.of(2001,5,24));
+        tarjetaVulnerable.setVulnerable(personaVulnerable);
+        RegistroDePersonaVulnerable registroDePersonaVulnerable = new RegistroDePersonaVulnerable(colaboradorFisico,tarjetaVulnerable,personaVulnerable);
         registroDePersonaVulnerable.setCantidad(2);
-        registroDePersonaVulnerable.setColaboradorQueLaDono(repositorioColaboradores.obtenerPorId(2L));
         registroDePersonaVulnerable.setPuntosOtorgados(10);
-        repositorioColaboradores.obtenerPorId(2L).sumarPuntos(10);
-        registroDePersonaVulnerable.setFechaDeDonacion(LocalDate.now());
+        colaboradorFisico.sumarPuntos(10);
 
+        registroDePersonaVulnerable.completar();
         repositorio.guardar(registroDePersonaVulnerable);
 
     }
