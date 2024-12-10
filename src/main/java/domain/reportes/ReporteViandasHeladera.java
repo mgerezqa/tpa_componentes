@@ -32,7 +32,7 @@ public class ReporteViandasHeladera extends Reporte{
         for (Heladera heladera : heladeras) {
             List<Map<String, String>> reporteViandas = reportador.generarReporteViandasPorHeladera(heladera);
             List<String> encabezadosViandasHeladera = Arrays.asList("Nombre Heladera", "Cantidad de viandas donadas");
-            reportador.generarPDFReporte(this,"reporte_viandas_por_heladera.pdf", reporteViandas, encabezadosViandasHeladera, "Reporte de Viandas por Heladera");
+            reportador.generarPDFReporte(this,"reporte_viandas_por_heladera", reporteViandas, encabezadosViandasHeladera, "Reporte de Viandas por Heladera");
 
             // Aquí imprimimos los datos del reporte
             System.out.println("Reporte de cantidad de viandas donadas por heladera: ");
