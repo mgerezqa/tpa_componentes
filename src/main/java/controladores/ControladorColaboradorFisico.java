@@ -33,6 +33,7 @@ import utils.recomendacioneDeUbicaciones.entidades.ListadoDeComunidades;
 import utils.recomendacioneDeUbicaciones.servicios.RecomedacionDeUbicaciones;
 import utils.validadorDeContrasenias.validador.Validador;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
@@ -48,10 +49,20 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
     private RepositorioRegistrosVulnerables repositorioRegistrosVulnerables;
     private RepositorioDistribuciones repositorioDistribuciones;
     private RepositorioViandas repositorioViandas;
+    private RepositorioTarjetas repositorioTarjetas;
     private RecomedacionDeUbicaciones recomendacionDeUbicaciones;
     private Validador validador;
+    private RepositorioMantenciones repositorioMantenciones;
+    private RepositorioDonacionesDinero repositorioDonacionesDinero;
+    private RepositorioDonacionesReparto repositorioDonacionesReparto;
 
-    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios, RepositorioRoles repositorioRoles,Repositorio repositorio,RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,RepositorioDistribuciones repositorioDistribuciones,RepositorioViandas repositorioViandas) {
+    public ControladorColaboradorFisico(RepositorioColaboradores repositorioColaboradores, RepositorioUsuarios repositorioUsuarios,
+                                        RepositorioRoles repositorioRoles,Repositorio repositorio,
+                                        RepositorioRegistrosVulnerables repositorioRegistrosVulnerables,
+                                        RepositorioDistribuciones repositorioDistribuciones,RepositorioViandas repositorioViandas,
+                                        RepositorioTarjetas repositorioTarjetas, RepositorioDonacionesDinero repositorioDonacionesDinero,
+                                        RepositorioDonacionesReparto repositorioDonacionesReparto, RepositorioMantenciones repositorioMantenciones) {
+
         this.repositorioColaboradores = repositorioColaboradores;
         this.repositorioUsuarios = repositorioUsuarios;
         this.repositorioRoles = repositorioRoles;
@@ -61,6 +72,10 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         this.repositorioViandas = repositorioViandas;
         this.recomendacionDeUbicaciones = RecomedacionDeUbicaciones.getInstance();
         this.validador = ServiceLocator.instanceOf(Validador.class);
+        this.repositorioTarjetas = repositorioTarjetas;
+        this.repositorioDonacionesDinero = repositorioDonacionesDinero;
+        this.repositorioDonacionesReparto = repositorioDonacionesReparto;
+        this.repositorioMantenciones = repositorioMantenciones;
     }
 
     @Override // funciona correctamente
@@ -96,8 +111,11 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
                 .check(Objects::nonNull, "El apellido del colaborador es obligatorio");
         Validator<String> email = context.formParamAsClass("email", String.class)
                 .check(Objects::nonNull, "El email del colaborador es obligatorio");
-
-        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre,apellido,email);
+        Validator<String> tipoDocumento = context.formParamAsClass("tipoDocumento", String.class)
+                .check(Objects::nonNull, "El tipo de documento es obligatorio");
+        Validator<String> numeroDocumento = context.formParamAsClass("numeroDocumento", String.class)
+                .check(Objects::nonNull, "El número de documento es obligatorio");
+        Map<String, List<ValidationError<?>>> errors = Validation.collectErrors(nombre,apellido,email,tipoDocumento,numeroDocumento);
 
         if(!errors.isEmpty()){
             System.out.println(errors);
@@ -110,6 +128,8 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         colaboradorFisicoInputDTO.setNombre(context.formParam("nombre"));
         colaboradorFisicoInputDTO.setActivo(Boolean.valueOf(context.formParam("activo")));
         colaboradorFisicoInputDTO.setEmail(context.formParam("email"));
+        colaboradorFisicoInputDTO.setTipoDocumento(context.formParam("tipoDocumento"));
+        colaboradorFisicoInputDTO.setNumeroDocumento(context.formParam("numeroDocumento"));
 
         ColaboradorFisico colaboradorFisico = new ColaboradorFisico();
 
@@ -118,12 +138,29 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         colaboradorFisico.setId(colaboradorFisicoInputDTO.getId());
         colaboradorFisico.setActivo(colaboradorFisicoInputDTO.getActivo());
 
+        Documento documento = new Documento(TipoDocumento.valueOf(colaboradorFisicoInputDTO.getTipoDocumento()), colaboradorFisicoInputDTO.getNumeroDocumento());
+
+        colaboradorFisico.setDocumento(documento);
+
         Email email1 = new Email(colaboradorFisicoInputDTO.getEmail());
         colaboradorFisico.agregarMedioDeContacto(email1);
 
         colaboradorFisico.puntosAcumulados = 0;
 
+        // Crear y asignar un Usuario asociado
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setNombreUsuario(colaboradorFisico.getDocumento().getNumeroDeDocumento());
+        nuevoUsuario.setContrasenia(colaboradorFisico.getDocumento().getNumeroDeDocumento());
+
+        Rol rol = new Rol(RoleENUM.FISICO);
+        nuevoUsuario.agregarRol(rol);
+
+        colaboradorFisico.setUsuario(nuevoUsuario);
+
+        TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
+
         withTransaction(()->{
+            repositorioTarjetas.guardar(tarjetaColaborador);
             repositorioColaboradores.guardar(colaboradorFisico);
         });
 
@@ -225,6 +262,23 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         ColaboradorFisico colaboradorFisico = (ColaboradorFisico) posibleColaborador.get();
 
         withTransaction(() -> {
+            TarjetaColaborador tarjeta = repositorioTarjetas.buscarTarjetaPorColaborador(colaboradorFisico.getId());
+
+            List<Distribuir> donacionesReparto = repositorioDonacionesReparto.buscarDonacionesPorColaborador(colaboradorFisico.getId());
+            donacionesReparto.forEach(distribuir -> repositorioDonacionesReparto.eliminarPorId(distribuir.getId()));
+            List<Dinero> donacionesDinero = repositorioDonacionesDinero.buscarDonacionesPorColaborador(colaboradorFisico.getId());
+            donacionesDinero.forEach(dinero -> repositorioDonacionesDinero.eliminarPorId(dinero.getId()));
+            List<Vianda> donacionesViandas = repositorioViandas.buscarDonacionesPorColaborador(colaboradorFisico.getId());
+            donacionesViandas.forEach(vianda -> repositorioViandas.eliminarPorId(vianda.getId()));
+            List<RegistroDePersonaVulnerable> registrosVulnerables = repositorioRegistrosVulnerables.buscarRegistrosPorColaborador(colaboradorFisico.getId());
+            registrosVulnerables.forEach(registro -> repositorioRegistrosVulnerables.eliminarPorId(registro.getId()));
+            List<MantenerHeladera> mantenerHeladeras = repositorioMantenciones.buscarPorColaboradorId(colaboradorFisico.getId());
+            mantenerHeladeras.forEach(mantenerHeladera -> repositorioMantenciones.eliminarPorId(colaboradorFisico.getId()));
+
+            if (tarjeta != null) {
+                repositorioTarjetas.eliminarPorUuid(tarjeta.getCodigoIdentificador());
+            }
+
             repositorioColaboradores.eliminar(colaboradorFisico);
             System.out.println("Colaborador eliminado: " + colaboradorFisico.getId());
         });
@@ -424,7 +478,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         withTransaction(() -> {
             repositorio.guardar(registroDePersonaVulnerable);
         });
-        List<RegistroDePersonaVulnerable> tarjetasRepartidas = repositorioRegistrosVulnerables.buscarPorColaboradorId(((ColaboradorFisico) colaborador.get()).getId());
+        List<RegistroDePersonaVulnerable> tarjetasRepartidas = repositorioRegistrosVulnerables.buscarRegistrosPorColaborador(((ColaboradorFisico) colaborador.get()).getId());
 
         int cantidadTarjetasRepartidas = tarjetasRepartidas.size();
         int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class).puntosTarjetasRepatidas(cantidadTarjetasRepartidas);
@@ -454,6 +508,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         });
         context.json(Map.of("success", true));
     }
+
     public void distrubuirViandas(Context context){
         Long origenReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_origen_reparto")));
         Long destinoReparto = Long.valueOf(Objects.requireNonNull(context.formParam("campo_destino_reparto")));
@@ -482,6 +537,7 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
         });
         context.json(Map.of("success", true));
     }
+
     public void donarViandas(Context context) {
         String descripcion = context.formParam("descripcion");
         LocalDate fechaVencimiento = LocalDate.parse(Objects.requireNonNull(context.formParam("campo_vencimiento_vianda")));
@@ -559,6 +615,5 @@ public class ControladorColaboradorFisico implements ICrudViewsHandler, WithSimp
             ctx.status(500).result("Error inesperado");
         }
     }
-
 
 }

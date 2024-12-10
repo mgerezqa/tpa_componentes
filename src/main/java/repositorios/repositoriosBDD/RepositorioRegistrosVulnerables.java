@@ -6,7 +6,6 @@ import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import repositorios.Repositorio;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class RepositorioRegistrosVulnerables extends Repositorio implements WithSimplePersistenceUnit {
 
@@ -15,8 +14,8 @@ public class RepositorioRegistrosVulnerables extends Repositorio implements With
     }
 
     public void eliminarPorId(Long id){
-        RegistroDePersonaVulnerable registro = entityManager().find(RegistroDePersonaVulnerable.class,id);
-        if(registro != null){
+        RegistroDePersonaVulnerable registro = entityManager().find(RegistroDePersonaVulnerable.class, id);
+        if (registro != null) {
             entityManager().remove(registro);
         }
     }
@@ -31,14 +30,14 @@ public class RepositorioRegistrosVulnerables extends Repositorio implements With
                 .getResultList();
     }
 
-    public List<RegistroDePersonaVulnerable> buscarPorColaboradorId(Long colaboradId) {
+    // Método para buscar registros de personas vulnerables por colaborador
+    public List<RegistroDePersonaVulnerable> buscarRegistrosPorColaborador(Long colaboradorId) {
         return entityManager()
                 .createQuery(
-                        "SELECT r FROM RegistroDePersonaVulnerable r WHERE r.colaboradorQueLaDono.id = :colaboradId",
+                        "SELECT r FROM RegistroDePersonaVulnerable r WHERE r.colaboradorQueLaDono.id = :colaboradorId",
                         RegistroDePersonaVulnerable.class
                 )
-                .setParameter("colaboradId", colaboradId)
+                .setParameter("colaboradorId", colaboradorId)
                 .getResultList();
     }
-
 }

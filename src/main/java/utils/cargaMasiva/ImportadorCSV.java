@@ -11,6 +11,7 @@ import domain.donaciones.*;
 import domain.formulario.documentos.Documento;
 import domain.mensajeria.EmailSender;
 import domain.puntos.CalculadoraPuntos;
+import domain.tarjeta.TarjetaColaborador;
 import domain.usuarios.*;
 import jakarta.mail.MessagingException;
 import repositorios.repositoriosBDD.*;
@@ -95,6 +96,8 @@ public class ImportadorCSV {
         // Crear un nuevo colaborador si no existe
         ColaboradorFisico nuevoColaborador = new ColaboradorFisico();
 
+        TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(nuevoColaborador);
+
         Documento documento = new Documento(registro.getTipoDoc(), String.valueOf(registro.getNroDoc()));
         nuevoColaborador.setDocumento(documento);
         nuevoColaborador.setNombre(registro.getNombre());
@@ -116,6 +119,7 @@ public class ImportadorCSV {
 
         // Persistir en la base de datos
         em.persist(nuevoColaborador);
+        em.persist(tarjetaColaborador);
 
         // Agregar el nuevo colaborador a la lista temporal
         colaboradores.add(nuevoColaborador);

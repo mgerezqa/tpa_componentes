@@ -70,7 +70,18 @@ public class ServiceLocator {
                 instances.put(componentName, instance);
             }
             else if(componentName.equals(ControladorColaboradorFisico.class.getName())) {
-                ControladorColaboradorFisico instance = new ControladorColaboradorFisico(instanceOf(RepositorioColaboradores.class),instanceOf(RepositorioUsuarios.class),instanceOf(RepositorioRoles.class),instanceOf(Repositorio.class),instanceOf(RepositorioRegistrosVulnerables.class),instanceOf(RepositorioDistribuciones.class),instanceOf(RepositorioViandas.class));
+                ControladorColaboradorFisico instance =
+                        new ControladorColaboradorFisico(instanceOf(RepositorioColaboradores.class),
+                                instanceOf(RepositorioUsuarios.class),
+                                instanceOf(RepositorioRoles.class),
+                                instanceOf(Repositorio.class),
+                                instanceOf(RepositorioRegistrosVulnerables.class),
+                                instanceOf(RepositorioDistribuciones.class),
+                                instanceOf(RepositorioViandas.class),
+                                instanceOf(RepositorioTarjetas.class),
+                                instanceOf(RepositorioDonacionesDinero.class),
+                                instanceOf(RepositorioDonacionesReparto.class),
+                                instanceOf(RepositorioMantenciones.class));
                 instances.put(componentName, instance);
             }
             else if (componentName.equals(RepositorioColaboradores.class.getName())) {
