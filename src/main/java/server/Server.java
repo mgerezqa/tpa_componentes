@@ -147,7 +147,7 @@ public class Server {
                     .withIdentity("trigger1", "moduloReportes")
                     .startNow()
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                            .withIntervalInSeconds(10)
+                            .withIntervalInSeconds(120)
                             .repeatForever())
                     .build();
 
