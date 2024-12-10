@@ -31,7 +31,7 @@ public class ReporteFallas extends Reporte{
         for (Heladera heladera : heladeras) {
             List<Map<String, String>> reporteFallas = reportador.generarReporteFallasPorHeladera(heladeras);
             List<String> encabezadosFallas = Arrays.asList("Nombre Heladera", "Cantidad de fallas");
-            reportador.generarPDFReporte(this,"reporte_fallas_por_heladera.pdf", reporteFallas, encabezadosFallas, "Reporte de Fallas por Heladera");
+            reportador.generarPDFReporte(this,"reporte_fallas_por_heladera", reporteFallas, encabezadosFallas, "Reporte de Fallas por Heladera");
 
             // Aquí imprimimos los datos del reporte
             System.out.println("Reporte de cantidad de fallas por heladera: ");

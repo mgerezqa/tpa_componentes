@@ -34,7 +34,7 @@ public class ReporteViandasColaborador extends Reporte {
         for (ColaboradorFisico colaborador : colaboradores) {
             List<Map<String, String>> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
             List<String> encabezadosViandasColaborador = Arrays.asList("Nombre Colaborador", "Cantidad de viandas donadas");
-            reportador.generarPDFReporte(this,"reporte_viandas_por_colaborador.pdf", reporteViandasPorColaborador, encabezadosViandasColaborador, "Reporte de Viandas por Colaborador");
+            reportador.generarPDFReporte(this,"reporte_viandas_por_colaborador", reporteViandasPorColaborador, encabezadosViandasColaborador, "Reporte de Viandas por Colaborador");
 
             // Aquí imprimimos los datos del reporte
             System.out.println("Reporte de cantidad de viandas donadas por colaborador: ");

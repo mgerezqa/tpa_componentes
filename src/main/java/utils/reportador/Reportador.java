@@ -20,10 +20,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -46,7 +44,9 @@ public class Reportador {
             }
 
             Document document = new Document();
-            String rutaArchivo = Paths.get(reportesDir.toString(), nombreArchivo).toString();
+            UUID uuid = UUID.randomUUID();
+            String uuidString = uuid.toString().replace("-", "");
+            String rutaArchivo = Paths.get(reportesDir.toString(), nombreArchivo + uuidString + ".pdf").toString();
 
             try (FileOutputStream archivoOutput = new FileOutputStream(rutaArchivo)) {
                 PdfWriter.getInstance(document, archivoOutput);
