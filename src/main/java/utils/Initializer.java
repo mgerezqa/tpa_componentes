@@ -256,7 +256,6 @@ public class Initializer implements WithSimplePersistenceUnit {
         colaboradorFisico.agregarMedioDeContacto(telegramFisico);
         colaboradorFisico.setZona(areaFisico);
         colaboradorFisico.setUsuario(usuarioFisico);
-
         TarjetaColaborador tarjetaColaborador = TarjetaColaborador.of(colaboradorFisico);
 
         //Juridico
