@@ -139,6 +139,20 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="tipoDocumento">Tipo de Documento</label>
+                                <select class="form-control" id="tipoDocumento" name="tipoDocumento" required>
+                                    <option value="DNI">DNI</option>
+                                    <option value="LE">LE</option>
+                                    <option value="PASAPORTE">PASAPORTE</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="numeroDocumento">Número de Documento</label>
+                                <input type="text" class="form-control" id="numeroDocumento" name="numeroDocumento" required>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
@@ -166,17 +180,22 @@
 {{> dashboard}}
 
 <script>
-    document.querySelectorAll('[data-bs-target="#modalEliminarColaboradorFisico"]').forEach(button => {
-        button.addEventListener('click', () => {
-            const id = button.getAttribute('data-id');
-            document.getElementById('formEliminarUsuario').action = `/dashboard/fisicos/${id}/delete`;
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Asigna la acción de eliminar al formulario
+        document.querySelectorAll('[data-bs-target="#modalEliminarColaboradorFisico"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                document.getElementById('formEliminarUsuario').action = `/dashboard/fisicos/${id}/delete`;
+            });
+        });
+
+        // Asigna la acción de deshabilitar al formulario
+        document.querySelectorAll('[data-bs-target="#modalDeshabilitarColaboradorFisico"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                document.getElementById('formDeshabilitarUsuario').action = `/dashboard/fisicos/${id}/delete`;
+            });
         });
     });
 
-    document.querySelectorAll('[data-bs-target="#modalDeshabilitarColaboradorFisico"]').forEach(button => {
-        button.addEventListener('click', () => {
-            const id = button.getAttribute('data-id');
-            document.getElementById('formDeshabilitarUsuario').action = `/dashboard/fisicos/${id}/delete`;
-        });
-    });
 </script>

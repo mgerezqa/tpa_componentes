@@ -1,4 +1,5 @@
 package dtos.requests;
+
 import domain.contacto.Email;
 import lombok.Data;
 
@@ -9,4 +10,6 @@ public class ColaboradorFisicoInputDTO {
     private String nombre;
     private String apellido;
     private String email;
+    private String tipoDocumento;
+    private String numeroDocumento;
 }

@@ -1,5 +1,4 @@
 package domain.reportes;
-
 import domain.usuarios.ColaboradorFisico;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +10,10 @@ import domain.usuarios.Colaborador;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,19 +24,22 @@ public class ReporteViandasColaborador extends Reporte {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "reporte_viandas_por_colaborador_id")
-    private List<ColaboradorFisico>  colaboradores;
+    private List<ColaboradorFisico> colaboradores;
 
     @Override
     public void reportar() {
-        for(ColaboradorFisico colaborador : colaboradores){
-            Map<String, Integer> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
+        for (ColaboradorFisico colaborador : colaboradores) {
+            List<Map<String, String>> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
+            List<String> encabezadosViandasColaborador = Arrays.asList("Nombre Colaborador", "Cantidad de viandas donadas");
+            reportador.generarPDFReporte("reporte_viandas_por_colaborador.pdf", reporteViandasPorColaborador, encabezadosViandasColaborador, "Reporte de Viandas por Colaborador");
+
+            // Aquí imprimimos los datos del reporte
             System.out.println("Reporte de cantidad de viandas donadas por colaborador: ");
-            reporteViandasPorColaborador.forEach((nombreColaborador, cantidad) -> System.out.println(colaborador + ": " + cantidad));
+            for (Map<String, String> fila : reporteViandasPorColaborador) {
+                System.out.println(fila);
+            }
         }
     }
-
-
-
-
-
 }
+
+

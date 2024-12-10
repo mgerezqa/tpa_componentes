@@ -36,7 +36,7 @@ public class Heladera {
     private String nombreIdentificador;
 
     @Column(name = "capacidadMax")
-    private Integer capacidadMax; // (se mide en numero de viandas)
+    private Integer capacidadMax = 0; // (se mide en numero de viandas, inicializo en 0 y despues seteo . . .)
 
     @Column(name = "capacidadActual")
     private Integer capacidadActual;
@@ -66,7 +66,7 @@ public class Heladera {
     public Temperatura ultimaTemperaturaRegistrada;
 
     @OneToMany(mappedBy = "heladera", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    public List<Incidente> incidentes;
+    public List<Incidente> incidentes= new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinColumn(name = "id_heladera")
@@ -74,6 +74,7 @@ public class Heladera {
 
     // ============================================================ //
     // < CONSTRUCTOR > //
+
     public Heladera(ModeloDeHeladera modelo, String nombreIdentificador, Ubicacion ubicacion){
         this.ubicacion = ubicacion;
         this.capacidadActual = 0;
