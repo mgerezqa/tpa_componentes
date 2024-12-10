@@ -35,6 +35,20 @@
     display: inline-block;
     transition: color 0.3s ease;
 }
+/* Estilos para el modal de éxito */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header .btn-close {
+    font-size: 1.5rem;
+}
+
+.modal-footer .btn-success {
+    font-size: 1rem;
+    font-weight: bold;
+}
 
 /* background: Color del subrayado */
 .navbar-nav .nav-link::after {

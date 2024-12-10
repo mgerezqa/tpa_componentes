@@ -56,8 +56,26 @@
                     </a>
 
 
-
-
+                    <!-- Modal de éxito para carga masiva -->
+                    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content text-center">
+                                <div class="modal-header border-0">
+                                    <h5 class="modal-title w-100" id="successModalLabel">
+                                        <i class="bi bi-check-circle-fill text-success" style="font-size: 2.5rem;"></i>
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4 class="mb-3">¡Carga masiva de donaciones completada con éxito!</h4>
+                                    <p class="text-muted">El archivo se procesó correctamente.</p>
+                                </div>
+                                <div class="modal-footer border-0">
+                                    <button type="button" class="btn btn-success w-50" data-bs-dismiss="modal">Aceptar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
                     <div class="card text-center mt-5 mx-3">
@@ -109,14 +127,16 @@
                                 });
 
                                 if (response.ok) {
-                                    const result = await response.text();
-                                    responseMessage.textContent = result;
-                                    responseMessage.style.color = "green";
+                                    // Mostrar el modal de éxito
+                                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                                    successModal.show();
                                 } else {
+                                    // Manejo de error como está en el código original
                                     const errorText = await response.text();
                                     responseMessage.textContent = `Error al procesar el archivo: ${errorText}`;
                                     responseMessage.style.color = "red";
                                 }
+
                             } catch (error) {
                                 console.error("Error:", error);
                                 responseMessage.textContent = "Error inesperado al procesar el archivo.";
@@ -127,12 +147,6 @@
                         });
 
                     </script>
-
-
-
-
-
-
 
                     <div class="dropdown dropend">
                         <a href="#" class="d-flex flex-column align-items-center justify-content-center p-4 link-dark text-decoration-none" id="ajustesDeUsuario" data-bs-toggle="dropdown" aria-expanded="false">
