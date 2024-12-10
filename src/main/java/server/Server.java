@@ -56,7 +56,7 @@ public class Server {
             new Router().init(app);
             ServiceLocator.instanceOf(ServiceBroker.class);
             if (Boolean.parseBoolean(Config.getInstance().getProperty("dev_mode"))) {
-                Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioMantenciones.class),ServiceLocator.instanceOf(RepositorioRoles.class),ServiceLocator.instanceOf(RepositorioUsuarios.class),ServiceLocator.instanceOf(RepositorioColaboradores.class),ServiceLocator.instanceOf(RepositorioTecnicos.class),ServiceLocator.instanceOf(Repositorio.class),ServiceLocator.instanceOf(RepositorioReportes.class));
+                Initializer initializer = new Initializer(ServiceLocator.instanceOf(RepositorioMantenciones.class), ServiceLocator.instanceOf(RepositorioRoles.class), ServiceLocator.instanceOf(RepositorioUsuarios.class), ServiceLocator.instanceOf(RepositorioColaboradores.class), ServiceLocator.instanceOf(RepositorioTecnicos.class), ServiceLocator.instanceOf(Repositorio.class));
                 initializer.init();
             }
         }
