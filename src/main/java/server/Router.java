@@ -385,7 +385,9 @@ public class Router implements SimplePersistenceTest{
             }
         }, RoleENUM.JURIDICO, RoleENUM.FISICO);
 
-        app.get("/reportes",ServiceLocator.instanceOf(ControladorReportes.class)::index,RoleENUM.TECNICO,RoleENUM.JURIDICO,RoleENUM.FISICO);
+        app.get("/reportes",ServiceLocator.instanceOf(ControladorReportes.class)::index,RoleENUM.JURIDICO);
+
+        app.get("/reportes/{filename}", ServiceLocator.instanceOf(ControladorReportes.class)::download, RoleENUM.JURIDICO);
 
     }
 }

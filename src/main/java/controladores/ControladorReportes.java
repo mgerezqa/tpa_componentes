@@ -14,6 +14,11 @@ import repositorios.repositoriosBDD.RepositorioReportes;
 import utils.ICrudViewsHandler;
 import utils.reportador.Reportador;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,17 +86,46 @@ public class ControladorReportes implements ICrudViewsHandler {
         ReporteFallas reporteFallas = new ReporteFallas();
         reporteFallas.setHeladeras(heladeras);
         reporteFallas.setReportador(reportador);
+        reporteFallas.setFechaGeneracion(LocalDateTime.now());
 
         ReporteViandasColaborador reporteViandasColaborador = new ReporteViandasColaborador();
         reporteViandasColaborador.setColaboradores(colaboradoresFisicos);
         reporteViandasColaborador.setReportador(reportador);
+        reporteViandasColaborador.setFechaGeneracion(LocalDateTime.now());
+
 
         ReporteViandasHeladera reporteViandasHeladera = new ReporteViandasHeladera();
         reporteViandasHeladera.setHeladeras(heladeras);
         reporteViandasHeladera.setReportador(reportador);
+        reporteViandasHeladera.setFechaGeneracion(LocalDateTime.now());
 
         reportador.generarReporte(reporteFallas);
         reportador.generarReporte(reporteViandasColaborador);
         reportador.generarReporte(reporteViandasHeladera);
+
+        repositorioReportes.withTransaction(()-> {
+            repositorioReportes.guardar(reporteFallas);
+            repositorioReportes.guardar(reporteViandasColaborador);
+            repositorioReportes.guardar(reporteViandasHeladera);
+        });
     }
+
+    public void download(Context ctx) {
+        String filename = ctx.pathParam("filename");
+        Path filePath = Paths.get("reportes", filename);
+
+        if (Files.exists(filePath)) {
+            ctx.res().setContentType("application/pdf");
+            ctx.res().setHeader("Content-Disposition", "attachment; filename=");
+            try {
+                Files.copy(filePath, ctx.res().getOutputStream());
+                ctx.res().getOutputStream().flush();
+            } catch (Exception e) {
+                ctx.status(500).result("Error while downloading the file: " + e.getMessage());
+            }
+        } else {
+            ctx.status(404).result("File not found");
+        }
+    }
+
 }

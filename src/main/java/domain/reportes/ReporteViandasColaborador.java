@@ -11,6 +11,7 @@ import domain.usuarios.Colaborador;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,19 +31,17 @@ public class ReporteViandasColaborador extends Reporte {
 
     @Override
     public void reportar() {
-        for(ColaboradorFisico colaborador : colaboradores){
-            Map<String, Integer> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
+        for (ColaboradorFisico colaborador : colaboradores) {
+            List<Map<String, String>> reporteViandasPorColaborador = reportador.generarReporteViandasPorColaborador(colaborador);
+            List<String> encabezadosViandasColaborador = Arrays.asList("Nombre Colaborador", "Cantidad de viandas donadas");
+            reportador.generarPDFReporte(this,"reporte_viandas_por_colaborador.pdf", reporteViandasPorColaborador, encabezadosViandasColaborador, "Reporte de Viandas por Colaborador");
 
-
-            for(Map.Entry<String, Integer> entry : reporteViandasPorColaborador.entrySet()){
-                reporteViandasPorColaborador.merge(entry.getKey(), entry.getValue(), Integer::sum);
+            // Aquí imprimimos los datos del reporte
+            System.out.println("Reporte de cantidad de viandas donadas por colaborador: ");
+            for (Map<String, String> fila : reporteViandasPorColaborador) {
+                System.out.println(fila);
             }
         }
-
-        String nombreArchivo = "ReporteViandas_TodosLosColaboradores.pdf";
-        reportador.generarPDFReporte(nombreArchivo, reporteViandasPorColaborador);
-
-        System.out.println("Reporte de cantidad de viandas por todos los colaboradores generado.");
     }
     public String getTipo(){
         return "REPORTE_VIANDAS_COLABORADOR";

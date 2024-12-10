@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import utils.reportador.Reportador;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Map;
+
 @Getter
 @Setter
 @Entity
@@ -30,24 +28,17 @@ public class ReporteFallas extends Reporte{
 
     @Override
     public void reportar() {
-
-
-        // Recorrer todas las heladeras y acumular las fallas
         for (Heladera heladera : heladeras) {
-            Map<String, Integer> reporteFallas = reportador.generarReporteFallasPorHeladera(heladera);
+            List<Map<String, String>> reporteFallas = reportador.generarReporteFallasPorHeladera(heladeras);
+            List<String> encabezadosFallas = Arrays.asList("Nombre Heladera", "Cantidad de fallas");
+            reportador.generarPDFReporte(this,"reporte_fallas_por_heladera.pdf", reporteFallas, encabezadosFallas, "Reporte de Fallas por Heladera");
 
-            // Agregar los datos de cada heladera al reporte total
-            for (Map.Entry<String, Integer> entry : reporteFallas.entrySet()) {
-                // Si ya existe una falla para esa clave, sumamos las cantidades
-                reporteFallasTotales.merge(entry.getKey(), entry.getValue(), Integer::sum);
+            // Aquí imprimimos los datos del reporte
+            System.out.println("Reporte de cantidad de fallas por heladera: ");
+            for (Map<String, String> fila : reporteFallas) {
+                System.out.println(fila);
             }
         }
-
-        // Crear un único archivo PDF con todos los datos
-        String nombreArchivo = "ReporteFallas_TodasLasHeladeras.pdf";
-        reportador.generarPDFReporte(nombreArchivo, reporteFallasTotales);
-
-        System.out.println("Reporte de cantidad de fallas por todas las heladeras generado.");
     }
 
     @Override
