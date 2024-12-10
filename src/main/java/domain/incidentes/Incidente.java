@@ -37,6 +37,7 @@ public abstract class Incidente {
     private Boolean resuelto;
     public Incidente(Heladera heladera) {
         this.heladera = heladera;
+        this.fechaYHora = LocalDateTime.now();
         this.resuelto = false;
         heladera.agregarIncidente(this);                     // Persistir en cada heladera.
         heladera.setEstadoHeladera(EstadoHeladera.INACTIVA); // Setear cada heladera como inactiva.
@@ -47,4 +48,5 @@ public abstract class Incidente {
     // Método para obtener la descripción del incidente
     public abstract String obtenerDescripcion();
 
+    public abstract String getTipo();
 }

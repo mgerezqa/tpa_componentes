@@ -52,6 +52,9 @@ public class Vianda extends Donacion {
     // < INGRESO DE VIANDAS A UNA HELADERA > //
 
     public void ingresarViandaAHeladera(Heladera heladera) throws Exception{
+        if (heladera.getCapacidadActual() == null) {
+            heladera.setCapacidadActual(0);
+        }
         if(heladera.getCapacidadMax() > heladera.getCapacidadActual()){
             heladeraActual = heladera;
             heladera.setCapacidadActual(heladera.getCapacidadActual()+1);

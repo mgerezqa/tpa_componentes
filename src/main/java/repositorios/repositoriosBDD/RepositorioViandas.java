@@ -7,9 +7,6 @@ import repositorios.Repositorio;
 
 import java.util.List;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class RepositorioViandas extends Repositorio implements WithSimplePersistenceUnit {
 
     public void guardar(Vianda vianda){
@@ -37,6 +34,14 @@ public class RepositorioViandas extends Repositorio implements WithSimplePersist
     public List<Vianda> obtenerViandas(){
         return entityManager()
                 .createQuery("FROM Vianda", Vianda.class)
+                .getResultList();
+    }
+
+    // Método para buscar todas las donaciones por colaborador
+    public List<Vianda> buscarDonacionesPorColaborador(Long colaboradorId) {
+        return entityManager()
+                .createQuery("SELECT v FROM Vianda v WHERE v.colaboradorQueLaDono.id = :colaboradorId", Vianda.class)
+                .setParameter("colaboradorId", colaboradorId)
                 .getResultList();
     }
 }

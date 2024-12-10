@@ -21,6 +21,8 @@ public class GeneradorDonacion {
         int puntos = (int) (lecturaRegistro.getCantidad() * 0.5);
         dinero.setPuntosOtorgados(puntos);
 
+        dinero.setCompletado(true);
+
         return dinero;
     }
 
@@ -29,6 +31,8 @@ public class GeneradorDonacion {
         Distribuir reparto = new Distribuir(colaborador, lecturaRegistro.getCantidad(), lecturaRegistro.getFechaColab());
         int puntos = lecturaRegistro.getCantidad();
         reparto.setPuntosOtorgados(puntos);
+
+        reparto.setCompletado(true);
 
         return reparto;
     }
@@ -39,6 +43,8 @@ public class GeneradorDonacion {
         int puntos = (int) (lecturaRegistro.getCantidad() * 1.5);
         vianda.setPuntosOtorgados(puntos);
 
+        vianda.setCompletado(true);
+
         return vianda;
     }
 
@@ -48,6 +54,9 @@ public class GeneradorDonacion {
         int puntos = lecturaRegistro.getCantidad() * 2;
         registro.setPuntosOtorgados(puntos);
         colaborador.sumarPuntos(puntos);
+
+        registro.setCompletado(true);
+
         return registro;
     }
 }
