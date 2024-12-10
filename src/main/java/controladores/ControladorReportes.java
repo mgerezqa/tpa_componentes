@@ -7,6 +7,7 @@ import domain.reportes.ReporteFallas;
 import domain.reportes.ReporteViandasColaborador;
 import domain.reportes.ReporteViandasHeladera;
 import domain.usuarios.ColaboradorFisico;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 import io.javalin.http.Context;
 import repositorios.repositoriosBDD.RepositorioColaboradores;
 import repositorios.repositoriosBDD.RepositorioHeladeras;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ControladorReportes implements ICrudViewsHandler {
+public class ControladorReportes implements ICrudViewsHandler, WithSimplePersistenceUnit {
     private RepositorioReportes repositorioReportes;
     private RepositorioHeladeras repositorioHeladeras;
     private RepositorioColaboradores repositorioColaboradores;
@@ -80,6 +81,7 @@ public class ControladorReportes implements ICrudViewsHandler {
     }
 
     public void creacionAutomatica(){
+        entityManager().clear();
         List<Heladera> heladeras = repositorioHeladeras.obtenerTodasLasHeladeras();
         List<ColaboradorFisico> colaboradoresFisicos = repositorioColaboradores.obtenerColaboradoresFisicos();
 
