@@ -20,7 +20,7 @@ public abstract class Reporte {
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
-    @Column(name = "fecha_generacion", columnDefinition = "DATE")
+    @Column(name = "fecha_generacion", columnDefinition = "DATETIME")
     protected LocalDateTime fechaGeneracion;
 
     @Transient
