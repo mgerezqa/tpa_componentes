@@ -30,6 +30,7 @@ import utils.JavalinRenderer;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
 import io.javalin.http.HttpStatus;
+import utils.uploadImage.ImageUpload;
 
 import javax.xml.bind.ValidationException;
 import java.io.IOException;
@@ -46,6 +47,8 @@ public class Server {
 
     public static void init() {
         if (app == null) {
+            ImageUpload.initializeDirectories();
+
             int port = Integer.parseInt(Config.getInstance().getProperty("server_port"));
             app = Javalin.create(config()).start(port);
             new AuthMiddleware(ServiceLocator.instanceOf(RepositorioRoles.class)).apply(app);
@@ -68,6 +71,11 @@ public class Server {
             });
 
 
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/";
+                staticFiles.directory = ImageUpload.getUploadsDirectory();
+                staticFiles.location = Location.EXTERNAL;
+            });
             config.fileRenderer(new JavalinRenderer().register("hbs", (path, model, context) -> {
                 // Crear el loader para templates y partials
                 TemplateLoader loader = new ClassPathTemplateLoader();

@@ -71,7 +71,6 @@ public class ReceptorApertura extends Receptor implements WithSimplePersistenceU
                         .filter(d -> d instanceof Vianda)
                         .filter(v -> ((Vianda) v).getColaboradorQueLaDono() == colaboradorFisico)
                         .count();
-                System.out.println("Vianda donadas previamente: "+ viandasDonadas);
                 int puntos = ServiceLocator.instanceOf(CalculadoraPuntos.class)
                         .puntosViandasDonadas(viandasDonadas + 1);
                 donacion.setPuntosOtorgados(puntos);

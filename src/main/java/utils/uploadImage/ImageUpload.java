@@ -13,7 +13,19 @@ public class ImageUpload {
     private static final String JAR_DIR = new File(System.getProperty("user.dir")).getAbsolutePath();
     private static final String UPLOAD_DIR = JAR_DIR + "/uploads";
     private static final String IMG_DIR = UPLOAD_DIR + "/img";
-    
+
+    public static void initializeDirectories() {
+        File uploadsDir = new File(UPLOAD_DIR);
+        File imgDir = new File(IMG_DIR);
+        
+        if (!uploadsDir.exists()) {
+            uploadsDir.mkdirs();
+        }
+        if (!imgDir.exists()) {
+            imgDir.mkdirs();
+        }
+    }
+
     public static String saveImage(UploadedFile file, String tipo) throws IOException {
         String uploadDir = IMG_DIR + File.separator + tipo;
         String relativePath = "/img/" + tipo + "/";

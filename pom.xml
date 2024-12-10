@@ -200,6 +200,27 @@
             <version>6.2.0</version>
         </dependency>
 
+<!--        METRICAS-->
+        <!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-core -->
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-registry-prometheus</artifactId>-->
+<!--            <version>1.11.10</version>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; Javalin Micrometer Plugin &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.javalin</groupId>-->
+<!--            <artifactId>javalin-micrometer</artifactId>-->
+<!--            <version>5.6.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-core</artifactId>-->
+<!--            <version>1.11.0</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
